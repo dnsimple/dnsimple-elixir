@@ -7,6 +7,8 @@ defmodule Dnsimple.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     package: package,
+     description: description,
      deps: deps]
   end
 
@@ -34,4 +36,20 @@ defmodule Dnsimple.Mixfile do
     ]
   end
 
+  defp package do
+    [
+      files: ["lib", "mix.exs", "*.md"],
+      maintainers: ["Simone Carletti"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/weppos/dnsimple-elixir"}
+    ]
+  end
+
+  defp description do
+    """
+    An (experimental) Elixir client for the DNSimple API v2.
+    """
+  end
+
 end
+

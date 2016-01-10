@@ -10,3 +10,17 @@ The code is tested with an automated test suite connected to a continuous integr
 # DNSimple Elixir Client
 
 An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
+
+
+## Usage
+
+```elixir
+# Create a client passing the proper settings
+iex> client = %Dnsimple.Client{access_token: "TOKEN", base_url: "https://api.sandbox.dnsimple.com/"}
+
+# Check the login
+iex> %Dnsimple.Auth.whoami(client)
+%{"account" => %{"created_at" => "2014-05-19T14:20:32.263Z",
+    "email" => "example-account@example.com", "id" => 1,
+    "updated_at" => "2015-04-01T10:07:47.559Z"}, "user" => nil}
+```

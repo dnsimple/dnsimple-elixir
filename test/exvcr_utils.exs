@@ -23,14 +23,8 @@ defmodule ExvcrUtils do
   end
 
 
-  defp parse_http_headers([], accumulator) do
-    [accumulator, nil]
-  end
-
-  defp parse_http_headers(["", body], accumulator) do
-    [accumulator, body]
-  end
-
+  defp parse_http_headers([], accumulator), do: [accumulator, nil]
+  defp parse_http_headers(["", body], accumulator), do: [accumulator, body]
   defp parse_http_headers([h|t], accumulator) do
     [key, value] = String.split(h, ~r/:\s?/, parts: 2)
     parse_http_headers(t, [{key, value}|accumulator])

@@ -26,7 +26,7 @@ defmodule Dnsimple do
 
 
     @spec url(Client.t, String.t) :: String.t
-    defp url(client = %Client{base_url: base_url}, path) do
+    defp url(%Client{base_url: base_url}, path) do
       base_url <> path
     end
 

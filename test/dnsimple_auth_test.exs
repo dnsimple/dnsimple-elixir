@@ -12,16 +12,11 @@ defmodule DnsimpleAuthTest do
 
 
   test "whoami" do
-    [body, status_code] = [~s({"data":{"user":null,"account":{"id":24,"email":"example-account@example.com"}}}), 200]
-    use_cassette :stub, [url: "https://api.dnsimple.test/v2/whoami", body: body, status_code: status_code] do
+    use_cassette :stub, ExvcrUtils.response_fixture("auth/whoami/success.http", [url: "~r/\/v2\/whoami/$"]) do
       response = Dnsimple.Auth.whoami(@client)
       assert is_map(response)
       assert %{"account" => _, "user" => _} = response
     end
-  end
-
-  test "test foo" do
-    assert ExvcrUtils.hello("foo") == "foo"
   end
 
 end

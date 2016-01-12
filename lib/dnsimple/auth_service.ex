@@ -1,4 +1,4 @@
-defmodule Dnsimple.Auth do
+defmodule Dnsimple.AuthService do
   @moduledoc false
 
   def whoami(client) do

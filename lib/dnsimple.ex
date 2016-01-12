@@ -5,9 +5,12 @@ defmodule Dnsimple do
     @user_agent "dnsimple-elixir/#{Dnsimple.Mixfile.project[:version]}"
 
     @api_version "v2"
+    @wildcard_account "_"
 
     defstruct access_token: nil, base_url: @base_url
     @type t :: %__MODULE__{access_token: String.t, base_url: String.t}
+
+    def __WILDCARD_ACCOUNT__, do: @wildcard_account
 
 
     @doc """

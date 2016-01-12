@@ -1,7 +1,9 @@
 defmodule Dnsimple.AuthService do
+  alias Dnsimple.Client
 
-  def whoami(client) do
-    response = Dnsimple.Client.get(client, Dnsimple.Client.versioned("whoami"))
+  @spec whoami(Client.t, Keyword.t) :: map
+  def whoami(client, options \\ []) do
+    response = Client.get(client, Client.versioned("whoami"), options)
     response.body
     |> Poison.decode!
     |> Map.get("data")

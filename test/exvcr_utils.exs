@@ -12,7 +12,6 @@ defmodule ExvcrUtils do
   def parse_fixture(content) do
     [status | lines] = String.split(content, "\n")
     [_, _, code, _] = Regex.run(~r/\AHTTP(?:\/(\d+\.\d+))?\s+(\d\d\d)\s*(.*)\z/i, status)
-
     [headers, body] = parse_http_headers(lines, [])
 
     [code, headers, body]

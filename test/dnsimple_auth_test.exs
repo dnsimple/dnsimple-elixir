@@ -5,6 +5,11 @@ defmodule DnsimpleAuthTest do
 
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test/"}
 
+  setup do
+    Code.require_file("test/exvcr_utils.exs")
+    :ok
+  end
+
 
   test "whoami" do
     [body, status_code] = [~s({"data":{"user":null,"account":{"id":24,"email":"example-account@example.com"}}}), 200]
@@ -13,6 +18,10 @@ defmodule DnsimpleAuthTest do
       assert is_map(response)
       assert %{"account" => _, "user" => _} = response
     end
+  end
+
+  test "test foo" do
+    assert ExvcrUtils.hello("foo") == "foo"
   end
 
 end

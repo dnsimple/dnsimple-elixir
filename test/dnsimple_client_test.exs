@@ -2,6 +2,7 @@ defmodule DnsimpleClientTest do
   use ExUnit.Case, async: true
   doctest Dnsimple.Client
 
+
   test "initialize with defaults" do
     client = %Dnsimple.Client{}
     assert client.access_token == nil

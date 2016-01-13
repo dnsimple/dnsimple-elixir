@@ -8,18 +8,8 @@ defmodule Dnsimple.DomainsService do
     response.body
     |> Poison.decode!
     |> Map.get("data")
-    |> to_struct(Domain)
-  end
-
-  #@spec to_struct(Enum.t, module | map) :: map
-  #def to_struct(kw, struct), do: struct(struct, kw)
-
-  @spec to_struct(Enum.t, module | map) :: map
-  def to_struct(kw, struct) do
-    res = struct(struct)
-    Map.keys(res)
-    |> Enum.filter(fn(x) -> Map.has_key?(kw, to_string(x)) end)
-    |> Enum.reduce(res, fn(x, acc) -> Map.put(acc, x, kw[to_string(x)]) end)
+    |> Dnsimple.Utils.map_to_struct(Domain)
   end
 
 end
+

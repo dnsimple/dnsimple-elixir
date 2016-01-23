@@ -18,6 +18,8 @@ defmodule DnsimpleDomainsServiceTest do
       response = @service.domain(@client, "_", "example.weppos")
       assert is_map(response)
       assert response.__struct__ == Dnsimple.Domain
+      assert response.id == 1
+      assert response.name == "example-alpha.com"
     end
   end
 

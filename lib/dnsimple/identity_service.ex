@@ -1,4 +1,4 @@
-defmodule Dnsimple.AuthService do
+defmodule Dnsimple.IdentityService do
   alias Dnsimple.Client
 
   @spec whoami(Client.t, Keyword.t) :: map

@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 07 Feb 2016 18:45:32 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Status: 200 OK
+X-RateLimit-Limit: 4000
+X-RateLimit-Remaining: 3994
+X-RateLimit-Reset: 1454873747
+ETag: W/"561950b4caaffb724d4936911e030XXX"
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: a0e1b332-04ce-4fcb-a20a-29843aa9a729
+X-Runtime: 0.032723
+Strict-Transport-Security: max-age=31536000
+
+{"data":[{"id":1,"zone_id":"example.com","parent_id":null,"name":"","content":"ns1.dnsimple.com admin.dnsimple.com 1454335406 86400 7200 604800 300","ttl":3600,"priority":null,"type":"SOA","system_record":true,"created_at":"2016-02-01T14:03:25.180Z","updated_at":"2016-02-01T14:06:56.259Z"},{"id":2,"zone_id":"example.com","parent_id":null,"name":"","content":"ns1.dnsimple.com","ttl":3600,"priority":null,"type":"NS","system_record":true,"created_at":"2016-02-01T14:03:25.781Z","updated_at":"2016-02-01T14:03:25.781Z"},{"id":3,"zone_id":"example.com","parent_id":null,"name":"","content":"ns2.dnsimple.com","ttl":3600,"priority":null,"type":"NS","system_record":true,"created_at":"2016-02-01T14:03:25.930Z","updated_at":"2016-02-01T14:03:25.930Z"},{"id":4,"zone_id":"example.com","parent_id":null,"name":"","content":"ns3.dnsimple.com","ttl":3600,"priority":null,"type":"NS","system_record":true,"created_at":"2016-02-01T14:03:26.077Z","updated_at":"2016-02-01T14:03:26.077Z"},{"id":5,"zone_id":"example.com","parent_id":null,"name":"","content":"ns4.dnsimple.com","ttl":3600,"priority":null,"type":"NS","system_record":true,"created_at":"2016-02-01T14:03:26.228Z","updated_at":"2016-02-01T14:03:26.228Z"},{"id":6,"zone_id":"example.com","parent_id":null,"name":"","content":"example-alpha.com","ttl":60,"priority":null,"type":"ALIAS","system_record":false,"created_at":"2016-02-01T14:06:56.095Z","updated_at":"2016-02-01T14:06:56.095Z"},{"id":7,"zone_id":"example.com","parent_id":5344902,"name":"","content":"ALIAS for example-alpha.com","ttl":60,"priority":null,"type":"TXT","system_record":false,"created_at":"2016-02-01T14:06:56.240Z","updated_at":"2016-02-01T14:06:56.240Z"}],"pagination":{"current_page":1,"per_page":30,"total_entries":7,"total_pages":1}}

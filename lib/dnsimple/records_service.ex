@@ -30,4 +30,13 @@ defmodule Dnsimple.RecordsService do
     |> Dnsimple.Utils.collection_to_struct(Record)
   end
 
+  @spec create(Client.t, String.t | integer, String.t | integer, Record.t, Keyword.t) :: Record.t
+  def create(client, account_id, zone_id, record, options) do
+    body = Record.to_json(record)
+    response = Client.post(client, Client.versioned("#{account_id}/zones/#{zone_id}/records"), body, options)
+    response.body
+    |> Poison.decode!
+    |> Map.get("data")
+    |> Dnsimple.Utils.single_to_struct(Record)
+  end
 end

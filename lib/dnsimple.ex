@@ -39,6 +39,11 @@ defmodule Dnsimple do
     """
     def get(client, url, headers \\ [], options \\ []), do: request(client, :get, url, "", headers, options)
 
+    @doc """
+    Issues a POST request to the given url.
+    """
+    def post(client, url, body \\ "", headers \\ [], options \\ []), do: request(client, :post, url, body, headers, options)
+
     def request(client, method, url, body \\ "", headers \\ [], options \\ []) do
       headers = headers ++ [
         {"Accept", "application/json"},

@@ -41,5 +41,29 @@ defmodule DnsimpleRecordsServiceTest do
       assert response.content == "example-alias.com"
     end
   end
+
+
+  test ".create builds the correct request" do
+    r = %Dnsimple.Record{name: "alpha", content: "some-text-content", type: "TXT", ttl: 600}
+    rb = Dnsimple.Record.to_json(r)
+    fixture = ExvcrUtils.response_fixture("createZoneRecord/success.http", [url: @client.base_url <> "v2/1010/zones/example.weppos/records", method: :post, request_body: rb])
+    use_cassette :stub, fixture do
+      @service.create(@client, 1010, "example.weppos", r, [])
+    end
+  end
+
+  test ".create returns a Dnsimple.Record " do
+    r = %Dnsimple.Record{name: "alpha", content: "some-text-content", type: "TXT", ttl: 600}
+    rb = Dnsimple.Record.to_json(r)
+    fixture = ExvcrUtils.response_fixture("createZoneRecord/success.http", [url: @client.base_url <> "v2/1010/zones/example.weppos/records", method: :post, request_body: rb])
+    use_cassette :stub, fixture do
+      response = @service.create(@client, 1010, "example.weppos", r, [])
+      assert is_map(response)
+      assert response.__struct__ == Dnsimple.Record
+      assert response.id == 2
+      assert response.type == "TXT"
+      assert response.content == "some-text-content"
+    end
+  end
 end
 

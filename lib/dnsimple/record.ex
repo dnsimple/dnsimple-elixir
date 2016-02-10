@@ -9,5 +9,13 @@ defmodule Dnsimple.Record do
     content: String.t, ttl: integer, priority: integer, type: String.t,
     system_record: boolean, created_at: String.t, updated_at: String.t
   }
+
+  def to_json(record) do
+    record
+    |> Map.from_struct
+    |> Dict.take([:name, :content, :ttl, :priority])
+    |> Poison.encode!
+  end
+
 end
 

@@ -49,6 +49,11 @@ defmodule Dnsimple do
     """
     def patch(client, url, body \\ "", headers \\ [], options \\ []), do: request(client, :patch, url, body, headers, options)
 
+    @doc """
+    Issues a DELETE request to the given url.
+    """
+    def delete(client, url, headers \\ [], options \\ []), do: request(client, :delete, url, "", headers, options)
+
     def request(client, method, url, body \\ "", headers \\ [], options \\ []) do
       headers = headers ++ [
         {"Accept", "application/json"},

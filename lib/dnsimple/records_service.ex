@@ -49,4 +49,10 @@ defmodule Dnsimple.RecordsService do
     |> Map.get("data")
     |> Dnsimple.Utils.single_to_struct(Record)
   end
+
+  @spec delete(Client.t, String.t | integer, String.t | integer, Record.t, Keyword.t) :: :ok
+  def delete(client, account_id, zone_id, record, options) do
+    _response = Client.delete(client, Client.versioned("#{account_id}/zones/#{zone_id}/records/#{record.id}"), options)
+    :ok
+  end
 end

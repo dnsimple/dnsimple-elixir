@@ -88,5 +88,13 @@ defmodule DnsimpleRecordsServiceTest do
       assert response.content == "altered-text-content"
     end
   end
+
+  test ".delete builds the correct request" do
+    r = %Dnsimple.Record{id: 2, name: "subdomain", content: "altered-text-content", type: "TXT", ttl: 600}
+    fixture = ExvcrUtils.response_fixture("deleteZoneRecord/success.http", [url: @client.base_url <> "v2/1010/zones/example.weppos/records/2", method: :delete])
+    use_cassette :stub, fixture do
+      assert :ok == @service.delete(@client, 1010, "example.weppos", r, [])
+    end
+  end
 end
 

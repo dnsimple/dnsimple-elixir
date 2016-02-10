@@ -39,4 +39,14 @@ defmodule Dnsimple.RecordsService do
     |> Map.get("data")
     |> Dnsimple.Utils.single_to_struct(Record)
   end
+
+  @spec update(Client.t, String.t | integer, String.t | integer, Record.t, Keyword.t) :: Record.t
+  def update(client, account_id, zone_id, record, options) do
+    body = Record.to_json(record)
+    response = Client.patch(client, Client.versioned("#{account_id}/zones/#{zone_id}/records/#{record.id}"), body, options)
+    response.body
+    |> Poison.decode!
+    |> Map.get("data")
+    |> Dnsimple.Utils.single_to_struct(Record)
+  end
 end

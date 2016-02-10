@@ -1,0 +1,12 @@
+HTTP/1.1 204 No Content
+Server: nginx
+Date: Wed, 10 Feb 2016 23:22:24 GMT
+Connection: keep-alive
+Status: 204 No Content
+X-RateLimit-Limit: 4000
+X-RateLimit-Remaining: 3998
+X-RateLimit-Reset: 1455149502
+Cache-Control: no-cache
+X-Request-Id: eb57c78f-3479-4ee7-bfb3-15821f73272f
+X-Runtime: 0.086806
+Strict-Transport-Security: max-age=31536000

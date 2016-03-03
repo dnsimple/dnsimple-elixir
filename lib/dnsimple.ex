@@ -1,7 +1,7 @@
 defmodule Dnsimple do
 
   defmodule Client do
-    @base_url "https://api.dnsimple.com/"
+    @base_url "https://api.dnsimple.com"
     @user_agent "dnsimple-elixir/#{Dnsimple.Mixfile.project[:version]}"
 
     @api_version "v2"
@@ -18,13 +18,13 @@ defmodule Dnsimple do
 
     ## Examples
 
-        iex> Dnsimple.Client.versioned "whoami"
-        "v2/whoami"
+        iex> Dnsimple.Client.versioned "/whoami"
+        "/v2/whoami"
 
     """
     @spec versioned(String.t) :: String.t
     def versioned(path) do
-      @api_version <> "/" <> path
+      "/" <> @api_version <> path
     end
 
 

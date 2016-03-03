@@ -4,11 +4,11 @@ defmodule DnsimpleDomainsServiceTest do
   doctest Dnsimple.DomainsService
 
   @service Dnsimple.DomainsService
-  @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test/"}
+  @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
 
   test ".domains builds the correct request" do
-    fixture = ExvcrUtils.response_fixture("listDomains/success.http", [url: @client.base_url <> "v2/1010/domains"])
+    fixture = ExvcrUtils.response_fixture("listDomains/success.http", [url: @client.base_url <> "/v2/1010/domains"])
     use_cassette :stub, fixture do
       @service.domains(@client, "1010")
     end
@@ -26,7 +26,7 @@ defmodule DnsimpleDomainsServiceTest do
 
 
   test ".domain builds the correct request" do
-    fixture = ExvcrUtils.response_fixture("getDomain/success.http", [url: @client.base_url <> "v2/1010/domains/example.weppos"])
+    fixture = ExvcrUtils.response_fixture("getDomain/success.http", [url: @client.base_url <> "/v2/1010/domains/example.weppos"])
     use_cassette :stub, fixture do
       @service.domain(@client, "1010", "example.weppos")
     end

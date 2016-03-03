@@ -4,7 +4,7 @@ defmodule DnsimpleIdentityServiceTest do
   doctest Dnsimple.IdentityService
 
   @service Dnsimple.IdentityService
-  @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test/"}
+  @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
 
   test ".whoami" do

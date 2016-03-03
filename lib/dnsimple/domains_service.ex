@@ -17,7 +17,7 @@ defmodule Dnsimple.DomainsService do
   """
   @spec domains(Client.t, String.t | integer, Keyword.t) :: [Domain.t]
   def domains(client, account_id, options \\ []) do
-    response = Client.get(client, Client.versioned("#{account_id}/domains"), options)
+    response = Client.get(client, Client.versioned("/#{account_id}/domains"), options)
     response.body
     |> Poison.decode!
     |> Map.get("data")
@@ -31,7 +31,7 @@ defmodule Dnsimple.DomainsService do
   """
   @spec domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Domain.t
   def domain(client, account_id \\ Dnsimple.Client.__WILDCARD_ACCOUNT, domain_id, options \\ []) do
-    response = Client.get(client, Client.versioned("#{account_id}/domains/#{domain_id}"), options)
+    response = Client.get(client, Client.versioned("/#{account_id}/domains/#{domain_id}"), options)
     response.body
     |> Poison.decode!
     |> Map.get("data")

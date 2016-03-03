@@ -6,12 +6,12 @@ defmodule DnsimpleClientTest do
   test "initialize with defaults" do
     client = %Dnsimple.Client{}
     assert client.access_token == nil
-    assert client.base_url == "https://api.dnsimple.com/"
+    assert client.base_url == "https://api.dnsimple.com"
   end
 
 
   test "versioned joins path with current api version" do
-    assert Dnsimple.Client.versioned("whoami") == "v2/whoami"
+    assert Dnsimple.Client.versioned("/whoami") == "/v2/whoami"
   end
 
 end

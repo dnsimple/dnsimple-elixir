@@ -3,7 +3,7 @@ defmodule Dnsimple.IdentityService do
 
   @spec whoami(Client.t, Keyword.t) :: map
   def whoami(client, options \\ []) do
-    response = Client.get(client, Client.versioned("whoami"), options)
+    response = Client.get(client, Client.versioned("/whoami"), options)
     response.body
     |> Poison.decode!
     |> Map.get("data")

@@ -11,5 +11,5 @@ defmodule Dnsimple.Domain do
     auto_renew: boolean, private_whois: boolean,
     expired_on: String.t, created_at: String.t, updated_at: String.t,
   }
-end
 
+end

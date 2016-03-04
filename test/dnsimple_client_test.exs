@@ -1,5 +1,6 @@
 defmodule DnsimpleClientTest do
   use ExUnit.Case, async: true
+  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
   doctest Dnsimple.Client
 
 
@@ -10,9 +11,8 @@ defmodule DnsimpleClientTest do
   end
 
 
-  test "versioned joins path with current api version" do
+  test ".versioned joins path with current api version" do
     assert Dnsimple.Client.versioned("/whoami") == "/v2/whoami"
   end
 
 end
-

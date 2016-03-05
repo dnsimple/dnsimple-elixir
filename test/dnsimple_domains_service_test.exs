@@ -17,10 +17,13 @@ defmodule DnsimpleDomainsServiceTest do
   test ".domains returns a list of Dnsimple.Domain" do
     use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", [url: "~r/\/domains$/"]) do
       response = @service.domains(@client, "1010")
-      assert is_list(response)
-      assert length(response) == 2
-      assert Enum.all?(response, fn(single) -> single.__struct__ == Dnsimple.Domain end)
-      assert Enum.all?(response, fn(single) -> is_integer(single.id) end)
+      assert response.__struct__ == Dnsimple.Response
+
+      data = response.data
+      assert is_list(data)
+      assert length(data) == 2
+      assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Domain end)
+      assert Enum.all?(data, fn(single) -> is_integer(single.id) end)
     end
   end
 
@@ -35,12 +38,14 @@ defmodule DnsimpleDomainsServiceTest do
   test ".domain returns a Dnsimple.Domain" do
     use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", [url: "~r/\/domains/.+$/"]) do
       response = @service.domain(@client, "_", "example.weppos")
-      assert is_map(response)
-      assert response.__struct__ == Dnsimple.Domain
-      assert response.id == 1
-      assert response.name == "example-alpha.com"
+      assert response.__struct__ == Dnsimple.Response
+
+      data = response.data
+      assert is_map(data)
+      assert data.__struct__ == Dnsimple.Domain
+      assert data.id == 1
+      assert data.name == "example-alpha.com"
     end
   end
 
 end
-

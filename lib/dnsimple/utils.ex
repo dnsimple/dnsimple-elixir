@@ -15,12 +15,12 @@ defmodule Dnsimple.Utils do
       defmodule User, do: defstruct [:id, :name]
       {:module, User, _, %User{id: nil, name: nil}}
 
-      Dnsimple.Utils.single_to_struct(%{"name" => "weppos", "foo" => "bar"}, User)
+      Dnsimple.Utils.attrs_to_struct(%{"name" => "weppos", "foo" => "bar"}, User)
       %User{id: nil, name: "weppos"}
 
   """
-  @spec single_to_struct(Enum.t, module | map) :: map
-  def single_to_struct(attrs, kind) do
+  @spec attrs_to_struct(Enum.t, module | map) :: map
+  def attrs_to_struct(attrs, kind) do
     struct = struct(kind)
     Enum.reduce Map.to_list(struct), struct, fn {k, _}, acc ->
       case Map.fetch(attrs, Atom.to_string(k)) do
@@ -30,9 +30,9 @@ defmodule Dnsimple.Utils do
     end
   end
 
-  @spec collection_to_struct(List.t, module | map) :: map
-  def collection_to_struct(collection, kind) do
-    Enum.map(collection, fn(x) -> single_to_struct(x, kind) end)
+  @spec attrs_to_structs(List.t, module | map) :: map
+  def attrs_to_structs(collection, kind) do
+    Enum.map(collection, fn(x) -> attrs_to_struct(x, kind) end)
   end
 
 

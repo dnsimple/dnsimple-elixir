@@ -10,10 +10,13 @@ defmodule DnsimpleIdentityServiceTest do
   test ".whoami" do
     use_cassette :stub, ExvcrUtils.response_fixture("whoami/success.http", [url: "~r/\/v2\/whoami/$"]) do
       response = @service.whoami(@client)
-      assert is_map(response)
-      assert %{"account" => _, "user" => _} = response
+      assert response.__struct__ == Dnsimple.Response
+
+      data = response.data
+      assert is_map(data)
+      assert data.__struct__ == Dnsimple.Whoami
+      assert %Dnsimple.Whoami{account: _, user: _} = data
     end
   end
 
 end
-

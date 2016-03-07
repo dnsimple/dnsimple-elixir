@@ -13,7 +13,7 @@ defmodule Dnsimple.Response do
   Creates a response from an HTTPoison response and parsed data.
   """
   @spec new(HTTPoison.Response.t, any) :: Response.t
-  def new(http_response, data) do
+  def new(http_response, data \\ nil) do
     headers = Enum.into(http_response.headers, %{})
 
     %__MODULE__{

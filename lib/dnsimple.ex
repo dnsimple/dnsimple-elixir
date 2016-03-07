@@ -42,6 +42,12 @@ defmodule Dnsimple do
     @spec get(Client.t, binary, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
     def get(client, url, headers \\ [], options \\ []), do: execute(client, :get, url, "", headers, options)
 
+    @doc """
+    Issues a DELETE request to the given url.
+    """
+    @spec get(Client.t, binary, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def delete(client, url, headers \\ [], options \\ []), do: execute(client, :delete, url, "", headers, options)
+
 
     def execute(client, method, url, body \\ "", headers \\ [], options \\ []) do
       headers = headers ++ [

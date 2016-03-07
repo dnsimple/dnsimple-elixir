@@ -35,4 +35,16 @@ defmodule Dnsimple.DomainsService do
     Response.new(response, Response.data(response, Domain))
   end
 
+  @doc """
+  PERMANENTLY deletes a domain from the account.
+
+  See https://developer.dnsimple.com/v2/domains/#delete
+  """
+  @spec delete_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def delete_domain(client, account_id \\ Dnsimple.Client.__WILDCARD_ACCOUNT, domain_id, options \\ []) do
+    response = Client.delete(client, Client.versioned("/#{account_id}/domains/#{domain_id}"), options)
+
+    Response.new(response)
+  end
+
 end

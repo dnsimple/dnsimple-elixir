@@ -8,14 +8,15 @@ defmodule DnsimpleDomainsServiceTest do
 
 
   test ".domains builds the correct request" do
-    fixture = ExvcrUtils.response_fixture("listDomains/success.http", [url: @client.base_url <> "/v2/1010/domains"])
+    fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains"])
     use_cassette :stub, fixture do
       @service.domains(@client, "1010")
     end
   end
 
   test ".domains returns a list of Dnsimple.Response" do
-    use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", [url: "~r/\/domains$/"]) do
+    fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get"])
+    use_cassette :stub, fixture do
       { :ok, response } = @service.domains(@client, "1010")
       assert response.__struct__ == Dnsimple.Response
 
@@ -28,15 +29,37 @@ defmodule DnsimpleDomainsServiceTest do
   end
 
 
+  test ".create_domain builds the correct request" do
+    fixture = ExvcrUtils.response_fixture("createDomain/created.http", [method: "delete", url: @client.base_url <> "/v2/1010/domains", request_body: ~s'{"name":"example.com"}'])
+    use_cassette :stub, fixture do
+      @service.create_domain(@client, "1010", %{ name: "example.com" })
+    end
+  end
+
+  test ".create_domains returns a Dnsimple.Response" do
+    fixture = ExvcrUtils.response_fixture("createDomain/created.http", [url: "~r/\/v2/$", request_body: ""])
+    use_cassette :stub, fixture do
+      { :ok, response } = @service.create_domain(@client, "1010", "")
+      assert response.__struct__ == Dnsimple.Response
+
+      data = response.data
+      assert is_map(data)
+      assert data.__struct__ == Dnsimple.Domain
+      assert data.id == 1
+      assert data.name == "example-alpha.com"
+    end
+  end
+
+
   test ".domain builds the correct request" do
-    fixture = ExvcrUtils.response_fixture("getDomain/success.http", [url: @client.base_url <> "/v2/1010/domains/example.weppos"])
+    fixture = ExvcrUtils.response_fixture("getDomain/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.weppos"])
     use_cassette :stub, fixture do
       @service.domain(@client, "1010", "example.weppos")
     end
   end
 
   test ".domain returns a Dnsimple.Response" do
-    use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", [url: "~r/\/domains/.+$/"]) do
+    use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", [method: "get"]) do
       { :ok, response } = @service.domain(@client, "_", "example.weppos")
       assert response.__struct__ == Dnsimple.Response
 

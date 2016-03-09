@@ -24,21 +24,24 @@ defmodule Dnsimple.Response do
     }
   end
 
-
-  def data(http_response, kind) do
-    attrs = decode(http_response)
+  def parse({:error, http_response}, _) do
+    {:error, http_response}
+  end
+  def parse({:ok, http_response}, nil) do
+    {:ok, new(http_response, nil) }
+  end
+  def parse({:ok, http_response}, kind) do
+    data = decode(http_response)
     |> Map.get("data")
+    |> to_struct(kind)
 
-    case kind do
-      [t] -> Dnsimple.Utils.attrs_to_structs(attrs, t)
-       t  -> Dnsimple.Utils.attrs_to_struct(attrs, t)
-    end
+    {:ok, new(http_response, data)}
   end
 
+  def decode(%HTTPoison.Response{ body: "" }), do: %{}
+  def decode(%HTTPoison.Response{ body: body }), do: Poison.decode!(body)
 
-  def decode(http_response) do
-    http_response.body
-    |> Poison.decode!
-  end
+  defp to_struct(attrs, kind) when is_list(attrs), do: Dnsimple.Utils.attrs_to_structs(attrs, kind)
+  defp to_struct(attrs, kind), do: Dnsimple.Utils.attrs_to_struct(attrs, kind)
 
 end

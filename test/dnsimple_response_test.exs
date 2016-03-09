@@ -7,7 +7,7 @@ defmodule DnsimpleResponseTest do
   test ".new" do
     client = %Dnsimple.Client{access_token: "x", base_url: "https://api.dnsimple.test"}
     use_cassette :stub, ExvcrUtils.response_fixture("whoami/success.http", [method: "GET"]) do
-      http     = Dnsimple.Client.execute(client, "GET", "/path")
+      { :ok, http } = Dnsimple.Client.execute(client, "GET", "/path")
       response = Dnsimple.Response.new(http, nil)
 
       assert response.http_response == http
@@ -18,7 +18,7 @@ defmodule DnsimpleResponseTest do
   test ".new parses the rate-limit" do
     client = %Dnsimple.Client{access_token: "x", base_url: "https://api.dnsimple.test"}
     use_cassette :stub, ExvcrUtils.response_fixture("whoami/success.http", [method: "GET"]) do
-      http     = Dnsimple.Client.execute(client, "GET", "/path")
+      { :ok, http } = Dnsimple.Client.execute(client, "GET", "/path")
       response = Dnsimple.Response.new(http, nil)
 
       assert response.rate_limit == 4000

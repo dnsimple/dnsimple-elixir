@@ -16,7 +16,7 @@ defmodule DnsimpleDomainsServiceTest do
 
   test ".domains returns a list of Dnsimple.Response" do
     use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", [url: "~r/\/domains$/"]) do
-      response = @service.domains(@client, "1010")
+      { :ok, response } = @service.domains(@client, "1010")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data
@@ -37,7 +37,7 @@ defmodule DnsimpleDomainsServiceTest do
 
   test ".domain returns a Dnsimple.Response" do
     use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", [url: "~r/\/domains/.+$/"]) do
-      response = @service.domain(@client, "_", "example.weppos")
+      { :ok, response } = @service.domain(@client, "_", "example.weppos")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data
@@ -58,7 +58,7 @@ defmodule DnsimpleDomainsServiceTest do
 
   test ".delete_domain returns a Dnsimple.Response" do
     use_cassette :stub, ExvcrUtils.response_fixture("deleteDomain/success.http", [method: "delete"]) do
-      response = @service.delete_domain(@client, "_", "example.weppos")
+      { :ok, response } = @service.delete_domain(@client, "_", "example.weppos")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data

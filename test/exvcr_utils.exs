@@ -19,7 +19,7 @@ defmodule ExvcrUtils do
 
   def response_fixture(name, options \\ []) do
     [code, headers, body] = parse_fixture(read_fixture(name))
-    options ++ [body: body, headers: headers, status_code: code]
+    options ++ [body: body, headers: headers, status_code: String.to_integer(code) ]
   end
 
 
@@ -31,4 +31,3 @@ defmodule ExvcrUtils do
   end
 
 end
-

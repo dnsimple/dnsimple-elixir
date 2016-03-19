@@ -30,14 +30,14 @@ defmodule DnsimpleDomainsServiceTest do
 
 
   test ".create_domain builds the correct request" do
-    fixture = ExvcrUtils.response_fixture("createDomain/created.http", [method: "delete", url: @client.base_url <> "/v2/1010/domains", request_body: ~s'{"name":"example.com"}'])
+    fixture = ExvcrUtils.response_fixture("createDomain/created.http", [method: "post", url: @client.base_url <> "/v2/1010/domains", request_body: ~s'{"name":"example.com"}'])
     use_cassette :stub, fixture do
       @service.create_domain(@client, "1010", %{ name: "example.com" })
     end
   end
 
   test ".create_domains returns a Dnsimple.Response" do
-    fixture = ExvcrUtils.response_fixture("createDomain/created.http", [url: "~r/\/v2/$", request_body: ""])
+    fixture = ExvcrUtils.response_fixture("createDomain/created.http", [method: "post", request_body: ""])
     use_cassette :stub, fixture do
       { :ok, response } = @service.create_domain(@client, "1010", "")
       assert response.__struct__ == Dnsimple.Response

@@ -9,25 +9,31 @@ defmodule ExvcrUtils do
     |> File.read!
   end
 
-  def parse_fixture(content) do
-    [status | lines] = String.split(content, "\n")
-    [_, _, code, _] = Regex.run(~r/\AHTTP(?:\/(\d+\.\d+))?\s+(\d\d\d)\s*(.*)\z/i, status)
-    [headers, body] = parse_http_headers(lines, [])
-
-    [code, headers, body]
-  end
-
   def response_fixture(name, options \\ []) do
-    [code, headers, body] = parse_fixture(read_fixture(name))
-    options ++ [body: body, headers: headers, status_code: String.to_integer(code) ]
+    [status_code, headers, body] = parse_fixture(read_fixture(name))
+    options ++ [body: body, headers: headers, status_code: status_code ]
   end
 
+  def parse_fixture(content) do
+    [ status, headers, body ] = break_into_parts(content)
+    [ extract_code(status), extract_headers(headers), body]
+  end
 
-  defp parse_http_headers([], accumulator), do: [accumulator, nil]
-  defp parse_http_headers(["", body], accumulator), do: [accumulator, body]
-  defp parse_http_headers([h|t], accumulator) do
-    [key, value] = String.split(h, ~r/:\s?/, parts: 2)
-    parse_http_headers(t, [{key, value}|accumulator])
+  def break_into_parts(content) do
+    [head, body]      = String.split(content, "\n\n")
+    [status, headers] = String.split(head, "\n", parts: 2)
+    [status, headers, body]
+  end
+
+  def extract_code(status_line) do
+    [_, _, code, _] = Regex.run(~r/\AHTTP(?:\/(\d+\.\d+))?\s+(\d\d\d)\s*(.*)\z/i, status_line)
+    String.to_integer(code)
+  end
+
+  def extract_headers(headers_lines) do
+    String.split(headers_lines, "\n")
+      |> Enum.map(fn(line) -> String.split(line, ~r{:\s?}, parts: 2) end)
+      |> List.foldr(%{}, fn([key, value], headers) -> Map.put(headers, key, value) end)
   end
 
 end

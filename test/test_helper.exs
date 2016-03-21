@@ -9,4 +9,3 @@ defmodule TestCase do
   end
 
 end
-

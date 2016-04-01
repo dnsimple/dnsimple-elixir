@@ -20,4 +20,12 @@ defmodule Dnsimple.RegistrarService do
       |> Response.parse(Domain)
   end
 
+  @spec renew_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t, Keyword.t) :: Response.t
+  def renew_domain(client, account_id, domain_name, attributes \\ [], headers \\ [], options \\ []) do
+    url = Client.versioned("/a/#{account_id}/registrar/domains/#{domain_name}/renew")
+
+    Client.post(client, url, attributes, headers, options)
+      |> Response.parse(Domain)
+  end
+
 end

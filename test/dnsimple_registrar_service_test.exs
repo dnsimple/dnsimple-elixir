@@ -47,4 +47,34 @@ defmodule DnsimpleRegistrarServiceTest do
     end
   end
 
+  test ".renew_domain" do
+    fixture     = "renewDomain/success.http"
+    method      = "post"
+    url         = "#{@client.base_url}/v2/a/1010/registrar/domains/example.com/renew"
+    attributes  = %{period: 3}
+    {:ok, body} = Poison.encode(attributes)
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      {:ok, response} = @service.renew_domain(@client, "1010", "example.com", attributes)
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data.__struct__ == Dnsimple.Domain
+      assert response.data == %Dnsimple.Domain{
+        id: 1,
+        name: "example.com",
+        account_id: 1010,
+        registrant_id: 2,
+        auto_renew: false,
+        private_whois: false,
+        state: "registered",
+        token: "domain-token",
+        created_at: "2016-01-16T16:08:50.649Z",
+        updated_at: "2016-02-15T15:19:24.689Z",
+        expired_on: nil,
+      }
+    end
+  end
+
+
+
 end

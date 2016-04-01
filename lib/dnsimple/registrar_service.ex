@@ -4,9 +4,11 @@ defmodule Dnsimple.RegistrarService do
   alias Dnsimple.Domain
   alias Dnsimple.DomainCheck
 
-  @spec check_domain(Client.t, String.t, Keyword.t) :: Response.t
-  def check_domain(client, domain_name, options \\ []) do
-    Client.get(client, Client.versioned("/registrar/domains/#{domain_name}/check"), options)
+  @spec check_domain(Client.t, String.t, String.t, Keyword.t) :: Response.t
+  def check_domain(client, account_id, domain_name, options \\ []) do
+    url = Client.versioned("/a/#{account_id}/registrar/domains/#{domain_name}/check")
+
+    Client.get(client, url, options)
       |> Response.parse(DomainCheck)
   end
 

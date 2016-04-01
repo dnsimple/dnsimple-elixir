@@ -8,10 +8,10 @@ defmodule DnsimpleRegistrarServiceTest do
   test ".check_domain" do
     fixture = "checkDomain/success.http"
     method  = "get"
-    url     = "#{@client.base_url}/v2/registrar/domains/example.com/check"
+    url     = "#{@client.base_url}/v2/a/1010/registrar/domains/example.com/check"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.check_domain(@client, "example.com")
+      {:ok, response} = @service.check_domain(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.DomainCheck

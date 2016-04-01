@@ -20,7 +20,7 @@ defmodule ExvcrUtils do
   end
 
   def break_into_parts(content) do
-    [head, body]      = String.split(content, "\n\n")
+    [head, body]      = String.split(content, ~r{\n\n|\r\n\r\n})
     [status, headers] = String.split(head, "\n", parts: 2)
     [status, headers, body]
   end

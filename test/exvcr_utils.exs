@@ -31,7 +31,7 @@ defmodule ExvcrUtils do
   end
 
   def extract_headers(headers_lines) do
-    String.split(headers_lines, "\n")
+    String.split(headers_lines, ~r{\r?\n})
       |> Enum.map(&header_line_to_key_value_pair/1)
       |> Enum.into(%{})
   end

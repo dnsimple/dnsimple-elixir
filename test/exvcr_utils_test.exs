@@ -48,8 +48,12 @@ defmodule ExvcrUtilsTest do
   end
 
   test "extract_headers extracts keys and values from headers" do
-    headers    = "Server: nginx\nContent-Type: application/json; charset=utf-8"
-    key_values = %{ "Server" => "nginx", "Content-Type" => "application/json; charset=utf-8"}
+    headers    = "Server: nginx\nContent-Type: application/json; charset=utf-8\r\nStatus: 201 Created"
+    key_values = %{
+      "Server" => "nginx",
+      "Status" => "201 Created",
+      "Content-Type" => "application/json; charset=utf-8",
+    }
 
     assert ExvcrUtils.extract_headers(headers) == key_values
   end

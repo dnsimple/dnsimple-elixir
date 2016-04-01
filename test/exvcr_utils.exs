@@ -15,8 +15,8 @@ defmodule ExvcrUtils do
   end
 
   def parse_fixture(content) do
-    [ status, headers, body ] = break_into_parts(content)
-    [ extract_code(status), extract_headers(headers), body]
+    [status, headers, body ] = break_into_parts(content)
+    [extract_code(status), extract_headers(headers), body]
   end
 
   def break_into_parts(content) do
@@ -32,8 +32,13 @@ defmodule ExvcrUtils do
 
   def extract_headers(headers_lines) do
     String.split(headers_lines, "\n")
-      |> Enum.map(fn(line) -> String.split(line, ~r{:\s?}, parts: 2) end)
-      |> List.foldr(%{}, fn([key, value], headers) -> Map.put(headers, key, value) end)
+      |> Enum.map(&header_line_to_key_value_pair/1)
+      |> Enum.into(%{})
+  end
+
+  defp header_line_to_key_value_pair(line) do
+    String.split(line, ~r{:\s?}, parts: 2)
+      |> List.to_tuple
   end
 
 end

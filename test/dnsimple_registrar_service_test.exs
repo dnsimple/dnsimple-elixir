@@ -8,7 +8,7 @@ defmodule DnsimpleRegistrarServiceTest do
   test ".check_domain" do
     fixture = "checkDomain/success.http"
     method  = "get"
-    url     = "#{@client.base_url}/v2/a/1010/registrar/domains/example.com/check"
+    url     = "#{@client.base_url}/v2/1010/registrar/domains/example.com/check"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
       {:ok, response} = @service.check_domain(@client, "1010", "example.com")
@@ -22,7 +22,7 @@ defmodule DnsimpleRegistrarServiceTest do
   test ".register_domain" do
     fixture     = "registerDomain/success.http"
     method      = "post"
-    url         = "#{@client.base_url}/v2/a/1010/registrar/domains/example.com/registration"
+    url         = "#{@client.base_url}/v2/1010/registrar/domains/example.com/registration"
     attributes  = %{registrant_id: 2, auto_renew: false, privacy: false}
     {:ok, body} = Poison.encode(attributes)
 
@@ -50,7 +50,7 @@ defmodule DnsimpleRegistrarServiceTest do
   test ".renew_domain" do
     fixture     = "renewDomain/success.http"
     method      = "post"
-    url         = "#{@client.base_url}/v2/a/1010/registrar/domains/example.com/renew"
+    url         = "#{@client.base_url}/v2/1010/registrar/domains/example.com/renew"
     attributes  = %{period: 3}
     {:ok, body} = Poison.encode(attributes)
 
@@ -74,7 +74,5 @@ defmodule DnsimpleRegistrarServiceTest do
       }
     end
   end
-
-
 
 end

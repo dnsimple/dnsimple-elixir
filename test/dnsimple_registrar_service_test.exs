@@ -75,4 +75,33 @@ defmodule DnsimpleRegistrarServiceTest do
     end
   end
 
+  test ".transfer_domain" do
+    fixture     = "transferDomain/success.http"
+    method      = "post"
+    url         = "#{@client.base_url}/v2/1010/registrar/domains/example.com/transfer"
+    attributes  = %{registrant_id: 10, auth_info: "x1y2z3", auto_renew: false, privacy: false}
+    {:ok, body} = Poison.encode(attributes)
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      {:ok, response} = @service.transfer_domain(@client, "1010", "example.com", attributes)
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data.__struct__ == Dnsimple.Domain
+      assert response.data == %Dnsimple.Domain{
+        id: 1,
+        name: "example.com",
+        account_id: 1010,
+        registrant_id: 10,
+        auto_renew: false,
+        private_whois: false,
+        state: "hosted",
+        token: "domain-token",
+        created_at: "2016-02-21T13:31:58.745Z",
+        updated_at: "2016-02-21T13:31:58.745Z",
+        expired_on: nil,
+      }
+    end
+  end
+
+
 end

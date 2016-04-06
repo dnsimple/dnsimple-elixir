@@ -103,5 +103,19 @@ defmodule DnsimpleRegistrarServiceTest do
     end
   end
 
+  test ".transfer_domain_out" do
+    fixture     = "transferDomainOut/success.http"
+    method      = "post"
+    url         = "#{@client.base_url}/v2/1010/registrar/domains/example.com/transfer_out"
+    attributes  = []
+    {:ok, body} = Poison.encode(attributes)
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      {:ok, response} = @service.transfer_domain_out(@client, "1010", "example.com")
+
+      assert response.__struct__ == Dnsimple.Response
+      assert is_nil(response.data)
+    end
+  end
 
 end

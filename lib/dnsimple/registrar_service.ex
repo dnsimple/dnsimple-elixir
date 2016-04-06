@@ -8,7 +8,7 @@ defmodule Dnsimple.RegistrarService do
   def check_domain(client, account_id, domain_name, headers \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/check")
 
-    Client.get(client, url, options)
+    Client.get(client, url, headers, options)
       |> Response.parse(DomainCheck)
   end
 

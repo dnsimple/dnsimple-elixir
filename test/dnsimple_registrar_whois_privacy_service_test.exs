@@ -49,4 +49,25 @@ defmodule DnsimpleRegistrarWhoisPrivacyServiceTest do
     end
   end
 
+  test ".disable_whois_privacy" do
+    fixture = "disableWhoisPrivacy/success.http"
+    method  = "delete"
+    url     = "#{@client.base_url}/v2/1010/registrar/domains/example.com/whois_privacy"
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+      {:ok, response} = @service.disable_whois_privacy(@client, "1010", "example.com")
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data.__struct__ == Dnsimple.WhoisPrivacy
+      assert response.data == %Dnsimple.WhoisPrivacy{
+        id: 1,
+        domain_id: 2,
+        enabled: false,
+        expires_on: "2017-02-13",
+        created_at: "2016-02-13T14:34:50.135Z",
+        updated_at: "2016-02-13T14:36:38.964Z",
+      }
+    end
+  end
+
 end

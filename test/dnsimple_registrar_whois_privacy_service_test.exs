@@ -26,4 +26,27 @@ defmodule DnsimpleRegistrarWhoisPrivacyServiceTest do
     end
   end
 
+  test ".enable_whois_privacy" do
+    fixture     = "enableWhoisPrivacy/created.http"
+    method      = "put"
+    url         = "#{@client.base_url}/v2/1010/registrar/domains/example.com/whois_privacy"
+    attributes  = []
+    {:ok, body} = Poison.encode(attributes)
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      {:ok, response} = @service.enable_whois_privacy(@client, "1010", "example.com")
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data.__struct__ == Dnsimple.WhoisPrivacy
+      assert response.data == %Dnsimple.WhoisPrivacy{
+        id: 1,
+        domain_id: 2,
+        enabled: nil,
+        expires_on: nil,
+        created_at: "2016-02-13T14:34:50.135Z",
+        updated_at: "2016-02-13T14:34:50.135Z",
+      }
+    end
+  end
+
 end

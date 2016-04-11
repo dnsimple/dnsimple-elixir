@@ -16,4 +16,17 @@ defmodule Dnsimple.RegistrarWhoisPrivacyService do
       |> Response.parse(WhoisPrivacy)
   end
 
+  @doc """
+  Enables the whois privacy for the domain.
+
+  See: https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable
+  """
+  @spec enable_whois_privacy(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
+  def enable_whois_privacy(client, account_id, domain_name, headers \\ [], options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
+
+    Client.put(client, url, _body = [], headers, options)
+      |> Response.parse(WhoisPrivacy)
+  end
+
 end

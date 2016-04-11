@@ -65,7 +65,7 @@ defmodule Dnsimple.RegistrarService do
   def transfer_domain_out(client, account_id, domain_name, headers \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer_out")
 
-    Client.post(client, url, body = [], headers, options)
+    Client.post(client, url, _body = [], headers, options)
       |> Response.parse(nil)
   end
 

@@ -50,7 +50,7 @@ defmodule DnsimpleRegistrarServiceTest do
   test ".renew_domain" do
     fixture     = "renewDomain/success.http"
     method      = "post"
-    url         = "#{@client.base_url}/v2/1010/registrar/domains/example.com/renew"
+    url         = "#{@client.base_url}/v2/1010/registrar/domains/example.com/renewal"
     attributes  = %{period: 3}
     {:ok, body} = Poison.encode(attributes)
 

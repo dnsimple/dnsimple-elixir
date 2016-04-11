@@ -20,4 +20,17 @@ defmodule DnsimpleRegistrarAutoRenewalServiceTest do
     end
   end
 
+  test ".disableDomainAutoRenewal" do
+    fixture = "disableDomainAutoRenewal/success.http"
+    method  = "delete"
+    url     = "#{@client.base_url}/v2/1010/registrar/domains/example.com/auto_renewal"
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+      {:ok, response} = @service.disable_auto_renewal(@client, "1010", "example.com")
+
+      assert response.__struct__ == Dnsimple.Response
+      assert is_nil(response.data)
+    end
+  end
+
 end

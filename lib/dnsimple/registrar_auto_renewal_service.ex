@@ -15,4 +15,17 @@ defmodule Dnsimple.RegistrarAutoRenewalService do
       |> Response.parse(nil)
   end
 
+  @doc """
+  Disable auto-renewal for the domain.
+
+  See: https://developer.dnsimple.com/v2/registrar/auto-renewal/#disable
+  """
+  @spec disable_auto_renewal(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
+  def disable_auto_renewal(client, account_id, domain_name, headers \\ [], options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
+
+    Client.delete(client, url, headers, options)
+      |> Response.parse(nil)
+  end
+
 end

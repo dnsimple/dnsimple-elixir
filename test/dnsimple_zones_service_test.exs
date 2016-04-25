@@ -20,4 +20,26 @@ defmodule DnsimpleZonesServiceTest do
     end
   end
 
+  test ".zone" do
+    fixture = "getZone/success.http"
+    method  = "get"
+    url     = "#{@client.base_url}/v2/#{@account_id}/zones/example-alpha.com"
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+      {:ok, response} = @service.zone(@client, @account_id, "example-alpha.com")
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data.__struct__ == Dnsimple.Zone
+      assert response.data == %Dnsimple.Zone{
+        id: 1,
+        account_id: @account_id,
+        name: "example-alpha.com",
+        reverse: false,
+        created_at: "2015-04-23T07:40:03.045Z",
+        updated_at: "2015-04-23T07:40:03.051Z"
+      }
+    end
+  end
+
+
 end

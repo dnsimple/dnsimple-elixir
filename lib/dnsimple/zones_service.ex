@@ -15,4 +15,17 @@ defmodule Dnsimple.ZonesService do
       |> Response.parse(Dnsimple.Zone)
   end
 
+  @doc """
+  Gets a zone in the account.
+
+  See: https://developer.dnsimple.com/v2/zones/#get
+  """
+  @spec zone(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
+  def zone(client, account_id, zone_name, headers \\ [], options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_name}")
+
+    Client.get(client, url, headers, options)
+      |> Response.parse(Dnsimple.Zone)
+  end
+
 end

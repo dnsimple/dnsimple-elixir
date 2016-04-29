@@ -26,3 +26,9 @@ iex> Dnsimple.Identity.whoami(client)
     "email" => "example-account@example.com", "id" => 1,
     "updated_at" => "2015-04-01T10:07:47.559Z"}, "user" => nil}
 ```
+
+
+## License
+
+Copyright (c) 2015-2016 Aetrion LLC. This is Free Software distributed under the MIT license.
+

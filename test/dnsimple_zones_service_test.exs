@@ -139,4 +139,19 @@ defmodule DnsimpleZonesServiceTest do
       }
     end
   end
+
+  test ".delete_record" do
+    fixture   = "deleteZoneRecord/success.http"
+    method    = "delete"
+    record_id = 64784
+    url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/#{record_id}"
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+      {:ok, response} = @service.delete_record(@client, @account_id, @zone_id, record_id)
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data == nil
+    end
+  end
+
 end

@@ -80,4 +80,17 @@ defmodule Dnsimple.ZonesService do
       |> Response.parse(Dnsimple.Record)
   end
 
+  @doc """
+  Deletes a record in the zone.
+
+  See: https://developer.dnsimple.com/v2/zones/records/#delete
+  """
+  @spec delete_record(Client.t, String.t, String.t, Integer.t, Keyword.t, Keyword.t) :: Response.t
+  def delete_record(client, account_id, zone_name, record_id, headers \\ [], options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
+
+    Client.delete(client, url, headers, options)
+      |> Response.parse(nil)
+  end
+
 end

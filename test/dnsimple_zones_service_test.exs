@@ -5,6 +5,7 @@ defmodule DnsimpleZonesServiceTest do
   @service Dnsimple.ZonesService
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
   @account_id 1010
+  @zone_id "example.com"
 
   test ".list_zones" do
     fixture = "listZones/success.http"
@@ -23,10 +24,10 @@ defmodule DnsimpleZonesServiceTest do
   test ".zone" do
     fixture = "getZone/success.http"
     method  = "get"
-    url     = "#{@client.base_url}/v2/#{@account_id}/zones/example-alpha.com"
+    url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.zone(@client, @account_id, "example-alpha.com")
+      {:ok, response} = @service.zone(@client, @account_id, @zone_id)
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.Zone
@@ -41,5 +42,116 @@ defmodule DnsimpleZonesServiceTest do
     end
   end
 
+  test ".list_records" do
+    fixture = "listZoneRecords/success.http"
+    method  = "get"
+    url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records"
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+      {:ok, response} = @service.list_records(@client, @account_id, @zone_id)
+
+      assert response.__struct__ == Dnsimple.Response
+      assert Enum.count(response.data) == 5
+      assert Enum.all?(response.data, fn(item) -> item.__struct__ == Dnsimple.Record end)
+    end
+  end
+
+  test ".create_record" do
+    fixture = "createZoneRecord/created.http"
+    method  = "post"
+    url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records"
+    attributes  = %{type: "A", name: "www", content: "127.0.0.1", ttl: 600}
+    {:ok, body} = Poison.encode(attributes)
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      {:ok, response} = @service.create_record(@client, @account_id, @zone_id, attributes)
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data.__struct__ == Dnsimple.Record
+      assert response.data == %Dnsimple.Record{
+        id: 64784,
+        zone_id: @zone_id,
+        parent_id: nil,
+        type: "A",
+        name: "www",
+        content: "127.0.0.1",
+        ttl: 600,
+        priority: nil,
+        system_record: false,
+        created_at: "2016-01-07T17:45:13.653Z",
+        updated_at: "2016-01-07T17:45:13.653Z"
+      }
+    end
+  end
+
+  test ".record" do
+    fixture   = "getZoneRecord/success.http"
+    method    = "get"
+    record_id = 64784
+    url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/#{record_id}"
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+      {:ok, response} = @service.record(@client, @account_id, @zone_id, record_id)
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data.__struct__ == Dnsimple.Record
+      assert response.data == %Dnsimple.Record{
+        id: 64784,
+        zone_id: @zone_id,
+        parent_id: nil,
+        type: "A",
+        name: "www",
+        content: "127.0.0.1",
+        ttl: 600,
+        priority: nil,
+        system_record: false,
+        created_at: "2016-01-07T17:45:13.653Z",
+        updated_at: "2016-01-07T17:45:13.653Z"
+      }
+    end
+  end
+
+  test ".update_record" do
+    fixture   = "updateZoneRecord/success.http"
+    method   = "patch"
+    record_id = 64784
+    url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/#{record_id}"
+    attributes  = %{ttl: 3600}
+    {:ok, body} = Poison.encode(attributes)
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      {:ok, response} = @service.update_record(@client, @account_id, @zone_id, record_id, attributes)
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data.__struct__ == Dnsimple.Record
+      assert response.data == %Dnsimple.Record{
+        id: 64784,
+        zone_id: @zone_id,
+        parent_id: nil,
+        type: "A",
+        name: "www",
+        content: "127.0.0.1",
+        ttl: 3600,
+        priority: nil,
+        system_record: false,
+        created_at: "2016-01-07T17:45:13.653Z",
+        updated_at: "2016-01-07T17:54:46.722Z"
+      }
+    end
+  end
+
+  test ".delete_record" do
+    fixture   = "deleteZoneRecord/success.http"
+    method    = "delete"
+    record_id = 64784
+    url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/#{record_id}"
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+      {:ok, response} = @service.delete_record(@client, @account_id, @zone_id, record_id)
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data == nil
+    end
+  end
 
 end

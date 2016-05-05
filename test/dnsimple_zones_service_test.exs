@@ -56,4 +56,34 @@ defmodule DnsimpleZonesServiceTest do
     end
   end
 
+  test ".create_record" do
+    fixture = "createZoneRecord/created.http"
+    method  = "post"
+    url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records"
+    attributes  = %{type: "A", name: "www", content: "127.0.0.1", ttl: 600}
+    {:ok, body} = Poison.encode(attributes)
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      {:ok, response} = @service.create_record(@client, @account_id, @zone_id, attributes)
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data.__struct__ == Dnsimple.Record
+      assert response.data == %Dnsimple.Record{
+        id: 64784,
+        zone_id: @zone_id,
+        parent_id: nil,
+        type: "A",
+        name: "www",
+        content: "127.0.0.1",
+        ttl: 600,
+        priority: nil,
+        system_record: false,
+        created_at: "2016-01-07T17:45:13.653Z",
+        updated_at: "2016-01-07T17:45:13.653Z"
+      }
+    end
+  end
+
+
+
 end

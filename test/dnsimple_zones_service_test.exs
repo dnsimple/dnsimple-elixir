@@ -41,5 +41,21 @@ defmodule DnsimpleZonesServiceTest do
     end
   end
 
+  @zone_id "example.com"
+
+  test ".list_records" do
+    fixture = "listZoneRecords/success.http"
+    method  = "get"
+    url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records"
+
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+      {:ok, response} = @service.list_records(@client, @account_id, @zone_id)
+
+      assert response.__struct__ == Dnsimple.Response
+      assert Enum.count(response.data) == 5
+      assert Enum.all?(response.data, fn(item) -> item.__struct__ == Dnsimple.Record end)
+    end
+  end
+
 
 end

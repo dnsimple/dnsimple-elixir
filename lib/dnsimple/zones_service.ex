@@ -28,4 +28,17 @@ defmodule Dnsimple.ZonesService do
       |> Response.parse(Dnsimple.Zone)
   end
 
+  @doc """
+  Lists the records in a zone.
+
+  See: https://developer.dnsimple.com/v2/zones/records/#list
+  """
+  @spec list_records(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
+  def list_records(client, account_id, zone_name, headers \\[], options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_name}/records")
+
+    Client.get(client, url, headers, options)
+      |> Response.parse(Dnsimple.Record)
+  end
+
 end

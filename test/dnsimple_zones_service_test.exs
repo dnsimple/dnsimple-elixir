@@ -5,6 +5,7 @@ defmodule DnsimpleZonesServiceTest do
   @service Dnsimple.ZonesService
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
   @account_id 1010
+  @zone_id "example.com"
 
   test ".list_zones" do
     fixture = "listZones/success.http"
@@ -23,10 +24,10 @@ defmodule DnsimpleZonesServiceTest do
   test ".zone" do
     fixture = "getZone/success.http"
     method  = "get"
-    url     = "#{@client.base_url}/v2/#{@account_id}/zones/example-alpha.com"
+    url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.zone(@client, @account_id, "example-alpha.com")
+      {:ok, response} = @service.zone(@client, @account_id, @zone_id)
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.Zone
@@ -41,8 +42,6 @@ defmodule DnsimpleZonesServiceTest do
     end
   end
 
-  @zone_id "example.com"
-
   test ".list_records" do
     fixture = "listZoneRecords/success.http"
     method  = "get"
@@ -56,6 +55,5 @@ defmodule DnsimpleZonesServiceTest do
       assert Enum.all?(response.data, fn(item) -> item.__struct__ == Dnsimple.Record end)
     end
   end
-
 
 end

@@ -76,7 +76,7 @@ defmodule Dnsimple.ZonesService do
   def update_record(client, account_id, zone_name, record_id, attributes, headers \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
 
-    Client.put(client, url, attributes, headers, options)
+    Client.patch(client, url, attributes, headers, options)
       |> Response.parse(Dnsimple.Record)
   end
 

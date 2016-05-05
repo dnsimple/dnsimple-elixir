@@ -113,7 +113,7 @@ defmodule DnsimpleZonesServiceTest do
 
   test ".update_record" do
     fixture   = "updateZoneRecord/success.http"
-    method   = "put"
+    method   = "patch"
     record_id = 64784
     url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/#{record_id}"
     attributes  = %{ttl: 3600}

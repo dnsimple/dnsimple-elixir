@@ -84,6 +84,31 @@ defmodule DnsimpleZonesServiceTest do
     end
   end
 
+  test ".record" do
+    fixture   = "getZoneRecord/success.http"
+    method    = "get"
+    record_id = 64784
+    url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/#{record_id}"
 
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+      {:ok, response} = @service.record(@client, @account_id, @zone_id, record_id)
+
+      assert response.__struct__ == Dnsimple.Response
+      assert response.data.__struct__ == Dnsimple.Record
+      assert response.data == %Dnsimple.Record{
+        id: 64784,
+        zone_id: @zone_id,
+        parent_id: nil,
+        type: "A",
+        name: "www",
+        content: "127.0.0.1",
+        ttl: 600,
+        priority: nil,
+        system_record: false,
+        created_at: "2016-01-07T17:45:13.653Z",
+        updated_at: "2016-01-07T17:45:13.653Z"
+      }
+    end
+  end
 
 end

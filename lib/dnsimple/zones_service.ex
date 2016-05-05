@@ -54,4 +54,18 @@ defmodule Dnsimple.ZonesService do
       |> Response.parse(Dnsimple.Record)
   end
 
+  @doc """
+  Gets a record in the zone.
+
+  See: https://developer.dnsimple.com/v2/zones/records/#get
+  """
+  @spec record(Client.t, String.t, String.t, Integer.t, Keyword.t, Keyword.t) :: Response.t
+  def record(client, account_id, zone_name, record_id, headers \\ [], options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
+
+    Client.get(client, url, headers, options)
+      |> Response.parse(Dnsimple.Record)
+  end
+
+
 end

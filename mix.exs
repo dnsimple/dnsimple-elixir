@@ -39,7 +39,7 @@ defmodule Dnsimple.Mixfile do
   defp package do
     [
       files: ["lib", "mix.exs", "*.md"],
-      maintainers: ["Simone Carletti"],
+      maintainers: ["Simone Carletti", "Javier Acero"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/aetrion/dnsimple-elixir"}
     ]

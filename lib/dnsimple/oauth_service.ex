@@ -3,6 +3,12 @@ defmodule Dnsimple.OauthService do
   alias Dnsimple.Response
   alias Dnsimple.OauthToken
 
+  @doc """
+  Returns the URL to start the OAuth dance.
+
+  See: https://developer.dnsimple.com/v2/oauth/#step-1---authorization
+  """
+  @spec authorize_url(Client.t, String.t, Keyword.t) :: String.t
   def authorize_url(client, client_id, options \\ []) do
     host  = String.replace(client.base_url, "https://api.", "")
     query = Keyword.merge([response_type: "code", client_id: client_id], options)
@@ -10,8 +16,14 @@ defmodule Dnsimple.OauthService do
     URI.to_string(%URI{scheme: "https", host: host, path: "/oauth/authorize", query: URI.encode_query(query)})
   end
 
+  @doc """
+  Obtains the access token.
+
+  See: https://developer.dnsimple.com/v2/oauth/#step-2---access-token
+  """
+  @spec exchange_authorization_for_token(Client.t, Keyword.t, Keyword.t, Keyword.t) :: String.t
   def exchange_authorization_for_token(client, attributes, headers \\ [], options \\ []) do
-    url        = Client.versioned("/oauth/access_token")
+    url = Client.versioned("/oauth/access_token")
 
     Client.post(client, url, attributes, headers, options)
       |> Response.parse(OauthToken)

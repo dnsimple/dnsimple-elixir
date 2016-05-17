@@ -32,11 +32,13 @@ defmodule Dnsimple.Response do
   end
   def parse({:ok, http_response}, kind) do
     data = decode(http_response)
-    |> Map.get("data")
-    |> to_struct(kind)
+      |> transform_to_struct(kind)
 
     {:ok, new(http_response, data)}
   end
+
+  defp transform_to_struct(%{"data" => attributes}, kind), do: to_struct(attributes, kind)
+  defp transform_to_struct(attributes , kind),             do: to_struct(attributes, kind)
 
   def decode(%HTTPoison.Response{ body: "" }), do: %{}
   def decode(%HTTPoison.Response{ body: body }), do: Poison.decode!(body)

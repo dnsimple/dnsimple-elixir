@@ -15,6 +15,16 @@ defmodule DnsimpleResponseTest do
     end
   end
 
+  test ".new parses responses into structs without a data attribute" do
+    client = %Dnsimple.Client{access_token: "x", base_url: "https://api.dnsimple.test"}
+    use_cassette :stub, ExvcrUtils.response_fixture("oauthAccessToken/success.http", [method: "POST"]) do
+      http_response   = Dnsimple.Client.execute(client, "POST", "/oauth/access_token")
+      {:ok, response} = Dnsimple.Response.parse(http_response, Dnsimple.OauthToken)
+
+      assert response.data.__struct__ == Dnsimple.OauthToken
+    end
+  end
+
   test ".new parses the rate-limit" do
     client = %Dnsimple.Client{access_token: "x", base_url: "https://api.dnsimple.test"}
     use_cassette :stub, ExvcrUtils.response_fixture("whoami/success.http", [method: "GET"]) do

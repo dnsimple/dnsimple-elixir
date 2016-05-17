@@ -31,16 +31,17 @@ defmodule DnsimpleOauthTest do
     fixture     = "oauthAccessToken/success.http"
     method      = "post"
     url         = "#{@client.base_url}/v2/oauth/access_token"
-    {:ok, body} = Poison.encode(%{
+    attributes  = %{
       code: code,
       client_id: client_id,
       client_secret: client_secret,
       state: state,
       redirect_uri: redirect_uri
-    })
+    }
+    {:ok, body} = Poison.encode(attributes)
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-      {:ok, response} = OauthService.exchange_authorization_for_token(@client, code, client_id, client_secret, state: state, redirect_uri: redirect_uri)
+      {:ok, response} = OauthService.exchange_authorization_for_token(@client, attributes)
 
       assert response.__struct__ == Dnsimple.Response
       token = response.data

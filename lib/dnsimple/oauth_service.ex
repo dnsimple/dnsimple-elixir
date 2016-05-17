@@ -10,14 +10,8 @@ defmodule Dnsimple.OauthService do
     URI.to_string(%URI{scheme: "https", host: host, path: "/oauth/authorize", query: URI.encode_query(query)})
   end
 
-  def exchange_authorization_for_token(client, code, client_id, client_secret, options \\ []) do
+  def exchange_authorization_for_token(client, attributes, headers \\ [], options \\ []) do
     url        = Client.versioned("/oauth/access_token")
-    attributes = Keyword.take(options, [:state, :redirect_uri])
-                   |> Keyword.merge(code: code, client_id: client_id, client_secret: client_secret)
-                   |> Enum.into(%{})
-    headers    = []
-    options    = Keyword.delete(options, :state)
-                   |> Keyword.delete(:redirect_uri)
 
     Client.post(client, url, attributes, headers, options)
       |> Response.parse(OauthToken)

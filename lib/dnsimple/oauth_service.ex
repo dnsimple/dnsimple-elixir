@@ -9,9 +9,9 @@ defmodule Dnsimple.OauthService do
   See: https://developer.dnsimple.com/v2/oauth/#step-1---authorization
   """
   @spec authorize_url(Client.t, String.t, Keyword.t) :: String.t
-  def authorize_url(client, client_id, options \\ []) do
+  def authorize_url(client, client_id, query \\ []) do
     host  = String.replace(client.base_url, "https://api.", "")
-    query = Keyword.merge([response_type: "code", client_id: client_id], options)
+    query = Keyword.merge([response_type: "code", client_id: client_id], query)
 
     URI.to_string(%URI{scheme: "https", host: host, path: "/oauth/authorize", query: URI.encode_query(query)})
   end

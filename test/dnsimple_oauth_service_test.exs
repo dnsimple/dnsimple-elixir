@@ -22,21 +22,16 @@ defmodule DnsimpleOauthTest do
   end
 
   test "exchanging the autorization token" do
-    code          = "w0x1y2z3"
-    client_id     = "a1b2c3d4"
-    client_secret = "x0x1x2x3x4x5"
-    state         = "12345678"
-    redirect_uri  = "https://redirect.to/url"
-
     fixture     = "oauthAccessToken/success.http"
     method      = "post"
     url         = "#{@client.base_url}/v2/oauth/access_token"
     attributes  = %{
-      code: code,
-      client_id: client_id,
-      client_secret: client_secret,
-      state: state,
-      redirect_uri: redirect_uri
+      code: "w0x1y2z3",
+      client_id: "a1b2c3d4",
+      client_secret: "x0x1x2x3x4x5",
+      state: "12345678",
+      redirect_uri: "https://redirect.to/url",
+      grant_type: "authorization_code"
     }
     {:ok, body} = Poison.encode(attributes)
 

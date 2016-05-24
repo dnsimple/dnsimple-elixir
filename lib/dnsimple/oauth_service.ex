@@ -23,7 +23,8 @@ defmodule Dnsimple.OauthService do
   """
   @spec exchange_authorization_for_token(Client.t, Keyword.t, Keyword.t, Keyword.t) :: String.t
   def exchange_authorization_for_token(client, attributes, headers \\ [], options \\ []) do
-    url = Client.versioned("/oauth/access_token")
+    url        = Client.versioned("/oauth/access_token")
+    attributes = Keyword.merge(attributes, grant_type: "authorization_code")
 
     Client.post(client, url, attributes, headers, options)
       |> Response.parse(OauthToken)

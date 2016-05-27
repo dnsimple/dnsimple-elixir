@@ -14,5 +14,4 @@ defmodule DnsimpleClientTest do
   test ".versioned joins path with current api version" do
     assert Dnsimple.Client.versioned("/whoami") == "/v2/whoami"
   end
-
 end

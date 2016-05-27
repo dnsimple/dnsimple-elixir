@@ -42,14 +42,14 @@ defmodule Dnsimple do
   end
 
   defmodule Client do
-    @base_url "https://api.dnsimple.com"
-    @user_agent "dnsimple-elixir/#{Dnsimple.Mixfile.project[:version]}"
+    @default_base_url "https://api.dnsimple.com"
+    @default_user_agent "dnsimple-elixir/#{Dnsimple.Mixfile.project[:version]}"
 
     @api_version "v2"
     @wildcard_account "_"
 
-    defstruct access_token: nil, base_url: @base_url
-    @type t :: %__MODULE__{access_token: String.t, base_url: String.t}
+    defstruct access_token: nil, base_url: @default_base_url, user_agent: nil
+    @type t :: %__MODULE__{access_token: String.t, base_url: String.t, user_agent: String.t}
 
     alias Dnsimple.RequestError
 
@@ -114,7 +114,7 @@ defmodule Dnsimple do
     def execute(client, method, url, body \\ "", headers \\ [], options \\ []) do
       headers = headers ++ [
         {"Accept", "application/json"},
-        {"User-Agent", @user_agent},
+        {"User-Agent", format_user_agent(client.user_agent)},
         {"Authorization", "Bearer #{client.access_token}"},
       ]
 
@@ -137,6 +137,22 @@ defmodule Dnsimple do
         404 -> { :error, NotFoundError.new(http_response) }
         _   -> { :error, RequestError.new(http_response) }
       end
+    end
+
+    # Builds the final user agent to use for HTTP requests.
+    #
+    # If no custom user agent is provided, the default user agent is used.
+    #
+    #     dnsimple-elixir/1.0
+    #
+    # If a custom user agent is provided, the final user agent is the combination
+    # of the custom user agent prepended by the default user agent.
+    #
+    #     dnsimple-elixir/1.0 customAgentFlag
+    #
+    defp format_user_agent(nil), do: { @default_user_agent }
+    defp format_user_agent(custom_agent) do
+      "#{@default_user_agent} #{custom_agent}"
     end
 
     # Extracts a specific {"Name", "Value"} header tuple.

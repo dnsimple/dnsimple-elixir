@@ -39,7 +39,7 @@ defmodule Dnsimple.DomainsService do
   See https://developer.dnsimple.com/v2/domains/#get
   """
   @spec domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  def domain(client, account_id \\ Dnsimple.Client.__WILDCARD_ACCOUNT, domain_id, headers \\ [], options \\ []) do
+  def domain(client, account_id, domain_id, headers \\ [], options \\ []) do
     Client.get(client, Client.versioned("/#{account_id}/domains/#{domain_id}"), headers, options)
     |> Response.parse(Domain)
   end
@@ -50,7 +50,7 @@ defmodule Dnsimple.DomainsService do
   See https://developer.dnsimple.com/v2/domains/#delete
   """
   @spec delete_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  def delete_domain(client, account_id \\ Dnsimple.Client.__WILDCARD_ACCOUNT, domain_id, headers \\ [], options \\ []) do
+  def delete_domain(client, account_id, domain_id, headers \\ [], options \\ []) do
     Client.delete(client, Client.versioned("/#{account_id}/domains/#{domain_id}"), headers, options)
     |> Response.parse(nil)
   end

@@ -46,7 +46,6 @@ defmodule Dnsimple do
     @default_user_agent "dnsimple-elixir/#{Dnsimple.Mixfile.project[:version]}"
 
     @api_version "v2"
-    @wildcard_account "_"
 
     defstruct access_token: nil, base_url: @default_base_url, user_agent: nil
     @type t :: %__MODULE__{access_token: String.t, base_url: String.t, user_agent: String.t}
@@ -55,8 +54,6 @@ defmodule Dnsimple do
 
     @type headers :: [{binary, binary}] | %{binary => binary}
     @type body :: binary | {:form, [{atom, any}]} | {:file, binary}
-
-    def __WILDCARD_ACCOUNT__, do: @wildcard_account
 
 
     @doc """

@@ -5,6 +5,8 @@
 
 - CHANGED: Setting a custom user-agent no longer overrides the origina user-agent (GH-15)
 
+- REMOVED: Removed support for wildcard accounts (GH-16).
+
 
 #### Release 0.1.0
 

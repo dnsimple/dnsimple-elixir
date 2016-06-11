@@ -147,7 +147,7 @@ defmodule Dnsimple do
     #
     #     dnsimple-elixir/1.0 customAgentFlag
     #
-    defp format_user_agent(nil), do: { @default_user_agent }
+    defp format_user_agent(nil), do: @default_user_agent
     defp format_user_agent(custom_agent) do
       "#{@default_user_agent} #{custom_agent}"
     end

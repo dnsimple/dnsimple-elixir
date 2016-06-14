@@ -14,6 +14,13 @@ defmodule DnsimpleDomainsServiceTest do
     end
   end
 
+  test ".domains supports sorting" do
+    fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains?sort=id%3Adesc"])
+    use_cassette :stub, fixture do
+      @service.domains(@client, "1010", [], [sort: "id:desc"])
+    end
+  end
+
   test ".domains returns a list of Dnsimple.Response" do
     fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get"])
     use_cassette :stub, fixture do

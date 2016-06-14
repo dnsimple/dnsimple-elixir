@@ -7,6 +7,7 @@ defmodule Dnsimple.DomainsService do
   """
 
   alias Dnsimple.Client
+  alias Dnsimple.ListOptions
   alias Dnsimple.Response
   alias Dnsimple.Domain
 
@@ -18,7 +19,7 @@ defmodule Dnsimple.DomainsService do
   """
   @spec domains(Client.t, String.t | integer, Keyword.t, Keyword.t) :: Response.t
   def domains(client, account_id, headers \\ [], options \\ []) do
-    Client.get(client, Client.versioned("/#{account_id}/domains"), headers, options)
+    Client.get(client, Client.versioned("/#{account_id}/domains"), headers, ListOptions.prepare(options))
     |> Response.parse(Domain)
   end
 

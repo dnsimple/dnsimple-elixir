@@ -21,6 +21,13 @@ defmodule DnsimpleZonesServiceTest do
     end
   end
 
+  test ".list_zones supports sorting" do
+    fixture = ExvcrUtils.response_fixture("listZones/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones?sort=name%3Adesc"])
+    use_cassette :stub, fixture do
+      @service.list_zones(@client, @account_id, [], [sort: "name:desc"])
+    end
+  end
+
   test ".zone" do
     fixture = "getZone/success.http"
     method  = "get"
@@ -53,6 +60,13 @@ defmodule DnsimpleZonesServiceTest do
       assert response.__struct__ == Dnsimple.Response
       assert Enum.count(response.data) == 5
       assert Enum.all?(response.data, fn(item) -> item.__struct__ == Dnsimple.Record end)
+    end
+  end
+
+  test ".list_records supports sorting" do
+    fixture = ExvcrUtils.response_fixture("listZoneRecords/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones/#{@zone_id}/records?sort=name%3Aasc%2Ctype%3Adesc"])
+    use_cassette :stub, fixture do
+      @service.list_records(@client, @account_id, @zone_id, [], [sort: "name:asc,type:desc"])
     end
   end
 

@@ -168,4 +168,17 @@ defmodule Dnsimple do
 
   end
 
+  defmodule ListOptions do
+    @doc """
+    Convert options for list endpoints into HTTP params
+    """
+    def prepare(options) do
+      if Enum.empty?(options) do
+        options
+      else
+        [params: options]
+      end
+    end
+  end
+
 end

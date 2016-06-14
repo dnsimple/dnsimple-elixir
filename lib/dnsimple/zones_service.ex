@@ -1,5 +1,6 @@
 defmodule Dnsimple.ZonesService do
   alias Dnsimple.Client
+  alias Dnsimple.ListOptions
   alias Dnsimple.Response
 
   @doc """
@@ -11,7 +12,7 @@ defmodule Dnsimple.ZonesService do
   def list_zones(client, account_id, headers \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/zones")
 
-    Client.get(client, url, headers, options)
+    Client.get(client, url, headers, ListOptions.prepare(options))
       |> Response.parse(Dnsimple.Zone)
   end
 
@@ -37,7 +38,7 @@ defmodule Dnsimple.ZonesService do
   def list_records(client, account_id, zone_name, headers \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records")
 
-    Client.get(client, url, headers, options)
+    Client.get(client, url, headers, ListOptions.prepare(options))
       |> Response.parse(Dnsimple.Record)
   end
 

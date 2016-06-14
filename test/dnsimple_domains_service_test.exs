@@ -21,6 +21,13 @@ defmodule DnsimpleDomainsServiceTest do
     end
   end
 
+  test ".domains supports filtering" do
+    fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains?name_like=example"])
+    use_cassette :stub, fixture do
+      @service.domains(@client, "1010", [], [filter: [name_like: "example"]])
+    end
+  end
+
   test ".domains returns a list of Dnsimple.Response" do
     fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get"])
     use_cassette :stub, fixture do

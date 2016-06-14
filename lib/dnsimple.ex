@@ -176,7 +176,13 @@ defmodule Dnsimple do
       if Enum.empty?(options) do
         options
       else
-        [params: options]
+        result = Dict.get(options, :filter, [])
+        sort   = Dict.get(options, :sort)
+        unless is_nil(sort) do
+          result = Dict.merge(result, [sort: sort])
+        end
+
+        [params: result]
       end
     end
   end

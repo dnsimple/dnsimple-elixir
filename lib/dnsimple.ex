@@ -70,12 +70,16 @@ defmodule Dnsimple do
       "/" <> @api_version <> path
     end
 
+    @spec headers(Dict.t) :: {t, t}
+    def headers(options) do
+      Dict.split(options, [:headers])
+    end
+
 
     @spec url(Client.t, String.t) :: String.t
     defp url(%Client{base_url: base_url}, path) do
       base_url <> path
     end
-
 
     @doc """
     Issues a GET request to the given url.

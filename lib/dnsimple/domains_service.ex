@@ -17,9 +17,10 @@ defmodule Dnsimple.DomainsService do
 
   See https://developer.dnsimple.com/v2/domains/#list
   """
-  @spec domains(Client.t, String.t | integer, Keyword.t, Keyword.t) :: Response.t
-  def domains(client, account_id, headers \\ [], options \\ []) do
-    Client.get(client, Client.versioned("/#{account_id}/domains"), headers, ListOptions.prepare(options))
+  @spec domains(Client.t, String.t | integer) :: Response.t
+  def domains(client, account_id, options \\ []) do
+    {headers, opts} = Client.headers(options)
+    Client.get(client, Client.versioned("/#{account_id}/domains"), headers, ListOptions.prepare(opts))
     |> Response.parse(Domain)
   end
 
@@ -28,9 +29,10 @@ defmodule Dnsimple.DomainsService do
 
   See https://developer.dnsimple.com/v2/domains/#list
   """
-  @spec create_domain(Client.t, String.t | integer, map, Keyword.t, Keyword.t) :: Response.t
-  def create_domain(client, account_id, attributes, headers \\ [], options \\ []) do
-    Client.post(client, Client.versioned("/#{account_id}/domains"), attributes, headers, options)
+  @spec create_domain(Client.t, String.t | integer, map, Keyword.t) :: Response.t
+  def create_domain(client, account_id, attributes, options \\ []) do
+    {headers, opts} = Client.headers(options)
+    Client.post(client, Client.versioned("/#{account_id}/domains"), attributes, headers, opts)
     |> Response.parse(Domain)
   end
 
@@ -40,8 +42,9 @@ defmodule Dnsimple.DomainsService do
   See https://developer.dnsimple.com/v2/domains/#get
   """
   @spec domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  def domain(client, account_id, domain_id, headers \\ [], options \\ []) do
-    Client.get(client, Client.versioned("/#{account_id}/domains/#{domain_id}"), headers, options)
+  def domain(client, account_id, domain_id, options \\ []) do
+    {headers, opts} = Client.headers(options)
+    Client.get(client, Client.versioned("/#{account_id}/domains/#{domain_id}"), headers, opts)
     |> Response.parse(Domain)
   end
 
@@ -51,8 +54,9 @@ defmodule Dnsimple.DomainsService do
   See https://developer.dnsimple.com/v2/domains/#delete
   """
   @spec delete_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  def delete_domain(client, account_id, domain_id, headers \\ [], options \\ []) do
-    Client.delete(client, Client.versioned("/#{account_id}/domains/#{domain_id}"), headers, options)
+  def delete_domain(client, account_id, domain_id, options \\ []) do
+    {headers, opts} = Client.headers(options)
+    Client.delete(client, Client.versioned("/#{account_id}/domains/#{domain_id}"), headers, opts)
     |> Response.parse(nil)
   end
 

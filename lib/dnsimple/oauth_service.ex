@@ -21,12 +21,13 @@ defmodule Dnsimple.OauthService do
 
   See: https://developer.dnsimple.com/v2/oauth/#step-2---access-token
   """
-  @spec exchange_authorization_for_token(Client.t, Map.t, Keyword.t, Keyword.t) :: String.t
-  def exchange_authorization_for_token(client, attributes, headers \\ [], options \\ []) do
+  @spec exchange_authorization_for_token(Client.t, Map.t, Keyword.t) :: String.t
+  def exchange_authorization_for_token(client, attributes, options \\ []) do
     url        = Client.versioned("/oauth/access_token")
     attributes = Map.merge(attributes, %{grant_type: "authorization_code"})
+    {headers, opts} = Client.headers(options)
 
-    Client.post(client, url, attributes, headers, options)
+    Client.post(client, url, attributes, headers, opts)
       |> Response.parse(OauthToken)
   end
 

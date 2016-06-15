@@ -24,14 +24,14 @@ defmodule DnsimpleZonesServiceTest do
   test ".list_zones supports sorting" do
     fixture = ExvcrUtils.response_fixture("listZones/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones?sort=name%3Adesc"])
     use_cassette :stub, fixture do
-      @service.list_zones(@client, @account_id, [], [sort: "name:desc"])
+      @service.list_zones(@client, @account_id, [sort: "name:desc"])
     end
   end
 
   test ".list_zones supports filtering" do
     fixture = ExvcrUtils.response_fixture("listZones/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones?name_like=example"])
     use_cassette :stub, fixture do
-      @service.list_zones(@client, @account_id, [], [filter: [name_like: "example"]])
+      @service.list_zones(@client, @account_id, [filter: [name_like: "example"]])
     end
   end
 
@@ -73,14 +73,14 @@ defmodule DnsimpleZonesServiceTest do
   test ".list_records supports sorting" do
     fixture = ExvcrUtils.response_fixture("listZoneRecords/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones/#{@zone_id}/records?sort=name%3Aasc%2Ctype%3Adesc"])
     use_cassette :stub, fixture do
-      @service.list_records(@client, @account_id, @zone_id, [], [sort: "name:asc,type:desc"])
+      @service.list_records(@client, @account_id, @zone_id, [sort: "name:asc,type:desc"])
     end
   end
 
   test ".list_records supports filtering" do
     fixture = ExvcrUtils.response_fixture("listZoneRecords/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones/#{@zone_id}/records?name_like=example&type=A"])
     use_cassette :stub, fixture do
-      @service.list_records(@client, @account_id, @zone_id, [], [filter: [name_like: "example", type: "A"]])
+      @service.list_records(@client, @account_id, @zone_id, [filter: [name_like: "example", type: "A"]])
     end
   end
 

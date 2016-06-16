@@ -8,11 +8,12 @@ defmodule Dnsimple.RegistrarWhoisPrivacyService do
 
   See: https://developer.dnsimple.com/v2/registrar/whois-privacy/#get
   """
-  @spec whois_privacy(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
-  def whois_privacy(client, account_id, domain_name, headers \\ [], options \\ []) do
+  @spec whois_privacy(Client.t, String.t, String.t, Keyword.t) :: Response.t
+  def whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
+    {headers, opts} = Client.headers(options)
 
-    Client.get(client, url, headers, options)
+    Client.get(client, url, headers, opts)
       |> Response.parse(WhoisPrivacy)
   end
 
@@ -21,11 +22,12 @@ defmodule Dnsimple.RegistrarWhoisPrivacyService do
 
   See: https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable
   """
-  @spec enable_whois_privacy(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
-  def enable_whois_privacy(client, account_id, domain_name, headers \\ [], options \\ []) do
+  @spec enable_whois_privacy(Client.t, String.t, String.t, Keyword.t) :: Response.t
+  def enable_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
+    {headers, opts} = Client.headers(options)
 
-    Client.put(client, url, _body = [], headers, options)
+    Client.put(client, url, _body = [], headers, opts)
       |> Response.parse(WhoisPrivacy)
   end
 
@@ -34,11 +36,12 @@ defmodule Dnsimple.RegistrarWhoisPrivacyService do
 
   See: https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable
   """
-  @spec disable_whois_privacy(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
-  def disable_whois_privacy(client, account_id, domain_name, headers \\ [], options \\ []) do
+  @spec disable_whois_privacy(Client.t, String.t, String.t, Keyword.t) :: Response.t
+  def disable_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
+    {headers, opts} = Client.headers(options)
 
-    Client.delete(client, url, headers, options)
+    Client.delete(client, url, headers, opts)
       |> Response.parse(WhoisPrivacy)
   end
 

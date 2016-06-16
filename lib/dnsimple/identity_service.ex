@@ -5,7 +5,9 @@ defmodule Dnsimple.IdentityService do
 
   @spec whoami(Client.t, Keyword.t) :: Response.t
   def whoami(client, options \\ []) do
-    Client.get(client, Client.versioned("/whoami"), options)
+    {headers, opts} = Client.headers(options)
+
+    Client.get(client, Client.versioned("/whoami"), headers, opts)
     |> Response.parse(Whoami)
   end
 

@@ -7,11 +7,12 @@ defmodule Dnsimple.RegistrarAutoRenewalService do
 
   See: https://developer.dnsimple.com/v2/registrar/auto-renewal/#enable
   """
-  @spec enable_auto_renewal(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
-  def enable_auto_renewal(client, account_id, domain_name, headers \\ [], options \\ []) do
+  @spec enable_auto_renewal(Client.t, String.t, String.t, Keyword.t) :: Response.t
+  def enable_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
+    {headers, opts} = Client.headers(options)
 
-    Client.put(client, url, headers, options)
+    Client.put(client, url, headers, opts)
       |> Response.parse(nil)
   end
 
@@ -20,11 +21,12 @@ defmodule Dnsimple.RegistrarAutoRenewalService do
 
   See: https://developer.dnsimple.com/v2/registrar/auto-renewal/#disable
   """
-  @spec disable_auto_renewal(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
-  def disable_auto_renewal(client, account_id, domain_name, headers \\ [], options \\ []) do
+  @spec disable_auto_renewal(Client.t, String.t, String.t, Keyword.t) :: Response.t
+  def disable_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
+    {headers, opts} = Client.headers(options)
 
-    Client.delete(client, url, headers, options)
+    Client.delete(client, url, headers, opts)
       |> Response.parse(nil)
   end
 

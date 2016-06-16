@@ -70,12 +70,16 @@ defmodule Dnsimple do
       "/" <> @api_version <> path
     end
 
+    @spec headers(Keyword.t) :: {t, t}
+    def headers(options) do
+      Keyword.split(options, [:headers])
+    end
+
 
     @spec url(Client.t, String.t) :: String.t
     defp url(%Client{base_url: base_url}, path) do
       base_url <> path
     end
-
 
     @doc """
     Issues a GET request to the given url.
@@ -166,6 +170,22 @@ defmodule Dnsimple do
       end
     end
 
+  end
+
+  defmodule ListOptions do
+    @doc """
+    Convert options for list endpoints into HTTP params
+    """
+    def prepare(options = []), do: options
+    def prepare(options) do
+      result = Keyword.get(options, :filter, [])
+      sort   = Keyword.get(options, :sort)
+      unless is_nil(sort) do
+        result = Keyword.merge(result, [sort: sort])
+      end
+
+      [params: result]
+    end
   end
 
 end

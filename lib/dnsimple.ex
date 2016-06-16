@@ -70,9 +70,9 @@ defmodule Dnsimple do
       "/" <> @api_version <> path
     end
 
-    @spec headers(Dict.t) :: {t, t}
+    @spec headers(Keyword.t) :: {t, t}
     def headers(options) do
-      Dict.split(options, [:headers])
+      Keyword.split(options, [:headers])
     end
 
 
@@ -180,10 +180,10 @@ defmodule Dnsimple do
       if Enum.empty?(options) do
         options
       else
-        result = Dict.get(options, :filter, [])
-        sort   = Dict.get(options, :sort)
+        result = Keyword.get(options, :filter, [])
+        sort   = Keyword.get(options, :sort)
         unless is_nil(sort) do
-          result = Dict.merge(result, [sort: sort])
+          result = Keyword.merge(result, [sort: sort])
         end
 
         [params: result]

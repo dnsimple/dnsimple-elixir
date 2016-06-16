@@ -176,18 +176,15 @@ defmodule Dnsimple do
     @doc """
     Convert options for list endpoints into HTTP params
     """
+    def prepare(options = []), do: options
     def prepare(options) do
-      if Enum.empty?(options) do
-        options
-      else
-        result = Keyword.get(options, :filter, [])
-        sort   = Keyword.get(options, :sort)
-        unless is_nil(sort) do
-          result = Keyword.merge(result, [sort: sort])
-        end
-
-        [params: result]
+      result = Keyword.get(options, :filter, [])
+      sort   = Keyword.get(options, :sort)
+      unless is_nil(sort) do
+        result = Keyword.merge(result, [sort: sort])
       end
+
+      [params: result]
     end
   end
 

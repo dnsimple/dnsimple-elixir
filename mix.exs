@@ -41,7 +41,7 @@ defmodule Dnsimple.Mixfile do
       files: ["lib", "mix.exs", "*.md"],
       maintainers: ["Simone Carletti", "Javier Acero", "Anthony Eden"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/aetrion/dnsimple-elixir"}
+      links: %{"GitHub" => "https://github.com/dnsimple/dnsimple-elixir"}
     ]
   end
 

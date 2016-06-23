@@ -11,7 +11,7 @@ The code is tested with an automated test suite connected to a continuous integr
 
 An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
-[![Build Status](https://travis-ci.org/aetrion/dnsimple-elixir.svg?branch=master)](https://travis-ci.org/aetrion/dnsimple-elixir)
+[![Build Status](https://travis-ci.org/dnsimple/dnsimple-elixir.svg?branch=master)](https://travis-ci.org/dnsimple/dnsimple-elixir)
 
 
 ## Usage

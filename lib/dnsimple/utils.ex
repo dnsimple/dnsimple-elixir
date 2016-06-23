@@ -43,14 +43,14 @@ defmodule Dnsimple.Utils do
 
     def from_timestamp(timestamp) do
       timestamp
-      |> +(@epoch)
+      |> Kernel.+(@epoch)
       |> :calendar.gregorian_seconds_to_datetime
     end
 
     def to_timestamp(datetime) do
       datetime
       |> :calendar.datetime_to_gregorian_seconds
-      |> -(@epoch)
+      |> Kernel.-(@epoch)
     end
   end
 

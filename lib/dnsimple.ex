@@ -178,13 +178,14 @@ defmodule Dnsimple do
     """
     def prepare(options = []), do: options
     def prepare(options) do
-      result = Keyword.get(options, :filter, [])
-      sort   = Keyword.get(options, :sort)
-      unless is_nil(sort) do
-        result = Keyword.merge(result, [sort: sort])
+      filter = Keyword.get(options, :filter, [])
+
+      params = case Keyword.get(options, :sort) do
+        nil  -> filter
+        sort -> Keyword.merge(filter, [sort: sort])
       end
 
-      [params: result]
+      [params: params]
     end
   end
 

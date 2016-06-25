@@ -66,7 +66,7 @@ defmodule DnsimpleZonesServiceTest do
 
       assert response.__struct__ == Dnsimple.Response
       assert Enum.count(response.data) == 5
-      assert Enum.all?(response.data, fn(item) -> item.__struct__ == Dnsimple.Record end)
+      assert Enum.all?(response.data, fn(item) -> item.__struct__ == Dnsimple.ZoneRecord end)
     end
   end
 
@@ -95,8 +95,8 @@ defmodule DnsimpleZonesServiceTest do
       {:ok, response} = @service.create_record(@client, @account_id, @zone_id, attributes)
 
       assert response.__struct__ == Dnsimple.Response
-      assert response.data.__struct__ == Dnsimple.Record
-      assert response.data == %Dnsimple.Record{
+      assert response.data.__struct__ == Dnsimple.ZoneRecord
+      assert response.data == %Dnsimple.ZoneRecord{
         id: 64784,
         zone_id: @zone_id,
         parent_id: nil,
@@ -122,8 +122,8 @@ defmodule DnsimpleZonesServiceTest do
       {:ok, response} = @service.record(@client, @account_id, @zone_id, record_id)
 
       assert response.__struct__ == Dnsimple.Response
-      assert response.data.__struct__ == Dnsimple.Record
-      assert response.data == %Dnsimple.Record{
+      assert response.data.__struct__ == Dnsimple.ZoneRecord
+      assert response.data == %Dnsimple.ZoneRecord{
         id: 64784,
         zone_id: @zone_id,
         parent_id: nil,
@@ -151,8 +151,8 @@ defmodule DnsimpleZonesServiceTest do
       {:ok, response} = @service.update_record(@client, @account_id, @zone_id, record_id, attributes)
 
       assert response.__struct__ == Dnsimple.Response
-      assert response.data.__struct__ == Dnsimple.Record
-      assert response.data == %Dnsimple.Record{
+      assert response.data.__struct__ == Dnsimple.ZoneRecord
+      assert response.data == %Dnsimple.ZoneRecord{
         id: 64784,
         zone_id: @zone_id,
         parent_id: nil,

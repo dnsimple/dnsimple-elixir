@@ -1,4 +1,4 @@
-defmodule Dnsimple.Record do
+defmodule Dnsimple.ZoneRecord do
   @fields [
     :id, :zone_id, :parent_id,
     :type, :name, :content, :ttl, :priority,

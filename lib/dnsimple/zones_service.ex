@@ -42,7 +42,7 @@ defmodule Dnsimple.ZonesService do
     {headers, opts} = Client.headers(options)
 
     Client.get(client, url, headers, ListOptions.prepare(opts))
-      |> Response.parse(Dnsimple.Record)
+      |> Response.parse(Dnsimple.ZoneRecord)
   end
 
   @doc """
@@ -56,7 +56,7 @@ defmodule Dnsimple.ZonesService do
     {headers, opts} = Client.headers(options)
 
     Client.post(client, url, attributes, headers, opts)
-      |> Response.parse(Dnsimple.Record)
+      |> Response.parse(Dnsimple.ZoneRecord)
   end
 
   @doc """
@@ -70,7 +70,7 @@ defmodule Dnsimple.ZonesService do
     {headers, opts} = Client.headers(options)
 
     Client.get(client, url, headers, opts)
-      |> Response.parse(Dnsimple.Record)
+      |> Response.parse(Dnsimple.ZoneRecord)
   end
 
   @doc """
@@ -84,7 +84,7 @@ defmodule Dnsimple.ZonesService do
     {headers, opts} = Client.headers(options)
 
     Client.patch(client, url, attributes, headers, opts)
-      |> Response.parse(Dnsimple.Record)
+      |> Response.parse(Dnsimple.ZoneRecord)
   end
 
   @doc """

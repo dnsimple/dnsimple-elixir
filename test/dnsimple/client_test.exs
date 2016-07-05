@@ -1,4 +1,4 @@
-defmodule DnsimpleClientTest do
+defmodule Dnsimple.ClientTest do
   use ExUnit.Case, async: true
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
   doctest Dnsimple.Client

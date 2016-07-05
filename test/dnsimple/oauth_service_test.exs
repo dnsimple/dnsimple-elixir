@@ -1,4 +1,4 @@
-defmodule DnsimpleOauthTest do
+defmodule Dnsimple.OauthTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 

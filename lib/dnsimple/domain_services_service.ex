@@ -19,7 +19,7 @@ defmodule Dnsimple.DomainServicesService do
   @spec applied_services(Client.t, String.t | integer, String.t | integer) :: Response.t
   def applied_services(client, account_id, domain_id, options \\ []) do
     {headers, opts} = Client.headers(options)
-    Client.get(client, Client.versioned("/#{account_id}/domains/#{domain_id}/services"), headers, ListOptions.prepare(opts)
+    Client.get(client, Client.versioned("/#{account_id}/domains/#{domain_id}/services"), headers, ListOptions.prepare(opts))
     |> Response.parse(Service)
   end
 end

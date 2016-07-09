@@ -48,4 +48,41 @@ defmodule Dnsimple.DomainServicesServiceTest do
       assert Enum.all?(data, fn(single) -> is_integer(single.id) end)
     end
   end
+
+  test ".apply_service builds the correct request" do
+    fixture = ExvcrUtils.response_fixture("applyService/success.http",  [method: "post", url: @client.base_url <> "/v2/1010/domains/example.com/services/1", request_body: ""])
+    use_cassette :stub, fixture do
+      @service.apply_service(@client, "1010", "example.com", "1")
+    end
+  end
+
+  test ".apply_service returns a Dnsimple.Response" do
+    fixture = ExvcrUtils.response_fixture("applyService/success.http", [method: "post"])
+    use_cassette :stub, fixture do
+      { :ok, response } = @service.apply_service(@client, "1010", "example.com", "1")
+      assert response.__struct__ == Dnsimple.Response
+
+      data = response.data
+      assert is_nil(data)
+    end
+  end
+
+  test ".unapply_service builds the correct request" do
+    fixture = ExvcrUtils.response_fixture("unapplyService/success.http",  [method: "delete", url: @client.base_url <> "/v2/1010/domains/example.com/services/1"])
+    use_cassette :stub, fixture do
+      @service.unapply_service(@client, "1010", "example.com", "1")
+    end
+  end
+
+  test ".unapply_service returns a Dnsimple.Response" do
+    fixture = ExvcrUtils.response_fixture("unapplyService/success.http", [method: "delete"])
+    use_cassette :stub, fixture do
+      { :ok, response } = @service.unapply_service(@client, "1010", "example.com", "1")
+      assert response.__struct__ == Dnsimple.Response
+
+      data = response.data
+      assert is_nil(data)
+    end
+  end
+
 end

@@ -22,4 +22,16 @@ defmodule Dnsimple.DomainCertificatesService do
     Client.get(client, Client.versioned("/#{account_id}/domains/#{domain_id}/certificates"), headers, ListOptions.prepare(opts))
     |> Response.parse(Certificate)
   end
+
+  @doc """
+  Get a certificate.
+
+  Set https://developer.dnsimple.com/v2/domains/certificates/#get
+  """
+  @spec certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def certificate(client, account_id, domain_id, certificate_id, options \\ []) do
+    {headers, opts} = Client.headers(options)
+    Client.get(client, Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}"), headers, opts)
+    |> Response.parse(Certificate)
+  end
 end

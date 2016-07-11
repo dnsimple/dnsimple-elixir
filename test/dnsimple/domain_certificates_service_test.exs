@@ -48,4 +48,24 @@ defmodule Dnsimple.DomainCertificatesServiceTest do
       assert Enum.all?(data, fn(single) -> is_integer(single.id) end)
     end
   end
+
+  test ".certificate builds the correct request" do
+    fixture = ExvcrUtils.response_fixture("getCertificate/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates/22289"])
+    use_cassette :stub, fixture do
+      @service.certificate(@client, "1010", "example.com", "22289")
+    end
+  end
+
+  test ".certificate returns a Dnsimple.Response" do
+    use_cassette :stub, ExvcrUtils.response_fixture("getCertificate/success.http", [method: "get"]) do
+      { :ok, response } = @service.certificate(@client, "1010", "example.com", "22289")
+      assert response.__struct__ == Dnsimple.Response
+
+      data = response.data
+      assert is_map(data)
+      assert data.__struct__ == Dnsimple.Certificate
+      assert data.id == 22289
+      assert data.name == "www"
+    end
+  end
 end

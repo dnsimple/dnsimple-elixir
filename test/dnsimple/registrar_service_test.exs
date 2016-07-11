@@ -42,7 +42,7 @@ defmodule Dnsimple.RegistrarServiceTest do
         token: "cc8h1jP8bDLw5rXycL16k8BivcGiT6K9",
         created_at: "2016-01-16T16:08:50.649Z",
         updated_at: "2016-01-16T16:09:01.161Z",
-        expired_on: nil,
+        expires_on: "2017-01-16",
       }
     end
   end
@@ -70,7 +70,7 @@ defmodule Dnsimple.RegistrarServiceTest do
         token: "domain-token",
         created_at: "2016-01-16T16:08:50.649Z",
         updated_at: "2016-02-15T15:19:24.689Z",
-        expired_on: nil,
+        expires_on: "2018-01-16",
       }
     end
   end
@@ -98,7 +98,7 @@ defmodule Dnsimple.RegistrarServiceTest do
         token: "domain-token",
         created_at: "2016-02-21T13:31:58.745Z",
         updated_at: "2016-02-21T13:31:58.745Z",
-        expired_on: nil,
+        expires_on: nil,
       }
     end
   end

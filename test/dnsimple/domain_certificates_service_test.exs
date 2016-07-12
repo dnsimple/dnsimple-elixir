@@ -14,7 +14,7 @@ defmodule Dnsimple.DomainCertificatesServiceTest do
     end
   end
 
-  test ".applied_services builds sends custom headers" do
+  test ".certificates builds sends custom headers" do
     fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates"])
     use_cassette :stub, fixture do
       @service.certificates(@client, "1010", "example.com", [headers: %{"X-Header" => "X-Value"}])

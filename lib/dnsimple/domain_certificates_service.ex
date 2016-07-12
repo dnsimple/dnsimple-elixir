@@ -26,7 +26,7 @@ defmodule Dnsimple.DomainCertificatesService do
   @doc """
   Get a certificate.
 
-  Set https://developer.dnsimple.com/v2/domains/certificates/#get
+  See https://developer.dnsimple.com/v2/domains/certificates/#get
   """
   @spec certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def certificate(client, account_id, domain_id, certificate_id, options \\ []) do
@@ -38,7 +38,7 @@ defmodule Dnsimple.DomainCertificatesService do
   @doc """
   Download a certificate.
 
-  Set https://developer.dnsimple.com/v2/domains/certificates/#download
+  See https://developer.dnsimple.com/v2/domains/certificates/#download
   """
   @spec download(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def download(client, account_id, domain_id, certificate_id, options \\ []) do
@@ -50,7 +50,7 @@ defmodule Dnsimple.DomainCertificatesService do
   @doc """
   Download a private key.
 
-  Set https://developer.dnsimple.com/v2/domains/certificates/#get-private-key
+  See https://developer.dnsimple.com/v2/domains/certificates/#get-private-key
   """
   @spec private_key(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def private_key(client, account_id, domain_id, certificate_id, options \\ []) do

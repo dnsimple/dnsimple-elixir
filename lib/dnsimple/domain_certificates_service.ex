@@ -52,7 +52,7 @@ defmodule Dnsimple.DomainCertificatesService do
 
   Set https://developer.dnsimple.com/v2/domains/certificates/#get-private-key
   """
-  @spec download(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  @spec private_key(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def private_key(client, account_id, domain_id, certificate_id, options \\ []) do
     {headers, opts} = Client.headers(options)
     Client.get(client, Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}/private_key"), headers, opts)

@@ -64,7 +64,7 @@ defmodule Dnsimple.ZonesService do
 
   See: https://developer.dnsimple.com/v2/zones/records/#get
   """
-  @spec record(Client.t, String.t, String.t, Integer.t, Keyword.t) :: Response.t
+  @spec record(Client.t, String.t, String.t, integer, Keyword.t) :: Response.t
   def record(client, account_id, zone_name, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
     {headers, opts} = Client.headers(options)
@@ -78,7 +78,7 @@ defmodule Dnsimple.ZonesService do
 
   See: https://developer.dnsimple.com/v2/zones/records/#update
   """
-  @spec update_record(Client.t, String.t, String.t, Integer.t, Keyword.t, Keyword.t) :: Response.t
+  @spec update_record(Client.t, String.t, String.t, integer, Keyword.t, Keyword.t) :: Response.t
   def update_record(client, account_id, zone_name, record_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
     {headers, opts} = Client.headers(options)
@@ -92,7 +92,7 @@ defmodule Dnsimple.ZonesService do
 
   See: https://developer.dnsimple.com/v2/zones/records/#delete
   """
-  @spec delete_record(Client.t, String.t, String.t, Integer.t, Keyword.t) :: Response.t
+  @spec delete_record(Client.t, String.t, String.t, integer, Keyword.t) :: Response.t
   def delete_record(client, account_id, zone_name, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
     {headers, opts} = Client.headers(options)

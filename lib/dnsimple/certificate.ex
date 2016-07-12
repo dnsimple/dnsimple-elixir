@@ -14,9 +14,9 @@ defmodule Dnsimple.Certificate do
   ]
 
   @type t :: %__MODULE__{
-    id: Integer.t, domain_id: Integer.t,
+    id: integer, domain_id: integer,
     name: String.t, common_name: String.t,
-    years: Integer.t, csr: String.t, state: String.t,
+    years: integer, csr: String.t, state: String.t,
     authority_identifier: String.t,
     server: String.t, root: String.t, chain: String.t,
     private_key: String.t,

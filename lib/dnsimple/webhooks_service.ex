@@ -25,7 +25,7 @@ defmodule Dnsimple.WebhooksService do
   end
 
   @doc """
-  Creates a new domain in the account.
+  Creates a new webhook in the account.
 
   See https://developer.dnsimple.com/v2/webhooks/#create
   """

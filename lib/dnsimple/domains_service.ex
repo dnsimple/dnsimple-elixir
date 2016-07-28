@@ -27,7 +27,7 @@ defmodule Dnsimple.DomainsService do
   @doc """
   Creates a new domain in the account.
 
-  See https://developer.dnsimple.com/v2/domains/#list
+  See https://developer.dnsimple.com/v2/domains/#create
   """
   @spec create_domain(Client.t, String.t | integer, map, Keyword.t) :: Response.t
   def create_domain(client, account_id, attributes, options \\ []) do

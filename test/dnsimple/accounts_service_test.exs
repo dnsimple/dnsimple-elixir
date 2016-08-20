@@ -30,6 +30,8 @@ defmodule Dnsimple.AccountsServiceTest do
         assert length(data) == 1
         assert Enum.all?(data, fn(element) -> element.__struct__ == Dnsimple.Account end)
         assert Enum.all?(data, fn(element) -> is_integer(element.id) end)
+        assert Enum.all?(data, fn(element) -> is_binary(element.email) end)
+        assert Enum.all?(data, fn(element) -> is_binary(element.plan_identifier) end)
       end
     end
 
@@ -45,6 +47,8 @@ defmodule Dnsimple.AccountsServiceTest do
         assert length(data) == 2
         assert Enum.all?(data, fn(element) -> element.__struct__ == Dnsimple.Account end)
         assert Enum.all?(data, fn(element) -> is_integer(element.id) end)
+        assert Enum.all?(data, fn(element) -> is_binary(element.email) end)
+        assert Enum.all?(data, fn(element) -> is_binary(element.plan_identifier) end)
       end
     end
 

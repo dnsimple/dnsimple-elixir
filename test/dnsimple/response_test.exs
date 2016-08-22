@@ -37,4 +37,18 @@ defmodule Dnsimple.ResponseTest do
     end
   end
 
+  test ".parse parses pagination" do
+    client = %Dnsimple.Client{access_token: "x", base_url: "https://api.dnsimple.test"}
+    use_cassette :stub, ExvcrUtils.response_fixture("pages1of3.http", [method: "GET"]) do
+      http_response = Dnsimple.Client.execute(client, "GET", "/path")
+      {:ok, response} = Dnsimple.Response.parse(http_response, nil)
+
+      assert response.pagination != nil
+      assert response.pagination.current_page == 1
+      assert response.pagination.per_page == 2
+      assert response.pagination.total_pages == 3
+      assert response.pagination.total_entries == 5
+    end
+  end
+
 end

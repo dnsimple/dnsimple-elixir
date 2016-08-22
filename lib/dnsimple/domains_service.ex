@@ -60,4 +60,18 @@ defmodule Dnsimple.DomainsService do
     |> Response.parse(nil)
   end
 
+  @doc """
+  Resets the domain token.
+
+  See https://developer.dnsimple.com/v2/domains/#reset-token
+  """
+  @spec reset_domain_token(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def reset_domain_token(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/token")
+    {headers, opts} = Client.headers(options)
+
+    Client.post(client, url, _body = [], headers, opts)
+    |> Response.parse(Domain)
+  end
+
 end

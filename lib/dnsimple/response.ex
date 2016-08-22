@@ -19,15 +19,14 @@ defmodule Dnsimple.Response do
     }
   end
 
-  @doc """
-  Creates a response from an HTTPoison response and parsed data.
-  """
-  @spec new(HTTPoison.Response.t, any) :: Response.t
-  def new(http_response, data \\ nil, pagination \\ nil) do
+  @spec build_response(HTTPoison.Response.t, any, Dnsimple.Response.Pagination) :: Response.t
+  defp build_response(http_response, data, pagination) do
     headers = Enum.into(http_response.headers, %{})
 
     %__MODULE__{
-      http_response: http_response, data: data, pagination: pagination,
+      http_response: http_response,
+      data: data,
+      pagination: pagination,
       rate_limit: String.to_integer(headers["X-RateLimit-Limit"]),
       rate_limit_remaining: String.to_integer(headers["X-RateLimit-Remaining"]),
       rate_limit_reset: String.to_integer(headers["X-RateLimit-Reset"]),
@@ -43,7 +42,7 @@ defmodule Dnsimple.Response do
     data = transform_to_struct(response_map, kind)
     pagination = extract_pagination(response_map)
 
-    {:ok, new(http_response, data, pagination)}
+    {:ok, build_response(http_response, data, pagination)}
   end
 
   defp transform_to_struct(_, nil), do: nil

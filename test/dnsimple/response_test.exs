@@ -7,19 +7,19 @@ defmodule Dnsimple.ResponseTest do
   test ".new" do
     client = %Dnsimple.Client{access_token: "x", base_url: "https://api.dnsimple.test"}
     use_cassette :stub, ExvcrUtils.response_fixture("whoami/success.http", [method: "GET"]) do
-      { :ok, http } = Dnsimple.Client.execute(client, "GET", "/path")
-      response = Dnsimple.Response.new(http, nil)
+      http_response = {:ok, http} = Dnsimple.Client.execute(client, "GET", "/path")
+      {:ok, response} = Dnsimple.Response.parse(http_response, nil)
 
       assert response.http_response == http
       assert response.data == nil
     end
   end
 
-  test ".new parses the rate-limit" do
+  test ".parse parses the rate-limit" do
     client = %Dnsimple.Client{access_token: "x", base_url: "https://api.dnsimple.test"}
     use_cassette :stub, ExvcrUtils.response_fixture("whoami/success.http", [method: "GET"]) do
-      { :ok, http } = Dnsimple.Client.execute(client, "GET", "/path")
-      response = Dnsimple.Response.new(http, nil)
+      http_response = Dnsimple.Client.execute(client, "GET", "/path")
+      {:ok, response} = Dnsimple.Response.parse(http_response, nil)
 
       assert response.rate_limit == 4000
       assert response.rate_limit_remaining == 3991

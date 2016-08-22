@@ -6,6 +6,10 @@ defmodule Dnsimple.DomainsServiceTest do
   @service Dnsimple.DomainsService
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
+  setup do
+    ExVCR.Config.cassette_library_dir("test/fixtures/vcr_cassettes", "test/fixtures/custom_cassettes")
+    :ok
+  end
 
   test ".domains builds the correct request" do
     fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains"])
@@ -49,6 +53,15 @@ defmodule Dnsimple.DomainsServiceTest do
     end
   end
 
+  test ".all_domains" do
+    use_cassette "list_domains_paginated", custom: true do
+      domains = @service.all_domains(@client, "1010")
+      assert is_list(domains)
+      assert length(domains) == 2
+      assert Enum.all?(domains, fn(single) -> single.__struct__ == Dnsimple.Domain end)
+      assert Enum.all?(domains, fn(single) -> is_integer(single.id) end)
+    end
+  end
 
   test ".create_domain builds the correct request" do
     fixture = ExvcrUtils.response_fixture("createDomain/created.http", [method: "post", url: @client.base_url <> "/v2/1010/domains", request_body: ~s'{"name":"example.com"}'])

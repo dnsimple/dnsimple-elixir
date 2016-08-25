@@ -61,8 +61,24 @@ defmodule Dnsimple.Contact do
     url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
     {headers, opts} = Client.headers(options)
 
-    Client.get(client, url, headers, ListOptions.prepare(opts))
+    Client.get(client, url, headers, opts)
     |> Response.parse(__MODULE__)
   end
+
+  @doc """
+  Creates a contact in the account.
+
+  See https://developer.dnsimple.com/v2/contacts/#create
+  """
+  @spec create_contact(Client.t, String.t | integer, Keyword.t, Keyword.t) :: Response.t
+  def create_contact(client, account_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/contacts")
+    {headers, opts} = Client.headers(options)
+
+    Client.post(client, url, attributes, headers, opts)
+    |> Response.parse(__MODULE__)
+  end
+
+
 
 end

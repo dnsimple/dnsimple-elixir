@@ -73,4 +73,37 @@ defmodule Dnsimple.ContactTest do
     end
   end
 
+  describe ".create_contact" do
+    test "creates the contact and returns it in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/1010/contacts"
+      method  = "post"
+      fixture = "createContact/created.http"
+      attributes = %{
+        label: "Default",
+        first_name: "First",
+        last_name: "User",
+        job_title: "CEO",
+        organization_name: "Awesome Company",
+        email: "first@example.com",
+        phone: "+18001234567",
+        fax: "+18011234567",
+        address1: "Italian Street, 10",
+        city: "Roma",
+        state_province: "RM",
+        postal_code: "00100",
+        country: "IT"
+      }
+      {:ok, body} = Poison.encode(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
+        {:ok, response} = Contact.create_contact(@client, 1010, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        contact = response.data
+        assert contact.__struct__ == Dnsimple.Contact
+      end
+    end
+  end
+
+
 end

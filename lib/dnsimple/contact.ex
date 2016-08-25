@@ -51,4 +51,18 @@ defmodule Dnsimple.Contact do
     |> Response.parse(__MODULE__)
   end
 
+  @doc """
+  Gets a contact in the account.
+
+  See https://developer.dnsimple.com/v2/contacts/#get
+  """
+  @spec contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def contact(client, account_id, contact_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
+    {headers, opts} = Client.headers(options)
+
+    Client.get(client, url, headers, ListOptions.prepare(opts))
+    |> Response.parse(__MODULE__)
+  end
+
 end

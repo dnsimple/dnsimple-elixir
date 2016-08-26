@@ -178,14 +178,31 @@ defmodule Dnsimple do
     """
     def prepare(options = []), do: options
     def prepare(options) do
-      filter = Keyword.get(options, :filter, [])
+      params = Keyword.new
 
-      params = case Keyword.get(options, :sort) do
-        nil  -> filter
-        sort -> Keyword.merge(filter, [sort: sort])
-      end
+      not_nil = fn v -> v != nil end
+
+      params = params
+      |> merge_if(Keyword.get(options, :filter), not_nil)
+      |> put_if(:sort, Keyword.get(options, :sort), not_nil)
+      |> put_if(:page, Keyword.get(options, :page), not_nil)
+      |> put_if(:per_page, Keyword.get(options, :per_page), not_nil)
 
       [params: params]
+    end
+
+    defp put_if(keywords, name, value, function) do
+      case function.(value) do
+        true -> Keyword.put(keywords, name, value)
+        false -> keywords
+      end
+    end
+
+    defp merge_if(keywords, keywords2, function) do
+      case function.(keywords2) do
+        true -> Keyword.merge(keywords, keywords2)
+        false -> keywords
+      end
     end
   end
 

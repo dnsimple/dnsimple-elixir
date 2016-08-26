@@ -1,7 +1,7 @@
 [
   {
     "request": {
-      "url": "https://api.dnsimple.test/v2/1010/domains?"
+      "url": "https://api.dnsimple.test/v2/1010/domains?page=1"
     },
     "response": {
       "status_code": 200,

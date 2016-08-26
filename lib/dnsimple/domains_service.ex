@@ -25,6 +25,28 @@ defmodule Dnsimple.DomainsService do
   end
 
   @doc """
+  List all domains from the account. This function will automatically
+  page through to the end of the list, returning all domain objects.
+  """
+  @spec all_domains(Client.t, String.t | integer, Keyword.t) :: [Domain.t]
+  def all_domains(client, account_id, options \\ []) do
+    new_options = Keyword.merge([page: 1], options)
+    all_domains(client, account_id, new_options, [])
+  end
+
+  defp all_domains(client, account_id, options, domain_list) do
+    {:ok, response} = domains(client, account_id, options)
+    all_domains(client, account_id, Keyword.put(options, :page, options[:page] + 1), domain_list ++ response.data, response.pagination.total_pages - options[:page])
+  end
+
+  defp all_domains(_, _, _, domain_list, 0) do
+    domain_list
+  end
+  defp all_domains(client, account_id, options, domain_list, _) do
+    all_domains(client, account_id, options, domain_list)
+  end
+
+  @doc """
   Creates a new domain in the account.
 
   See https://developer.dnsimple.com/v2/domains/#create

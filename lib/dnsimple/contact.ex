@@ -33,4 +33,3 @@ defmodule Dnsimple.Contact do
   )a
 
 end
-

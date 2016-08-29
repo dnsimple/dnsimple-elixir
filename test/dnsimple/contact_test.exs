@@ -105,5 +105,24 @@ defmodule Dnsimple.ContactTest do
     end
   end
 
+  describe ".update_contact" do
+    test "updates the contact and returns it in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/1010/contacts/1"
+      method  = "patch"
+      fixture = "updateContact/success.http"
+      attributes = %{ label: "Default" }
+      {:ok, body} = Poison.encode(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
+        {:ok, response} = Contact.update_contact(@client, 1010, 1, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        contact = response.data
+        assert contact.__struct__ == Dnsimple.Contact
+        assert contact.label == "Default"
+      end
+    end
+  end
+
 
 end

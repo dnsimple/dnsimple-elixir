@@ -80,5 +80,18 @@ defmodule Dnsimple.Contact do
   end
 
 
+  @doc """
+  Updates a contact in the account.
+
+  See https://developer.dnsimple.com/v2/contacts/#update
+  """
+  @spec update_contact(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: Response.t
+  def update_contact(client, account_id, contact_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
+    {headers, opts} = Client.headers(options)
+
+    Client.patch(client, url, attributes, headers, opts)
+    |> Response.parse(__MODULE__)
+  end
 
 end

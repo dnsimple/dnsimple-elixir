@@ -124,5 +124,20 @@ defmodule Dnsimple.ContactTest do
     end
   end
 
+  describe ".delete_contact" do
+    test "deletes the contact" do
+      url     = "#{@client.base_url}/v2/1010/contacts/1"
+      method  = "delete"
+      fixture = "deleteContact/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = Contact.delete_contact(@client, 1010, 1)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
+
 
 end

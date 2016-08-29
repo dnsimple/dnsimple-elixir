@@ -94,4 +94,18 @@ defmodule Dnsimple.Contact do
     |> Response.parse(__MODULE__)
   end
 
+  @doc """
+  Deletes a contact in the account.
+
+  See https://developer.dnsimple.com/v2/contacts/#delete
+  """
+  @spec delete_contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def delete_contact(client, account_id, contact_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
+    {headers, opts} = Client.headers(options)
+
+    Client.delete(client, url, headers, opts)
+    |> Response.parse(nil)
+  end
+
 end

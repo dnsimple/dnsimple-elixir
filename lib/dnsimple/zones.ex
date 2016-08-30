@@ -1,4 +1,4 @@
-defmodule Dnsimple.ZonesService do
+defmodule Dnsimple.Zones do
   alias Dnsimple.Client
   alias Dnsimple.ListOptions
   alias Dnsimple.Response

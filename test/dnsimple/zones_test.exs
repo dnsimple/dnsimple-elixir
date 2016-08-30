@@ -1,8 +1,8 @@
-defmodule Dnsimple.ZonesServiceTest do
+defmodule Dnsimple.ZonesTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  @service Dnsimple.ZonesService
+  @service Dnsimple.Zones
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
   @account_id 1010
   @zone_id "example.com"

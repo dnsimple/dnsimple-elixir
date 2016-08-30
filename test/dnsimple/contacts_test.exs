@@ -1,8 +1,8 @@
-defmodule Dnsimple.ContactTest do
+defmodule Dnsimple.ContactsTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  @service Dnsimple.ContactsService
+  @service Dnsimple.Contacts
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
   describe ".contacts" do

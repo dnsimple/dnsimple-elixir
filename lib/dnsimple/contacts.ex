@@ -1,4 +1,4 @@
-defmodule Dnsimple.ContactsService do
+defmodule Dnsimple.Contacts do
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.ListOptions

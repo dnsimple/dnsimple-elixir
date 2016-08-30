@@ -1,4 +1,4 @@
-defmodule Dnsimple.WebhooksService do
+defmodule Dnsimple.Webhooks do
   @moduledoc """
   WebhooksService handles communication with webhook related
   methods of the DNSimple API.

@@ -1,4 +1,4 @@
-defmodule Dnsimple.IdentityService do
+defmodule Dnsimple.Identity do
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.Whoami

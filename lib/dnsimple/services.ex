@@ -1,4 +1,4 @@
-defmodule Dnsimple.DomainServicesService do
+defmodule Dnsimple.Services do
   @moduledoc """
   DomainServicesService handles communication with the DNSimple
   API responsible for applying one-click services to domains.

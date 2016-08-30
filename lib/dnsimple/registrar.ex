@@ -1,4 +1,4 @@
-defmodule Dnsimple.RegistrarService do
+defmodule Dnsimple.Registrar do
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.Domain

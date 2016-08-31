@@ -121,6 +121,12 @@ defmodule Dnsimple do
     end
 
     @doc """
+    Issues a GET request to the given url processing the listing options first.
+    """
+    @spec get_list(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def get_list(client, url, options \\ []), do: get2(client, url, ListOptions.prepare(options))
+
+    @doc """
     Issues a GET request to the given url.
     """
     @spec get(Client.t, binary, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t

@@ -1,4 +1,4 @@
-defmodule Dnsimple.AccountsService do
+defmodule Dnsimple.Accounts do
   @moduledoc """
   AccountsService handles communication with the account related
   methods of the DNSimple API.

@@ -1,4 +1,4 @@
-defmodule Dnsimple.OauthService do
+defmodule Dnsimple.Oauth do
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.OauthToken

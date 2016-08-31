@@ -1,9 +1,8 @@
 defmodule Dnsimple.DomainsServiceTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
-  doctest Dnsimple.DomainsService
 
-  @service Dnsimple.DomainsService
+  @service Dnsimple.Domains
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
   setup do

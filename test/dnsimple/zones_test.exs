@@ -1,19 +1,19 @@
-defmodule Dnsimple.ZonesServiceTest do
+defmodule Dnsimple.ZonesTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  @service Dnsimple.ZonesService
+  @service Dnsimple.Zones
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
   @account_id 1010
   @zone_id "example.com"
 
-  test ".list_zones" do
+  test ".zones" do
     fixture = "listZones/success.http"
     method  = "get"
     url     = "#{@client.base_url}/v2/#{@account_id}/zones"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.list_zones(@client, @account_id)
+      {:ok, response} = @service.zones(@client, @account_id)
 
       assert response.__struct__ == Dnsimple.Response
       assert Enum.count(response.data) == 2
@@ -21,17 +21,17 @@ defmodule Dnsimple.ZonesServiceTest do
     end
   end
 
-  test ".list_zones supports sorting" do
+  test ".zones supports sorting" do
     fixture = ExvcrUtils.response_fixture("listZones/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones?sort=name%3Adesc"])
     use_cassette :stub, fixture do
-      @service.list_zones(@client, @account_id, [sort: "name:desc"])
+      @service.zones(@client, @account_id, [sort: "name:desc"])
     end
   end
 
-  test ".list_zones supports filtering" do
+  test ".zones supports filtering" do
     fixture = ExvcrUtils.response_fixture("listZones/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones?name_like=example"])
     use_cassette :stub, fixture do
-      @service.list_zones(@client, @account_id, [filter: [name_like: "example"]])
+      @service.zones(@client, @account_id, [filter: [name_like: "example"]])
     end
   end
 
@@ -56,13 +56,13 @@ defmodule Dnsimple.ZonesServiceTest do
     end
   end
 
-  test ".list_records" do
+  test ".records" do
     fixture = "listZoneRecords/success.http"
     method  = "get"
     url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.list_records(@client, @account_id, @zone_id)
+      {:ok, response} = @service.records(@client, @account_id, @zone_id)
 
       assert response.__struct__ == Dnsimple.Response
       assert Enum.count(response.data) == 5
@@ -70,17 +70,17 @@ defmodule Dnsimple.ZonesServiceTest do
     end
   end
 
-  test ".list_records supports sorting" do
+  test ".records supports sorting" do
     fixture = ExvcrUtils.response_fixture("listZoneRecords/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones/#{@zone_id}/records?sort=name%3Aasc%2Ctype%3Adesc"])
     use_cassette :stub, fixture do
-      @service.list_records(@client, @account_id, @zone_id, [sort: "name:asc,type:desc"])
+      @service.records(@client, @account_id, @zone_id, [sort: "name:asc,type:desc"])
     end
   end
 
-  test ".list_records supports filtering" do
+  test ".records supports filtering" do
     fixture = ExvcrUtils.response_fixture("listZoneRecords/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones/#{@zone_id}/records?name_like=example&type=A"])
     use_cassette :stub, fixture do
-      @service.list_records(@client, @account_id, @zone_id, [filter: [name_like: "example", type: "A"]])
+      @service.records(@client, @account_id, @zone_id, [filter: [name_like: "example", type: "A"]])
     end
   end
 

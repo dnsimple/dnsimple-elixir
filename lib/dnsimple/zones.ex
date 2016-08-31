@@ -1,4 +1,4 @@
-defmodule Dnsimple.ZonesService do
+defmodule Dnsimple.Zones do
   alias Dnsimple.Client
   alias Dnsimple.ListOptions
   alias Dnsimple.Response
@@ -8,8 +8,8 @@ defmodule Dnsimple.ZonesService do
 
   See: https://developer.dnsimple.com/v2/zones/#list
   """
-  @spec list_zones(Client.t, String.t, Keyword.t) :: Response.t
-  def list_zones(client, account_id, options \\ []) do
+  @spec zones(Client.t, String.t, Keyword.t) :: Response.t
+  def zones(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones")
     {headers, opts} = Client.headers(options)
 
@@ -36,8 +36,8 @@ defmodule Dnsimple.ZonesService do
 
   See: https://developer.dnsimple.com/v2/zones/records/#list
   """
-  @spec list_records(Client.t, String.t, String.t, Keyword.t) :: Response.t
-  def list_records(client, account_id, zone_name, options \\ []) do
+  @spec records(Client.t, String.t, String.t, Keyword.t) :: Response.t
+  def records(client, account_id, zone_name, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records")
     {headers, opts} = Client.headers(options)
 

@@ -1,9 +1,8 @@
 defmodule Dnsimple.WebhooksServiceTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
-  doctest Dnsimple.WebhooksService
 
-  @service Dnsimple.WebhooksService
+  @service Dnsimple.Webhooks
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
 

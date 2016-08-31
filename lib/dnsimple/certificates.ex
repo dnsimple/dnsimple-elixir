@@ -1,7 +1,7 @@
-defmodule Dnsimple.DomainCertificatesService do
+defmodule Dnsimple.Certificates do
   @moduledoc """
-  DomainCertificatesService handles communication with the DNSimple
-  API responsible for providing certificates attached to domains.
+  This module handles communication with the DNSimple API responsible of 
+  handling SSL certificates.
 
   @see https://developer.dnsimple.com/v2/domains/certificates/
   """

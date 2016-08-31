@@ -112,17 +112,6 @@ defmodule Dnsimple do
       "/" <> @api_version <> path
     end
 
-    @spec headers(Keyword.t) :: {t, t}
-    def headers(options) do
-      Keyword.split(options, [:headers])
-    end
-
-
-    @spec url(Client.t, String.t) :: String.t
-    defp url(%Client{base_url: base_url}, path) do
-      base_url <> path
-    end
-
     @doc """
     Issues a GET request to the given url processing the listing options first.
     """
@@ -159,35 +148,23 @@ defmodule Dnsimple do
     @spec delete(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
     def delete(client, url, options \\ []), do: execute(client, :delete, url, "", options)
 
-    def execute(client, method, url, body \\ "", options \\ []) do
-      {headers, other_options} = Keyword.split(options, [:headers])
+    def execute(client, method, url, body \\ "", all_options \\ []) do
+      {headers, options} = split_headers_options(client, all_options)
+      {headers, body}    = process_request_body(headers, body)
 
-      headers = headers ++ [
+      HTTPoison.request!(method, url(client, url), body, headers, options)
+      |> check_response
+    end
+
+    defp split_headers_options(client, all_options) do
+      default_headers = [
         {"Accept", "application/json"},
         {"User-Agent", format_user_agent(client.user_agent)},
         {"Authorization", "Bearer #{client.access_token}"},
       ]
 
-      {body, headers} = process_request_body(body, headers)
-
-      request(client, method, url, body, headers, other_options)
-      |> check_response
-    end
-
-
-    @doc """
-    Sends an HTTP request and returns an HTTP response.
-    """
-    def request(client, method, url, body \\ "", headers \\ [], options \\ []) do
-      HTTPoison.request!(method, url(client, url), body, headers, options)
-    end
-
-    def check_response(http_response) do
-      case http_response.status_code  do
-        i when i in 200..299 -> { :ok, http_response }
-        404 -> { :error, NotFoundError.new(http_response) }
-        _   -> { :error, RequestError.new(http_response) }
-      end
+      {headers, options} = Keyword.split(all_options, [:headers])
+      {headers ++ default_headers, options}
     end
 
     # Builds the final user agent to use for HTTP requests.
@@ -211,12 +188,24 @@ defmodule Dnsimple do
       Enum.find(headers, fn({key, _}) -> key == name end)
     end
 
-    defp process_request_body(nil,  headers), do: { nil, headers }
-    defp process_request_body(body, headers) when is_binary(body), do: { body, headers }
-    defp process_request_body(body, headers) do
+    defp process_request_body(headers, nil), do: {headers, nil}
+    defp process_request_body(headers, body) when is_binary(body), do: {headers, body}
+    defp process_request_body(headers, body) do
       case get_header(headers, "Accept") do
-        { _, "application/json" } -> { Poison.encode!(body), [{"Content-Type", "application/json"}|headers] }
-        _ -> { body, headers }
+        {_, "application/json"} -> {[{"Content-Type", "application/json"}|headers], Poison.encode!(body)}
+        _                       -> {headers, body}
+      end
+    end
+
+    defp url(%Client{base_url: base_url}, path) do
+      base_url <> path
+    end
+
+    defp check_response(http_response) do
+      case http_response.status_code  do
+        i when i in 200..299 -> { :ok, http_response }
+        404 -> { :error, NotFoundError.new(http_response) }
+        _   -> { :error, RequestError.new(http_response) }
       end
     end
 

@@ -6,6 +6,10 @@ defmodule Dnsimple.TestOptionsTest do
       assert Dnsimple.ListOptions.prepare([]) == []
     end
 
+    test "empty list options with other options results in no params list" do
+      assert Dnsimple.ListOptions.prepare([headers: [{"X-Header", "X-Value"}]]) == [headers: [{"X-Header", "X-Value"}]]
+    end
+
     test "includes filter if present" do
       assert Dnsimple.ListOptions.prepare([filter: [name_like: "example"]]) == [params: [name_like: "example"]]
     end

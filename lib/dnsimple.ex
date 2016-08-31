@@ -10,7 +10,10 @@ defmodule Dnsimple do
     def prepare(options) do
       {params, options} = Enum.reduce(@known_params, {[], options}, &extract_param/2)
 
-      Keyword.merge([params: params], options)
+      case Enum.empty?(params) do
+        true  -> options
+        false -> Keyword.merge([params: params], options)
+      end
     end
 
     defp extract_param(:filter = option, {params, options}) do

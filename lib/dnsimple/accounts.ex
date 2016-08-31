@@ -9,7 +9,6 @@ defmodule Dnsimple.Accounts do
   alias Dnsimple.Client
   alias Dnsimple.Account
   alias Dnsimple.Response
-  alias Dnsimple.ListOptions
 
 
   @doc """
@@ -19,8 +18,9 @@ defmodule Dnsimple.Accounts do
   """
   @spec accounts(Client.t) :: Response.t
   def accounts(client, options \\ []) do
-    {headers, opts} = Client.headers(options)
-    Client.get(client, Client.versioned("/accounts"), headers, ListOptions.prepare(opts))
+    url = Client.versioned("/accounts")
+
+    Client.get(client, url, options)
     |> Response.parse(Account)
   end
 

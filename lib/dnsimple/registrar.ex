@@ -13,10 +13,9 @@ defmodule Dnsimple.Registrar do
   @spec check_domain(Client.t, String.t, String.t, Keyword.t) :: Response.t
   def check_domain(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/check")
-    {headers, opts} = Client.headers(options)
 
-    Client.get(client, url, headers, opts)
-      |> Response.parse(DomainCheck)
+    Client.get2(client, url, options)
+    |> Response.parse(DomainCheck)
   end
 
   @doc """
@@ -27,10 +26,9 @@ defmodule Dnsimple.Registrar do
   @spec register_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
   def register_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registration")
-    {headers, opts} = Client.headers(options)
 
-    Client.post(client, url, attributes, headers, opts)
-      |> Response.parse(Domain)
+    Client.post2(client, url, attributes, options)
+    |> Response.parse(Domain)
   end
 
   @doc """
@@ -41,10 +39,9 @@ defmodule Dnsimple.Registrar do
   @spec renew_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
   def renew_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/renewal")
-    {headers, opts} = Client.headers(options)
 
-    Client.post(client, url, attributes, headers, opts)
-      |> Response.parse(Domain)
+    Client.post2(client, url, attributes, options)
+    |> Response.parse(Domain)
   end
 
   @doc """
@@ -55,10 +52,9 @@ defmodule Dnsimple.Registrar do
   @spec transfer_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
   def transfer_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer")
-    {headers, opts} = Client.headers(options)
 
-    Client.post(client, url, attributes, headers, opts)
-      |> Response.parse(Domain)
+    Client.post2(client, url, attributes, options)
+    |> Response.parse(Domain)
   end
 
   @doc """
@@ -69,10 +65,9 @@ defmodule Dnsimple.Registrar do
   @spec transfer_domain_out(Client.t, String.t, String.t, Keyword.t) :: Response.t
   def transfer_domain_out(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer_out")
-    {headers, opts} = Client.headers(options)
 
-    Client.post(client, url, _body = [], headers, opts)
-      |> Response.parse(nil)
+    Client.post2(client, url, _body = [], options)
+    |> Response.parse(nil)
   end
 
 
@@ -84,10 +79,9 @@ defmodule Dnsimple.Registrar do
   @spec enable_auto_renewal(Client.t, String.t, String.t, Keyword.t) :: Response.t
   def enable_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
-    {headers, opts} = Client.headers(options)
 
-    Client.put(client, url, headers, opts)
-      |> Response.parse(nil)
+    Client.put2(client, url, options)
+    |> Response.parse(nil)
   end
 
   @doc """
@@ -98,10 +92,9 @@ defmodule Dnsimple.Registrar do
   @spec disable_auto_renewal(Client.t, String.t, String.t, Keyword.t) :: Response.t
   def disable_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
-    {headers, opts} = Client.headers(options)
 
-    Client.delete(client, url, headers, opts)
-      |> Response.parse(nil)
+    Client.delete2(client, url, options)
+    |> Response.parse(nil)
   end
 
 
@@ -113,10 +106,9 @@ defmodule Dnsimple.Registrar do
   @spec whois_privacy(Client.t, String.t, String.t, Keyword.t) :: Response.t
   def whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
-    {headers, opts} = Client.headers(options)
 
-    Client.get(client, url, headers, opts)
-      |> Response.parse(WhoisPrivacy)
+    Client.get2(client, url, options)
+    |> Response.parse(WhoisPrivacy)
   end
 
   @doc """
@@ -127,10 +119,9 @@ defmodule Dnsimple.Registrar do
   @spec enable_whois_privacy(Client.t, String.t, String.t, Keyword.t) :: Response.t
   def enable_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
-    {headers, opts} = Client.headers(options)
 
-    Client.put(client, url, _body = [], headers, opts)
-      |> Response.parse(WhoisPrivacy)
+    Client.put2(client, url, _body = [], options)
+    |> Response.parse(WhoisPrivacy)
   end
 
   @doc """
@@ -141,11 +132,9 @@ defmodule Dnsimple.Registrar do
   @spec disable_whois_privacy(Client.t, String.t, String.t, Keyword.t) :: Response.t
   def disable_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
-    {headers, opts} = Client.headers(options)
 
-    Client.delete(client, url, headers, opts)
-      |> Response.parse(WhoisPrivacy)
+    Client.delete2(client, url, options)
+    |> Response.parse(WhoisPrivacy)
   end
-
 
 end

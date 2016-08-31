@@ -126,11 +126,17 @@ defmodule Dnsimple do
     @spec get(Client.t, binary, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
     def get(client, url, headers \\ [], options \\ []), do: execute(client, :get, url, "", headers, options)
 
+    @spec get2(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def get2(client, url, options \\ []), do: execute2(client, :get, url, "", options)
+
     @doc """
     Issues a POST request to the given url.
     """
     @spec post(Client.t, binary, body, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
     def post(client, url, body, headers \\ [], options \\ []), do: execute(client, :post, url, body, headers, options)
+
+    @spec post2(Client.t, binary, body, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def post2(client, url, body, options \\ []), do: execute2(client, :post, url, body, options)
 
     @doc """
     Issues a PUT request to the given url.
@@ -138,11 +144,17 @@ defmodule Dnsimple do
     @spec put(Client.t, binary, body, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
     def put(client, url, body, headers \\ [], options \\ []), do: execute(client, :put, url, body, headers, options)
 
+    @spec put2(Client.t, binary, body, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def put2(client, url, body, options \\ []), do: execute2(client, :put, url, body, options)
+
     @doc """
     Issues a PATCH request to the given url.
     """
     @spec patch(Client.t, binary, body, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
     def patch(client, url, body, headers \\ [], options \\ []), do: execute(client, :patch, url, body, headers, options)
+
+    @spec patch2(Client.t, binary, body, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def patch2(client, url, body, options \\ []), do: execute2(client, :patch, url, body, options)
 
     @doc """
     Issues a DELETE request to the given url.
@@ -150,6 +162,8 @@ defmodule Dnsimple do
     @spec delete(Client.t, binary, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
     def delete(client, url, headers \\ [], options \\ []), do: execute(client, :delete, url, "", headers, options)
 
+    @spec delete2(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def delete2(client, url, options \\ []), do: execute2(client, :delete, url, "", options)
 
     def execute(client, method, url, body \\ "", headers \\ [], options \\ []) do
       headers = headers ++ [
@@ -163,6 +177,22 @@ defmodule Dnsimple do
       request(client, method, url, body, headers, options)
       |> check_response
     end
+
+    def execute2(client, method, url, body \\ "", options \\ []) do
+      {headers, other_options} = Keyword.split(options, [:headers])
+
+      headers = headers ++ [
+        {"Accept", "application/json"},
+        {"User-Agent", format_user_agent(client.user_agent)},
+        {"Authorization", "Bearer #{client.access_token}"},
+      ]
+
+      {body, headers} = process_request_body(body, headers)
+
+      request(client, method, url, body, headers, other_options)
+      |> check_response
+    end
+
 
     @doc """
     Sends an HTTP request and returns an HTTP response.

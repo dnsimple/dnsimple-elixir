@@ -1,7 +1,6 @@
 defmodule Dnsimple.Contacts do
   alias Dnsimple.Client
   alias Dnsimple.Response
-  alias Dnsimple.ListOptions
   alias Dnsimple.Contact
 
   @moduledoc """
@@ -19,9 +18,8 @@ defmodule Dnsimple.Contacts do
   @spec contacts(Client.t, String.t | integer) :: Response.t
   def contacts(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts")
-    {headers, opts} = Client.headers(options)
 
-    Client.get(client, url, headers, ListOptions.prepare(opts))
+    Client.get_list(client, url, options)
     |> Response.parse(Contact)
   end
 
@@ -33,9 +31,8 @@ defmodule Dnsimple.Contacts do
   @spec contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def contact(client, account_id, contact_id, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
-    {headers, opts} = Client.headers(options)
 
-    Client.get(client, url, headers, opts)
+    Client.get2(client, url, options)
     |> Response.parse(Contact)
   end
 
@@ -47,9 +44,8 @@ defmodule Dnsimple.Contacts do
   @spec create_contact(Client.t, String.t | integer, Keyword.t, Keyword.t) :: Response.t
   def create_contact(client, account_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts")
-    {headers, opts} = Client.headers(options)
 
-    Client.post(client, url, attributes, headers, opts)
+    Client.post2(client, url, attributes, options)
     |> Response.parse(Contact)
   end
 
@@ -62,9 +58,8 @@ defmodule Dnsimple.Contacts do
   @spec update_contact(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: Response.t
   def update_contact(client, account_id, contact_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
-    {headers, opts} = Client.headers(options)
 
-    Client.patch(client, url, attributes, headers, opts)
+    Client.patch(client, url, attributes, options)
     |> Response.parse(Contact)
   end
 
@@ -76,9 +71,8 @@ defmodule Dnsimple.Contacts do
   @spec delete_contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def delete_contact(client, account_id, contact_id, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
-    {headers, opts} = Client.headers(options)
 
-    Client.delete(client, url, headers, opts)
+    Client.delete(client, url, options)
     |> Response.parse(nil)
   end
 

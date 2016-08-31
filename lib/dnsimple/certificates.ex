@@ -32,7 +32,7 @@ defmodule Dnsimple.Certificates do
   def certificate(client, account_id, domain_id, certificate_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}")
 
-    Client.get2(client, url, options)
+    Client.get(client, url, options)
     |> Response.parse(Certificate)
   end
 
@@ -45,7 +45,7 @@ defmodule Dnsimple.Certificates do
   def download(client, account_id, domain_id, certificate_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}/download")
 
-    Client.get2(client, url, options)
+    Client.get(client, url, options)
     |> Response.parse(Certificate)
   end
 
@@ -58,7 +58,8 @@ defmodule Dnsimple.Certificates do
   def private_key(client, account_id, domain_id, certificate_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}/private_key")
 
-    Client.get2(client, url, options)
+    Client.get(client, url, options)
     |> Response.parse(Certificate)
   end
+
 end

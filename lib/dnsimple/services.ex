@@ -32,7 +32,7 @@ defmodule Dnsimple.Services do
   def apply_service(client, account_id, domain_id, service_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services/#{service_id}")
 
-    Client.post2(client, url, _attributes = nil, options)
+    Client.post(client, url, _attributes = nil, options)
     |> Response.parse(nil)
   end
 
@@ -45,7 +45,7 @@ defmodule Dnsimple.Services do
   def unapply_service(client, account_id, domain_id, service_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services/#{service_id}")
 
-    Client.delete2(client, url, options)
+    Client.delete(client, url, options)
     |> Response.parse(nil)
   end
 

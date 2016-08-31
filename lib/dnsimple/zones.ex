@@ -26,7 +26,7 @@ defmodule Dnsimple.Zones do
   def zone(client, account_id, zone_name, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}")
 
-    Client.get2(client, url, options)
+    Client.get(client, url, options)
     |> Response.parse(Zone)
   end
 
@@ -53,7 +53,7 @@ defmodule Dnsimple.Zones do
   def create_record(client, account_id, zone_name, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records")
 
-    Client.post2(client, url, attributes, options)
+    Client.post(client, url, attributes, options)
     |> Response.parse(ZoneRecord)
   end
 
@@ -66,7 +66,7 @@ defmodule Dnsimple.Zones do
   def record(client, account_id, zone_name, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
 
-    Client.get2(client, url, options)
+    Client.get(client, url, options)
     |> Response.parse(Dnsimple.ZoneRecord)
   end
 
@@ -79,7 +79,7 @@ defmodule Dnsimple.Zones do
   def update_record(client, account_id, zone_name, record_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
 
-    Client.patch2(client, url, attributes, options)
+    Client.patch(client, url, attributes, options)
     |> Response.parse(ZoneRecord)
   end
 
@@ -92,7 +92,7 @@ defmodule Dnsimple.Zones do
   def delete_record(client, account_id, zone_name, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
 
-    Client.delete2(client, url, options)
+    Client.delete(client, url, options)
     |> Response.parse(nil)
   end
 

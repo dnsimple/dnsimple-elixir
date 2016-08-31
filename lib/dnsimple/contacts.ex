@@ -32,7 +32,7 @@ defmodule Dnsimple.Contacts do
   def contact(client, account_id, contact_id, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
 
-    Client.get2(client, url, options)
+    Client.get(client, url, options)
     |> Response.parse(Contact)
   end
 
@@ -45,7 +45,7 @@ defmodule Dnsimple.Contacts do
   def create_contact(client, account_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts")
 
-    Client.post2(client, url, attributes, options)
+    Client.post(client, url, attributes, options)
     |> Response.parse(Contact)
   end
 

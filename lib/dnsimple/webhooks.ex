@@ -33,7 +33,7 @@ defmodule Dnsimple.Webhooks do
   def create_webhook(client, account_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/webhooks")
 
-    Client.post2(client, url, attributes, options)
+    Client.post(client, url, attributes, options)
     |> Response.parse(Webhook)
   end
 
@@ -46,7 +46,7 @@ defmodule Dnsimple.Webhooks do
   def webhook(client, account_id, webhook_id, options \\ []) do
     url = Client.versioned("/#{account_id}/webhooks/#{webhook_id}")
 
-    Client.get2(client, url, options)
+    Client.get(client, url, options)
     |> Response.parse(Webhook)
   end
 
@@ -59,7 +59,7 @@ defmodule Dnsimple.Webhooks do
   def delete_webhook(client, account_id, webhook_id, options \\ []) do
     url = Client.versioned("/#{account_id}/webhooks/#{webhook_id}")
 
-    Client.delete2(client, url, options)
+    Client.delete(client, url, options)
     |> Response.parse(nil)
   end
 

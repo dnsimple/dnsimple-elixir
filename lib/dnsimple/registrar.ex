@@ -14,7 +14,7 @@ defmodule Dnsimple.Registrar do
   def check_domain(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/check")
 
-    Client.get2(client, url, options)
+    Client.get(client, url, options)
     |> Response.parse(DomainCheck)
   end
 
@@ -27,7 +27,7 @@ defmodule Dnsimple.Registrar do
   def register_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registration")
 
-    Client.post2(client, url, attributes, options)
+    Client.post(client, url, attributes, options)
     |> Response.parse(Domain)
   end
 
@@ -40,7 +40,7 @@ defmodule Dnsimple.Registrar do
   def renew_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/renewal")
 
-    Client.post2(client, url, attributes, options)
+    Client.post(client, url, attributes, options)
     |> Response.parse(Domain)
   end
 
@@ -53,7 +53,7 @@ defmodule Dnsimple.Registrar do
   def transfer_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer")
 
-    Client.post2(client, url, attributes, options)
+    Client.post(client, url, attributes, options)
     |> Response.parse(Domain)
   end
 
@@ -66,7 +66,7 @@ defmodule Dnsimple.Registrar do
   def transfer_domain_out(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer_out")
 
-    Client.post2(client, url, _body = [], options)
+    Client.post(client, url, _body = [], options)
     |> Response.parse(nil)
   end
 
@@ -80,7 +80,7 @@ defmodule Dnsimple.Registrar do
   def enable_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
 
-    Client.put2(client, url, options)
+    Client.put(client, url, options)
     |> Response.parse(nil)
   end
 
@@ -93,7 +93,7 @@ defmodule Dnsimple.Registrar do
   def disable_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
 
-    Client.delete2(client, url, options)
+    Client.delete(client, url, options)
     |> Response.parse(nil)
   end
 
@@ -107,7 +107,7 @@ defmodule Dnsimple.Registrar do
   def whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
-    Client.get2(client, url, options)
+    Client.get(client, url, options)
     |> Response.parse(WhoisPrivacy)
   end
 
@@ -120,7 +120,7 @@ defmodule Dnsimple.Registrar do
   def enable_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
-    Client.put2(client, url, _body = [], options)
+    Client.put(client, url, _body = [], options)
     |> Response.parse(WhoisPrivacy)
   end
 
@@ -133,7 +133,7 @@ defmodule Dnsimple.Registrar do
   def disable_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
-    Client.delete2(client, url, options)
+    Client.delete(client, url, options)
     |> Response.parse(WhoisPrivacy)
   end
 

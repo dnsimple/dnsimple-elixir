@@ -55,7 +55,7 @@ defmodule Dnsimple.Domains do
   def create_domain(client, account_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/domains")
 
-    Client.post2(client, url, attributes, options)
+    Client.post(client, url, attributes, options)
     |> Response.parse(Domain)
   end
 
@@ -68,7 +68,7 @@ defmodule Dnsimple.Domains do
   def domain(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}")
 
-    Client.get2(client, url, options)
+    Client.get(client, url, options)
     |> Response.parse(Domain)
   end
 
@@ -81,7 +81,7 @@ defmodule Dnsimple.Domains do
   def delete_domain(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}")
 
-    Client.delete2(client, url, options)
+    Client.delete(client, url, options)
     |> Response.parse(nil)
   end
 
@@ -94,7 +94,7 @@ defmodule Dnsimple.Domains do
   def reset_domain_token(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/token")
 
-    Client.post2(client, url, _body = [], options)
+    Client.post(client, url, _body = [], options)
     |> Response.parse(Domain)
   end
 

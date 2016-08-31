@@ -7,7 +7,6 @@ defmodule Dnsimple.Webhooks do
   """
 
   alias Dnsimple.Client
-  alias Dnsimple.ListOptions
   alias Dnsimple.Response
   alias Dnsimple.Webhook
 
@@ -19,8 +18,9 @@ defmodule Dnsimple.Webhooks do
   """
   @spec webhooks(Client.t, String.t | integer) :: Response.t
   def webhooks(client, account_id, options \\ []) do
-    {headers, opts} = Client.headers(options)
-    Client.get(client, Client.versioned("/#{account_id}/webhooks"), headers, ListOptions.prepare(opts))
+    url = Client.versioned("/#{account_id}/webhooks")
+
+    Client.get_list(client, url, options)
     |> Response.parse(Webhook)
   end
 
@@ -31,8 +31,9 @@ defmodule Dnsimple.Webhooks do
   """
   @spec create_webhook(Client.t, String.t | integer, map, Keyword.t) :: Response.t
   def create_webhook(client, account_id, attributes, options \\ []) do
-    {headers, opts} = Client.headers(options)
-    Client.post(client, Client.versioned("/#{account_id}/webhooks"), attributes, headers, opts)
+    url = Client.versioned("/#{account_id}/webhooks")
+
+    Client.post2(client, url, attributes, options)
     |> Response.parse(Webhook)
   end
 
@@ -43,8 +44,9 @@ defmodule Dnsimple.Webhooks do
   """
   @spec webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def webhook(client, account_id, webhook_id, options \\ []) do
-    {headers, opts} = Client.headers(options)
-    Client.get(client, Client.versioned("/#{account_id}/webhooks/#{webhook_id}"), headers, opts)
+    url = Client.versioned("/#{account_id}/webhooks/#{webhook_id}")
+
+    Client.get2(client, url, options)
     |> Response.parse(Webhook)
   end
 
@@ -55,8 +57,10 @@ defmodule Dnsimple.Webhooks do
   """
   @spec delete_webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def delete_webhook(client, account_id, webhook_id, options \\ []) do
-    {headers, opts} = Client.headers(options)
-    Client.delete(client, Client.versioned("/#{account_id}/webhooks/#{webhook_id}"), headers, opts)
+    url = Client.versioned("/#{account_id}/webhooks/#{webhook_id}")
+
+    Client.delete2(client, url, options)
     |> Response.parse(nil)
   end
+
 end

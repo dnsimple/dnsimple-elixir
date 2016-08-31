@@ -1,5 +1,44 @@
 defmodule Dnsimple do
 
+  defmodule ListOptions do
+    @known_params ~w(filter sort page per_page)a
+
+    @doc """
+    Convert options for list endpoints into HTTP params
+    """
+    def prepare(options = []), do: options
+    def prepare(options) do
+      {params, options} = Enum.reduce(@known_params, {[], options}, &extract_param/2)
+
+      Keyword.merge([params: params], options)
+    end
+
+    defp extract_param(:filter = option, {params, options}) do
+      case Keyword.has_key?(options, option) do
+        true ->
+          value   = Keyword.get(options, option)
+          params  = Keyword.merge(params, value)
+          options = Keyword.delete(options, option)
+          {params, options}
+        false ->
+          {params, options}
+      end
+    end
+    defp extract_param(option, {params, options}) do
+      case Keyword.has_key?(options, option) do
+        true ->
+          value   = Keyword.get(options, option)
+          params  = Keyword.put(params, option, value)
+          options = Keyword.delete(options, option)
+          {params, options}
+        false ->
+          {params, options}
+      end
+    end
+
+  end
+
+
   defmodule Error do
     def decode(body) do
       Poison.decode!(body)
@@ -171,39 +210,4 @@ defmodule Dnsimple do
     end
 
   end
-
-  defmodule ListOptions do
-    @doc """
-    Convert options for list endpoints into HTTP params
-    """
-    def prepare(options = []), do: options
-    def prepare(options) do
-      params = Keyword.new
-
-      not_nil = fn v -> v != nil end
-
-      params = params
-      |> merge_if(Keyword.get(options, :filter), not_nil)
-      |> put_if(:sort, Keyword.get(options, :sort), not_nil)
-      |> put_if(:page, Keyword.get(options, :page), not_nil)
-      |> put_if(:per_page, Keyword.get(options, :per_page), not_nil)
-
-      [params: params]
-    end
-
-    defp put_if(keywords, name, value, function) do
-      case function.(value) do
-        true -> Keyword.put(keywords, name, value)
-        false -> keywords
-      end
-    end
-
-    defp merge_if(keywords, keywords2, function) do
-      case function.(keywords2) do
-        true -> Keyword.merge(keywords, keywords2)
-        false -> keywords
-      end
-    end
-  end
-
 end

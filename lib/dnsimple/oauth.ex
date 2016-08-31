@@ -25,10 +25,9 @@ defmodule Dnsimple.Oauth do
   def exchange_authorization_for_token(client, attributes, options \\ []) do
     url        = Client.versioned("/oauth/access_token")
     attributes = Map.merge(attributes, %{grant_type: "authorization_code"})
-    {headers, opts} = Client.headers(options)
 
-    Client.post(client, url, attributes, headers, opts)
-      |> Response.parse(OauthToken)
+    Client.post2(client, url, attributes, options)
+    |> Response.parse(OauthToken)
   end
 
 end

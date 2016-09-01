@@ -6,6 +6,7 @@ defmodule Dnsimple.Webhooks do
   See https://developer.dnsimple.com/v2/webhooks/
   """
 
+  alias Dnsimple.List
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.Webhook
@@ -20,7 +21,7 @@ defmodule Dnsimple.Webhooks do
   def webhooks(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/webhooks")
 
-    Client.get_list(client, url, options)
+    List.get(client, url, options)
     |> Response.parse(Webhook)
   end
 

@@ -6,6 +6,7 @@ defmodule Dnsimple.Services do
   @see https://developer.dnsimple.com/v2/services/domains/
   """
 
+  alias Dnsimple.List
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.Service
@@ -20,7 +21,7 @@ defmodule Dnsimple.Services do
   def applied_services(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services")
 
-    Client.get_list(client, url, options)
+    List.get(client, url, options)
     |> Response.parse(Service)
   end
 

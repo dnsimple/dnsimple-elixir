@@ -7,6 +7,7 @@ defmodule Dnsimple.Zones do
   See https://developer.dnsimple.com/v2/zones/records/
   """
 
+  alias Dnsimple.List
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.Zone
@@ -22,7 +23,7 @@ defmodule Dnsimple.Zones do
   def zones(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones")
 
-    Client.get_list(client, url, options)
+    List.get(client, url, options)
     |> Response.parse(Zone)
   end
 
@@ -49,7 +50,7 @@ defmodule Dnsimple.Zones do
   def records(client, account_id, zone_name, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records")
 
-    Client.get_list(client, url, options)
+    List.get(client, url, options)
     |> Response.parse(ZoneRecord)
   end
 

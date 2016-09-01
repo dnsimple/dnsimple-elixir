@@ -20,7 +20,7 @@ defmodule Dnsimple.Contacts do
   def contacts(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts")
 
-    Client.get_list(client, url, options)
+    List.get(client, url, options)
     |> Response.parse(Contact)
   end
 

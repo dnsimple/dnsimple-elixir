@@ -1,47 +1,5 @@
 defmodule Dnsimple do
 
-  defmodule ListOptions do
-    @known_params ~w(filter sort page per_page)a
-
-    @doc """
-    Convert options for list endpoints into HTTP params
-    """
-    def prepare(options = []), do: options
-    def prepare(options) do
-      {params, options} = Enum.reduce(@known_params, {[], options}, &extract_param/2)
-
-      case Enum.empty?(params) do
-        true  -> options
-        false -> Keyword.merge([params: params], options)
-      end
-    end
-
-    defp extract_param(:filter = option, {params, options}) do
-      case Keyword.has_key?(options, option) do
-        true ->
-          value   = Keyword.get(options, option)
-          params  = Keyword.merge(params, value)
-          options = Keyword.delete(options, option)
-          {params, options}
-        false ->
-          {params, options}
-      end
-    end
-    defp extract_param(option, {params, options}) do
-      case Keyword.has_key?(options, option) do
-        true ->
-          value   = Keyword.get(options, option)
-          params  = Keyword.put(params, option, value)
-          options = Keyword.delete(options, option)
-          {params, options}
-        false ->
-          {params, options}
-      end
-    end
-
-  end
-
-
   defmodule Error do
     def decode(body) do
       Poison.decode!(body)
@@ -54,7 +12,6 @@ defmodule Dnsimple do
     invalid request information.
     """
 
-    alias Dnsimple.Error
     defexception [:message, :http_response]
 
     def new(http_response) do
@@ -92,8 +49,6 @@ defmodule Dnsimple do
     defstruct access_token: nil, base_url: @default_base_url, user_agent: nil
     @type t :: %__MODULE__{access_token: String.t, base_url: String.t, user_agent: String.t}
 
-    alias Dnsimple.RequestError
-
     @type headers :: [{binary, binary}] | %{binary => binary}
     @type body :: binary | {:form, [{atom, any}]} | {:file, binary}
 
@@ -111,12 +66,6 @@ defmodule Dnsimple do
     def versioned(path) do
       "/" <> @api_version <> path
     end
-
-    @doc """
-    Issues a GET request to the given url processing the listing options first.
-    """
-    @spec get_list(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
-    def get_list(client, url, options \\ []), do: get(client, url, ListOptions.prepare(options))
 
     @doc """
     Issues a GET request to the given url.
@@ -206,6 +155,53 @@ defmodule Dnsimple do
         i when i in 200..299 -> { :ok, http_response }
         404 -> { :error, NotFoundError.new(http_response) }
         _   -> { :error, RequestError.new(http_response) }
+      end
+    end
+  end
+
+
+  defmodule List do
+    @doc """
+    Issues a GET request to the given url processing the listing options first.
+    """
+    @spec get(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def get(client, url, options \\ []), do: Client.get(client, url, format(options))
+
+
+    @known_params ~w(filter sort page per_page)a
+
+    @doc """
+    Format request options for list endpoints into HTTP params.
+    """
+    def format(options) do
+      {params, options} = Enum.reduce(@known_params, {[], options}, &extract_param/2)
+
+      case Enum.empty?(params) do
+        true  -> options
+        false -> Keyword.merge([params: params], options)
+      end
+    end
+
+    defp extract_param(:filter = option, {params, options}) do
+      case Keyword.has_key?(options, option) do
+        true ->
+          value   = Keyword.get(options, option)
+          params  = Keyword.merge(params, value)
+          options = Keyword.delete(options, option)
+          {params, options}
+        false ->
+          {params, options}
+      end
+    end
+    defp extract_param(option, {params, options}) do
+      case Keyword.has_key?(options, option) do
+        true ->
+          value   = Keyword.get(options, option)
+          params  = Keyword.put(params, option, value)
+          options = Keyword.delete(options, option)
+          {params, options}
+        false ->
+          {params, options}
       end
     end
 

@@ -1,8 +1,17 @@
 defmodule Dnsimple.Zones do
+  @moduledoc """
+  Handles communication with zone and zone record related
+  methods of the DNSimple API.
+
+  See https://developer.dnsimple.com/v2/zones/
+  See https://developer.dnsimple.com/v2/zones/records/
+  """
+
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.Zone
   alias Dnsimple.ZoneRecord
+
 
   @doc """
   Lists the zones in the account.

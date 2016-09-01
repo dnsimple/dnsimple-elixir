@@ -1,13 +1,14 @@
 defmodule Dnsimple.Contacts do
-  alias Dnsimple.Client
-  alias Dnsimple.Response
-  alias Dnsimple.Contact
-
   @moduledoc """
   Represents the operations that can be performed with contacts.
 
   See: https://developer.dnsimple.com/v2/contacts/
   """
+
+  alias Dnsimple.List
+  alias Dnsimple.Client
+  alias Dnsimple.Response
+  alias Dnsimple.Contact
 
 
   @doc """

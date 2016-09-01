@@ -10,6 +10,7 @@ defmodule Dnsimple.Certificates do
   alias Dnsimple.Response
   alias Dnsimple.Certificate
 
+
   @doc """
   List certificates.
 

@@ -1,6 +1,6 @@
 defmodule Dnsimple.Accounts do
   @moduledoc """
-  AccountsService handles communication with the account related
+  Accounts handles communication with the account related
   methods of the DNSimple API.
 
   See https://developer.dnsimple.com/v2/accounts/
@@ -9,7 +9,6 @@ defmodule Dnsimple.Accounts do
   alias Dnsimple.Client
   alias Dnsimple.Account
   alias Dnsimple.Response
-  alias Dnsimple.ListOptions
 
 
   @doc """
@@ -19,8 +18,9 @@ defmodule Dnsimple.Accounts do
   """
   @spec accounts(Client.t) :: Response.t
   def accounts(client, options \\ []) do
-    {headers, opts} = Client.headers(options)
-    Client.get(client, Client.versioned("/accounts"), headers, ListOptions.prepare(opts))
+    url = Client.versioned("/accounts")
+
+    Client.get(client, url, options)
     |> Response.parse(Account)
   end
 

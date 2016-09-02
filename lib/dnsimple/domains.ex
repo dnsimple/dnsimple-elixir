@@ -6,8 +6,8 @@ defmodule Dnsimple.Domains do
   See https://developer.dnsimple.com/v2/domains/
   """
 
+  alias Dnsimple.List
   alias Dnsimple.Client
-  alias Dnsimple.ListOptions
   alias Dnsimple.Response
   alias Dnsimple.Domain
 
@@ -19,8 +19,9 @@ defmodule Dnsimple.Domains do
   """
   @spec domains(Client.t, String.t | integer) :: Response.t
   def domains(client, account_id, options \\ []) do
-    {headers, opts} = Client.headers(options)
-    Client.get(client, Client.versioned("/#{account_id}/domains"), headers, ListOptions.prepare(opts))
+    url = Client.versioned("/#{account_id}/domains")
+
+    List.get(client, url, options)
     |> Response.parse(Domain)
   end
 
@@ -53,8 +54,9 @@ defmodule Dnsimple.Domains do
   """
   @spec create_domain(Client.t, String.t | integer, map, Keyword.t) :: Response.t
   def create_domain(client, account_id, attributes, options \\ []) do
-    {headers, opts} = Client.headers(options)
-    Client.post(client, Client.versioned("/#{account_id}/domains"), attributes, headers, opts)
+    url = Client.versioned("/#{account_id}/domains")
+
+    Client.post(client, url, attributes, options)
     |> Response.parse(Domain)
   end
 
@@ -65,8 +67,9 @@ defmodule Dnsimple.Domains do
   """
   @spec domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def domain(client, account_id, domain_id, options \\ []) do
-    {headers, opts} = Client.headers(options)
-    Client.get(client, Client.versioned("/#{account_id}/domains/#{domain_id}"), headers, opts)
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}")
+
+    Client.get(client, url, options)
     |> Response.parse(Domain)
   end
 
@@ -77,8 +80,9 @@ defmodule Dnsimple.Domains do
   """
   @spec delete_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def delete_domain(client, account_id, domain_id, options \\ []) do
-    {headers, opts} = Client.headers(options)
-    Client.delete(client, Client.versioned("/#{account_id}/domains/#{domain_id}"), headers, opts)
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}")
+
+    Client.delete(client, url, options)
     |> Response.parse(nil)
   end
 
@@ -90,9 +94,8 @@ defmodule Dnsimple.Domains do
   @spec reset_domain_token(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def reset_domain_token(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/token")
-    {headers, opts} = Client.headers(options)
 
-    Client.post(client, url, _body = [], headers, opts)
+    Client.post(client, url, _body = [], options)
     |> Response.parse(Domain)
   end
 

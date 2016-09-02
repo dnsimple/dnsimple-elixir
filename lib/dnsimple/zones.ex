@@ -1,7 +1,18 @@
 defmodule Dnsimple.Zones do
+  @moduledoc """
+  Handles communication with zone and zone record related
+  methods of the DNSimple API.
+
+  See https://developer.dnsimple.com/v2/zones/
+  See https://developer.dnsimple.com/v2/zones/records/
+  """
+
+  alias Dnsimple.List
   alias Dnsimple.Client
-  alias Dnsimple.ListOptions
   alias Dnsimple.Response
+  alias Dnsimple.Zone
+  alias Dnsimple.ZoneRecord
+
 
   @doc """
   Lists the zones in the account.
@@ -11,10 +22,9 @@ defmodule Dnsimple.Zones do
   @spec zones(Client.t, String.t, Keyword.t) :: Response.t
   def zones(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones")
-    {headers, opts} = Client.headers(options)
 
-    Client.get(client, url, headers, ListOptions.prepare(opts))
-      |> Response.parse(Dnsimple.Zone)
+    List.get(client, url, options)
+    |> Response.parse(Zone)
   end
 
   @doc """
@@ -25,11 +35,11 @@ defmodule Dnsimple.Zones do
   @spec zone(Client.t, String.t, String.t, Keyword.t) :: Response.t
   def zone(client, account_id, zone_name, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}")
-    {headers, opts} = Client.headers(options)
 
-    Client.get(client, url, headers, opts)
-      |> Response.parse(Dnsimple.Zone)
+    Client.get(client, url, options)
+    |> Response.parse(Zone)
   end
+
 
   @doc """
   Lists the records in a zone.
@@ -39,10 +49,9 @@ defmodule Dnsimple.Zones do
   @spec records(Client.t, String.t, String.t, Keyword.t) :: Response.t
   def records(client, account_id, zone_name, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records")
-    {headers, opts} = Client.headers(options)
 
-    Client.get(client, url, headers, ListOptions.prepare(opts))
-      |> Response.parse(Dnsimple.ZoneRecord)
+    List.get(client, url, options)
+    |> Response.parse(ZoneRecord)
   end
 
   @doc """
@@ -53,10 +62,9 @@ defmodule Dnsimple.Zones do
   @spec create_record(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
   def create_record(client, account_id, zone_name, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records")
-    {headers, opts} = Client.headers(options)
 
-    Client.post(client, url, attributes, headers, opts)
-      |> Response.parse(Dnsimple.ZoneRecord)
+    Client.post(client, url, attributes, options)
+    |> Response.parse(ZoneRecord)
   end
 
   @doc """
@@ -67,10 +75,9 @@ defmodule Dnsimple.Zones do
   @spec record(Client.t, String.t, String.t, integer, Keyword.t) :: Response.t
   def record(client, account_id, zone_name, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
-    {headers, opts} = Client.headers(options)
 
-    Client.get(client, url, headers, opts)
-      |> Response.parse(Dnsimple.ZoneRecord)
+    Client.get(client, url, options)
+    |> Response.parse(Dnsimple.ZoneRecord)
   end
 
   @doc """
@@ -81,10 +88,9 @@ defmodule Dnsimple.Zones do
   @spec update_record(Client.t, String.t, String.t, integer, Keyword.t, Keyword.t) :: Response.t
   def update_record(client, account_id, zone_name, record_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
-    {headers, opts} = Client.headers(options)
 
-    Client.patch(client, url, attributes, headers, opts)
-      |> Response.parse(Dnsimple.ZoneRecord)
+    Client.patch(client, url, attributes, options)
+    |> Response.parse(ZoneRecord)
   end
 
   @doc """
@@ -95,10 +101,9 @@ defmodule Dnsimple.Zones do
   @spec delete_record(Client.t, String.t, String.t, integer, Keyword.t) :: Response.t
   def delete_record(client, account_id, zone_name, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_name}/records/#{record_id}")
-    {headers, opts} = Client.headers(options)
 
-    Client.delete(client, url, headers, opts)
-      |> Response.parse(nil)
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
   end
 
 end

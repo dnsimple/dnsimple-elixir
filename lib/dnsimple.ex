@@ -12,7 +12,6 @@ defmodule Dnsimple do
     invalid request information.
     """
 
-    alias Dnsimple.Error
     defexception [:message, :http_response]
 
     def new(http_response) do
@@ -50,8 +49,6 @@ defmodule Dnsimple do
     defstruct access_token: nil, base_url: @default_base_url, user_agent: nil
     @type t :: %__MODULE__{access_token: String.t, base_url: String.t, user_agent: String.t}
 
-    alias Dnsimple.RequestError
-
     @type headers :: [{binary, binary}] | %{binary => binary}
     @type body :: binary | {:form, [{atom, any}]} | {:file, binary}
 
@@ -70,74 +67,53 @@ defmodule Dnsimple do
       "/" <> @api_version <> path
     end
 
-    @spec headers(Keyword.t) :: {t, t}
-    def headers(options) do
-      Keyword.split(options, [:headers])
-    end
-
-
-    @spec url(Client.t, String.t) :: String.t
-    defp url(%Client{base_url: base_url}, path) do
-      base_url <> path
-    end
-
     @doc """
     Issues a GET request to the given url.
     """
-    @spec get(Client.t, binary, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
-    def get(client, url, headers \\ [], options \\ []), do: execute(client, :get, url, "", headers, options)
+    @spec get(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def get(client, url, options \\ []), do: execute(client, :get, url, "", options)
 
     @doc """
     Issues a POST request to the given url.
     """
-    @spec post(Client.t, binary, body, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
-    def post(client, url, body, headers \\ [], options \\ []), do: execute(client, :post, url, body, headers, options)
+    @spec post(Client.t, binary, body, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def post(client, url, body, options \\ []), do: execute(client, :post, url, body, options)
 
     @doc """
     Issues a PUT request to the given url.
     """
-    @spec put(Client.t, binary, body, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
-    def put(client, url, body, headers \\ [], options \\ []), do: execute(client, :put, url, body, headers, options)
+    @spec put(Client.t, binary, body, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def put(client, url, body, options \\ []), do: execute(client, :put, url, body, options)
 
     @doc """
     Issues a PATCH request to the given url.
     """
-    @spec patch(Client.t, binary, body, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
-    def patch(client, url, body, headers \\ [], options \\ []), do: execute(client, :patch, url, body, headers, options)
+    @spec patch(Client.t, binary, body, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def patch(client, url, body, options \\ []), do: execute(client, :patch, url, body, options)
 
     @doc """
     Issues a DELETE request to the given url.
     """
-    @spec delete(Client.t, binary, headers, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
-    def delete(client, url, headers \\ [], options \\ []), do: execute(client, :delete, url, "", headers, options)
+    @spec delete(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def delete(client, url, options \\ []), do: execute(client, :delete, url, "", options)
 
+    def execute(client, method, url, body \\ "", all_options \\ []) do
+      {headers, options} = split_headers_options(client, all_options)
+      {headers, body}    = process_request_body(headers, body)
 
-    def execute(client, method, url, body \\ "", headers \\ [], options \\ []) do
-      headers = headers ++ [
+      HTTPoison.request!(method, url(client, url), body, headers, options)
+      |> check_response
+    end
+
+    defp split_headers_options(client, all_options) do
+      default_headers = [
         {"Accept", "application/json"},
         {"User-Agent", format_user_agent(client.user_agent)},
         {"Authorization", "Bearer #{client.access_token}"},
       ]
 
-      { body, headers } = process_request_body(body, headers)
-
-      request(client, method, url, body, headers, options)
-      |> check_response
-    end
-
-    @doc """
-    Sends an HTTP request and returns an HTTP response.
-    """
-    def request(client, method, url, body \\ "", headers \\ [], options \\ []) do
-      HTTPoison.request!(method, url(client, url), body, headers, options)
-    end
-
-    def check_response(http_response) do
-      case http_response.status_code  do
-        i when i in 200..299 -> { :ok, http_response }
-        404 -> { :error, NotFoundError.new(http_response) }
-        _   -> { :error, RequestError.new(http_response) }
-      end
+      {headers, options} = Keyword.split(all_options, [:headers])
+      {headers ++ default_headers, options}
     end
 
     # Builds the final user agent to use for HTTP requests.
@@ -161,49 +137,73 @@ defmodule Dnsimple do
       Enum.find(headers, fn({key, _}) -> key == name end)
     end
 
-    defp process_request_body(nil,  headers), do: { nil, headers }
-    defp process_request_body(body, headers) when is_binary(body), do: { body, headers }
-    defp process_request_body(body, headers) do
+    defp process_request_body(headers, nil), do: {headers, nil}
+    defp process_request_body(headers, body) when is_binary(body), do: {headers, body}
+    defp process_request_body(headers, body) do
       case get_header(headers, "Accept") do
-        { _, "application/json" } -> { Poison.encode!(body), [{"Content-Type", "application/json"}|headers] }
-        _ -> { body, headers }
+        {_, "application/json"} -> {[{"Content-Type", "application/json"}|headers], Poison.encode!(body)}
+        _                       -> {headers, body}
       end
     end
 
+    defp url(%Client{base_url: base_url}, path) do
+      base_url <> path
+    end
+
+    defp check_response(http_response) do
+      case http_response.status_code  do
+        i when i in 200..299 -> { :ok, http_response }
+        404 -> { :error, NotFoundError.new(http_response) }
+        _   -> { :error, RequestError.new(http_response) }
+      end
+    end
   end
 
-  defmodule ListOptions do
+
+  defmodule List do
     @doc """
-    Convert options for list endpoints into HTTP params
+    Issues a GET request to the given url processing the listing options first.
     """
-    def prepare(options = []), do: options
-    def prepare(options) do
-      params = Keyword.new
+    @spec get(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    def get(client, url, options \\ []), do: Client.get(client, url, format(options))
 
-      not_nil = fn v -> v != nil end
 
-      params = params
-      |> merge_if(Keyword.get(options, :filter), not_nil)
-      |> put_if(:sort, Keyword.get(options, :sort), not_nil)
-      |> put_if(:page, Keyword.get(options, :page), not_nil)
-      |> put_if(:per_page, Keyword.get(options, :per_page), not_nil)
+    @known_params ~w(filter sort page per_page)a
 
-      [params: params]
-    end
+    @doc """
+    Format request options for list endpoints into HTTP params.
+    """
+    def format(options) do
+      {params, options} = Enum.reduce(@known_params, {[], options}, &extract_param/2)
 
-    defp put_if(keywords, name, value, function) do
-      case function.(value) do
-        true -> Keyword.put(keywords, name, value)
-        false -> keywords
+      case Enum.empty?(params) do
+        true  -> options
+        false -> Keyword.merge([params: params], options)
       end
     end
 
-    defp merge_if(keywords, keywords2, function) do
-      case function.(keywords2) do
-        true -> Keyword.merge(keywords, keywords2)
-        false -> keywords
+    defp extract_param(:filter = option, {params, options}) do
+      case Keyword.has_key?(options, option) do
+        true ->
+          value   = Keyword.get(options, option)
+          params  = Keyword.merge(params, value)
+          options = Keyword.delete(options, option)
+          {params, options}
+        false ->
+          {params, options}
       end
     end
+    defp extract_param(option, {params, options}) do
+      case Keyword.has_key?(options, option) do
+        true ->
+          value   = Keyword.get(options, option)
+          params  = Keyword.put(params, option, value)
+          options = Keyword.delete(options, option)
+          {params, options}
+        false ->
+          {params, options}
+      end
+    end
+
   end
-
 end

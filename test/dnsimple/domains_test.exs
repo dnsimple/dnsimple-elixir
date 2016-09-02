@@ -135,9 +135,8 @@ defmodule Dnsimple.DomainsServiceTest do
       fixture     = "resetDomainToken/success.http"
       method      = "post"
       url         = "#{@client.base_url}/v2/1010/domains/example.com/token"
-      {:ok, body} = Poison.encode([])
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
         {:ok, response} = @service.reset_domain_token(@client, "1010", "example.com")
 
         assert response.data.__struct__ == Dnsimple.Domain

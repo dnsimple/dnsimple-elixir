@@ -34,7 +34,7 @@ defmodule Dnsimple.Services do
   def apply_service(client, account_id, domain_id, service_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services/#{service_id}")
 
-    Client.post(client, url, _attributes = nil, options)
+    Client.post(client, url, _body = nil, options)
     |> Response.parse(nil)
   end
 

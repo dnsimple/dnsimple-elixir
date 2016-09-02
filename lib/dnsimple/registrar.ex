@@ -80,7 +80,7 @@ defmodule Dnsimple.Registrar do
   def enable_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
 
-    Client.put(client, url, options)
+    Client.put(client, url, _body = nil, options)
     |> Response.parse(nil)
   end
 

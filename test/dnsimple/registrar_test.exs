@@ -121,10 +121,8 @@ defmodule Dnsimple.RegistrarTest do
     fixture = "enableDomainAutoRenewal/success.http"
     method  = "put"
     url     = "#{@client.base_url}/v2/1010/registrar/domains/example.com/auto_renewal"
-    attributes  = []
-    {:ok, body} = Poison.encode(attributes)
 
-    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
       {:ok, response} = @service.enable_auto_renewal(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response

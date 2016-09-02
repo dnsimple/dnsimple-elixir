@@ -67,6 +67,17 @@ defmodule Dnsimple do
       "/" <> @api_version <> path
     end
 
+    @doc"""
+    Returns the representation of an empty body in a request.
+
+    ## Examples
+       iex> Dnsimple.Client.empty_body
+       nil
+
+    """
+    @spec empty_body :: nil
+    def empty_body, do: nil
+
     @doc """
     Issues a GET request to the given url.
     """

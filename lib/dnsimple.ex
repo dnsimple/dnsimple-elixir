@@ -71,7 +71,7 @@ defmodule Dnsimple do
     Issues a GET request to the given url.
     """
     @spec get(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
-    def get(client, url, options \\ []), do: execute(client, :get, url, "", options)
+    def get(client, url, options \\ []), do: execute(client, :get, url, nil, options)
 
     @doc """
     Issues a POST request to the given url.
@@ -95,7 +95,7 @@ defmodule Dnsimple do
     Issues a DELETE request to the given url.
     """
     @spec delete(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
-    def delete(client, url, options \\ []), do: execute(client, :delete, url, "", options)
+    def delete(client, url, options \\ []), do: execute(client, :delete, url, nil, options)
 
     def execute(client, method, url, body \\ "", all_options \\ []) do
       {headers, options} = split_headers_options(client, all_options)

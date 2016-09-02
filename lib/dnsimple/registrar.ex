@@ -66,7 +66,7 @@ defmodule Dnsimple.Registrar do
   def transfer_domain_out(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer_out")
 
-    Client.post(client, url, _body = nil, options)
+    Client.post(client, url, Client.empty_body, options)
     |> Response.parse(nil)
   end
 
@@ -80,7 +80,7 @@ defmodule Dnsimple.Registrar do
   def enable_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
 
-    Client.put(client, url, _body = nil, options)
+    Client.put(client, url, Client.empty_body, options)
     |> Response.parse(nil)
   end
 
@@ -120,7 +120,7 @@ defmodule Dnsimple.Registrar do
   def enable_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
-    Client.put(client, url, _body = nil, options)
+    Client.put(client, url, Client.empty_body, options)
     |> Response.parse(WhoisPrivacy)
   end
 

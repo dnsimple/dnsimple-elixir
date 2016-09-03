@@ -107,10 +107,8 @@ defmodule Dnsimple.RegistrarTest do
     fixture     = "transferDomainOut/success.http"
     method      = "post"
     url         = "#{@client.base_url}/v2/1010/registrar/domains/example.com/transfer_out"
-    attributes  = []
-    {:ok, body} = Poison.encode(attributes)
 
-    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
       {:ok, response} = @service.transfer_domain_out(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response
@@ -123,10 +121,8 @@ defmodule Dnsimple.RegistrarTest do
     fixture = "enableDomainAutoRenewal/success.http"
     method  = "put"
     url     = "#{@client.base_url}/v2/1010/registrar/domains/example.com/auto_renewal"
-    attributes  = []
-    {:ok, body} = Poison.encode(attributes)
 
-    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
       {:ok, response} = @service.enable_auto_renewal(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response
@@ -173,10 +169,8 @@ defmodule Dnsimple.RegistrarTest do
     fixture     = "enableWhoisPrivacy/created.http"
     method      = "put"
     url         = "#{@client.base_url}/v2/1010/registrar/domains/example.com/whois_privacy"
-    attributes  = []
-    {:ok, body} = Poison.encode(attributes)
 
-    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+    use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
       {:ok, response} = @service.enable_whois_privacy(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response

@@ -3,12 +3,18 @@
 
 #### master
 
+- NEW: Added support for contact endpoints(GH-38)
+- NEW: Added reset domain token endpoint support (GH-37)
+- NEW: Added support for accounts (GH-29)
 - NEW: Added support for filtering and sorting (GH-19)
 - NEW: Added support for domain services (GH-24)
-- NEW: Added support for certificates (GH-24)
+- NEW: Added support for certificates (GH-26)
 - NEW: Added support for webhooks (GH-27)
+- NEW: Added support for OAuth dance (GH-12)
+- NEW: Added support for whois privacy (GH-6)
+- NEW: Added support for domain auto renewal (GH-5)
 
-- CHANGED: Setting a custom user-agent no longer overrides the origina user-agent (GH-15)
+- CHANGED: Setting a custom user-agent no longer overrides the original user-agent (GH-15)
 - CHANGED: Renamed Record struct to ZoneRecord (GH-18).
 
 - REMOVED: Removed support for wildcard accounts (GH-16).

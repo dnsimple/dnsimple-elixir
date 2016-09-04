@@ -148,7 +148,7 @@ defmodule Dnsimple do
       Enum.find(headers, fn({key, _}) -> key == name end)
     end
 
-    defp process_request_body(headers, nil), do: {headers, nil}
+    defp process_request_body(headers, nil), do: {headers, []}
     defp process_request_body(headers, body) when is_binary(body), do: {headers, body}
     defp process_request_body(headers, body) do
       case get_header(headers, "Accept") do

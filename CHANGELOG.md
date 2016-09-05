@@ -3,7 +3,9 @@
 
 #### master
 
-- NEW: Added support for contact endpoints(GH-38)
+- NEW: Added function to start OTP app (GH-45)
+
+- NEW: Added support for contact endpoints (GH-38)
 - NEW: Added reset domain token endpoint support (GH-37)
 - NEW: Added support for accounts (GH-29)
 - NEW: Added support for filtering and sorting (GH-19)

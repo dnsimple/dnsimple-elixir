@@ -49,9 +49,9 @@ iex> client = %Dnsimple.Client{access_token: "TOKEN", base_url: "https://api.san
 # Check the login
 iex> {:ok, response} =Dnsimple.Identity.whoami(client)
 iex> response.data
-#=> %{"account" => %{"created_at" => "2014-05-19T14:20:32.263Z",
-      "email" => "example-account@example.com", "id" => 1,
-      "updated_at" => "2015-04-01T10:07:47.559Z"}, "user" => nil}
+# => %{"account" => %{"created_at" => "2014-05-19T14:20:32.263Z",
+# =>   "email" => "example-account@example.com", "id" => 1,
+# =>   "updated_at" => "2015-04-01T10:07:47.559Z"}, "user" => nil}
 ```
 
 

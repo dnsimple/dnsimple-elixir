@@ -1,4 +1,4 @@
-defmodule Dnsimple.AccountsServiceTest do
+defmodule Dnsimple.AccountsTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 

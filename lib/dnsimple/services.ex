@@ -1,6 +1,6 @@
 defmodule Dnsimple.Services do
   @moduledoc """
-  DomainServicesService handles communication with the DNSimple
+  The Services module handles communication with the DNSimple
   API responsible for applying one-click services to domains.
 
   @see https://developer.dnsimple.com/v2/services/domains/

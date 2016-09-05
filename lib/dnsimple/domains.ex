@@ -1,6 +1,6 @@
 defmodule Dnsimple.Domains do
   @moduledoc """
-  DomainsService handles communication with the domain related
+  The Domains module handles communication with the domain related
   methods of the DNSimple API.
 
   See https://developer.dnsimple.com/v2/domains/

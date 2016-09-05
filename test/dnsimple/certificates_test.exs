@@ -2,35 +2,35 @@ defmodule Dnsimple.CertificatesTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  @service Dnsimple.Certificates
+  @module Dnsimple.Certificates
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
 
   test ".certificates builds the correct request" do
     fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates"])
     use_cassette :stub, fixture do
-      @service.certificates(@client, "1010", "example.com")
+      @module.certificates(@client, "1010", "example.com")
     end
   end
 
   test ".certificates builds sends custom headers" do
     fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates"])
     use_cassette :stub, fixture do
-      @service.certificates(@client, "1010", "example.com", [headers: %{"X-Header" => "X-Value"}])
+      @module.certificates(@client, "1010", "example.com", [headers: %{"X-Header" => "X-Value"}])
     end
   end
 
   test ".certificates supports sorting" do
     fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates?sort=id%3Adesc"])
     use_cassette :stub, fixture do
-      @service.certificates(@client, "1010", "example.com", [sort: "id:desc"])
+      @module.certificates(@client, "1010", "example.com", [sort: "id:desc"])
     end
   end
 
   test ".certificates supports filtering" do
     fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates?common_name_like=www"])
     use_cassette :stub, fixture do
-      @service.certificates(@client, "1010", "example.com", [filter: [common_name_like: "www"]])
+      @module.certificates(@client, "1010", "example.com", [filter: [common_name_like: "www"]])
     end
   end
 

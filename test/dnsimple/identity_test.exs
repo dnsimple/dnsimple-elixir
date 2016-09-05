@@ -2,13 +2,13 @@ defmodule Dnsimple.IdentityTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  @service Dnsimple.Identity
+  @module Dnsimple.Identity
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
 
   test ".whoami" do
     use_cassette :stub, ExvcrUtils.response_fixture("whoami/success.http", [url: "~r/\/v2\/whoami/$"]) do
-      {:ok, response} = @service.whoami(@client)
+      {:ok, response} = @module.whoami(@client)
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data

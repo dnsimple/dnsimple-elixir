@@ -22,8 +22,7 @@ You will have to add the `dnsimple` app to your `mix.exs` file as a dependency:
 ```elixir
 def deps do
   [
-    #...
-    {:dnsimple, "~> 0.9"}
+    {:dnsimple, "~> 0.9"}, #...
   ]
 end
 ```
@@ -32,7 +31,9 @@ And then add it to the list of applications that should be started:
 
 ```elixir
 def application do
-  [applications: [ :dnsimple, ... ]]
+  [applications: [
+    :dnsimple, #...
+  ]]
 end
 ```
 

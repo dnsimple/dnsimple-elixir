@@ -59,8 +59,8 @@ defmodule Dnsimple.Response do
   end
   defp extract_pagination(_), do: nil
 
-  def decode(%HTTPoison.Response{ body: "" }), do: %{}
-  def decode(%HTTPoison.Response{ body: body }), do: Poison.decode!(body)
+  def decode(%HTTPoison.Response{body: ""}), do: %{}
+  def decode(%HTTPoison.Response{body: body}), do: Poison.decode!(body)
 
   defp to_struct(attrs, kind) when is_list(attrs), do: Dnsimple.Utils.attrs_to_structs(attrs, kind)
   defp to_struct(attrs, kind), do: Dnsimple.Utils.attrs_to_struct(attrs, kind)

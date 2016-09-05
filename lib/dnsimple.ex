@@ -170,9 +170,9 @@ defmodule Dnsimple do
 
     defp check_response(http_response) do
       case http_response.status_code  do
-        i when i in 200..299 -> { :ok, http_response }
-        404 -> { :error, NotFoundError.new(http_response) }
-        _   -> { :error, RequestError.new(http_response) }
+        i when i in 200..299 -> {:ok, http_response}
+        404 -> {:error, NotFoundError.new(http_response)}
+        _   -> {:error, RequestError.new(http_response)}
       end
     end
   end

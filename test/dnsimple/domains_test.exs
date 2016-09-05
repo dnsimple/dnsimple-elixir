@@ -42,7 +42,7 @@ defmodule Dnsimple.DomainsTest do
     test "returns a list of Dnsimple.Response" do
       fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get"])
       use_cassette :stub, fixture do
-        { :ok, response } = @service.domains(@client, "1010")
+        {:ok, response} = @service.domains(@client, "1010")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -68,14 +68,14 @@ defmodule Dnsimple.DomainsTest do
     test "builds the correct request" do
       fixture = ExvcrUtils.response_fixture("createDomain/created.http", [method: "post", url: @client.base_url <> "/v2/1010/domains", request_body: ~s'{"name":"example.com"}'])
       use_cassette :stub, fixture do
-        @service.create_domain(@client, "1010", %{ name: "example.com" })
+        @service.create_domain(@client, "1010", %{name: "example.com"})
       end
     end
 
     test "returns a Dnsimple.Response" do
       fixture = ExvcrUtils.response_fixture("createDomain/created.http", [method: "post", request_body: ""])
       use_cassette :stub, fixture do
-        { :ok, response } = @service.create_domain(@client, "1010", "")
+        {:ok, response} = @service.create_domain(@client, "1010", "")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -98,7 +98,7 @@ defmodule Dnsimple.DomainsTest do
 
     test "returns a Dnsimple.Response" do
       use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", [method: "get"]) do
-        { :ok, response } = @service.domain(@client, "_", "example.weppos")
+        {:ok, response} = @service.domain(@client, "_", "example.weppos")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -121,7 +121,7 @@ defmodule Dnsimple.DomainsTest do
 
     test "returns a Dnsimple.Response" do
       use_cassette :stub, ExvcrUtils.response_fixture("deleteDomain/success.http", [method: "delete"]) do
-        { :ok, response } = @service.delete_domain(@client, "_", "example.weppos")
+        {:ok, response} = @service.delete_domain(@client, "_", "example.weppos")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data

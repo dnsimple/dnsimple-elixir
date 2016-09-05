@@ -37,7 +37,7 @@ defmodule Dnsimple.ServicesTest do
   test ".applied_services returns a list of Dnsimple.Response" do
      fixture = ExvcrUtils.response_fixture("appliedServices/success.http", [method: "get"])
     use_cassette :stub, fixture do
-      { :ok, response } = @service.applied_services(@client, "1010", "example.com")
+      {:ok, response} = @service.applied_services(@client, "1010", "example.com")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data
@@ -58,7 +58,7 @@ defmodule Dnsimple.ServicesTest do
   test ".apply_service returns a Dnsimple.Response" do
     fixture = ExvcrUtils.response_fixture("applyService/success.http", [method: "post"])
     use_cassette :stub, fixture do
-      { :ok, response } = @service.apply_service(@client, "1010", "example.com", _service_id = "1")
+      {:ok, response} = @service.apply_service(@client, "1010", "example.com", _service_id = "1")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data
@@ -76,7 +76,7 @@ defmodule Dnsimple.ServicesTest do
   test ".unapply_service returns a Dnsimple.Response" do
     fixture = ExvcrUtils.response_fixture("unapplyService/success.http", [method: "delete"])
     use_cassette :stub, fixture do
-      { :ok, response } = @service.unapply_service(@client, "1010", "example.com", _service_id = "1")
+      {:ok, response} = @service.unapply_service(@client, "1010", "example.com", _service_id = "1")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data

@@ -23,7 +23,7 @@ defmodule Dnsimple.WebhooksTest do
   test ".webhooks returns a list of Dnsimple.Response" do
     fixture = ExvcrUtils.response_fixture("listWebhooks/success.http", [method: "get"])
     use_cassette :stub, fixture do
-      { :ok, response } = @service.webhooks(@client, "1010")
+      {:ok, response} = @service.webhooks(@client, "1010")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data
@@ -38,14 +38,14 @@ defmodule Dnsimple.WebhooksTest do
   test ".create_webhook builds the correct request" do
     fixture = ExvcrUtils.response_fixture("createWebhook/created.http", [method: "post", url: @client.base_url <> "/v2/1010/webhooks", request_body: ~s'{"url":"https://webhook.test"}'])
     use_cassette :stub, fixture do
-      @service.create_webhook(@client, "1010", %{ url: "https://webhook.test" })
+      @service.create_webhook(@client, "1010", %{url: "https://webhook.test"})
     end
   end
 
   test ".create_webhooks returns a Dnsimple.Response" do
     fixture = ExvcrUtils.response_fixture("createWebhook/created.http", [method: "post", request_body: ""])
     use_cassette :stub, fixture do
-      { :ok, response } = @service.create_webhook(@client, "1010", "")
+      {:ok, response} = @service.create_webhook(@client, "1010", "")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data
@@ -66,7 +66,7 @@ defmodule Dnsimple.WebhooksTest do
 
   test ".webhook returns a Dnsimple.Response" do
     use_cassette :stub, ExvcrUtils.response_fixture("getWebhook/success.http", [method: "get"]) do
-      { :ok, response } = @service.webhook(@client, "1010", "1")
+      {:ok, response} = @service.webhook(@client, "1010", "1")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data
@@ -87,7 +87,7 @@ defmodule Dnsimple.WebhooksTest do
 
   test ".delete_webhook returns a Dnsimple.Response" do
     use_cassette :stub, ExvcrUtils.response_fixture("deleteWebhook/success.http", [method: "delete"]) do
-      { :ok, response } = @service.delete_webhook(@client, "1010", "1")
+      {:ok, response} = @service.delete_webhook(@client, "1010", "1")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data

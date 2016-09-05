@@ -8,7 +8,7 @@ defmodule Dnsimple.IdentityTest do
 
   test ".whoami" do
     use_cassette :stub, ExvcrUtils.response_fixture("whoami/success.http", [url: "~r/\/v2\/whoami/$"]) do
-      { :ok, response } = @service.whoami(@client)
+      {:ok, response} = @service.whoami(@client)
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data

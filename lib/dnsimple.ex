@@ -120,14 +120,18 @@ defmodule Dnsimple do
     end
 
     defp split_headers_options(client, all_options) do
-      default_headers = [
-        {"Accept", "application/json"},
-        {"User-Agent", format_user_agent(client.user_agent)},
-        {"Authorization", "Bearer #{client.access_token}"},
-      ]
+      default_headers = %{
+        "Accept"        => "application/json",
+        "User-Agent"    => format_user_agent(client.user_agent),
+        "Authorization" => "Bearer #{client.access_token}",
+      }
 
-      {headers, options} = Keyword.split(all_options, [:headers])
-      {headers ++ default_headers, options}
+      {headers, options} = Keyword.pop(all_options, :headers)
+
+      case headers do
+        nil     -> {default_headers, options}
+        headers -> {Map.merge(default_headers, Enum.into(headers, %{})), options}
+      end
     end
 
     # Builds the final user agent to use for HTTP requests.
@@ -155,7 +159,7 @@ defmodule Dnsimple do
     defp process_request_body(headers, body) when is_binary(body), do: {headers, body}
     defp process_request_body(headers, body) do
       case get_header(headers, "Accept") do
-        {_, "application/json"} -> {[{"Content-Type", "application/json"}|headers], Poison.encode!(body)}
+        {_, "application/json"} -> {Map.put(headers, "Content-Type", "application/json"), Poison.encode!(body)}
         _                       -> {headers, body}
       end
     end

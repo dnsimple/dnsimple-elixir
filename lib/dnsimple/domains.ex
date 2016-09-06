@@ -17,13 +17,16 @@ defmodule Dnsimple.Domains do
 
   See https://developer.dnsimple.com/v2/domains/#list
   """
-  @spec domains(Client.t, String.t | integer) :: Response.t
-  def domains(client, account_id, options \\ []) do
+  @spec list_domains(Client.t, String.t | integer) :: Response.t
+  def list_domains(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains")
 
     List.get(client, url, options)
     |> Response.parse(Domain)
   end
+
+  @spec domains(Client.t, String.t | integer) :: Response.t
+  defdelegate domains(client, account_id, options \\ []), to: __MODULE__, as: :list_domains
 
   @doc """
   List all domains from the account. This function will automatically

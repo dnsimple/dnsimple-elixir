@@ -11,37 +11,9 @@ defmodule Dnsimple.DomainsTest do
   end
 
   describe ".domains" do
-    test "builds the correct request" do
-      fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains"])
-      use_cassette :stub, fixture do
-        @module.domains(@client, "1010")
-      end
-    end
-
-    test "sends custom headers" do
-      fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains"])
-      use_cassette :stub, fixture do
-        @module.domains(@client, "1010", [headers: %{"X-Header" => "X-Value"}])
-      end
-    end
-
-    test "supports sorting" do
-      fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains?sort=id%3Adesc"])
-      use_cassette :stub, fixture do
-        @module.domains(@client, "1010", [sort: "id:desc"])
-      end
-    end
-
-    test "supports filtering" do
-      fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains?name_like=example"])
-      use_cassette :stub, fixture do
-        @module.domains(@client, "1010", [filter: [name_like: "example"]])
-      end
-    end
-
-    test "returns a list of Dnsimple.Response" do
-      fixture = ExvcrUtils.response_fixture("listDomains/success.http", [method: "get"])
-      use_cassette :stub, fixture do
+    test "returns the domains in a Dnsimple.Response" do
+      url = "#{@client.base_url}/v2/1010/domains"
+      use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url) do
         {:ok, response} = @module.domains(@client, "1010")
         assert response.__struct__ == Dnsimple.Response
 
@@ -52,7 +24,40 @@ defmodule Dnsimple.DomainsTest do
         assert Enum.all?(data, fn(single) -> is_integer(single.id) end)
       end
     end
+
+    test "sends custom headers" do
+      url = "#{@client.base_url}/v2/1010/domains"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url) do
+        @module.list_domains(@client, "1010", [headers: %{"X-Header" => "X-Value"}])
+      end
+    end
+
+    test "supports sorting" do
+      url = "#{@client.base_url}/v2/1010/domains?sort=id%3Adesc"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url) do
+        @module.list_domains(@client, "1010", [sort: "id:desc"])
+      end
+    end
+
+    test "supports filtering" do
+      url = "#{@client.base_url}/v2/1010/domains?name_like=example"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url) do
+        @module.list_domains(@client, "1010", [filter: [name_like: "example"]])
+      end
+    end
+
+    test "can be called using the alias .domains" do
+      url = "#{@client.base_url}/v2/1010/domains"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url) do
+        @module.domains(@client, "1010")
+      end
+    end
   end
+
 
   test ".all_domains" do
     use_cassette "list_domains_paginated", custom: true do

@@ -17,13 +17,16 @@ defmodule Dnsimple.Certificates do
 
   See https://developer.dnsimple.com/v2/domains/certificates/#list
   """
-  @spec certificates(Client.t, String.t | integer, String.t | integer) :: Response.t
-  def certificates(client, account_id, domain_id, options \\ []) do
+  @spec list_certificates(Client.t, String.t | integer, String.t | integer) :: Response.t
+  def list_certificates(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates")
 
     List.get(client, url, options)
     |> Response.parse(Certificate)
   end
+
+  @spec certificates(Client.t, String.t | integer, String.t | integer) :: Response.t
+  defdelegate certificates(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :list_certificates
 
   @doc """
   Get a certificate.

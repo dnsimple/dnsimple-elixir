@@ -6,47 +6,56 @@ defmodule Dnsimple.CertificatesTest do
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
 
-  test ".certificates builds the correct request" do
-    fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates"])
-    use_cassette :stub, fixture do
-      @module.certificates(@client, "1010", "example.com")
+  describe ".list_certificates" do
+    test "returns the certificates in a Dnsimple.Response" do
+      url = "#{@client.base_url}/v2/1010/domains/example.com/certificates"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("listCertificates/success.http", method: "get", url: url) do
+        {:ok, response} = @module.list_certificates(@client, "1010", "example.com")
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert length(data) == 2
+        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Certificate end)
+        assert Enum.all?(data, fn(single) -> is_integer(single.id) end)
+      end
+    end
+
+    test "sends custom headers" do
+      url = "#{@client.base_url}/v2/1010/domains/example.com/certificates"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("listCertificates/success.http", method: "get",url: url) do
+        @module.list_certificates(@client, "1010", "example.com", [headers: %{"X-Header" => "X-Value"}])
+      end
+    end
+
+    test "supports sorting" do
+      url = "#{@client.base_url}/v2/1010/domains/example.com/certificates?sort=id%3Adesc"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("listCertificates/success.http", method: "get",url: url) do
+        @module.list_certificates(@client, "1010", "example.com", [sort: "id:desc"])
+      end
+    end
+
+    test "supports filtering" do
+      url = "#{@client.base_url}/v2/1010/domains/example.com/certificates?common_name_like=www"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("listCertificates/success.http", method: "get",url: url) do
+        @module.list_certificates(@client, "1010", "example.com", [filter: [common_name_like: "www"]])
+      end
+    end
+
+    test "can be called using the alias .certificates" do
+      url = "#{@client.base_url}/v2/1010/domains/example.com/certificates"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("listCertificates/success.http", method: "get",url: url) do
+        {:ok, response} = @module.certificates(@client, "1010", "example.com")
+        assert response.__struct__ == Dnsimple.Response
+      end
     end
   end
 
-  test ".certificates builds sends custom headers" do
-    fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates"])
-    use_cassette :stub, fixture do
-      @module.certificates(@client, "1010", "example.com", [headers: %{"X-Header" => "X-Value"}])
-    end
-  end
-
-  test ".certificates supports sorting" do
-    fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates?sort=id%3Adesc"])
-    use_cassette :stub, fixture do
-      @module.certificates(@client, "1010", "example.com", [sort: "id:desc"])
-    end
-  end
-
-  test ".certificates supports filtering" do
-    fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates?common_name_like=www"])
-    use_cassette :stub, fixture do
-      @module.certificates(@client, "1010", "example.com", [filter: [common_name_like: "www"]])
-    end
-  end
-
-  test ".certificates returns a list of Dnsimple.Response" do
-     fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get"])
-    use_cassette :stub, fixture do
-      {:ok, response} = @module.certificates(@client, "1010", "example.com")
-      assert response.__struct__ == Dnsimple.Response
-
-      data = response.data
-      assert is_list(data)
-      assert length(data) == 2
-      assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Certificate end)
-      assert Enum.all?(data, fn(single) -> is_integer(single.id) end)
-    end
-  end
 
   test ".certificate builds the correct request" do
     fixture = ExvcrUtils.response_fixture("getCertificate/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates/22289"])

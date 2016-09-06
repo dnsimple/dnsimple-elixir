@@ -17,7 +17,7 @@ defmodule Dnsimple.Certificates do
 
   See https://developer.dnsimple.com/v2/domains/certificates/#list
   """
-  @spec list_certificates(Client.t, String.t | integer, String.t | integer) :: Response.t
+  @spec list_certificates(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def list_certificates(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates")
 
@@ -25,21 +25,26 @@ defmodule Dnsimple.Certificates do
     |> Response.parse(Certificate)
   end
 
-  @spec certificates(Client.t, String.t | integer, String.t | integer) :: Response.t
+  @spec certificates(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   defdelegate certificates(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :list_certificates
+
 
   @doc """
   Get a certificate.
 
   See https://developer.dnsimple.com/v2/domains/certificates/#get
   """
-  @spec certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  def certificate(client, account_id, domain_id, certificate_id, options \\ []) do
+  @spec get_certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def get_certificate(client, account_id, domain_id, certificate_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}")
 
     Client.get(client, url, options)
     |> Response.parse(Certificate)
   end
+
+  @spec certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  defdelegate certificate(client, account_id, domain_id, certificate_id, options \\ []), to: __MODULE__, as: :get_certificate
+
 
   @doc """
   Download a certificate.
@@ -53,6 +58,7 @@ defmodule Dnsimple.Certificates do
     Client.get(client, url, options)
     |> Response.parse(Certificate)
   end
+
 
   @doc """
   Download a private key.

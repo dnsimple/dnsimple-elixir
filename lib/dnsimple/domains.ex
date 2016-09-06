@@ -51,6 +51,22 @@ defmodule Dnsimple.Domains do
   end
 
   @doc """
+  Get a domain.
+
+  See https://developer.dnsimple.com/v2/domains/#get
+  """
+  @spec get_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def get_domain(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}")
+
+    Client.get(client, url, options)
+    |> Response.parse(Domain)
+  end
+
+  @spec domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  defdelegate domain(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :get_domain
+
+  @doc """
   Creates a new domain in the account.
 
   See https://developer.dnsimple.com/v2/domains/#create
@@ -60,19 +76,6 @@ defmodule Dnsimple.Domains do
     url = Client.versioned("/#{account_id}/domains")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(Domain)
-  end
-
-  @doc """
-  Get a domain.
-
-  See https://developer.dnsimple.com/v2/domains/#get
-  """
-  @spec domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  def domain(client, account_id, domain_id, options \\ []) do
-    url = Client.versioned("/#{account_id}/domains/#{domain_id}")
-
-    Client.get(client, url, options)
     |> Response.parse(Domain)
   end
 

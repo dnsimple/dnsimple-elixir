@@ -69,6 +69,33 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
+
+  describe ".get_domain" do
+    test "builds the correct request" do
+      url = "#{@client.base_url}/v2/1010/domains/example-alpha.com"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", method: "get", url: url) do
+        {:ok, response} = @module.domain(@client, "1010", "example-alpha.com")
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_map(data)
+        assert data.__struct__ == Dnsimple.Domain
+        assert data.id == 1
+        assert data.name == "example-alpha.com"
+      end
+    end
+
+    test "can be called using the alias .domain" do
+      url = "#{@client.base_url}/v2/1010/domains/example-alpha.com"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", method: "get", url: url) do
+        @module.get_domain(@client, "1010", "example-alpha.com")
+      end
+    end
+  end
+
+
   describe ".create_domain" do
     test "builds the correct request" do
       fixture = ExvcrUtils.response_fixture("createDomain/created.http", [method: "post", url: @client.base_url <> "/v2/1010/domains", request_body: ~s'{"name":"example.com"}'])
@@ -92,28 +119,6 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
-
-  describe ".domain" do
-    test "builds the correct request" do
-      fixture = ExvcrUtils.response_fixture("getDomain/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.weppos"])
-      use_cassette :stub, fixture do
-        @module.domain(@client, "1010", "example.weppos")
-      end
-    end
-
-    test "returns a Dnsimple.Response" do
-      use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", [method: "get"]) do
-        {:ok, response} = @module.domain(@client, "_", "example.weppos")
-        assert response.__struct__ == Dnsimple.Response
-
-        data = response.data
-        assert is_map(data)
-        assert data.__struct__ == Dnsimple.Domain
-        assert data.id == 1
-        assert data.name == "example-alpha.com"
-      end
-    end
-  end
 
 
   describe ".delete_domain" do

@@ -17,13 +17,16 @@ defmodule Dnsimple.Webhooks do
 
   See https://developer.dnsimple.com/v2/webhooks/#list
   """
-  @spec webhooks(Client.t, String.t | integer) :: Response.t
-  def webhooks(client, account_id, options \\ []) do
+  @spec list_webhooks(Client.t, String.t | integer) :: Response.t
+  def list_webhooks(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/webhooks")
 
     List.get(client, url, options)
     |> Response.parse(Webhook)
   end
+
+  @spec webhooks(Client.t, String.t | integer) :: Response.t
+  defdelegate webhooks(client, account_id, options \\ []), to: __MODULE__, as: :list_webhooks
 
   @doc """
   Creates a new webhook in the account.

@@ -6,31 +6,37 @@ defmodule Dnsimple.WebhooksTest do
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
 
-  test ".webhooks builds the correct request" do
-    fixture = ExvcrUtils.response_fixture("listWebhooks/success.http", [method: "get", url: @client.base_url <> "/v2/1010/webhooks"])
-    use_cassette :stub, fixture do
-      @module.webhooks(@client, "1010")
+  describe ".list_webhooks" do
+    test "returns the list of webhooks in a Dnsimple.Response" do
+      url = "#{@client.base_url}/v2/1010/webhooks"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("listWebhooks/success.http", method: "get", url: url) do
+        {:ok, response} = @module.list_webhooks(@client, "1010")
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert length(data) == 2
+        assert Enum.all?(data, fn(webhook) -> webhook.__struct__ == Dnsimple.Webhook end)
+        assert Enum.all?(data, fn(webhook) -> is_integer(webhook.id) end)
+      end
     end
-  end
 
-  test ".webhooks builds sends custom headers" do
-    fixture = ExvcrUtils.response_fixture("listWebhooks/success.http", [method: "get", url: @client.base_url <> "/v2/1010/webhooks"])
-    use_cassette :stub, fixture do
-      @module.webhooks(@client, "1010", [headers: %{"X-Header" => "X-Value"}])
+    test "sends custom headers" do
+      url = "#{@client.base_url}/v2/1010/webhooks"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("listWebhooks/success.http", method: "get", url: url) do
+        @module.list_webhooks(@client, "1010", [headers: %{"X-Header" => "X-Value"}])
+      end
     end
-  end
 
-  test ".webhooks returns a list of Dnsimple.Response" do
-    fixture = ExvcrUtils.response_fixture("listWebhooks/success.http", [method: "get"])
-    use_cassette :stub, fixture do
-      {:ok, response} = @module.webhooks(@client, "1010")
-      assert response.__struct__ == Dnsimple.Response
+    test "can be called using the alias .webhooks" do
+      url = "#{@client.base_url}/v2/1010/webhooks"
 
-      data = response.data
-      assert is_list(data)
-      assert length(data) == 2
-      assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Webhook end)
-      assert Enum.all?(data, fn(single) -> is_integer(single.id) end)
+      use_cassette :stub, ExvcrUtils.response_fixture("listWebhooks/success.http", method: "get", url: url) do
+        {:ok, response} = @module.webhooks(@client, "1010")
+        assert response.__struct__ == Dnsimple.Response
+      end
     end
   end
 

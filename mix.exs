@@ -47,7 +47,7 @@ defmodule Dnsimple.Mixfile do
 
   defp description do
     """
-    An (experimental) Elixir client for the DNSimple API v2.
+    Elixir client for the DNSimple API v2.
     """
   end
 

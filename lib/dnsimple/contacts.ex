@@ -16,13 +16,16 @@ defmodule Dnsimple.Contacts do
 
   See https://developer.dnsimple.com/v2/contacts/#list
   """
-  @spec contacts(Client.t, String.t | integer) :: Response.t
-  def contacts(client, account_id, options \\ []) do
+  @spec list_contacts(Client.t, String.t | integer) :: Response.t
+  def list_contacts(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts")
 
     List.get(client, url, options)
     |> Response.parse(Contact)
   end
+
+  @spec contacts(Client.t, String.t | integer, Keyword.t) :: Response.t
+  defdelegate contacts(client, account_id, options \\ []), to: __MODULE__, as: :list_contacts
 
   @doc """
   Gets a contact in the account.

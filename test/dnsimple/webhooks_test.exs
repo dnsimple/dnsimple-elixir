@@ -41,63 +41,66 @@ defmodule Dnsimple.WebhooksTest do
   end
 
 
-  test ".create_webhook builds the correct request" do
-    fixture = ExvcrUtils.response_fixture("createWebhook/created.http", [method: "post", url: @client.base_url <> "/v2/1010/webhooks", request_body: ~s'{"url":"https://webhook.test"}'])
-    use_cassette :stub, fixture do
-      @module.create_webhook(@client, "1010", %{url: "https://webhook.test"})
+  describe ".get_webhook" do
+    setup do
+      url = "#{@client.base_url}/v2/1010/webhooks/1"
+      {:ok, fixture: ExvcrUtils.response_fixture("getWebhook/success.http", method: "get", url: url)}
     end
-  end
 
-  test ".create_webhooks returns a Dnsimple.Response" do
-    fixture = ExvcrUtils.response_fixture("createWebhook/created.http", [method: "post", request_body: ""])
-    use_cassette :stub, fixture do
-      {:ok, response} = @module.create_webhook(@client, "1010", "")
-      assert response.__struct__ == Dnsimple.Response
+    test "returns the webhook in a Dnsimple.Response", %{fixture: fixture} do
+      use_cassette :stub, fixture do
+        {:ok, response} = @module.get_webhook(@client, "1010", "1")
+        assert response.__struct__ == Dnsimple.Response
 
-      data = response.data
-      assert is_map(data)
-      assert data.__struct__ == Dnsimple.Webhook
-      assert data.id == 1
-      assert data.url == "https://webhook.test"
+        data = response.data
+        assert is_map(data)
+        assert data.__struct__ == Dnsimple.Webhook
+        assert data.id == 1
+        assert data.url == "https://webhook.test"
+      end
     end
-  end
 
-
-  test ".webhook builds the correct request" do
-    fixture = ExvcrUtils.response_fixture("getWebhook/success.http", [method: "get", url: @client.base_url <> "/v2/1010/webhooks/1"])
-    use_cassette :stub, fixture do
-      @module.webhook(@client, "1010", "1")
-    end
-  end
-
-  test ".webhook returns a Dnsimple.Response" do
-    use_cassette :stub, ExvcrUtils.response_fixture("getWebhook/success.http", [method: "get"]) do
-      {:ok, response} = @module.webhook(@client, "1010", "1")
-      assert response.__struct__ == Dnsimple.Response
-
-      data = response.data
-      assert is_map(data)
-      assert data.__struct__ == Dnsimple.Webhook
-      assert data.id == 1
-      assert data.url == "https://webhook.test"
+    test "can be called using the alias .webhook", %{fixture: fixture} do
+      use_cassette :stub, fixture do
+        {:ok, response} = @module.webhook(@client, "1010", "1")
+        assert response.__struct__ == Dnsimple.Response
+      end
     end
   end
 
 
-  test ".delete_webhook builds the correct request" do
-    fixture = ExvcrUtils.response_fixture("deleteWebhook/success.http", [method: "delete", url: @client.base_url <> "/v2/1010/webhooks/1"])
-    use_cassette :stub, fixture do
-      @module.delete_webhook(@client, "1010", "1")
+  describe ".create_webhook" do
+    test "creates the webhook and returns it in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/1010/webhooks"
+      body    = ~s'{"url":"https://webhook.test"}'
+      fixture = ExvcrUtils.response_fixture("createWebhook/created.http", method: "post", url: url, request_body: body)
+
+      use_cassette :stub, fixture do
+        {:ok, response} = @module.create_webhook(@client, "1010", %{url: "https://webhook.test"})
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_map(data)
+        assert data.__struct__ == Dnsimple.Webhook
+        assert data.id == 1
+        assert data.url == "https://webhook.test"
+      end
     end
   end
 
-  test ".delete_webhook returns a Dnsimple.Response" do
-    use_cassette :stub, ExvcrUtils.response_fixture("deleteWebhook/success.http", [method: "delete"]) do
-      {:ok, response} = @module.delete_webhook(@client, "1010", "1")
-      assert response.__struct__ == Dnsimple.Response
 
-      data = response.data
-      assert is_nil(data)
+  describe ".delete_webhook" do
+    test "deletes the webhook and returns an empty Dnsimple.Response" do
+      url = "#{@client.base_url}/v2/1010/webhooks/1"
+
+      use_cassette :stub, ExvcrUtils.response_fixture("deleteWebhook/success.http", method: "delete", url: url) do
+        {:ok, response} = @module.delete_webhook(@client, "1010", "1")
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data == nil
+      end
     end
   end
+
 end

@@ -29,6 +29,22 @@ defmodule Dnsimple.Webhooks do
   defdelegate webhooks(client, account_id, options \\ []), to: __MODULE__, as: :list_webhooks
 
   @doc """
+  Get a webhook.
+
+  See https://developer.dnsimple.com/v2/webhooks/#get
+  """
+  @spec get_webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def get_webhook(client, account_id, webhook_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/webhooks/#{webhook_id}")
+
+    Client.get(client, url, options)
+    |> Response.parse(Webhook)
+  end
+
+  @spec webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  defdelegate webhook(client, account_id, webhook_id, options \\ []), to: __MODULE__, as: :get_webhook
+
+  @doc """
   Creates a new webhook in the account.
 
   See https://developer.dnsimple.com/v2/webhooks/#create
@@ -38,19 +54,6 @@ defmodule Dnsimple.Webhooks do
     url = Client.versioned("/#{account_id}/webhooks")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(Webhook)
-  end
-
-  @doc """
-  Get a webhook.
-
-  See https://developer.dnsimple.com/v2/webhooks/#get
-  """
-  @spec webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  def webhook(client, account_id, webhook_id, options \\ []) do
-    url = Client.versioned("/#{account_id}/webhooks/#{webhook_id}")
-
-    Client.get(client, url, options)
     |> Response.parse(Webhook)
   end
 

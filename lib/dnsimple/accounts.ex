@@ -16,12 +16,15 @@ defmodule Dnsimple.Accounts do
 
   See https://developer.dnsimple.com/v2/accounts/#list
   """
-  @spec accounts(Client.t) :: Response.t
-  def accounts(client, options \\ []) do
+  @spec list_accounts(Client.t) :: Response.t
+  def list_accounts(client, options \\ []) do
     url = Client.versioned("/accounts")
 
     Client.get(client, url, options)
     |> Response.parse(Account)
   end
+
+  @spec accounts(Client.t) :: Response.t
+  defdelegate accounts(client), to: __MODULE__, as: :list_accounts
 
 end

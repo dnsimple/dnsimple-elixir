@@ -7,11 +7,8 @@ defmodule Dnsimple.ContactsTest do
 
   describe ".list_contacts" do
     setup do
-      url     = "#{@client.base_url}/v2/1010/contacts"
-      method  = "get"
-      fixture = "listContacts/success.http"
-
-      {:ok, fixture: fixture, method: method, url: url}
+      url = "#{@client.base_url}/v2/1010/contacts"
+      {:ok, fixture: "listContacts/success.http", method: "get", url: url}
     end
 
     test "returns the contacts in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
@@ -52,13 +49,14 @@ defmodule Dnsimple.ContactsTest do
   end
 
   describe ".contact" do
-    test "returns the contact in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/1010/contacts/1"
-      method  = "get"
-      fixture = "getContact/success.http"
+    setup do
+      url = "#{@client.base_url}/v2/1010/contacts/1"
+      {:ok, fixture: "getContact/success.http", method: "get", url: url}
+    end
 
+    test "returns the contact in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.contact(@client, 1010, 1)
+        {:ok, response} = @module.get_contact(@client, 1010, 1)
         assert response.__struct__ == Dnsimple.Response
 
         contact = response.data
@@ -81,6 +79,13 @@ defmodule Dnsimple.ContactsTest do
         assert contact.country == "IT"
         assert contact.created_at == "2016-01-19T20:50:26.066Z"
         assert contact.updated_at == "2016-01-19T20:50:26.066Z"
+      end
+    end
+
+    test "can be called using the alias .contact", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.contact(@client, 1010, 1)
+        assert response.__struct__ == Dnsimple.Response
       end
     end
   end

@@ -32,13 +32,16 @@ defmodule Dnsimple.Contacts do
 
   See https://developer.dnsimple.com/v2/contacts/#get
   """
-  @spec contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  def contact(client, account_id, contact_id, options \\ []) do
+  @spec get_contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def get_contact(client, account_id, contact_id, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
 
     Client.get(client, url, options)
     |> Response.parse(Contact)
   end
+
+  @spec contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  defdelegate contact(client, account_id, contact_id, options \\ []), to: __MODULE__, as: :get_contact
 
   @doc """
   Creates a contact in the account.

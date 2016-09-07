@@ -20,7 +20,6 @@ defmodule Dnsimple.TldsTest do
         assert is_list(data)
         assert length(data) == 2
         assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Tld end)
-        assert Enum.all?(data, fn(single) -> is_binary(single.tld) end)
       end
     end
 
@@ -43,6 +42,37 @@ defmodule Dnsimple.TldsTest do
     test "can be called using the alias .tlds", %{fixture: fixture_file, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
         {:ok, response} = @module.tlds(@client)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
+
+  describe ".get_tld" do
+    setup do
+      url = "#{@client.base_url}/v2/tlds/com"
+      {:ok, fixture: "getTld/success.http", method: "get", url: url}
+    end
+
+    test "returns the TLD in a Dnsimple.Response", %{fixture: fixture_file, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
+        {:ok, response} = @module.get_tld(@client, "com")
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Tld
+        assert data.tld == "com"
+        assert data.tld_type == 1
+        assert data.idn == true
+        assert data.whois_privacy == true
+        assert data.auto_renew_only == false
+        assert data.minimum_registration == nil
+      end
+    end
+
+    test "can be called using the alias .tld", %{fixture: fixture_file, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
+        {:ok, response} = @module.tld(@client, "com")
         assert response.__struct__ == Dnsimple.Response
       end
     end

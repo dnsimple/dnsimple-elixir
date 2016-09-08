@@ -33,21 +33,20 @@ defmodule Dnsimple.Response do
     }
   end
 
-  def parse({:error, http_response}, _) do
-    {:error, http_response}
-  end
-  def parse({:ok, http_response}, kind) do
+  def parse(result, kind, options \\ [])
+  def parse({:error, http_response}, _kind, _options), do: {:error, http_response}
+  def parse({:ok, http_response}, kind, options) do
     response_map = decode(http_response)
 
-    data = transform_to_struct(response_map, kind)
+    data = transform_to_struct(response_map, kind, options)
     pagination = extract_pagination(response_map)
 
     {:ok, build_response(http_response, data, pagination)}
   end
 
-  defp transform_to_struct(_, nil), do: nil
-  defp transform_to_struct(%{"data" => attributes}, kind), do: to_struct(attributes, kind)
-  defp transform_to_struct(attributes , kind),             do: to_struct(attributes, kind)
+  defp transform_to_struct(_, nil, _),                              do: nil
+  defp transform_to_struct(%{"data" => attributes}, kind, options), do: to_struct(attributes, kind, options)
+  defp transform_to_struct(attributes, kind, options),              do: to_struct(attributes, kind, options)
 
   defp extract_pagination(%{"pagination" => pagination}) do
     %Dnsimple.Response.Pagination{
@@ -62,6 +61,6 @@ defmodule Dnsimple.Response do
   def decode(%HTTPoison.Response{ body: "" }),   do: %{}
   def decode(%HTTPoison.Response{ body: body }), do: Poison.decode!(body)
 
-  defp to_struct(attrs, kind, options \\ []), do: Dnsimple.Utils.attrs_to_struct(attrs, kind, options)
+  defp to_struct(attrs, kind, options), do: Dnsimple.Utils.attrs_to_struct(attrs, kind, options)
 
 end

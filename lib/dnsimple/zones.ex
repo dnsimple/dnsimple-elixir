@@ -61,6 +61,9 @@ defmodule Dnsimple.Zones do
     |> Response.parse(ZoneRecord)
   end
 
+  @spec zone_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  defdelegate zone_records(client, account_id, zone_id, options \\ []), to: __MODULE__, as: :list_zone_records
+
 
   @doc """
   Creates a record in the zone.

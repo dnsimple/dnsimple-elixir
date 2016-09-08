@@ -114,6 +114,13 @@ defmodule Dnsimple.ZonesTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
+
+    test "can be called using the alias .zone_records", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.zone_records(@client, @account_id, "example.com")
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
   end
 
 

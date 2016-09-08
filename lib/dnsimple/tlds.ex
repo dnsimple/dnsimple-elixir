@@ -9,9 +9,10 @@ defmodule Dnsimple.Tlds do
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.Tld
+  alias Dnsimple.TldExtendedAttribute
 
   @doc """
-  Lists the supported TLDs on DNSimple.
+  Returns the lists of supported TLDs on DNSimple.
 
   See https://developer.dnsimple.com/v2/tlds/#list
 
@@ -37,7 +38,7 @@ defmodule Dnsimple.Tlds do
 
 
   @doc """
-  Gets the information about a TLD.
+  Returns the information about a TLD.
 
   See https://developer.dnsimple.com/v2/tlds/#get
 
@@ -58,5 +59,29 @@ defmodule Dnsimple.Tlds do
 
   @spec tld(Client.t, String.t, Keyword.t) :: Response.t
   defdelegate tld(client, tld, options \\ []), to: __MODULE__, as: :get_tld
+
+
+  @doc """
+  Returns the extended attributes required for a particular TLD.
+
+  See https://developer.dnsimple.com/v2/tlds/#extended-attributes
+
+  ## Examples
+  #
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Tlds.get_tld_extended_attributes(client, "com")
+
+  """
+  @spec get_tld_extended_attributes(Client.t, String.t,  Keyword.t) :: Response.t
+  def get_tld_extended_attributes(client, tld, options \\ []) do
+    url = Client.versioned("/tlds/#{tld}/extended_attributes")
+
+    Client.get(client, url, options)
+    |> Response.parse(TldExtendedAttribute, options: TldExtendedAttribute.Option)
+  end
+
+  @spec tld_extended_attributes(Client.t, String.t,  Keyword.t) :: Response.t
+  defdelegate tld_extended_attributes(client, tld, options \\ []), to: __MODULE__, as: :get_tld_extended_attributes
 
 end

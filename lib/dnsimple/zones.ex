@@ -81,6 +81,7 @@ defmodule Dnsimple.Zones do
   @spec zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
   defdelegate zone_record(client, account_id, zone_id, record_id, options \\ []), to: __MODULE__, as: :get_zone_record
 
+
   @doc """
   Creates a record in the zone.
 
@@ -110,7 +111,7 @@ defmodule Dnsimple.Zones do
 
 
   @doc """
-  Deletes a record of the zone.
+  Deletes a record from the zone.
 
   See: https://developer.dnsimple.com/v2/zones/records/#delete
   """

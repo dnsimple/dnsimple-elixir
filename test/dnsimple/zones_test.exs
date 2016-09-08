@@ -124,16 +124,15 @@ defmodule Dnsimple.ZonesTest do
   end
 
 
-  describe ".create_zone_record" do
-    test "creates the record and retuns it in a Dnsiple.Response" do
-      fixture = "createZoneRecord/created.http"
-      method  = "post"
-      url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{"example.com"}/records"
-      attributes  = %{type: "A", name: "www", content: "127.0.0.1", ttl: 600}
-      {:ok, body} = Poison.encode(attributes)
+  describe ".get_zone_record" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{"example.com"}/records/64784"
+      {:ok, fixture: "getZoneRecord/success.http", method: "get", url: url}
+    end
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-        {:ok, response} = @module.create_zone_record(@client, @account_id, "example.com", attributes)
+    test "returns the record in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.get_zone_record(@client, @account_id, "example.com", _record_id = 64784)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -151,18 +150,26 @@ defmodule Dnsimple.ZonesTest do
         assert data.updated_at == "2016-01-07T17:45:13.653Z"
       end
     end
+
+    test "can be called using the alias .zone_record", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.zone_record(@client, @account_id, "example.com", _record_id = 64784)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
   end
 
 
-  describe ".get_zone_record" do
-    setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{"example.com"}/records/64784"
-      {:ok, fixture: "getZoneRecord/success.http", method: "get", url: url}
-    end
+  describe ".create_zone_record" do
+    test "creates the record and retuns it in a Dnsiple.Response" do
+      fixture = "createZoneRecord/created.http"
+      method  = "post"
+      url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{"example.com"}/records"
+      attributes  = %{type: "A", name: "www", content: "127.0.0.1", ttl: 600}
+      {:ok, body} = Poison.encode(attributes)
 
-    test "returns the record in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.get_zone_record(@client, @account_id, "example.com", _record_id = 64784)
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.create_zone_record(@client, @account_id, "example.com", attributes)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data

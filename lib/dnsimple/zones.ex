@@ -66,20 +66,6 @@ defmodule Dnsimple.Zones do
 
 
   @doc """
-  Creates a record in the zone.
-
-  See: https://developer.dnsimple.com/v2/zones/records/#create
-  """
-  @spec create_zone_record(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: Response.t
-  def create_zone_record(client, account_id, zone_id, attributes, options \\ []) do
-    url = Client.versioned("/#{account_id}/zones/#{zone_id}/records")
-
-    Client.post(client, url, attributes, options)
-    |> Response.parse(ZoneRecord)
-  end
-
-
-  @doc """
   Returns a record of the zone.
 
   See: https://developer.dnsimple.com/v2/zones/records/#get
@@ -90,6 +76,22 @@ defmodule Dnsimple.Zones do
 
     Client.get(client, url, options)
     |> Response.parse(Dnsimple.ZoneRecord)
+  end
+
+  @spec zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  defdelegate zone_record(client, account_id, zone_id, record_id, options \\ []), to: __MODULE__, as: :get_zone_record
+
+  @doc """
+  Creates a record in the zone.
+
+  See: https://developer.dnsimple.com/v2/zones/records/#create
+  """
+  @spec create_zone_record(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: Response.t
+  def create_zone_record(client, account_id, zone_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_id}/records")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(ZoneRecord)
   end
 
 

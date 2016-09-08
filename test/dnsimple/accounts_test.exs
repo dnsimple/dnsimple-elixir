@@ -2,7 +2,7 @@ defmodule Dnsimple.AccountsTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  @service Dnsimple.Accounts
+  @module Dnsimple.Accounts
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
 
@@ -13,7 +13,7 @@ defmodule Dnsimple.AccountsTest do
       url     = "#{@client.base_url}/v2/accounts"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @service.accounts(@client)
+        {:ok, response} = @module.accounts(@client)
         assert response.__struct__ == Dnsimple.Response
       end
     end
@@ -24,7 +24,7 @@ defmodule Dnsimple.AccountsTest do
       url     = "#{@client.base_url}/v2/accounts"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @service.accounts(@client)
+        {:ok, response} = @module.accounts(@client)
 
         data = response.data
         assert length(data) == 1
@@ -41,7 +41,7 @@ defmodule Dnsimple.AccountsTest do
       url     = "#{@client.base_url}/v2/accounts"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @service.accounts(@client)
+        {:ok, response} = @module.accounts(@client)
 
         data = response.data
         assert length(data) == 2

@@ -2,13 +2,13 @@ defmodule Dnsimple.OauthTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  @service Dnsimple.Oauth
+  @module Dnsimple.Oauth
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
   test "generating the authorize URL with client_id" do
     client_id = "a1b2c3d4"
 
-    assert @service.authorize_url(@client, client_id) ==
+    assert @module.authorize_url(@client, client_id) ==
       "https://dnsimple.test/oauth/authorize?response_type=code&client_id=a1b2c3d4"
   end
 
@@ -16,7 +16,7 @@ defmodule Dnsimple.OauthTest do
     client_id = "a1b2c3d4"
     state     = "12345678"
 
-    assert @service.authorize_url(@client, client_id, state: state, foo: "bar") ==
+    assert @module.authorize_url(@client, client_id, state: state, foo: "bar") ==
       "https://dnsimple.test/oauth/authorize?response_type=code&client_id=a1b2c3d4&state=12345678&foo=bar"
   end
 
@@ -35,7 +35,7 @@ defmodule Dnsimple.OauthTest do
     {:ok, body} = Poison.encode(attributes)
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-      {:ok, response} = @service.exchange_authorization_for_token(@client, attributes)
+      {:ok, response} = @module.exchange_authorization_for_token(@client, attributes)
 
       assert response.__struct__ == Dnsimple.Response
       token = response.data

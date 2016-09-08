@@ -2,7 +2,7 @@ defmodule Dnsimple.ZonesTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  @service Dnsimple.Zones
+  @module Dnsimple.Zones
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
   @account_id 1010
   @zone_id "example.com"
@@ -13,7 +13,7 @@ defmodule Dnsimple.ZonesTest do
     url     = "#{@client.base_url}/v2/#{@account_id}/zones"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.zones(@client, @account_id)
+      {:ok, response} = @module.zones(@client, @account_id)
 
       assert response.__struct__ == Dnsimple.Response
       assert Enum.count(response.data) == 2
@@ -24,14 +24,14 @@ defmodule Dnsimple.ZonesTest do
   test ".zones supports sorting" do
     fixture = ExvcrUtils.response_fixture("listZones/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones?sort=name%3Adesc"])
     use_cassette :stub, fixture do
-      @service.zones(@client, @account_id, [sort: "name:desc"])
+      @module.zones(@client, @account_id, [sort: "name:desc"])
     end
   end
 
   test ".zones supports filtering" do
     fixture = ExvcrUtils.response_fixture("listZones/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones?name_like=example"])
     use_cassette :stub, fixture do
-      @service.zones(@client, @account_id, [filter: [name_like: "example"]])
+      @module.zones(@client, @account_id, [filter: [name_like: "example"]])
     end
   end
 
@@ -41,7 +41,7 @@ defmodule Dnsimple.ZonesTest do
     url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.zone(@client, @account_id, @zone_id)
+      {:ok, response} = @module.zone(@client, @account_id, @zone_id)
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.Zone
@@ -62,7 +62,7 @@ defmodule Dnsimple.ZonesTest do
     url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.records(@client, @account_id, @zone_id)
+      {:ok, response} = @module.records(@client, @account_id, @zone_id)
 
       assert response.__struct__ == Dnsimple.Response
       assert Enum.count(response.data) == 5
@@ -73,14 +73,14 @@ defmodule Dnsimple.ZonesTest do
   test ".records supports sorting" do
     fixture = ExvcrUtils.response_fixture("listZoneRecords/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones/#{@zone_id}/records?sort=name%3Aasc%2Ctype%3Adesc"])
     use_cassette :stub, fixture do
-      @service.records(@client, @account_id, @zone_id, [sort: "name:asc,type:desc"])
+      @module.records(@client, @account_id, @zone_id, [sort: "name:asc,type:desc"])
     end
   end
 
   test ".records supports filtering" do
     fixture = ExvcrUtils.response_fixture("listZoneRecords/success.http", [method: "get", url: @client.base_url <> "/v2/#{@account_id}/zones/#{@zone_id}/records?name_like=example&type=A"])
     use_cassette :stub, fixture do
-      @service.records(@client, @account_id, @zone_id, [filter: [name_like: "example", type: "A"]])
+      @module.records(@client, @account_id, @zone_id, [filter: [name_like: "example", type: "A"]])
     end
   end
 
@@ -92,7 +92,7 @@ defmodule Dnsimple.ZonesTest do
     {:ok, body} = Poison.encode(attributes)
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-      {:ok, response} = @service.create_record(@client, @account_id, @zone_id, attributes)
+      {:ok, response} = @module.create_record(@client, @account_id, @zone_id, attributes)
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.ZoneRecord
@@ -119,7 +119,7 @@ defmodule Dnsimple.ZonesTest do
     url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/#{record_id}"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.record(@client, @account_id, @zone_id, record_id)
+      {:ok, response} = @module.record(@client, @account_id, @zone_id, record_id)
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.ZoneRecord
@@ -148,7 +148,7 @@ defmodule Dnsimple.ZonesTest do
     {:ok, body} = Poison.encode(attributes)
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-      {:ok, response} = @service.update_record(@client, @account_id, @zone_id, record_id, attributes)
+      {:ok, response} = @module.update_record(@client, @account_id, @zone_id, record_id, attributes)
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.ZoneRecord
@@ -175,7 +175,7 @@ defmodule Dnsimple.ZonesTest do
     url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/#{record_id}"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.delete_record(@client, @account_id, @zone_id, record_id)
+      {:ok, response} = @module.delete_record(@client, @account_id, @zone_id, record_id)
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data == nil

@@ -2,42 +2,42 @@ defmodule Dnsimple.CertificatesTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  @service Dnsimple.Certificates
+  @module Dnsimple.Certificates
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
 
   test ".certificates builds the correct request" do
     fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates"])
     use_cassette :stub, fixture do
-      @service.certificates(@client, "1010", "example.com")
+      @module.certificates(@client, "1010", "example.com")
     end
   end
 
   test ".certificates builds sends custom headers" do
     fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates"])
     use_cassette :stub, fixture do
-      @service.certificates(@client, "1010", "example.com", [headers: %{"X-Header" => "X-Value"}])
+      @module.certificates(@client, "1010", "example.com", [headers: %{"X-Header" => "X-Value"}])
     end
   end
 
   test ".certificates supports sorting" do
     fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates?sort=id%3Adesc"])
     use_cassette :stub, fixture do
-      @service.certificates(@client, "1010", "example.com", [sort: "id:desc"])
+      @module.certificates(@client, "1010", "example.com", [sort: "id:desc"])
     end
   end
 
   test ".certificates supports filtering" do
     fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates?common_name_like=www"])
     use_cassette :stub, fixture do
-      @service.certificates(@client, "1010", "example.com", [filter: [common_name_like: "www"]])
+      @module.certificates(@client, "1010", "example.com", [filter: [common_name_like: "www"]])
     end
   end
 
   test ".certificates returns a list of Dnsimple.Response" do
      fixture = ExvcrUtils.response_fixture("listCertificates/success.http", [method: "get"])
     use_cassette :stub, fixture do
-      { :ok, response } = @service.certificates(@client, "1010", "example.com")
+      {:ok, response} = @module.certificates(@client, "1010", "example.com")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data
@@ -51,13 +51,13 @@ defmodule Dnsimple.CertificatesTest do
   test ".certificate builds the correct request" do
     fixture = ExvcrUtils.response_fixture("getCertificate/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates/22289"])
     use_cassette :stub, fixture do
-      @service.certificate(@client, "1010", "example.com", "22289")
+      @module.certificate(@client, "1010", "example.com", "22289")
     end
   end
 
   test ".certificate returns a Dnsimple.Response" do
     use_cassette :stub, ExvcrUtils.response_fixture("getCertificate/success.http", [method: "get"]) do
-      { :ok, response } = @service.certificate(@client, "1010", "example.com", "22289")
+      {:ok, response} = @module.certificate(@client, "1010", "example.com", "22289")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data
@@ -71,13 +71,13 @@ defmodule Dnsimple.CertificatesTest do
   test ".download builds the correct request" do
     fixture = ExvcrUtils.response_fixture("downloadCertificate/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates/22289/download"])
     use_cassette :stub, fixture do
-      @service.download(@client, "1010", "example.com", "22289")
+      @module.download(@client, "1010", "example.com", "22289")
     end
   end
 
   test ".download returns a Dnsimple.Response" do
     use_cassette :stub, ExvcrUtils.response_fixture("downloadCertificate/success.http", [method: "get"]) do
-      { :ok, response } = @service.download(@client, "1010", "example.com", "22289")
+      {:ok, response} = @module.download(@client, "1010", "example.com", "22289")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data
@@ -91,13 +91,13 @@ defmodule Dnsimple.CertificatesTest do
   test ".private_key builds the correct request" do
     fixture = ExvcrUtils.response_fixture("getCertificatePrivateKey/success.http", [method: "get", url: @client.base_url <> "/v2/1010/domains/example.com/certificates/22289/private_key"])
     use_cassette :stub, fixture do
-      @service.private_key(@client, "1010", "example.com", "22289")
+      @module.private_key(@client, "1010", "example.com", "22289")
     end
   end
 
   test ".private_key returns a Dnsimple.Response" do
     use_cassette :stub, ExvcrUtils.response_fixture("getCertificatePrivateKey/success.http", [method: "get"]) do
-      { :ok, response } = @service.private_key(@client, "1010", "example.com", "22289")
+      {:ok, response} = @module.private_key(@client, "1010", "example.com", "22289")
       assert response.__struct__ == Dnsimple.Response
 
       data = response.data

@@ -3,8 +3,8 @@ defmodule Dnsimple.Mixfile do
 
   def project do
     [app: :dnsimple,
-     version: "0.1.0",
-     elixir: "~> 1.2",
+     version: "0.9.0",
+     elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      package: package,
@@ -32,7 +32,8 @@ defmodule Dnsimple.Mixfile do
     [
       {:httpoison, "~> 0.9.1"},
       {:poison, "~> 2.2.0"},
-      {:exvcr, "~> 0.8.2", only: :test}
+      {:exvcr, "~> 0.8.2", only: :test},
+      {:ex_doc, ">= 0.0.0", only: :dev},
     ]
   end
 
@@ -41,13 +42,16 @@ defmodule Dnsimple.Mixfile do
       files: ["lib", "mix.exs", "*.md"],
       maintainers: ["Simone Carletti", "Javier Acero", "Anthony Eden"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/dnsimple/dnsimple-elixir"}
+      links: %{
+        "GitHub"      => "https://github.com/dnsimple/dnsimple-elixir",
+        "API v2 docs" => "https://developer.dnsimple.com/v2",
+      }
     ]
   end
 
   defp description do
     """
-    An (experimental) Elixir client for the DNSimple API v2.
+    Elixir client for the DNSimple API v2.
     """
   end
 

@@ -2,7 +2,7 @@ defmodule Dnsimple.RegistrarTest do
   use TestCase, async: false
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  @service Dnsimple.Registrar
+  @module Dnsimple.Registrar
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
   test ".check_domain" do
@@ -11,7 +11,7 @@ defmodule Dnsimple.RegistrarTest do
     url     = "#{@client.base_url}/v2/1010/registrar/domains/example.com/check"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.check_domain(@client, "1010", "example.com")
+      {:ok, response} = @module.check_domain(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.DomainCheck
@@ -27,7 +27,7 @@ defmodule Dnsimple.RegistrarTest do
     {:ok, body} = Poison.encode(attributes)
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-      {:ok, response} = @service.register_domain(@client, "1010", "example.com", attributes)
+      {:ok, response} = @module.register_domain(@client, "1010", "example.com", attributes)
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.Domain
@@ -55,7 +55,7 @@ defmodule Dnsimple.RegistrarTest do
     {:ok, body} = Poison.encode(attributes)
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-      {:ok, response} = @service.renew_domain(@client, "1010", "example.com", attributes)
+      {:ok, response} = @module.renew_domain(@client, "1010", "example.com", attributes)
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.Domain
@@ -83,7 +83,7 @@ defmodule Dnsimple.RegistrarTest do
     {:ok, body} = Poison.encode(attributes)
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-      {:ok, response} = @service.transfer_domain(@client, "1010", "example.com", attributes)
+      {:ok, response} = @module.transfer_domain(@client, "1010", "example.com", attributes)
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.Domain
@@ -109,7 +109,7 @@ defmodule Dnsimple.RegistrarTest do
     url         = "#{@client.base_url}/v2/1010/registrar/domains/example.com/transfer_out"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
-      {:ok, response} = @service.transfer_domain_out(@client, "1010", "example.com")
+      {:ok, response} = @module.transfer_domain_out(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response
       assert is_nil(response.data)
@@ -123,7 +123,7 @@ defmodule Dnsimple.RegistrarTest do
     url     = "#{@client.base_url}/v2/1010/registrar/domains/example.com/auto_renewal"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
-      {:ok, response} = @service.enable_auto_renewal(@client, "1010", "example.com")
+      {:ok, response} = @module.enable_auto_renewal(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response
       assert is_nil(response.data)
@@ -136,7 +136,7 @@ defmodule Dnsimple.RegistrarTest do
     url     = "#{@client.base_url}/v2/1010/registrar/domains/example.com/auto_renewal"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.disable_auto_renewal(@client, "1010", "example.com")
+      {:ok, response} = @module.disable_auto_renewal(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response
       assert is_nil(response.data)
@@ -150,7 +150,7 @@ defmodule Dnsimple.RegistrarTest do
     url     = "#{@client.base_url}/v2/1010/registrar/domains/example.com/whois_privacy"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.whois_privacy(@client, "1010", "example.com")
+      {:ok, response} = @module.whois_privacy(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.WhoisPrivacy
@@ -171,7 +171,7 @@ defmodule Dnsimple.RegistrarTest do
     url         = "#{@client.base_url}/v2/1010/registrar/domains/example.com/whois_privacy"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
-      {:ok, response} = @service.enable_whois_privacy(@client, "1010", "example.com")
+      {:ok, response} = @module.enable_whois_privacy(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.WhoisPrivacy
@@ -192,7 +192,7 @@ defmodule Dnsimple.RegistrarTest do
     url     = "#{@client.base_url}/v2/1010/registrar/domains/example.com/whois_privacy"
 
     use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-      {:ok, response} = @service.disable_whois_privacy(@client, "1010", "example.com")
+      {:ok, response} = @module.disable_whois_privacy(@client, "1010", "example.com")
 
       assert response.__struct__ == Dnsimple.Response
       assert response.data.__struct__ == Dnsimple.WhoisPrivacy

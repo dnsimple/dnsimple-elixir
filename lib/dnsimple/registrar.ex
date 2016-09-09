@@ -76,12 +76,12 @@ defmodule Dnsimple.Registrar do
 
 
   @doc """
-  Enable auto-renewal for the domain.
+  Enables auto-renewal for the domain.
 
   See: https://developer.dnsimple.com/v2/registrar/auto-renewal/#enable
   """
-  @spec enable_auto_renewal(Client.t, String.t, String.t, Keyword.t) :: Response.t
-  def enable_auto_renewal(client, account_id, domain_name, options \\ []) do
+  @spec enable_domain_auto_renewal(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  def enable_domain_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
 
     Client.put(client, url, Client.empty_body, options)
@@ -90,12 +90,12 @@ defmodule Dnsimple.Registrar do
 
 
   @doc """
-  Disable auto-renewal for the domain.
+  Disables auto-renewal for the domain.
 
   See: https://developer.dnsimple.com/v2/registrar/auto-renewal/#disable
   """
-  @spec disable_auto_renewal(Client.t, String.t, String.t, Keyword.t) :: Response.t
-  def disable_auto_renewal(client, account_id, domain_name, options \\ []) do
+  @spec disable_domain_auto_renewal(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  def disable_domain_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
 
     Client.delete(client, url, options)
@@ -104,25 +104,28 @@ defmodule Dnsimple.Registrar do
 
 
   @doc """
-  Gets the whois privacy for the domain.
+  Returns the whois privacy of the domain.
 
   See: https://developer.dnsimple.com/v2/registrar/whois-privacy/#get
   """
-  @spec whois_privacy(Client.t, String.t, String.t, Keyword.t) :: Response.t
-  def whois_privacy(client, account_id, domain_name, options \\ []) do
+  @spec get_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  def get_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
     Client.get(client, url, options)
     |> Response.parse(WhoisPrivacy)
   end
 
+  @spec whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  defdelegate whois_privacy(client, account_id, domain_name, options \\ []), to: __MODULE__, as: :get_whois_privacy
+
 
   @doc """
-  Enables the whois privacy for the domain.
+  Enables whois privacy for the domain.
 
   See: https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable
   """
-  @spec enable_whois_privacy(Client.t, String.t, String.t, Keyword.t) :: Response.t
+  @spec enable_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
   def enable_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
@@ -130,12 +133,13 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(WhoisPrivacy)
   end
 
+
   @doc """
-  Disables the whois privacy for the domain.
+  Disables whois privacy for the domain.
 
   See: https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable
   """
-  @spec disable_whois_privacy(Client.t, String.t, String.t, Keyword.t) :: Response.t
+  @spec disable_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
   def disable_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 

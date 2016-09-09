@@ -47,4 +47,38 @@ defmodule Dnsimple.TemplatesTest do
     end
   end
 
+
+  describe ".get_template" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/templates/1"
+      {:ok, fixture: "getTemplate/success.http", method: "get", url: url}
+    end
+
+    test "returns the template in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.get_template(@client, @account_id, _template_id = 1)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Template
+        assert data.id == 1
+        assert data.account_id == @account_id
+        assert data.name == "Alpha"
+        assert data.short_name == "alpha"
+        assert data.description == "An alpha template."
+        assert data.created_at == "2016-03-22T11:08:58.262Z"
+        assert data.updated_at == "2016-03-22T11:08:58.262Z"
+      end
+    end
+
+    test "it can be called using the alias .templates", %{fixture: fixture, method: method} do
+      url = "#{@client.base_url}/v2/#{@account_id}/templates/alpha"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.template(@client, @account_id, _template_id = "alpha")
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
 end

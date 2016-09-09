@@ -16,6 +16,7 @@ defmodule Dnsimple.Oauth do
     URI.to_string(%URI{scheme: "https", host: host, path: "/oauth/authorize", query: URI.encode_query(query)})
   end
 
+
   @doc """
   Obtains the access token.
 

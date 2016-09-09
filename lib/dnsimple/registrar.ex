@@ -18,6 +18,7 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(DomainCheck)
   end
 
+
   @doc """
   Registers a domain.
 
@@ -30,6 +31,7 @@ defmodule Dnsimple.Registrar do
     Client.post(client, url, attributes, options)
     |> Response.parse(Domain)
   end
+
 
   @doc """
   Renews a domain.
@@ -44,6 +46,7 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(Domain)
   end
 
+
   @doc """
   Starts the transfer of a domain to DNSimple.
 
@@ -56,6 +59,7 @@ defmodule Dnsimple.Registrar do
     Client.post(client, url, attributes, options)
     |> Response.parse(Domain)
   end
+
 
   @doc """
   Requests the transfer of a domain out of DNSimple.
@@ -84,6 +88,7 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(nil)
   end
 
+
   @doc """
   Disable auto-renewal for the domain.
 
@@ -110,6 +115,7 @@ defmodule Dnsimple.Registrar do
     Client.get(client, url, options)
     |> Response.parse(WhoisPrivacy)
   end
+
 
   @doc """
   Enables the whois privacy for the domain.

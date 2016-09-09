@@ -10,7 +10,6 @@ defmodule Dnsimple.Contacts do
   alias Dnsimple.Response
   alias Dnsimple.Contact
 
-
   @doc """
   Lists the contacts in the account.
 
@@ -27,6 +26,7 @@ defmodule Dnsimple.Contacts do
   @spec contacts(Client.t, String.t | integer, Keyword.t) :: Response.t
   defdelegate contacts(client, account_id, options \\ []), to: __MODULE__, as: :list_contacts
 
+
   @doc """
   Gets a contact in the account.
 
@@ -42,6 +42,7 @@ defmodule Dnsimple.Contacts do
 
   @spec contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   defdelegate contact(client, account_id, contact_id, options \\ []), to: __MODULE__, as: :get_contact
+
 
   @doc """
   Creates a contact in the account.
@@ -69,6 +70,7 @@ defmodule Dnsimple.Contacts do
     Client.patch(client, url, attributes, options)
     |> Response.parse(Contact)
   end
+
 
   @doc """
   Deletes a contact in the account.

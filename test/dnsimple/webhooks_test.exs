@@ -4,37 +4,36 @@ defmodule Dnsimple.WebhooksTest do
 
   @module Dnsimple.Webhooks
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
-
+  @account_id 1010
 
   describe ".list_webhooks" do
-    test "returns the list of webhooks in a Dnsimple.Response" do
-      url = "#{@client.base_url}/v2/1010/webhooks"
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/webhooks"
+      {:ok, fixture: "listWebhooks/success.http", method: "get", url: url}
+    end
 
-      use_cassette :stub, ExvcrUtils.response_fixture("listWebhooks/success.http", method: "get", url: url) do
-        {:ok, response} = @module.list_webhooks(@client, "1010")
+    test "returns the list of webhooks in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture,  method: method, url: url) do
+        {:ok, response} = @module.list_webhooks(@client, @account_id)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert is_list(data)
         assert length(data) == 2
         assert Enum.all?(data, fn(webhook) -> webhook.__struct__ == Dnsimple.Webhook end)
-        assert Enum.all?(data, fn(webhook) -> is_integer(webhook.id) end)
       end
     end
 
-    test "sends custom headers" do
-      url = "#{@client.base_url}/v2/1010/webhooks"
-
-      use_cassette :stub, ExvcrUtils.response_fixture("listWebhooks/success.http", method: "get", url: url) do
-        @module.list_webhooks(@client, "1010", [headers: %{"X-Header" => "X-Value"}])
+    test "can send custom headers", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_webhooks(@client, @account_id, headers: %{"X-Header" => "X-Value"})
+        assert response.__struct__ == Dnsimple.Response
       end
     end
 
-    test "can be called using the alias .webhooks" do
-      url = "#{@client.base_url}/v2/1010/webhooks"
-
-      use_cassette :stub, ExvcrUtils.response_fixture("listWebhooks/success.http", method: "get", url: url) do
-        {:ok, response} = @module.webhooks(@client, "1010")
+    test "can be called using the alias .webhooks", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.webhooks(@client, @account_id)
         assert response.__struct__ == Dnsimple.Response
       end
     end
@@ -43,17 +42,16 @@ defmodule Dnsimple.WebhooksTest do
 
   describe ".get_webhook" do
     setup do
-      url = "#{@client.base_url}/v2/1010/webhooks/1"
+      url = "#{@client.base_url}/v2/#{@account_id}/webhooks/1"
       {:ok, fixture: ExvcrUtils.response_fixture("getWebhook/success.http", method: "get", url: url)}
     end
 
     test "returns the webhook in a Dnsimple.Response", %{fixture: fixture} do
       use_cassette :stub, fixture do
-        {:ok, response} = @module.get_webhook(@client, "1010", "1")
+        {:ok, response} = @module.get_webhook(@client, @account_id, _webhook_id = 1)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
-        assert is_map(data)
         assert data.__struct__ == Dnsimple.Webhook
         assert data.id == 1
         assert data.url == "https://webhook.test"
@@ -62,7 +60,7 @@ defmodule Dnsimple.WebhooksTest do
 
     test "can be called using the alias .webhook", %{fixture: fixture} do
       use_cassette :stub, fixture do
-        {:ok, response} = @module.webhook(@client, "1010", "1")
+        {:ok, response} = @module.webhook(@client, @account_id, _webhook_id = 1)
         assert response.__struct__ == Dnsimple.Response
       end
     end
@@ -71,12 +69,13 @@ defmodule Dnsimple.WebhooksTest do
 
   describe ".create_webhook" do
     test "creates the webhook and returns it in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/1010/webhooks"
+      url     = "#{@client.base_url}/v2/#{@account_id}/webhooks"
+      method  = "post"
+      fixture = "createWebhook/created.http"
       body    = ~s'{"url":"https://webhook.test"}'
-      fixture = ExvcrUtils.response_fixture("createWebhook/created.http", method: "post", url: url, request_body: body)
 
-      use_cassette :stub, fixture do
-        {:ok, response} = @module.create_webhook(@client, "1010", %{url: "https://webhook.test"})
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.create_webhook(@client, @account_id, %{url: "https://webhook.test"})
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -91,10 +90,12 @@ defmodule Dnsimple.WebhooksTest do
 
   describe ".delete_webhook" do
     test "deletes the webhook and returns an empty Dnsimple.Response" do
-      url = "#{@client.base_url}/v2/1010/webhooks/1"
+      url     = "#{@client.base_url}/v2/#{@account_id}/webhooks/1"
+      method  = "delete"
+      fixture = "deleteWebhook/success.http"
 
-      use_cassette :stub, ExvcrUtils.response_fixture("deleteWebhook/success.http", method: "delete", url: url) do
-        {:ok, response} = @module.delete_webhook(@client, "1010", "1")
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.delete_webhook(@client, @account_id, _webhook_id = 1)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data

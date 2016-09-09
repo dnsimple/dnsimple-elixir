@@ -11,7 +11,6 @@ defmodule Dnsimple.Webhooks do
   alias Dnsimple.Response
   alias Dnsimple.Webhook
 
-
   @doc """
   Lists the webhooks.
 
@@ -27,6 +26,7 @@ defmodule Dnsimple.Webhooks do
 
   @spec webhooks(Client.t, String.t | integer) :: Response.t
   defdelegate webhooks(client, account_id, options \\ []), to: __MODULE__, as: :list_webhooks
+
 
   @doc """
   Get a webhook.
@@ -44,6 +44,7 @@ defmodule Dnsimple.Webhooks do
   @spec webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   defdelegate webhook(client, account_id, webhook_id, options \\ []), to: __MODULE__, as: :get_webhook
 
+
   @doc """
   Creates a new webhook in the account.
 
@@ -56,6 +57,7 @@ defmodule Dnsimple.Webhooks do
     Client.post(client, url, attributes, options)
     |> Response.parse(Webhook)
   end
+
 
   @doc """
   PERMANENTLY deletes a webhook from the account.

@@ -4,7 +4,7 @@ defmodule Dnsimple.CertificatesTest do
 
   @module Dnsimple.Certificates
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
-  @account_id "1010"
+  @account_id 1010
   @domain_id "example.com"
 
   describe ".list_certificates" do

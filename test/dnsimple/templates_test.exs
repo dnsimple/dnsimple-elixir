@@ -81,4 +81,23 @@ defmodule Dnsimple.TemplatesTest do
     end
   end
 
+
+  describe ".create_template" do
+    test "creates the template and returns it in a Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/templates"
+      method     = "post"
+      fixture    = "createTemplate/created.http"
+      attributes = %{name: "Beta", short_name: "beta", description: "A beta template."}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
+        {:ok, response} = @module.create_template(@client, @account_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Template
+      end
+    end
+  end
+
 end

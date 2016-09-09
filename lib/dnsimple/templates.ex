@@ -57,4 +57,29 @@ defmodule Dnsimple.Templates do
   @spec template(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   defdelegate template(client, account_id, template_id, options \\ []), to: __MODULE__, as: :get_template
 
+
+  @doc """
+  Creates a new template in the account.
+
+  See https://developer.dnsimple.com/v2/templates/#create
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Templates.get_template(client, account_id = 1010, %{
+      name: "Beta",
+      short_name: "beta",
+      description: "A beta template.",
+    })
+
+  """
+  @spec create_template(Client.t, String.t | integer, map, Keyword.t) :: Response.t
+  def create_template(client, account_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/templates")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(Template)
+  end
+
 end

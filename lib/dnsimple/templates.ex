@@ -9,6 +9,7 @@ defmodule Dnsimple.Templates do
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.Template
+  alias Dnsimple.TemplateRecord
 
   @doc """
   Returns the list of existing templates in the account.
@@ -20,6 +21,7 @@ defmodule Dnsimple.Templates do
     client = %Dnsimple.Client{access_token: "a1b2c3d4"}
 
     Dnsimple.Templates.list_templates(client, account_id = 1010)
+    Dnsimple.Templates.list_templates(client, account_id = 1010, sort: "name:asc")
 
   """
   @spec list_templates(Client.t, String.t | integer, Keyword.t) :: Response.t
@@ -127,5 +129,30 @@ defmodule Dnsimple.Templates do
     Client.delete(client, url, options)
     |> Response.parse(nil)
   end
+
+
+  @doc """
+  Returns the list of records in the  template.
+
+  See https://developer.dnsimple.com/v2/templates/records/#list
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Templates.list_template_records(client, account_id = 1010, template_id = 1)
+    Dnsimple.Templates.list_template_records(client, account_id = 1010, template_id = 1, sort: "type:asc")
+
+  """
+  @spec list_template_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def list_template_records(client, account_id, template_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/templates/#{template_id}/records")
+
+    List.get(client, url, options)
+    |> Response.parse(TemplateRecord)
+  end
+
+  @spec template_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  defdelegate template_records(client, account_id, template_id, options \\ []), to: __MODULE__, as: :list_template_records
 
 end

@@ -137,4 +137,46 @@ defmodule Dnsimple.TemplatesTest do
     end
   end
 
+
+  describe ".list_template_records" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/templates/1/records"
+      {:ok, fixture: "listTemplateRecords/success.http", method: "get", url: url}
+    end
+
+    test "returns the records in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.list_template_records(@client, @account_id, _template_id = 1)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert length(data) == 2
+        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.TemplateRecord end)
+      end
+    end
+
+    test "supports custom headers", %{fixture: fixture_file, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
+        {:ok, response} = @module.list_template_records(@client, @account_id, _template_id = 1, headers: %{"X-Header" => "X-Value"})
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+    test "supports sorting", %{fixture: fixture_file, method: method} do
+      url = "#{@client.base_url}/v2/#{@account_id}/templates/1/records?sort=type%3Adesc"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
+        {:ok, response} = @module.list_template_records(@client, @account_id, _template_id = 1, sort: "type:desc")
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+    test "it can be called using the alias .template_records", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.template_records(@client, @account_id, _template_id = 1)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
 end

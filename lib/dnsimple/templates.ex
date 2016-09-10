@@ -107,4 +107,25 @@ defmodule Dnsimple.Templates do
     |> Response.parse(Template)
   end
 
+
+  @doc """
+  PERMANENTLY deletes an existing template.
+
+  See https://developer.dnsimple.com/v2/templates/#delete
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Templates.delete_template(client, account_id = 1010, template_id = "alpha")
+
+  """
+  @spec delete_template(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def delete_template(client, account_id, template_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/templates/#{template_id}")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
+  end
+
 end

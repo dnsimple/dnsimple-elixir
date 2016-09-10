@@ -67,7 +67,7 @@ defmodule Dnsimple.Templates do
 
     client = %Dnsimple.Client{access_token: "a1b2c3d4"}
 
-    Dnsimple.Templates.get_template(client, account_id = 1010, %{
+    Dnsimple.Templates.create_template(client, account_id = 1010, %{
       name: "Beta",
       short_name: "beta",
       description: "A beta template.",
@@ -79,6 +79,31 @@ defmodule Dnsimple.Templates do
     url = Client.versioned("/#{account_id}/templates")
 
     Client.post(client, url, attributes, options)
+    |> Response.parse(Template)
+  end
+
+
+  @doc """
+  Updates an existing template.
+
+  See https://developer.dnsimple.com/v2/templates/#update
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Templates.update_template(client, account_id = 1010, template_id = 1, %{
+      name: "Beta",
+      short_name: "beta",
+      description: "A beta template.",
+    })
+
+  """
+  @spec update_template(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: Response.t
+  def update_template(client, account_id, template_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/templates/#{template_id}")
+
+    Client.patch(client, url, attributes, options)
     |> Response.parse(Template)
   end
 

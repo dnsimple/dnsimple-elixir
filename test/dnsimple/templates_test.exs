@@ -100,4 +100,27 @@ defmodule Dnsimple.TemplatesTest do
     end
   end
 
+
+  describe ".update_template" do
+    test "updates the template and returns it in a Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/templates/beta"
+      method     = "patch"
+      fixture    = "updateTemplate/success.http"
+      attributes = %{name: "Alpha", short_name: "alpha", description: "An alpha template."}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
+        {:ok, response} = @module.update_template(@client, @account_id, _template_id = "beta", attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Template
+        assert data.name == "Alpha"
+        assert data.short_name == "alpha"
+        assert data.description == "An alpha template."
+      end
+    end
+  end
+
+
 end

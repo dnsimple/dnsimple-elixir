@@ -179,4 +179,39 @@ defmodule Dnsimple.TemplatesTest do
     end
   end
 
+
+  describe ".get_template_record" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/templates/268/records/301"
+      {:ok, fixture: "getTemplateRecord/success.http", method: "get", url: url}
+    end
+
+    test "returns the record in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.get_template_record(@client, @account_id, template_id = 268, record_id = 301)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.TemplateRecord
+        assert data.id == record_id
+        assert data.template_id == template_id
+        assert data.type == "MX"
+        assert data.name == ""
+        assert data.content == "mx.example.com"
+        assert data.ttl == 600
+        assert data.priority == 10
+        assert data.created_at == "2016-05-03T08:03:26.444Z"
+        assert data.updated_at == "2016-05-03T08:03:26.444Z"
+      end
+    end
+
+    test "it can be called using the alias .template_record", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.template_record(@client, @account_id, _template_id = 268, _record_id = 301)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+  end
+
 end

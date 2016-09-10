@@ -155,4 +155,28 @@ defmodule Dnsimple.Templates do
   @spec template_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   defdelegate template_records(client, account_id, template_id, options \\ []), to: __MODULE__, as: :list_template_records
 
+
+  @doc """
+  Returns a record in of the template.
+
+  See https://developer.dnsimple.com/v2/templates/records/#get
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Templates.get_template_record(client, account_id = 1010, template_id = "alpha", record_id = 123)
+
+  """
+  @spec get_template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  def get_template_record(client, account_id, template_id, record_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/templates/#{template_id}/records/#{record_id}")
+
+    List.get(client, url, options)
+    |> Response.parse(TemplateRecord)
+  end
+
+  @spec template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  defdelegate template_record(client, account_id, template_id, record_id, options \\ []), to: __MODULE__, as: :get_template_record
+
 end

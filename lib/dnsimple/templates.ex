@@ -228,4 +228,24 @@ defmodule Dnsimple.Templates do
   end
 
 
+  @doc """
+  Applies a template to a domain.
+
+  See https://developer.dnsimple.com/v2/templates/domains/#apply
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Templates.apply_template(client, account_id = 1010, domain_id = "example.com", template_id = "alpha")
+
+  """
+  @spec apply_template(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def apply_template(client, account_id, domain_id, template_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/templates/#{template_id}")
+
+    Client.post(client, url, Client.empty_body, options)
+    |> Response.parse(nil)
+  end
+
 end

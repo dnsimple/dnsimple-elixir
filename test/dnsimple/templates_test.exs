@@ -247,4 +247,19 @@ defmodule Dnsimple.TemplatesTest do
     end
   end
 
+
+  describe ".apply_template" do
+    test "applies the template to the domain and returns an empty Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/example.com/templates/1"
+      method     = "post"
+      fixture    = "applyTemplate/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.apply_template(@client, @account_id, _domain_id = "example.com", _template_id = 1)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
 end

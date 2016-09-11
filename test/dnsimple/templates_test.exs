@@ -233,4 +233,18 @@ defmodule Dnsimple.TemplatesTest do
   end
 
 
+  describe ".delete_template_record" do
+    test "deletes the record and returns an empty Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/templates/268/records/301"
+      method     = "delete"
+      fixture    = "deleteTemplateRecord/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.delete_template_record(@client, @account_id, _template_id = 268, _record_id = 301)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
 end

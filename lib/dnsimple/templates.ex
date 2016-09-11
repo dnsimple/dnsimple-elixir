@@ -207,4 +207,25 @@ defmodule Dnsimple.Templates do
   end
 
 
+  @doc """
+  PERMANENTLY deletes a record from the template.
+
+  See https://developer.dnsimple.com/v2/templates/records/#delete
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Templates.delete_template_record(client, account_id = 1010, template_id = "alpha", record_id = 1)
+
+  """
+  @spec delete_template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  def delete_template_record(client, account_id, template_id, record_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/templates/#{template_id}/records/#{record_id}")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
+  end
+
+
 end

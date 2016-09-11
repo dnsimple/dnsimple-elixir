@@ -211,7 +211,26 @@ defmodule Dnsimple.TemplatesTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
-
   end
+
+
+  describe ".create_template_record" do
+    test "creates the record and returns it in a Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/templates/268/records"
+      method     = "post"
+      fixture    = "createTemplateRecord/created.http"
+      attributes = %{name: "", type: "mx", content: "mx.example.com", ttl: 600, priority: 10}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
+        {:ok, response} = @module.create_template_record(@client, @account_id, _template_id = 268, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.TemplateRecord
+      end
+    end
+  end
+
 
 end

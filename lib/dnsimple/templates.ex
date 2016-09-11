@@ -179,4 +179,32 @@ defmodule Dnsimple.Templates do
   @spec template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
   defdelegate template_record(client, account_id, template_id, record_id, options \\ []), to: __MODULE__, as: :get_template_record
 
+
+  @doc """
+  Creates a new record in the template.
+
+  See https://developer.dnsimple.com/v2/templates/records/#create
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Templates.create_template_record(client, account_id = 1010, template_id = "alpha" %{
+      name: "",
+      type: "mx",
+      content: "mx.example.com",
+      ttl: 600,
+      prio: 10,
+    })
+
+  """
+  @spec create_template_record(Client.t, String.t | integer, String.t | integer, map,  Keyword.t) :: Response.t
+  def create_template_record(client, account_id, template_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/templates/#{template_id}/records")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(TemplateRecord)
+  end
+
+
 end

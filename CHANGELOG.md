@@ -1,7 +1,12 @@
 # Changelog
 
-
 #### master
+
+- NEW: Added support for template endpoints (GH-51)
+
+- CHANGED: added aliases and consolidate function naming (GH-47)
+
+#### Release 0.9.0
 
 - NEW: Added function to start OTP app (GH-45)
 

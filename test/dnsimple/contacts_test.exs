@@ -5,26 +5,28 @@ defmodule Dnsimple.ContactsTest do
   @module Dnsimple.Contacts
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
-  describe ".contacts" do
+  describe ".list_contacts" do
     setup do
-      url     = "#{@client.base_url}/v2/1010/contacts"
-      method  = "get"
-      fixture = "listContacts/success.http"
-
-      {:ok, fixture: fixture, method: method, url: url}
+      url = "#{@client.base_url}/v2/1010/contacts"
+      {:ok, fixture: "listContacts/success.http", method: "get", url: url}
     end
 
-    test "builds the correct request", %{fixture: fixture, method: method, url: url} do
+    test "returns the contacts in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.contacts(@client, "1010")
+        {:ok, response} = @module.list_contacts(@client, "1010")
         assert response.__struct__ == Dnsimple.Response
-        assert length(response.data) == 2
+
+        data = response.data
+        assert is_list(data)
+        assert length(data) == 2
+        assert Enum.all?(data, fn(contact) -> contact.__struct__ == Dnsimple.Contact end)
+        assert Enum.all?(data, fn(contact) -> is_integer(contact.id) end)
       end
     end
 
     test "supports custom headers", %{fixture: fixture_file, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
-        {:ok, response} = @module.contacts(@client, "1010", headers: %{"X-Header" => "X-Value"})
+        {:ok, response} = @module.list_contacts(@client, "1010", headers: %{"X-Header" => "X-Value"})
         assert response.__struct__ == Dnsimple.Response
       end
     end
@@ -33,20 +35,28 @@ defmodule Dnsimple.ContactsTest do
       url = "#{@client.base_url}/v2/1010/contacts?sort=label%3Aasc"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
-        {:ok, response} = @module.contacts(@client, "1010", sort: "label:asc")
+        {:ok, response} = @module.list_contacts(@client, "1010", sort: "label:asc")
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+    test "can be called using the alias .contacts", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.contacts(@client, "1010")
         assert response.__struct__ == Dnsimple.Response
       end
     end
   end
 
   describe ".contact" do
-    test "returns the contact in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/1010/contacts/1"
-      method  = "get"
-      fixture = "getContact/success.http"
+    setup do
+      url = "#{@client.base_url}/v2/1010/contacts/1"
+      {:ok, fixture: "getContact/success.http", method: "get", url: url}
+    end
 
+    test "returns the contact in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.contact(@client, 1010, 1)
+        {:ok, response} = @module.get_contact(@client, 1010, 1)
         assert response.__struct__ == Dnsimple.Response
 
         contact = response.data
@@ -69,6 +79,13 @@ defmodule Dnsimple.ContactsTest do
         assert contact.country == "IT"
         assert contact.created_at == "2016-01-19T20:50:26.066Z"
         assert contact.updated_at == "2016-01-19T20:50:26.066Z"
+      end
+    end
+
+    test "can be called using the alias .contact", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.contact(@client, 1010, 1)
+        assert response.__struct__ == Dnsimple.Response
       end
     end
   end
@@ -137,7 +154,5 @@ defmodule Dnsimple.ContactsTest do
       end
     end
   end
-
-
 
 end

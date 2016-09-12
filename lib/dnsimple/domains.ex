@@ -11,19 +11,22 @@ defmodule Dnsimple.Domains do
   alias Dnsimple.Response
   alias Dnsimple.Domain
 
-
   @doc """
   Lists the domains.
 
   See https://developer.dnsimple.com/v2/domains/#list
   """
-  @spec domains(Client.t, String.t | integer) :: Response.t
-  def domains(client, account_id, options \\ []) do
+  @spec list_domains(Client.t, String.t | integer) :: Response.t
+  def list_domains(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains")
 
     List.get(client, url, options)
     |> Response.parse(Domain)
   end
+
+  @spec domains(Client.t, String.t | integer) :: Response.t
+  defdelegate domains(client, account_id, options \\ []), to: __MODULE__, as: :list_domains
+
 
   @doc """
   List all domains from the account. This function will automatically
@@ -47,6 +50,24 @@ defmodule Dnsimple.Domains do
     all_domains(client, account_id, options, domain_list)
   end
 
+
+  @doc """
+  Get a domain.
+
+  See https://developer.dnsimple.com/v2/domains/#get
+  """
+  @spec get_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def get_domain(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}")
+
+    Client.get(client, url, options)
+    |> Response.parse(Domain)
+  end
+
+  @spec domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  defdelegate domain(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :get_domain
+
+
   @doc """
   Creates a new domain in the account.
 
@@ -60,18 +81,6 @@ defmodule Dnsimple.Domains do
     |> Response.parse(Domain)
   end
 
-  @doc """
-  Get a domain.
-
-  See https://developer.dnsimple.com/v2/domains/#get
-  """
-  @spec domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  def domain(client, account_id, domain_id, options \\ []) do
-    url = Client.versioned("/#{account_id}/domains/#{domain_id}")
-
-    Client.get(client, url, options)
-    |> Response.parse(Domain)
-  end
 
   @doc """
   PERMANENTLY deletes a domain from the account.
@@ -86,8 +95,9 @@ defmodule Dnsimple.Domains do
     |> Response.parse(nil)
   end
 
+
   @doc """
-  Resets the domain token.
+  Resets the domain API token used for authentication in APIv1.
 
   See https://developer.dnsimple.com/v2/domains/#reset-token
   """

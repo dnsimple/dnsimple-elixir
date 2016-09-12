@@ -7,24 +7,24 @@ defmodule Dnsimple.AccountsTest do
 
 
   describe ".accounts" do
-    test "builds the correct request" do
+    setup do
+      {:ok, method: "get", url: "#{@client.base_url}/v2/accounts"}
+    end
+
+    test "returns the accounts in a Dnsimple.Response", %{method: method, url: url} do
       fixture = "listAccounts/success-account.http"
-      method  = "get"
-      url     = "#{@client.base_url}/v2/accounts"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.accounts(@client)
+        {:ok, response} = @module.list_accounts(@client)
         assert response.__struct__ == Dnsimple.Response
       end
     end
 
-    test "returns the account when using an account token" do
+    test "returns the account when using an account token", %{method: method, url: url} do
       fixture = "listAccounts/success-account.http"
-      method  = "get"
-      url     = "#{@client.base_url}/v2/accounts"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.accounts(@client)
+        {:ok, response} = @module.list_accounts(@client)
 
         data = response.data
         assert length(data) == 1
@@ -35,13 +35,11 @@ defmodule Dnsimple.AccountsTest do
       end
     end
 
-    test "returns all user accounts when using a user token" do
+    test "returns all user accounts when using a user token", %{method: method, url: url} do
       fixture = "listAccounts/success-user.http"
-      method  = "get"
-      url     = "#{@client.base_url}/v2/accounts"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.accounts(@client)
+        {:ok, response} = @module.list_accounts(@client)
 
         data = response.data
         assert length(data) == 2
@@ -52,6 +50,14 @@ defmodule Dnsimple.AccountsTest do
       end
     end
 
+    test "can be called using the alias .accounts", %{method: method, url: url} do
+      fixture = "listAccounts/success-account.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.accounts(@client)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
   end
 
 end

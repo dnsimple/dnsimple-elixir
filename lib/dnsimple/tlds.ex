@@ -30,7 +30,7 @@ defmodule Dnsimple.Tlds do
     url = Client.versioned("/tlds")
 
     List.get(client, url, options)
-    |> Response.parse(Tld)
+    |> Response.parse(%{"data" => [%Tld{}], "pagination" => %Response.Pagination{}})
   end
 
   @spec tlds(Client.t, Keyword.t) :: Response.t
@@ -54,7 +54,7 @@ defmodule Dnsimple.Tlds do
     url = Client.versioned("/tlds/#{tld}")
 
     Client.get(client, url, options)
-    |> Response.parse(Tld)
+    |> Response.parse(%{"data" => %Tld{}})
   end
 
   @spec tld(Client.t, String.t, Keyword.t) :: Response.t
@@ -78,7 +78,7 @@ defmodule Dnsimple.Tlds do
     url = Client.versioned("/tlds/#{tld}/extended_attributes")
 
     Client.get(client, url, options)
-    |> Response.parse(TldExtendedAttribute, options: TldExtendedAttribute.Option)
+    |> Response.parse(%{"data" => [%TldExtendedAttribute{options: [%TldExtendedAttribute.Option{}]}]})
   end
 
   @spec tld_extended_attributes(Client.t, String.t,  Keyword.t) :: Response.t

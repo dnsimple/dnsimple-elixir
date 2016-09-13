@@ -24,7 +24,7 @@ defmodule Dnsimple.Zones do
     url = Client.versioned("/#{account_id}/zones")
 
     List.get(client, url, options)
-    |> Response.parse(Zone)
+    |> Response.parse(%{"data" => [%Zone{}], "pagination" => %Response.Pagination{}})
   end
 
   @spec zones(Client.t, String.t | integer, Keyword.t) :: Response.t
@@ -41,7 +41,7 @@ defmodule Dnsimple.Zones do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}")
 
     Client.get(client, url, options)
-    |> Response.parse(Zone)
+    |> Response.parse(%{"data" => %Zone{}})
   end
 
   @spec zone(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -58,7 +58,7 @@ defmodule Dnsimple.Zones do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records")
 
     List.get(client, url, options)
-    |> Response.parse(ZoneRecord)
+    |> Response.parse(%{"data" => [%ZoneRecord{}], "pagination" => %Response.Pagination{}})
   end
 
   @spec zone_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -75,7 +75,7 @@ defmodule Dnsimple.Zones do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records/#{record_id}")
 
     Client.get(client, url, options)
-    |> Response.parse(Dnsimple.ZoneRecord)
+    |> Response.parse(%{"data" => %ZoneRecord{}})
   end
 
   @spec zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
@@ -92,7 +92,7 @@ defmodule Dnsimple.Zones do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(ZoneRecord)
+    |> Response.parse(%{"data" => %ZoneRecord{}})
   end
 
 
@@ -106,7 +106,7 @@ defmodule Dnsimple.Zones do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records/#{record_id}")
 
     Client.patch(client, url, attributes, options)
-    |> Response.parse(ZoneRecord)
+    |> Response.parse(%{"data" => %ZoneRecord{}})
   end
 
 

@@ -19,7 +19,26 @@ defmodule Dnsimple.Response do
     }
   end
 
-  @spec build_response(HTTPoison.Response.t, any, Dnsimple.Response.Pagination) :: Response.t
+  def parse(result, format, options \\ [])
+  def parse({:error, http_response}, _format, _options), do: {:error, http_response}
+  def parse({:ok, http_response}, format, options) do
+    body       = decode(http_response, format)
+    data       = extract_data(body)
+    pagination = extract_pagination(body)
+
+    {:ok, build_response(http_response, data, pagination)}
+  end
+
+  defp decode(%HTTPoison.Response{body: ""}, _format),  do: nil
+  defp decode(%HTTPoison.Response{body: body}, nil),    do: Poison.decode!(body)
+  defp decode(%HTTPoison.Response{body: body}, format), do: Poison.decode!(body, as: format)
+
+  defp extract_data(%{"data" => data}), do: data
+  defp extract_data(data),              do: data
+
+  defp extract_pagination(%{"pagination" => pagination}), do: pagination
+  defp extract_pagination(_), do: nil
+
   defp build_response(http_response, data, pagination) do
     headers = Enum.into(http_response.headers, %{})
 
@@ -32,35 +51,5 @@ defmodule Dnsimple.Response do
       rate_limit_reset: String.to_integer(headers["X-RateLimit-Reset"]),
     }
   end
-
-  def parse(result, kind, options \\ [])
-  def parse({:error, http_response}, _kind, _options), do: {:error, http_response}
-  def parse({:ok, http_response}, kind, options) do
-    response_map = decode(http_response)
-
-    data = transform_to_struct(response_map, kind, options)
-    pagination = extract_pagination(response_map)
-
-    {:ok, build_response(http_response, data, pagination)}
-  end
-
-  defp transform_to_struct(_, nil, _),                              do: nil
-  defp transform_to_struct(%{"data" => attributes}, kind, options), do: to_struct(attributes, kind, options)
-  defp transform_to_struct(attributes, kind, options),              do: to_struct(attributes, kind, options)
-
-  defp extract_pagination(%{"pagination" => pagination}) do
-    %Dnsimple.Response.Pagination{
-      current_page: pagination["current_page"],
-      per_page: pagination["per_page"],
-      total_entries: pagination["total_entries"],
-      total_pages: pagination["total_pages"]
-    }
-  end
-  defp extract_pagination(_), do: nil
-
-  def decode(%HTTPoison.Response{body: ""}),   do: %{}
-  def decode(%HTTPoison.Response{body: body}), do: Poison.decode!(body)
-
-  defp to_struct(attrs, kind, options), do: Dnsimple.Utils.attrs_to_struct(attrs, kind, options)
 
 end

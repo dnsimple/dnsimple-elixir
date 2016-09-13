@@ -15,7 +15,7 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/check")
 
     Client.get(client, url, options)
-    |> Response.parse(DomainCheck)
+    |> Response.parse(%{"data" => %DomainCheck{}})
   end
 
 
@@ -29,7 +29,7 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registration")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(Domain)
+    |> Response.parse(%{"data" => %Domain{}})
   end
 
 
@@ -43,7 +43,7 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/renewal")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(Domain)
+    |> Response.parse(%{"data" => %Domain{}})
   end
 
 
@@ -57,7 +57,7 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(Domain)
+    |> Response.parse(%{"data" => %Domain{}})
   end
 
 
@@ -113,7 +113,7 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
     Client.get(client, url, options)
-    |> Response.parse(WhoisPrivacy)
+    |> Response.parse(%{"data" => %WhoisPrivacy{}})
   end
 
   @spec whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
@@ -130,7 +130,7 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
     Client.put(client, url, Client.empty_body, options)
-    |> Response.parse(WhoisPrivacy)
+    |> Response.parse(%{"data" => %WhoisPrivacy{}})
   end
 
 
@@ -144,7 +144,7 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
     Client.delete(client, url, options)
-    |> Response.parse(WhoisPrivacy)
+    |> Response.parse(%{"data" => %WhoisPrivacy{}})
   end
 
 end

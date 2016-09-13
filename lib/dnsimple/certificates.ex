@@ -32,7 +32,7 @@ defmodule Dnsimple.Certificates do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates")
 
     List.get(client, url, options)
-    |> Response.parse(Certificate)
+    |> Response.parse(%{"data" => [%Certificate{}], "pagination" => %Response.Pagination{}})
   end
 
   @spec certificates(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -58,7 +58,7 @@ defmodule Dnsimple.Certificates do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}")
 
     Client.get(client, url, options)
-    |> Response.parse(Certificate)
+    |> Response.parse(%{"data" => %Certificate{}})
   end
 
   @spec certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -84,7 +84,7 @@ defmodule Dnsimple.Certificates do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}/download")
 
     Client.get(client, url, options)
-    |> Response.parse(Certificate)
+    |> Response.parse(%{"data" => %Certificate{}})
   end
 
 
@@ -107,7 +107,7 @@ defmodule Dnsimple.Certificates do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}/private_key")
 
     Client.get(client, url, options)
-    |> Response.parse(Certificate)
+    |> Response.parse(%{"data" => %Certificate{}})
   end
 
   @spec certificate_private_key(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t

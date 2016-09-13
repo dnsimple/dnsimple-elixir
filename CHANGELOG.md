@@ -2,6 +2,7 @@
 
 #### master
 
+- NEW: Added support for TLD endpoints (GH-49)
 - NEW: Added support for template endpoints (GH-51)
 
 - CHANGED: added aliases and consolidate function naming (GH-47)

@@ -20,7 +20,7 @@ defmodule Dnsimple.Contacts do
     url = Client.versioned("/#{account_id}/contacts")
 
     List.get(client, url, options)
-    |> Response.parse(Contact)
+    |> Response.parse(%{"data" => [%Contact{}], "pagination" => %Response.Pagination{}})
   end
 
   @spec contacts(Client.t, String.t | integer, Keyword.t) :: Response.t
@@ -37,7 +37,7 @@ defmodule Dnsimple.Contacts do
     url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
 
     Client.get(client, url, options)
-    |> Response.parse(Contact)
+    |> Response.parse(%{"data" => %Contact{}})
   end
 
   @spec contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -54,7 +54,7 @@ defmodule Dnsimple.Contacts do
     url = Client.versioned("/#{account_id}/contacts")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(Contact)
+    |> Response.parse(%{"data" => %Contact{}})
   end
 
 
@@ -68,7 +68,7 @@ defmodule Dnsimple.Contacts do
     url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
 
     Client.patch(client, url, attributes, options)
-    |> Response.parse(Contact)
+    |> Response.parse(%{"data" => %Contact{}})
   end
 
 

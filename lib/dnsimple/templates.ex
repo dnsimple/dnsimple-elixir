@@ -29,7 +29,7 @@ defmodule Dnsimple.Templates do
     url = Client.versioned("/#{account_id}/templates")
 
     List.get(client, url, options)
-    |> Response.parse(Template)
+    |> Response.parse(%{"data" => [%Template{}], "pagination" => %Response.Pagination{}})
   end
 
   @spec templates(Client.t, String.t | integer, Keyword.t) :: Response.t
@@ -53,7 +53,7 @@ defmodule Dnsimple.Templates do
     url = Client.versioned("/#{account_id}/templates/#{template_id}")
 
     List.get(client, url, options)
-    |> Response.parse(Template)
+    |> Response.parse(%{"data" => %Template{}})
   end
 
   @spec template(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -81,7 +81,7 @@ defmodule Dnsimple.Templates do
     url = Client.versioned("/#{account_id}/templates")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(Template)
+    |> Response.parse(%{"data" => %Template{}})
   end
 
 
@@ -106,7 +106,7 @@ defmodule Dnsimple.Templates do
     url = Client.versioned("/#{account_id}/templates/#{template_id}")
 
     Client.patch(client, url, attributes, options)
-    |> Response.parse(Template)
+    |> Response.parse(%{"data" => %Template{}})
   end
 
 
@@ -149,7 +149,7 @@ defmodule Dnsimple.Templates do
     url = Client.versioned("/#{account_id}/templates/#{template_id}/records")
 
     List.get(client, url, options)
-    |> Response.parse(TemplateRecord)
+    |> Response.parse(%{"data" => [%TemplateRecord{}], "pagination" => %Response.Pagination{}})
   end
 
   @spec template_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -173,7 +173,7 @@ defmodule Dnsimple.Templates do
     url = Client.versioned("/#{account_id}/templates/#{template_id}/records/#{record_id}")
 
     List.get(client, url, options)
-    |> Response.parse(TemplateRecord)
+    |> Response.parse(%{"data" => %TemplateRecord{}})
   end
 
   @spec template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
@@ -203,7 +203,7 @@ defmodule Dnsimple.Templates do
     url = Client.versioned("/#{account_id}/templates/#{template_id}/records")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(TemplateRecord)
+    |> Response.parse(%{"data" => %TemplateRecord{}})
   end
 
 

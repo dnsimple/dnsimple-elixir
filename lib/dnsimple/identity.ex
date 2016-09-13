@@ -13,7 +13,7 @@ defmodule Dnsimple.Identity do
     url = Client.versioned("/whoami")
 
     Client.get(client, url, options)
-    |> Response.parse(Whoami)
+    |> Response.parse(%{"data" => %Whoami{}})
   end
 
 end

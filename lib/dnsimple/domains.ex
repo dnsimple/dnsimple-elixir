@@ -21,7 +21,7 @@ defmodule Dnsimple.Domains do
     url = Client.versioned("/#{account_id}/domains")
 
     List.get(client, url, options)
-    |> Response.parse(Domain)
+    |> Response.parse(%{"data" => [%Domain{}], "pagination" => %Response.Pagination{}})
   end
 
   @spec domains(Client.t, String.t | integer) :: Response.t
@@ -61,7 +61,7 @@ defmodule Dnsimple.Domains do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}")
 
     Client.get(client, url, options)
-    |> Response.parse(Domain)
+    |> Response.parse(%{"data" => %Domain{}})
   end
 
   @spec domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -78,7 +78,7 @@ defmodule Dnsimple.Domains do
     url = Client.versioned("/#{account_id}/domains")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(Domain)
+    |> Response.parse(%{"data" => %Domain{}})
   end
 
 
@@ -106,7 +106,7 @@ defmodule Dnsimple.Domains do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/token")
 
     Client.post(client, url, Client.empty_body, options)
-    |> Response.parse(Domain)
+    |> Response.parse(%{"data" => %Domain{}})
   end
 
 end

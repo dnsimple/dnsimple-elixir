@@ -21,7 +21,7 @@ defmodule Dnsimple.Webhooks do
     url = Client.versioned("/#{account_id}/webhooks")
 
     List.get(client, url, options)
-    |> Response.parse(Webhook)
+    |> Response.parse(%{"data" => [%Webhook{}], "pagination" => %Response.Pagination{}})
   end
 
   @spec webhooks(Client.t, String.t | integer) :: Response.t
@@ -38,7 +38,7 @@ defmodule Dnsimple.Webhooks do
     url = Client.versioned("/#{account_id}/webhooks/#{webhook_id}")
 
     Client.get(client, url, options)
-    |> Response.parse(Webhook)
+    |> Response.parse(%{"data" => %Webhook{}})
   end
 
   @spec webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -55,7 +55,7 @@ defmodule Dnsimple.Webhooks do
     url = Client.versioned("/#{account_id}/webhooks")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(Webhook)
+    |> Response.parse(%{"data" => %Webhook{}})
   end
 
 

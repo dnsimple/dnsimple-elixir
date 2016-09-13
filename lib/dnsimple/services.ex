@@ -22,7 +22,7 @@ defmodule Dnsimple.Services do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services")
 
     List.get(client, url, options)
-    |> Response.parse(Service)
+    |> Response.parse(%{"data" => [%Service{}], "pagination" => %Response.Pagination{}})
   end
 
   @doc """

@@ -21,7 +21,7 @@ defmodule Dnsimple.Accounts do
     url = Client.versioned("/accounts")
 
     Client.get(client, url, options)
-    |> Response.parse(Account)
+    |> Response.parse(%{"data" => [%Account{}]})
   end
 
   @spec accounts(Client.t) :: Response.t

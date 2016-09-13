@@ -6,9 +6,40 @@ defmodule Dnsimple.ResponseTest do
   @client %Dnsimple.Client{access_token: "x", base_url: "https://api.dnsimple.test"}
 
   describe ".parse" do
+    test "extracts the response body into structs WITH a data attribute" do
+      use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", method: "get") do
+        http_response   = Dnsimple.Client.execute(@client, "get", "/v2/1010/domains/1")
+        {:ok, response} = Dnsimple.Response.parse(http_response, %{"data" => %Dnsimple.Domain{}})
+
+        assert response.data.__struct__ == Dnsimple.Domain
+      end
+    end
+
+    test "extracts the response body into NESTED structs WITH a data attribute" do
+      use_cassette :stub, ExvcrUtils.response_fixture("getTldExtendedAttributes/success.http", method: "get") do
+        http_response   = Dnsimple.Client.execute(@client, "get", "/v2/tlds/com/extended_attributes")
+        {:ok, response} = Dnsimple.Response.parse(http_response, %{"data" => [%Dnsimple.TldExtendedAttribute{options: [%Dnsimple.TldExtendedAttribute.Option{}]}]})
+
+        [attribute | _] = response.data
+        assert attribute.__struct__ == Dnsimple.TldExtendedAttribute
+
+        [option | _] = attribute.options
+        assert option.__struct__ == Dnsimple.TldExtendedAttribute.Option
+      end
+    end
+
+    test "extracts the response body into structs WITHOUT a data attribute" do
+      use_cassette :stub, ExvcrUtils.response_fixture("oauthAccessToken/success.http", method: "post") do
+        http_response   = Dnsimple.Client.execute(@client, "post", "/oauth/access_token")
+        {:ok, response} = Dnsimple.Response.parse(http_response, %Dnsimple.OauthToken{})
+
+        assert response.data.__struct__ == Dnsimple.OauthToken
+      end
+    end
+
     test "parses a response without extracting data" do
-      use_cassette :stub, ExvcrUtils.response_fixture("whoami/success.http", method: "GET") do
-        http_response = {:ok, http} = Dnsimple.Client.execute(@client, "GET", "/path")
+      use_cassette :stub, ExvcrUtils.response_fixture("deleteDomain/success.http", method: "delete") do
+        http_response = {:ok, http} = Dnsimple.Client.execute(@client, "delete", "/path")
         {:ok, response} = Dnsimple.Response.parse(http_response, nil)
 
         assert response.http_response == http
@@ -16,18 +47,9 @@ defmodule Dnsimple.ResponseTest do
       end
     end
 
-    test "extracts the response body into structs without a data attribute" do
-      use_cassette :stub, ExvcrUtils.response_fixture("oauthAccessToken/success.http", method: "POST") do
-        http_response   = Dnsimple.Client.execute(@client, "POST", "/oauth/access_token")
-        {:ok, response} = Dnsimple.Response.parse(http_response, Dnsimple.OauthToken)
-
-        assert response.data.__struct__ == Dnsimple.OauthToken
-      end
-    end
-
     test "parses the rate-limit" do
-      use_cassette :stub, ExvcrUtils.response_fixture("whoami/success.http", method: "GET") do
-        http_response = Dnsimple.Client.execute(@client, "GET", "/path")
+      use_cassette :stub, ExvcrUtils.response_fixture("whoami/success.http", method: "get") do
+        http_response = Dnsimple.Client.execute(@client, "get", "/path")
         {:ok, response} = Dnsimple.Response.parse(http_response, nil)
 
         assert response.rate_limit == 4000
@@ -37,9 +59,11 @@ defmodule Dnsimple.ResponseTest do
     end
 
     test "parses pagination" do
-      use_cassette :stub, ExvcrUtils.response_fixture("pages1of3.http", method: "GET") do
-        http_response = Dnsimple.Client.execute(@client, "GET", "/path")
-        {:ok, response} = Dnsimple.Response.parse(http_response, nil)
+      use_cassette :stub, ExvcrUtils.response_fixture("pages1of3.http", method: "get") do
+        http_response = Dnsimple.Client.execute(@client, "get", "/path")
+        {:ok, response} = Dnsimple.Response.parse(http_response, %{"data" => [%Dnsimple.Domain{}], "pagination" => %Dnsimple.Response.Pagination{}})
+
+        assert response.data != nil
 
         assert response.pagination != nil
         assert response.pagination.current_page == 1

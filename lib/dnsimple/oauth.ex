@@ -28,7 +28,7 @@ defmodule Dnsimple.Oauth do
     attributes = Map.merge(attributes, %{grant_type: "authorization_code"})
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(OauthToken)
+    |> Response.parse(%OauthToken{})
   end
 
 end

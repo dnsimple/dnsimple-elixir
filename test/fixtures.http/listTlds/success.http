@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Wed, 07 Sep 2016 11:37:53 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+X-RateLimit-Limit: 2400
+X-RateLimit-Remaining: 2399
+X-RateLimit-Reset: 1473251873
+ETag: W/"4421ef41d0adf4007806011a4919cd5b"
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 8269a7b3-3aa0-4496-8fed-bb211ddd4290
+X-Runtime: 0.025101
+X-Content-Type-Options: nosniff
+X-Download-Options: noopen
+X-Frame-Options: DENY
+X-Permitted-Cross-Domain-Policies: none
+X-XSS-Protection: 1; mode=block
+Strict-Transport-Security: max-age=31536000
+
+{"data":[{"tld":"ac","tld_type":2,"whois_privacy":false,"auto_renew_only":true,"idn":false,"minimum_registration":1},{"tld":"academy","tld_type":3,"whois_privacy":true,"auto_renew_only":false,"idn":true,"minimum_registration":1}],"pagination":{"current_page":1,"per_page":2,"total_entries":193,"total_pages":97}}

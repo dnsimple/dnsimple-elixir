@@ -37,7 +37,7 @@ defmodule Dnsimple.Services do
 
 
   @doc """
-  Returns a services.
+  Returns a service.
 
   See https://developer.dnsimple.com/v2/services/#get
 

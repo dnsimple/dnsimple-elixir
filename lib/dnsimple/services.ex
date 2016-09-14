@@ -29,7 +29,7 @@ defmodule Dnsimple.Services do
     url = Client.versioned("/services")
 
     List.get(client, url, options)
-    |> Response.parse(%{"data" => [%Service{}], "pagination" => %Response.Pagination{}})
+    |> Response.parse(%{"data" => [%Service{settings: [%Service.Setting{}]}], "pagination" => %Response.Pagination{}})
   end
 
   @spec services(Client.t, Keyword.t) :: Response.t
@@ -54,7 +54,7 @@ defmodule Dnsimple.Services do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services")
 
     List.get(client, url, options)
-    |> Response.parse(%{"data" => [%Service{}], "pagination" => %Response.Pagination{}})
+    |> Response.parse(%{"data" => [%Service{settings: [%Service.Setting{}]}], "pagination" => %Response.Pagination{}})
   end
 
 

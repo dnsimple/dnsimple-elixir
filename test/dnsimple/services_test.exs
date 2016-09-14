@@ -23,6 +23,17 @@ defmodule Dnsimple.ServicesTest do
       end
     end
 
+    test "correctly parses the service's Settings", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_services(@client)
+
+        [_, service] = response.data
+        settings = service.settings
+        assert is_list(settings)
+        assert Enum.all?(settings, fn(single) -> single.__struct__ == Dnsimple.Service.Setting end)
+      end
+    end
+
     test "sends custom headers", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.list_services(@client)
@@ -69,6 +80,18 @@ defmodule Dnsimple.ServicesTest do
         assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Service end)
       end
     end
+
+    test "correctly parses the applied service's Settings", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.applied_services(@client, @account_id, @domain_id)
+
+        [service | _] = response.data
+        settings = service.settings
+        assert is_list(settings)
+        assert Enum.all?(settings, fn(single) -> single.__struct__ == Dnsimple.Service.Setting end)
+      end
+    end
+
 
     test "sends custom headers", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do

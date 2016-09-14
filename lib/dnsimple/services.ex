@@ -1,9 +1,9 @@
 defmodule Dnsimple.Services do
   @moduledoc """
-  The Services module handles communication with the DNSimple
-  API responsible for applying one-click services to domains.
+  This module provides functions to interact with the service related endpoints.
 
-  @see https://developer.dnsimple.com/v2/services/domains/
+  See https://developer.dnsimple.com/v2/services
+  See https://developer.dnsimple.com/v2/services/domains/
   """
 
   alias Dnsimple.List
@@ -11,13 +11,20 @@ defmodule Dnsimple.Services do
   alias Dnsimple.Response
   alias Dnsimple.Service
 
-
   @doc """
-  List applied services.
+  Lists the services already applied to a domain.
 
   See https://developer.dnsimple.com/v2/services/domains/#applied
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Services.applied_services(client, account_id = 1010, domain_id = "example.com")
+    Dnsimple.Services.applied_services(client, account_id = 1010, domain_id = "example.com", page: 2)
+
   """
-  @spec applied_services(Client.t, String.t | integer, String.t | integer) :: Response.t
+  @spec applied_services(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def applied_services(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services")
 
@@ -25,12 +32,20 @@ defmodule Dnsimple.Services do
     |> Response.parse(%{"data" => [%Service{}], "pagination" => %Response.Pagination{}})
   end
 
+
   @doc """
-  Apply a service to a domain
+  Apply a service to a domain.
 
   See https://developer.dnsimple.com/v2/services/domains/#apply
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
+
   """
-  @spec apply_service(Client.t, String.t | integer, String.t | integer, String.t | integer) :: Response.t
+  @spec apply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def apply_service(client, account_id, domain_id, service_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services/#{service_id}")
 
@@ -38,12 +53,20 @@ defmodule Dnsimple.Services do
     |> Response.parse(nil)
   end
 
+
   @doc """
-  Unapply a service previously applied to a domain
+  Unapply a service previously applied to a domain.
 
   See https://developer.dnsimple.com/v2/services/domains/#unapply
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Services.unapply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
+
   """
-  @spec unapply_service(Client.t, String.t | integer, String.t | integer, String.t | integer) :: Response.t
+  @spec unapply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def unapply_service(client, account_id, domain_id, service_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services/#{service_id}")
 

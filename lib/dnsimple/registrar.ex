@@ -3,9 +3,9 @@ defmodule Dnsimple.Registrar do
   This module provides functions to interact with the registrar related endpoints.
 
   See: https://developer.dnsimple.com/v2/registrar/
-  See: https://developer.dnsimple.com/v2/registrar/delegation/
   See: https://developer.dnsimple.com/v2/registrar/auto-renewal/
   See: https://developer.dnsimple.com/v2/registrar/whois-privacy/
+  See: https://developer.dnsimple.com/v2/registrar/delegation/
   """
 
   alias Dnsimple.Client
@@ -235,5 +235,29 @@ defmodule Dnsimple.Registrar do
     Client.delete(client, url, options)
     |> Response.parse(%{"data" => %WhoisPrivacy{}})
   end
+
+
+  @doc """
+  Returns the name servers the domain is delegating to.
+
+  See: https://developer.dnsimple.com/v2/registrar/delegation/#list
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Registrar.get_domain_delegation(client, account_id = 1010, domain_id = "example.com")
+
+  """
+  @spec get_domain_delegation(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  def get_domain_delegation(client, account_id, domain_name, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/delegation")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => []})
+  end
+
+  @spec domain_delegation(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  defdelegate domain_delegation(client, account_id, domain_name, options \\ []), to: __MODULE__, as: :get_domain_delegation
 
 end

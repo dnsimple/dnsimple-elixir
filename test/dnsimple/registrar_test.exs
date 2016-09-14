@@ -5,6 +5,7 @@ defmodule Dnsimple.RegistrarTest do
   @module Dnsimple.Registrar
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
   @account_id 1010
+  @domain_id "example.com"
 
   describe ".check_domain" do
     test "returns the domain check in a Dnsimple.Response" do
@@ -232,6 +233,32 @@ defmodule Dnsimple.RegistrarTest do
         assert data.expires_on == "2017-02-13"
         assert data.created_at == "2016-02-13T14:34:50.135Z"
         assert data.updated_at == "2016-02-13T14:36:38.964Z"
+      end
+    end
+  end
+
+
+  describe ".get_domain_delegation" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation"
+      {:ok, fixture: "getDomainDelegation/success.http", method: "get", url: url}
+    end
+
+    test "returns the name servers in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.get_domain_delegation(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert data == ~w(ns1.dnsimple.com ns2.dnsimple.com ns3.dnsimple.com ns4.dnsimple.com)
+      end
+    end
+
+    test "it can be called using the alias .domain_delegation", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.domain_delegation(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
       end
     end
   end

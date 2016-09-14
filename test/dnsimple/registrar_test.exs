@@ -263,4 +263,24 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
+
+  describe ".change_domain_delegation" do
+    test "changes the name servers and returns them Dnsimple.Response" do
+      url          = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation"
+      method       = "put"
+      fixture      = "changeDomainDelegation/success.http"
+      name_servers = ["ns1.dnsimple.com", "ns2.dnsimple.com", "ns3.dnsimple.com", "ns4.dnsimple.com"]
+      body         = Poison.encode!(name_servers)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
+        {:ok, response} = @module.change_domain_delegation(@client, @account_id, @domain_id, name_servers)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert data == ~w(ns1.dnsimple.com ns2.dnsimple.com ns3.dnsimple.com ns4.dnsimple.com)
+      end
+    end
+  end
+
 end

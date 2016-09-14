@@ -260,4 +260,29 @@ defmodule Dnsimple.Registrar do
   @spec domain_delegation(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
   defdelegate domain_delegation(client, account_id, domain_name, options \\ []), to: __MODULE__, as: :get_domain_delegation
 
+  @doc """
+  Changes the domain's name servers and returns them.
+
+  See: https://developer.dnsimple.com/v2/registrar/delegation/#update
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Registrar.change_domain_delegation(client, account_id = 1010, domain_id = "example.com", [
+      "ns1.provider.com",
+      "ns2.provider.com",
+      "ns3.provider.com",
+      "ns4.provider.com",
+    ])
+
+  """
+  @spec change_domain_delegation(Client.t, integer | String.t, String.t, List.t, Keyword.t) :: Response.t
+  def change_domain_delegation(client, account_id, domain_name, name_servers, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/delegation")
+
+    Client.put(client, url, name_servers, options)
+    |> Response.parse(%{"data" => []})
+  end
+
 end

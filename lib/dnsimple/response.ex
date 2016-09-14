@@ -19,9 +19,8 @@ defmodule Dnsimple.Response do
     }
   end
 
-  def parse(result, format, options \\ [])
-  def parse({:error, http_response}, _format, _options), do: {:error, http_response}
-  def parse({:ok, http_response}, format, options) do
+  def parse({:error, http_response}, _format), do: {:error, http_response}
+  def parse({:ok, http_response}, format) do
     body       = decode(http_response, format)
     data       = extract_data(body)
     pagination = extract_pagination(body)

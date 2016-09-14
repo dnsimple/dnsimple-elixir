@@ -3,6 +3,8 @@ defmodule Dnsimple.Templates do
   This module provides functions to interact with the template related endpoints.
 
   See: https://developer.dnsimple.com/v2/templates/
+  See: https://developer.dnsimple.com/v2/templates/records/
+  See: https://developer.dnsimple.com/v2/templates/domains/
   """
 
   alias Dnsimple.List

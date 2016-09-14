@@ -71,7 +71,7 @@ defmodule Dnsimple.TemplatesTest do
       end
     end
 
-    test "it can be called using the alias .templates", %{fixture: fixture, method: method} do
+    test "it can be called using the alias .template", %{fixture: fixture, method: method} do
       url = "#{@client.base_url}/v2/#{@account_id}/templates/alpha"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do

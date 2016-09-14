@@ -1,21 +1,23 @@
 defmodule Dnsimple.Response do
-  defstruct [
-    :http_response, :data,
-    :pagination,
-    :rate_limit, :rate_limit_remaining, :rate_limit_reset,
-  ]
+  defstruct ~w(http_response data pagination rate_limit rate_limit_remaining rate_limit_reset)a
+
   @type t :: %__MODULE__{
-    http_response: HTTPoison.Response.t, data: any,
+    http_response: HTTPoison.Response.t,
+    data: any,
     pagination: Dnsimple.Response.Pagination,
-    rate_limit: integer, rate_limit_remaining: integer, rate_limit_reset: integer
+    rate_limit: integer,
+    rate_limit_remaining: integer,
+    rate_limit_reset: integer,
   }
 
   defmodule Pagination do
-    defstruct [
-      :current_page, :per_page, :total_pages, :total_entries
-    ]
+    defstruct ~w(current_page per_page total_pages total_entries)a
+
     @type t :: %__MODULE__{
-      current_page: integer, per_page: integer, total_pages: integer, total_entries: integer
+      current_page: integer,
+      per_page: integer,
+      total_pages: integer,
+      total_entries: integer,
     }
   end
 

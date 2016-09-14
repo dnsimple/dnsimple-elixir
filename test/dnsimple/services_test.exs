@@ -4,8 +4,53 @@ defmodule Dnsimple.ServicesTest do
 
   @module Dnsimple.Services
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
+
+  describe ".list_services" do
+    setup do
+      url = "#{@client.base_url}/v2/services"
+      {:ok, fixture: "listServices/success.http", method: "get", url: url}
+    end
+
+    test "returns the services in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_services(@client)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert length(data) == 2
+        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Service end)
+      end
+    end
+
+    test "sends custom headers", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_services(@client)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+    test "supports sorting", %{fixture: fixture, method: method} do
+      url = "#{@client.base_url}/v2/services?sort=short_name%3Adesc"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_services(@client, sort: "short_name:desc")
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+    test "can be called using the alias .services", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.services(@client)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
+
   @account_id 1010
   @domain_id "example.com"
+
 
   describe ".applied_services" do
     setup do
@@ -13,7 +58,7 @@ defmodule Dnsimple.ServicesTest do
       {:ok, fixture: "appliedServices/success.http", method: "get", url: url}
     end
 
-    test "returns the applied services in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+    test "returns applied services in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.applied_services(@client, @account_id, @domain_id)
         assert response.__struct__ == Dnsimple.Response

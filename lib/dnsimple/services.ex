@@ -12,6 +12,31 @@ defmodule Dnsimple.Services do
   alias Dnsimple.Service
 
   @doc """
+  Returns the list of existing services.
+
+  See https://developer.dnsimple.com/v2/services/#list
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Templates.list_services(client)
+    Dnsimple.Templates.list_services(client, sort: "short_name:desc")
+
+  """
+  @spec list_services(Client.t, Keyword.t) :: Response.t
+  def list_services(client, options \\ []) do
+    url = Client.versioned("/services")
+
+    List.get(client, url, options)
+    |> Response.parse(%{"data" => [%Service{}], "pagination" => %Response.Pagination{}})
+  end
+
+  @spec services(Client.t, Keyword.t) :: Response.t
+  defdelegate services(client, options \\ []), to: __MODULE__, as: :list_services
+
+
+  @doc """
   Lists the services already applied to a domain.
 
   See https://developer.dnsimple.com/v2/services/domains/#applied

@@ -59,6 +59,43 @@ defmodule Dnsimple.ServicesTest do
   end
 
 
+  describe ".get_service" do
+    setup do
+      url = "#{@client.base_url}/v2/services/1"
+      {:ok, fixture: "getService/success.http", method: "get", url: url}
+    end
+
+    test "returns the service in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.get_service(@client, _service_id = 1)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Service
+        assert data.id == 1
+        assert data.name == "Service 1"
+        assert data.short_name == "service1"
+        assert data.description == "First service example."
+        assert data.setup_description == nil
+        assert data.requires_setup == false
+        assert data.default_subdomain == nil
+        assert data.settings == []
+        assert data.created_at == "2014-02-14T19:15:19.953Z"
+        assert data.updated_at == "2016-03-04T09:23:27.655Z"
+      end
+    end
+
+    test "it can be called using the alias .service", %{fixture: fixture, method: method} do
+      url = "#{@client.base_url}/v2/services/wordpress"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.service(@client, _service_id = "wordpress")
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
+
   @account_id 1010
   @domain_id "example.com"
 
@@ -91,7 +128,6 @@ defmodule Dnsimple.ServicesTest do
         assert Enum.all?(settings, fn(single) -> single.__struct__ == Dnsimple.Service.Setting end)
       end
     end
-
 
     test "sends custom headers", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do

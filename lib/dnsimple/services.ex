@@ -37,6 +37,31 @@ defmodule Dnsimple.Services do
 
 
   @doc """
+  Returns a services.
+
+  See https://developer.dnsimple.com/v2/services/#get
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Templates.get_service(client, service_id = 1)
+    Dnsimple.Templates.get_service(client, service_id = "wordpress")
+
+  """
+  @spec get_service(Client.t, integer | String.t, Keyword.t) :: Response.t
+  def get_service(client, service_id, options \\ []) do
+    url = Client.versioned("/services/#{service_id}")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %Service{settings: [%Service.Setting{}]}})
+  end
+
+  @spec service(Client.t, integer | String.t, Keyword.t) :: Response.t
+  defdelegate service(client, service_id, options \\ []), to: __MODULE__, as: :get_service
+
+
+  @doc """
   Lists the services already applied to a domain.
 
   See https://developer.dnsimple.com/v2/services/domains/#applied

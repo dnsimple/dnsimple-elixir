@@ -6,6 +6,8 @@
 - NEW: Added support for template endpoints (GH-51)
 
 - CHANGED: added aliases and consolidate function naming (GH-47)
+- CHANGED: switched to Poison decoding (GH-52)
+
 
 #### Release 0.9.0
 

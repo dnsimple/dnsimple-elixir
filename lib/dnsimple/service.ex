@@ -30,11 +30,15 @@ defmodule Dnsimple.Service do
     name: String.t,
     short_name: String.t,
     description: String.t,
+    setup_description: String.t,
+    default_subdomain: String.t,
+    requires_setup: boolean,
     settings: List.t,
     created_at: String.t,
     updated_at: String.t,
   }
 
-  defstruct ~w(id name short_name description settings created_at updated_at)a
+  defstruct ~w(id name short_name description setup_description
+               default_subdomain requires_setup settings created_at updated_at)a
 
 end

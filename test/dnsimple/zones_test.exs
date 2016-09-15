@@ -79,6 +79,31 @@ defmodule Dnsimple.ZonesTest do
   end
 
 
+  describe ".get_zone_file" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/example.com/file"
+      {:ok, fixture: "getZoneFile/success.http", method: "get", url: url}
+    end
+
+    test "returns the zone file in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.get_zone_file(@client, @account_id, _zone_id = "example.com")
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.zone == "$ORIGIN example.com.\n$TTL 1h\nexample.com. 3600 IN SOA ns1.dnsimple.com. admin.dnsimple.com. 1453132552 86400 7200 604800 300\nexample.com. 3600 IN NS ns1.dnsimple.com.\nexample.com. 3600 IN NS ns2.dnsimple.com.\nexample.com. 3600 IN NS ns3.dnsimple.com.\nexample.com. 3600 IN NS ns4.dnsimple.com.\n"
+      end
+    end
+
+    test "can be called using the alias .zone_file", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.zone_file(@client, @account_id, _zone_id = "example.com")
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
+
   describe ".list_zone_records" do
     setup do
       url = "#{@client.base_url}/v2/#{@account_id}/zones/example.com/records"
@@ -222,7 +247,7 @@ defmodule Dnsimple.ZonesTest do
 
   describe ".delete_zone_record" do
     test "deletes the record and returns an empty Dnsimple.Response" do
-      url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{"example.com"}/records/64784"
+      url       = "#{@client.base_url}/v2/#{@account_id}/zones/example.com/records/64784"
       method    = "delete"
       fixture   = "deleteZoneRecord/success.http"
 

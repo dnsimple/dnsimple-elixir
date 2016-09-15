@@ -66,6 +66,31 @@ defmodule Dnsimple.Zones do
 
 
   @doc """
+  Returns the zone file of the zone.
+
+  See: https://developer.dnsimple.com/v2/zones/#file
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Zones.get_zone_file(client, account_id = 1010, zone_id = 12)
+    Dnsimple.Zones.get_zone_file(client, account_id = 1010, zone_id = "example.com")
+
+  """
+  @spec get_zone_file(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def get_zone_file(client, account_id, zone_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_id}/file")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %Zone.File{}})
+  end
+
+  @spec zone_file(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  defdelegate zone_file(client, account_id, zone_id, options \\ []), to: __MODULE__, as: :get_zone_file
+
+
+  @doc """
   Returns the records in the zone.
 
   See: https://developer.dnsimple.com/v2/zones/records/#list

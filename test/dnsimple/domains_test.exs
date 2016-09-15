@@ -4,6 +4,7 @@ defmodule Dnsimple.DomainsTest do
 
   @module Dnsimple.Domains
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
+  @account_id 1010
 
   setup do
     ExVCR.Config.cassette_library_dir("test/fixtures/vcr_cassettes", "test/fixtures/custom_cassettes")
@@ -11,49 +12,52 @@ defmodule Dnsimple.DomainsTest do
   end
 
   describe ".domains" do
-    test "returns the domains in a Dnsimple.Response" do
-      url = "#{@client.base_url}/v2/1010/domains"
-      use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url) do
-        {:ok, response} = @module.domains(@client, "1010")
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/domains"
+      {:ok, fixture: "listDomains/success.http", method: "get", url: url}
+    end
+
+    test "returns the domains in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.domains(@client, @account_id)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert is_list(data)
         assert length(data) == 2
         assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Domain end)
-        assert Enum.all?(data, fn(single) -> is_integer(single.id) end)
       end
     end
 
-    test "sends custom headers" do
-      url = "#{@client.base_url}/v2/1010/domains"
-
-      use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url) do
-        @module.list_domains(@client, "1010", [headers: %{"X-Header" => "X-Value"}])
+    test "sends custom headers", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_domains(@client, @account_id, headers: %{"X-Header" => "X-Value"})
+        assert response.__struct__ == Dnsimple.Response
       end
     end
 
-    test "supports sorting" do
-      url = "#{@client.base_url}/v2/1010/domains?sort=id%3Adesc"
+    test "supports sorting", %{fixture: fixture, method: method} do
+      url = "#{@client.base_url}/v2/#{@account_id}/domains?sort=id%3Adesc"
 
-      use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url) do
-        @module.list_domains(@client, "1010", [sort: "id:desc"])
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_domains(@client, @account_id, sort: "id:desc")
+        assert response.__struct__ == Dnsimple.Response
       end
     end
 
-    test "supports filtering" do
-      url = "#{@client.base_url}/v2/1010/domains?name_like=example"
+    test "supports filtering", %{fixture: fixture, method: method} do
+      url = "#{@client.base_url}/v2/#{@account_id}/domains?name_like=example"
 
-      use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url) do
-        @module.list_domains(@client, "1010", [filter: [name_like: "example"]])
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_domains(@client, @account_id, filter: [name_like: "example"])
+        assert response.__struct__ == Dnsimple.Response
       end
     end
 
-    test "can be called using the alias .domains" do
-      url = "#{@client.base_url}/v2/1010/domains"
-
-      use_cassette :stub, ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url) do
-        @module.domains(@client, "1010")
+    test "can be called using the alias .domains", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.domains(@client, @account_id)
+        assert response.__struct__ == Dnsimple.Response
       end
     end
   end
@@ -61,57 +65,54 @@ defmodule Dnsimple.DomainsTest do
 
   test ".all_domains" do
     use_cassette "list_domains_paginated", custom: true do
-      domains = @module.all_domains(@client, "1010")
+      domains = @module.all_domains(@client, @account_id)
       assert is_list(domains)
       assert length(domains) == 2
       assert Enum.all?(domains, fn(single) -> single.__struct__ == Dnsimple.Domain end)
-      assert Enum.all?(domains, fn(single) -> is_integer(single.id) end)
     end
   end
 
 
   describe ".get_domain" do
-    test "builds the correct request" do
-      url = "#{@client.base_url}/v2/1010/domains/example-alpha.com"
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/domains/example-alpha.com"
+      {:ok, fixture: "getDomain/success.http", method: "get", url: url}
+    end
 
-      use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", method: "get", url: url) do
-        {:ok, response} = @module.domain(@client, "1010", "example-alpha.com")
+    test "builds the correct request", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.domain(@client, @account_id, "example-alpha.com")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
-        assert is_map(data)
         assert data.__struct__ == Dnsimple.Domain
         assert data.id == 1
         assert data.name == "example-alpha.com"
       end
     end
 
-    test "can be called using the alias .domain" do
-      url = "#{@client.base_url}/v2/1010/domains/example-alpha.com"
-
-      use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", method: "get", url: url) do
-        @module.get_domain(@client, "1010", "example-alpha.com")
+    test "can be called using the alias .domain", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.get_domain(@client, @account_id, "example-alpha.com")
+        assert response.__struct__ == Dnsimple.Response
       end
     end
   end
 
 
   describe ".create_domain" do
-    test "builds the correct request" do
-      fixture = ExvcrUtils.response_fixture("createDomain/created.http", [method: "post", url: @client.base_url <> "/v2/1010/domains", request_body: ~s'{"name":"example.com"}'])
-      use_cassette :stub, fixture do
-        @module.create_domain(@client, "1010", %{name: "example.com"})
-      end
-    end
+    test "creates the domain and returns it in a Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains"
+      method     = "post"
+      fixture    = "createDomain/created.http"
+      attributes = %{name: "example-alpha.com"}
+      body       = Poison.encode!(attributes)
 
-    test "returns a Dnsimple.Response" do
-      fixture = ExvcrUtils.response_fixture("createDomain/created.http", [method: "post", request_body: ""])
-      use_cassette :stub, fixture do
-        {:ok, response} = @module.create_domain(@client, "1010", "")
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.create_domain(@client, @account_id, attributes)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
-        assert is_map(data)
         assert data.__struct__ == Dnsimple.Domain
         assert data.id == 1
         assert data.name == "example-alpha.com"
@@ -120,35 +121,30 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
-
   describe ".delete_domain" do
-    test "builds the correct request" do
-      fixture = ExvcrUtils.response_fixture("deleteDomain/success.http", [method: "delete", url: @client.base_url <> "/v2/1010/domains/example.weppos"])
-      use_cassette :stub, fixture do
-        @module.delete_domain(@client, "1010", "example.weppos")
-      end
-    end
+    test "deletes the domain and returns an empty Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/example.org"
+      method  = "delete"
+      fixture = "deleteDomain/success.http"
 
-    test "returns a Dnsimple.Response" do
-      use_cassette :stub, ExvcrUtils.response_fixture("deleteDomain/success.http", [method: "delete"]) do
-        {:ok, response} = @module.delete_domain(@client, "_", "example.weppos")
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.delete_domain(@client, @account_id, _domain_id = "example.org")
         assert response.__struct__ == Dnsimple.Response
-
-        data = response.data
-        assert is_nil(data)
+        assert response.data == nil
       end
     end
   end
 
+
   describe "reset_domain_token" do
     test "returns a Dnsimple.Response" do
-      fixture     = "resetDomainToken/success.http"
+      url         = "#{@client.base_url}/v2/#{@account_id}/domains/example.com/token"
       method      = "post"
-      url         = "#{@client.base_url}/v2/1010/domains/example.com/token"
+      fixture     = "resetDomainToken/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
-        {:ok, response} = @module.reset_domain_token(@client, "1010", "example.com")
-
+        {:ok, response} = @module.reset_domain_token(@client, @account_id, _domain_id = "example.com")
+        assert response.__struct__ == Dnsimple.Response
         assert response.data.__struct__ == Dnsimple.Domain
       end
     end

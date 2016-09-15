@@ -1,7 +1,6 @@
 defmodule Dnsimple.Domains do
   @moduledoc """
-  The Domains module handles communication with the domain related
-  methods of the DNSimple API.
+  This module provides functions to interact with the domain related endpoints.
 
   See https://developer.dnsimple.com/v2/domains/
   """
@@ -15,6 +14,16 @@ defmodule Dnsimple.Domains do
   Lists the domains.
 
   See https://developer.dnsimple.com/v2/domains/#list
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.list_domains(client, account_id = 1010)
+    Dnsimple.Domains.list_domains(client, account_id = 1010, sort: "name:asc")
+    Dnsimple.Domains.list_domains(client, account_id = 1010, per_page: 50, page: 4)
+    Dnsimple.Domains.list_domains(client, account_id = 1010, filter: [name_like: ".com"])
+
   """
   @spec list_domains(Client.t, String.t | integer) :: Response.t
   def list_domains(client, account_id, options \\ []) do
@@ -55,6 +64,14 @@ defmodule Dnsimple.Domains do
   Get a domain.
 
   See https://developer.dnsimple.com/v2/domains/#get
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.get_domain(client, account_id = 1010, domain_id = 123)
+    Dnsimple.Domains.get_domain(client, account_id = 1010, domain_id = "example.com")
+
   """
   @spec get_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def get_domain(client, account_id, domain_id, options \\ []) do
@@ -71,7 +88,18 @@ defmodule Dnsimple.Domains do
   @doc """
   Creates a new domain in the account.
 
+  This won't register the domain and will only add the domain as hosted. To
+  register a domain please use
+  [`Dnsimple.Registrar.register_domain`](https://developer.dnsimple.com/v2/registrar/#register).
+
   See https://developer.dnsimple.com/v2/domains/#create
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.create_domain(client, account_id = 1010, %{name: "example.io"})
+
   """
   @spec create_domain(Client.t, String.t | integer, map, Keyword.t) :: Response.t
   def create_domain(client, account_id, attributes, options \\ []) do
@@ -86,6 +114,14 @@ defmodule Dnsimple.Domains do
   PERMANENTLY deletes a domain from the account.
 
   See https://developer.dnsimple.com/v2/domains/#delete
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.delete_domain(client, account_id = 1010, domain_id = 237)
+    Dnsimple.Domains.delete_domain(client, account_id = 1010, domain_id = "example.io")
+
   """
   @spec delete_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def delete_domain(client, account_id, domain_id, options \\ []) do
@@ -100,6 +136,14 @@ defmodule Dnsimple.Domains do
   Resets the domain API token used for authentication in APIv1.
 
   See https://developer.dnsimple.com/v2/domains/#reset-token
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.reset_domain_token(client, account_id = 1010, domain_id = 123)
+    Dnsimple.Domains.reset_domain_token(client, account_id = 1010, domain_id = "example.io")
+
   """
   @spec reset_domain_token(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def reset_domain_token(client, account_id, domain_id, options \\ []) do

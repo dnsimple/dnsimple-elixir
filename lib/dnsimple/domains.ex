@@ -229,4 +229,25 @@ defmodule Dnsimple.Domains do
   @spec email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
   defdelegate email_forward(client, account_id, domain_id, email_forward_id, options \\ []), to: __MODULE__, as: :get_email_forward
 
+
+  @doc """
+  Deletes an email forward of a domain.
+
+  See: https://developer.dnsimple.com/v2/domains/email-forwards/#delete
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.delete_email_forward(client, account_id = 1010, domain_id = "example.com", email_forward_id = 123)
+
+  """
+  @spec delete_email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  def delete_email_forward(client, account_id, domain_id, email_forward_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards/#{email_forward_id}")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
+  end
+
 end

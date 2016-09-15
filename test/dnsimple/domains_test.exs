@@ -244,4 +244,19 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
+
+  describe ".delete_email_forward" do
+    test "deletes the email forward and returns an empty Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/example.org/email_forwards/1"
+      method  = "delete"
+      fixture = "deleteEmailForward/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.delete_email_forward(@client, @account_id, _domain_id = "example.org", _email_forward_id = 1)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
 end

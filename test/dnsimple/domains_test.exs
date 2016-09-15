@@ -81,7 +81,7 @@ defmodule Dnsimple.DomainsTest do
 
     test "builds the correct request", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.domain(@client, @account_id, "example-alpha.com")
+        {:ok, response} = @module.domain(@client, @account_id, _domain_id = "example-alpha.com")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -136,16 +136,62 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
+  @domain_id "example.com"
+
+
   describe "reset_domain_token" do
     test "returns a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/domains/example.com/token"
+      url         = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/token"
       method      = "post"
       fixture     = "resetDomainToken/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
-        {:ok, response} = @module.reset_domain_token(@client, @account_id, _domain_id = "example.com")
+        {:ok, response} = @module.reset_domain_token(@client, @account_id, @domain_id)
         assert response.__struct__ == Dnsimple.Response
         assert response.data.__struct__ == Dnsimple.Domain
+      end
+    end
+  end
+
+
+  describe ".list_email_forwards" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards"
+      {:ok, fixture: "listEmailForwards/success.http", method: "get", url: url}
+    end
+
+    test "returns the list of email forwards in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_email_forwards(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert length(data) == 2
+        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.EmailForward end)
+      end
+    end
+
+    test "sends custom headers", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_email_forwards(@client, @account_id, @domain_id, headers: %{"X-Header" => "X-Value"})
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+    test "supports sorting", %{fixture: fixture, method: method} do
+      url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards?sort=to%3Aasc"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_email_forwards(@client, @account_id, @domain_id, sort: "to:asc")
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+    test "can be called using the alias .email_forwards", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.email_forwards(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
       end
     end
   end

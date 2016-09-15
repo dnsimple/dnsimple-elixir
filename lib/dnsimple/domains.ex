@@ -9,6 +9,7 @@ defmodule Dnsimple.Domains do
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.Domain
+  alias Dnsimple.EmailForward
 
   @doc """
   Lists the domains.
@@ -152,5 +153,32 @@ defmodule Dnsimple.Domains do
     Client.post(client, url, Client.empty_body, options)
     |> Response.parse(%{"data" => %Domain{}})
   end
+
+
+  @doc """
+  Lists the email forwards of a domain.
+
+  See: https://developer.dnsimple.com/v2/domains/email-forwards/#list
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = 23)
+    Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = "example.com")
+    Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = "example.com", sort: "to:asc")
+    Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = "example.com", per_page: 5, page: 1)
+
+  """
+  @spec list_email_forwards(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def list_email_forwards(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards")
+
+    List.get(client, url, options)
+    |> Response.parse(%{"data" => [%EmailForward{}], "pagination" => %Response.Pagination{}})
+  end
+
+  @spec email_forwards(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  defdelegate email_forwards(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :list_email_forwards
 
 end

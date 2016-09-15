@@ -213,4 +213,35 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
+
+  describe ".get_email_forward" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards/1"
+      {:ok, fixture: "getEmailForward/success.http", method: "get", url: url}
+    end
+
+    test "returns the email forward in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.get_email_forward(@client, @account_id, @domain_id, _email_forward_id = 1)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.EmailForward
+        assert data.id == 1
+        assert data.domain_id == 22
+        assert data.from == "jim@a-domain.com"
+        assert data.to == "jim@another.com"
+        assert data.created_at == "2016-02-04T14:26:50.282Z"
+        assert data.updated_at == "2016-02-04T14:26:50.282Z"
+      end
+    end
+
+    test "can be called using the alias .email_forward", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.email_forward(@client, @account_id, @domain_id, _email_forward_id = 1)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
 end

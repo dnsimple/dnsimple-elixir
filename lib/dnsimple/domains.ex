@@ -205,4 +205,28 @@ defmodule Dnsimple.Domains do
     |> Response.parse(%{"data" => %EmailForward{}})
   end
 
+
+  @doc """
+  Returns an email forward of a domain.
+
+  See: https://developer.dnsimple.com/v2/domains/email-forwards/#get
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.get_email_forward(client, account_id = 1010, domain_id = "example.com", email_forward_id = 123)
+
+  """
+  @spec get_email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  def get_email_forward(client, account_id, domain_id, email_forward_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards/#{email_forward_id}")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %EmailForward{}})
+  end
+
+  @spec email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  defdelegate email_forward(client, account_id, domain_id, email_forward_id, options \\ []), to: __MODULE__, as: :get_email_forward
+
 end

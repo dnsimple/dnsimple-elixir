@@ -114,8 +114,6 @@ defmodule Dnsimple.DomainsTest do
 
         data = response.data
         assert data.__struct__ == Dnsimple.Domain
-        assert data.id == 1
-        assert data.name == "example-alpha.com"
       end
     end
   end
@@ -136,7 +134,7 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
-  @domain_id "example.com"
+  @domain_id "a-domain.com"
 
 
   describe "reset_domain_token" do
@@ -192,6 +190,25 @@ defmodule Dnsimple.DomainsTest do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.email_forwards(@client, @account_id, @domain_id)
         assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
+
+  describe ".create_email_forward" do
+    test "creates the email forward and returns it in a Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards"
+      method     = "post"
+      fixture    = "createEmailForward/created.http"
+      attributes = %{from: "jim@a-domain.com", to: "jim@another.com"}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.create_email_forward(@client, @account_id, @domain_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.EmailForward
       end
     end
   end

@@ -181,4 +181,28 @@ defmodule Dnsimple.Domains do
   @spec email_forwards(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   defdelegate email_forwards(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :list_email_forwards
 
+
+  @doc """
+  Creates an email forward for a domain.
+
+  See: https://developer.dnsimple.com/v2/domains/email-forwards/#create
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.create_email_forward(client, account_id = 1010, domain_id = "example.com", %{
+      from: "jacegu@example.com",
+      to: "me@provider.com",
+    })
+
+  """
+  @spec create_email_forward(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: Response.t
+  def create_email_forward(client, account_id, domain_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %EmailForward{}})
+  end
+
 end

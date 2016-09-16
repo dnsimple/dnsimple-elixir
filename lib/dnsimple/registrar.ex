@@ -13,6 +13,7 @@ defmodule Dnsimple.Registrar do
   alias Dnsimple.Domain
   alias Dnsimple.DomainCheck
   alias Dnsimple.WhoisPrivacy
+  alias Dnsimple.VanityNameServer
 
   @doc """
   Checks whether a domain is available to be registered.
@@ -283,6 +284,33 @@ defmodule Dnsimple.Registrar do
 
     Client.put(client, url, name_servers, options)
     |> Response.parse(%{"data" => []})
+  end
+
+
+  @doc """
+  Changes the domain's name servers to a set of vanity name servers and
+  returns them.
+
+  See: https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Registrar.change_domain_delegation_to_vanity(client, account_id = 1010, domain_id = "example.com", [
+      "ns1.example.com.com",
+      "ns2.example.com.com",
+      "ns3.example.com.com",
+      "ns4.example.com.com",
+    ])
+
+  """
+  @spec change_domain_delegation_to_vanity(Client.t, integer | String.t, String.t, List.t, Keyword.t) :: Response.t
+  def change_domain_delegation_to_vanity(client, account_id, domain_name, name_servers, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/delegation/vanity")
+
+    Client.put(client, url, name_servers, options)
+    |> Response.parse(%{"data" => [%VanityNameServer{}]})
   end
 
 end

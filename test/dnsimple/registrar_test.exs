@@ -283,4 +283,33 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
+
+  describe ".change_domain_delegation_to_vanity" do
+    test "changes the delegation to vanity name servers and returns them Dnsimple.Response" do
+      url          = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation/vanity"
+      method       = "put"
+      fixture      = "changeDomainDelegationToVanity/success.http"
+      name_servers = ["ns1.example.com", "ns2.example.com", "ns3.example.com", "ns4.example.com"]
+      body         = Poison.encode!(name_servers)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
+        {:ok, response} = @module.change_domain_delegation_to_vanity(@client, @account_id, @domain_id, name_servers)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.VanityNameServer end)
+
+        [first | _] = data
+        assert first.id == 1
+        assert first.name == "ns1.example.com"
+        assert first.ipv4 == "127.0.0.1"
+        assert first.ipv6 == "::1"
+        assert first.created_at == "2016-07-11T09:40:19.529Z"
+        assert first.updated_at == "2016-07-11T09:40:19.529Z"
+      end
+    end
+  end
+
+
 end

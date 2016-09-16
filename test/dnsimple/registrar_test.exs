@@ -312,4 +312,18 @@ defmodule Dnsimple.RegistrarTest do
   end
 
 
+  describe ".change_domain_delegation_from_vanity" do
+    test "changes the delegation from vanity name servers and returns an empty Dnsimple.Response" do
+      url          = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation/vanity"
+      method       = "delete"
+      fixture      = "changeDomainDelegationFromVanity/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.change_domain_delegation_from_vanity(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
 end

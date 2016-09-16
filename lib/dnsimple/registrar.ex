@@ -313,4 +313,27 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(%{"data" => [%VanityNameServer{}]})
   end
 
+
+  @doc """
+  Reverts all the operations performed to delegate to vanity name servers and
+  delegates the domain back to DNSimple's name servers (if DNSimple is the
+  registrar of the domain).
+
+  See: https://developer.dnsimple.com/v2/registrar/delegation/#dedelegateFromVanity
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Registrar.change_domain_delegation_from_vanity(client, account_id = 1010, domain_id = "example.com")
+
+  """
+  @spec change_domain_delegation_from_vanity(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  def change_domain_delegation_from_vanity(client, account_id, domain_name, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/delegation/vanity")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
+  end
+
 end

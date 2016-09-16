@@ -24,4 +24,19 @@ defmodule Dnsimple.VanityNameServersTest do
     end
   end
 
+
+  describe ".disable_vanity_name_servers" do
+    test "enables vanity name servers and returns an empty Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/vanity/#{@domain_id}"
+      method  = "delete"
+      fixture = "disableVanityNameServers/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.disable_vanity_name_servers(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
 end

@@ -1,7 +1,7 @@
 defmodule Dnsimple.Zones do
   @moduledoc """
-  Handles communication with zone and zone record related
-  methods of the DNSimple API.
+  This module provides functions to interact with the zone and zone records 
+  related endpoints.
 
   See https://developer.dnsimple.com/v2/zones/
   See https://developer.dnsimple.com/v2/zones/records/
@@ -13,11 +13,20 @@ defmodule Dnsimple.Zones do
   alias Dnsimple.Zone
   alias Dnsimple.ZoneRecord
 
-
   @doc """
   Returns the zones in the account.
 
   See: https://developer.dnsimple.com/v2/zones/#list
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Zones.list_zones(client, account_id = 1010)
+    Dnsimple.Zones.list_zones(client, account_id = 1010, page: 2, per_page: 10)
+    Dnsimple.Zones.list_zones(client, account_id = 1010, sort: "name:desc")
+    Dnsimple.Zones.list_zones(client, account_id = 1010, filter: [name_like: ".es"])
+
   """
   @spec list_zones(Client.t, String.t | integer, Keyword.t) :: Response.t
   def list_zones(client, account_id, options \\ []) do
@@ -35,6 +44,14 @@ defmodule Dnsimple.Zones do
   Returns a zone in the account.
 
   See: https://developer.dnsimple.com/v2/zones/#get
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Zones.get_zone(client, account_id = 1010, zone_id = 12)
+    Dnsimple.Zones.get_zone(client, account_id = 1010, zone_id = "example.com")
+
   """
   @spec get_zone(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def get_zone(client, account_id, zone_id, options \\ []) do
@@ -49,9 +66,44 @@ defmodule Dnsimple.Zones do
 
 
   @doc """
+  Returns the zone file of the zone.
+
+  See: https://developer.dnsimple.com/v2/zones/#file
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Zones.get_zone_file(client, account_id = 1010, zone_id = 12)
+    Dnsimple.Zones.get_zone_file(client, account_id = 1010, zone_id = "example.com")
+
+  """
+  @spec get_zone_file(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def get_zone_file(client, account_id, zone_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_id}/file")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %Zone.File{}})
+  end
+
+  @spec zone_file(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  defdelegate zone_file(client, account_id, zone_id, options \\ []), to: __MODULE__, as: :get_zone_file
+
+
+  @doc """
   Returns the records in the zone.
 
   See: https://developer.dnsimple.com/v2/zones/records/#list
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = "example.com")
+    Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = 12, page: 2, per_page: 10)
+    Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = "example.com, sort: "type:asc")
+    Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = 12, filter: [type: "A", name: ""])
+
   """
   @spec list_zone_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def list_zone_records(client, account_id, zone_id, options \\ []) do
@@ -69,6 +121,14 @@ defmodule Dnsimple.Zones do
   Returns a record of the zone.
 
   See: https://developer.dnsimple.com/v2/zones/records/#get
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Zones.get_zone_record(client, account_id = 1010, zone_id = 12, record_id = 345)
+    Dnsimple.Zones.get_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 123)
+
   """
   @spec get_zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
   def get_zone_record(client, account_id, zone_id, record_id, options \\ []) do
@@ -86,6 +146,18 @@ defmodule Dnsimple.Zones do
   Creates a record in the zone.
 
   See: https://developer.dnsimple.com/v2/zones/records/#create
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Zones.create_zone_record(client, account_id = 1010, zone_id = "example.com", %{
+      name: "www",
+      type: "CNAME",
+      content: "example.com",
+      ttl: 3600,
+    })
+
   """
   @spec create_zone_record(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: Response.t
   def create_zone_record(client, account_id, zone_id, attributes, options \\ []) do
@@ -100,6 +172,15 @@ defmodule Dnsimple.Zones do
   Updates a record of the zone.
 
   See: https://developer.dnsimple.com/v2/zones/records/#update
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Zones.update_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 1, %{
+      ttl: 600,
+    })
+
   """
   @spec update_zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t, Keyword.t) :: Response.t
   def update_zone_record(client, account_id, zone_id, record_id, attributes, options \\ []) do
@@ -114,6 +195,14 @@ defmodule Dnsimple.Zones do
   Deletes a record from the zone.
 
   See: https://developer.dnsimple.com/v2/zones/records/#delete
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Zones.delete_zone_record(client, account_id = 1010, zone_id = 12, record_id = 1)
+    Dnsimple.Zones.delete_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 1)
+
   """
   @spec delete_zone_record(Client.t, String.t, String.t, integer, Keyword.t) :: Response.t
   def delete_zone_record(client, account_id, zone_id, record_id, options \\ []) do

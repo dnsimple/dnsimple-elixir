@@ -2,6 +2,8 @@
 
 #### master
 
+- NEW: Added support for delegation endpoints (GH-55)
+- NEW: Added support for email forward endpoints (GH-56)
 - NEW: Added support for vanity name server endpoints (GH-60)
 - NEW: Added support to get zone files (GH-58)
 - NEW: Complete support of service endpoints (GH-53)

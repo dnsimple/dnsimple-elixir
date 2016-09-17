@@ -2,6 +2,8 @@
 
 #### master
 
+- NEW: Added support for vanity name server endpoints (GH-60)
+- NEW: Added support to get zone files (GH-58)
 - NEW: Complete support of service endpoints (GH-53)
 - NEW: Added support for TLD endpoints (GH-49)
 - NEW: Added support for template endpoints (GH-51)

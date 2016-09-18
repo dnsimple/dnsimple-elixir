@@ -178,7 +178,7 @@ defmodule Dnsimple do
   end
 
 
-  defmodule List do
+  defmodule Listing do
     @doc """
     Issues a GET request to the given url processing the listing options first.
     """
@@ -238,9 +238,9 @@ defmodule Dnsimple do
       client     = %Dnsimple.Client{access_token: "a1b2c3d4"}
       account_id = 1010
 
-      List.get_all(Dnsimple.Zones, :list_zones, [client, account_id, []])
-      List.get_all(Dnsimple.Zones, :list_zones, [client, account_id, [sort: "name:desc"]])
-      List.get_all(Dnsimple.Zones, :list_zone_records, [client, account_id, _zone_id = "example.com", []])
+      Listing.get_all(Dnsimple.Zones, :list_zones, [client, account_id, []])
+      Listing.get_all(Dnsimple.Zones, :list_zones, [client, account_id, [sort: "name:desc"]])
+      Listing.get_all(Dnsimple.Zones, :list_zone_records, [client, account_id, _zone_id = "example.com", []])
 
     """
     def get_all(module, function, params) do
@@ -261,8 +261,8 @@ defmodule Dnsimple do
 
     defp add_pagination_param(params, page) do
       arity   = Enum.count(params)
-      options = Elixir.List.last(params) ++ [page: page]
-      Elixir.List.replace_at(params, arity - 1, options)
+      options = List.last(params) ++ [page: page]
+      List.replace_at(params, arity - 1, options)
     end
 
   end

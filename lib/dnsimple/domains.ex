@@ -5,8 +5,8 @@ defmodule Dnsimple.Domains do
   See https://developer.dnsimple.com/v2/domains/
   """
 
-  alias Dnsimple.List
   alias Dnsimple.Client
+  alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Domain
   alias Dnsimple.EmailForward
@@ -30,7 +30,7 @@ defmodule Dnsimple.Domains do
   def list_domains(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Domain{}], "pagination" => %Response.Pagination{}})
   end
 
@@ -44,20 +44,7 @@ defmodule Dnsimple.Domains do
   """
   @spec all_domains(Client.t, String.t | integer, Keyword.t) :: [Domain.t]
   def all_domains(client, account_id, options \\ []) do
-    new_options = Keyword.merge([page: 1], options)
-    all_domains(client, account_id, new_options, [])
-  end
-
-  defp all_domains(client, account_id, options, domain_list) do
-    {:ok, response} = domains(client, account_id, options)
-    all_domains(client, account_id, Keyword.put(options, :page, options[:page] + 1), domain_list ++ response.data, response.pagination.total_pages - options[:page])
-  end
-
-  defp all_domains(_, _, _, domain_list, 0) do
-    domain_list
-  end
-  defp all_domains(client, account_id, options, domain_list, _) do
-    all_domains(client, account_id, options, domain_list)
+    Listing.get_all(__MODULE__, :list_domains, [client, account_id, options])
   end
 
 
@@ -174,7 +161,7 @@ defmodule Dnsimple.Domains do
   def list_email_forwards(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%EmailForward{}], "pagination" => %Response.Pagination{}})
   end
 

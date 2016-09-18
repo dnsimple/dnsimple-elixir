@@ -5,8 +5,8 @@ defmodule Dnsimple.Contacts do
   See: https://developer.dnsimple.com/v2/contacts/
   """
 
-  alias Dnsimple.List
   alias Dnsimple.Client
+  alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Contact
 
@@ -19,7 +19,7 @@ defmodule Dnsimple.Contacts do
   def list_contacts(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Contact{}], "pagination" => %Response.Pagination{}})
   end
 

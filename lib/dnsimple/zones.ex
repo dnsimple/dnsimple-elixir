@@ -7,8 +7,8 @@ defmodule Dnsimple.Zones do
   See https://developer.dnsimple.com/v2/zones/records/
   """
 
-  alias Dnsimple.List
   alias Dnsimple.Client
+  alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Zone
   alias Dnsimple.ZoneRecord
@@ -32,7 +32,7 @@ defmodule Dnsimple.Zones do
   def list_zones(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Zone{}], "pagination" => %Response.Pagination{}})
   end
 
@@ -109,7 +109,7 @@ defmodule Dnsimple.Zones do
   def list_zone_records(client, account_id, zone_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%ZoneRecord{}], "pagination" => %Response.Pagination{}})
   end
 

@@ -6,8 +6,8 @@ defmodule Dnsimple.Services do
   See https://developer.dnsimple.com/v2/services/domains/
   """
 
-  alias Dnsimple.List
   alias Dnsimple.Client
+  alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Service
 
@@ -28,7 +28,7 @@ defmodule Dnsimple.Services do
   def list_services(client, options \\ []) do
     url = Client.versioned("/services")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Service{settings: [%Service.Setting{}]}], "pagination" => %Response.Pagination{}})
   end
 
@@ -78,7 +78,7 @@ defmodule Dnsimple.Services do
   def applied_services(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Service{settings: [%Service.Setting{}]}], "pagination" => %Response.Pagination{}})
   end
 

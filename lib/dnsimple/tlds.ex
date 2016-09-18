@@ -5,8 +5,8 @@ defmodule Dnsimple.Tlds do
   See: https://developer.dnsimple.com/v2/tlds/
   """
 
-  alias Dnsimple.List
   alias Dnsimple.Client
+  alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Tld
   alias Dnsimple.TldExtendedAttribute
@@ -29,7 +29,7 @@ defmodule Dnsimple.Tlds do
   def list_tlds(client, options \\ []) do
     url = Client.versioned("/tlds")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Tld{}], "pagination" => %Response.Pagination{}})
   end
 

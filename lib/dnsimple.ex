@@ -223,5 +223,47 @@ defmodule Dnsimple do
       end
     end
 
+
+    @doc """
+    Iterates over all pages of a listing endpoint and returns the union of all
+    the elements of all pages in the form of `{:ok, all_elements}`.  If an
+    error occurs it will return the response to the request that failed in the
+    form of `{:error, failed_response}`.
+
+    Note that the `params` attribute must include the `options` parameter even
+    if it's optional.
+
+    ## Examples
+
+      client     = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      account_id = 1010
+
+      List.get_all(Dnsimple.Zones, :list_zones, [client, account_id, []])
+      List.get_all(Dnsimple.Zones, :list_zones, [client, account_id, [sort: "name:desc"]])
+      List.get_all(Dnsimple.Zones, :list_zone_records, [client, account_id, _zone_id = "example.com", []])
+
+    """
+    def get_all(module, function, params) do
+      get_page(module, function, params, _all = [], _page = 1, _total_pages = 1)
+    end
+
+    defp get_page(_module, _function, _params, all, page, total_pages) when page > total_pages, do: {:ok, all}
+    defp get_page(module, function, params, all, page, total_pages)do
+      case apply(module, function, add_pagination_param(params, page)) do
+        {:ok, response} ->
+          all         = all ++ response.data
+          next_page   = page + 1
+          total_pages = response.pagination.total_pages
+          get_page(module, function, params, all, next_page, total_pages)
+        {:error, response} -> {:error, response}
+      end
+    end
+
+    defp add_pagination_param(params, page) do
+      arity   = Enum.count(params)
+      options = Elixir.List.last(params) ++ [page: page]
+      Elixir.List.replace_at(params, arity - 1, options)
+    end
+
   end
 end

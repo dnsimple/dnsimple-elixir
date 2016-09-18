@@ -43,7 +43,8 @@ defmodule Dnsimple.ClientTest do
 end
 
 defmodule Dnsimple.ListTest do
-  use ExUnit.Case, async: true
+  use TestCase, async: false
+  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
   alias Dnsimple.List
 
@@ -78,6 +79,34 @@ defmodule Dnsimple.ListTest do
 
     test "mantains other options" do
       assert List.format([sort: "foo:asc", other: "foo"]) == [params: [sort: "foo:asc"], other: "foo"]
+    end
+  end
+
+  describe ".get_all" do
+    setup do
+      ExVCR.Config.cassette_library_dir("test/fixtures/vcr_cassettes", "test/fixtures/custom_cassettes")
+      client = %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
+      {:ok, client: client, account_id: 1010}
+    end
+
+    test "returns the resources of all pages", %{client: client, account_id: account_id} do
+      use_cassette "list_domains_paginated", custom: true do
+        {:ok, domains} = List.get_all(Dnsimple.Domains, :list_domains, [client, account_id, []])
+
+        assert is_list(domains)
+        assert length(domains) == 2
+        assert Enum.all?(domains, fn(single) -> single.__struct__ == Dnsimple.Domain end)
+      end
+    end
+
+    test "returns the resources of all pages respecting options", %{client: client, account_id: account_id} do
+      use_cassette "list_domains_paginated_sorted", custom: true do
+        {:ok, domains} = List.get_all(Dnsimple.Domains, :list_domains, [client, account_id, [sort: "id:asc"]])
+
+        assert is_list(domains)
+        assert length(domains) == 2
+        assert Enum.all?(domains, fn(single) -> single.__struct__ == Dnsimple.Domain end)
+      end
     end
   end
 

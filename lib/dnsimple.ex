@@ -224,6 +224,9 @@ defmodule Dnsimple do
     end
 
 
+    @first_page 1
+    @all_pages nil
+
     @doc """
     Iterates over all pages of a listing endpoint and returns the union of all
     the elements of all pages in the form of `{:ok, all_elements}`.  If an
@@ -244,7 +247,7 @@ defmodule Dnsimple do
 
     """
     def get_all(module, function, params) do
-      get_pages(module, function, params, _all = [], _page = 1, _pages_left = 1)
+      get_pages(module, function, params, _all = [], _page = @first_page, _pages_left = @all_pages)
     end
 
     defp get_pages(_module, _function, _params, all, _page, _pages_left = 0), do: {:ok, all}

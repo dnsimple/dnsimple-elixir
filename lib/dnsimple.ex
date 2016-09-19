@@ -244,17 +244,17 @@ defmodule Dnsimple do
 
     """
     def get_all(module, function, params) do
-      get_page(module, function, params, _all = [], _page = 1, _total_pages = 1)
+      get_page(module, function, params, _all = [], _page = 1, _pages_left = 1)
     end
 
-    defp get_page(_module, _function, _params, all, page, total_pages) when page > total_pages, do: {:ok, all}
-    defp get_page(module, function, params, all, page, total_pages)do
+    defp get_page(_module, _function, _params, all, _page, _pages_left = 0), do: {:ok, all}
+    defp get_page(module, function, params, all, page, pages_left)do
       case apply(module, function, add_pagination_param(params, page)) do
         {:ok, response} ->
-          all         = all ++ response.data
-          next_page   = page + 1
-          total_pages = response.pagination.total_pages
-          get_page(module, function, params, all, next_page, total_pages)
+          all        = all ++ response.data
+          next_page  = page + 1
+          pages_left = response.pagination.total_pages - page
+          get_page(module, function, params, all, next_page, pages_left)
         {:error, response} -> {:error, response}
       end
     end

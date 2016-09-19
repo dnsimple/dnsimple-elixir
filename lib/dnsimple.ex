@@ -252,7 +252,7 @@ defmodule Dnsimple do
 
     defp get_pages(_module, _function, _params, all, _page, _pages_left = 0), do: {:ok, all}
     defp get_pages(module, function, params, all, page, pages_left)do
-      case apply(module, function, add_pagination_param(params, page)) do
+      case apply(module, function, add_page_param(params, page)) do
         {:ok, response} ->
           all        = all ++ response.data
           next_page  = page + 1
@@ -262,7 +262,7 @@ defmodule Dnsimple do
       end
     end
 
-    defp add_pagination_param(params, page) do
+    defp add_page_param(params, page) do
       arity   = Enum.count(params)
       options = List.last(params) ++ [page: page]
       List.replace_at(params, arity - 1, options)

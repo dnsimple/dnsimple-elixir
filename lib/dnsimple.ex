@@ -225,7 +225,7 @@ defmodule Dnsimple do
 
 
     @first_page 1
-    @all_pages nil
+    @unkown_pages_left nil
 
     @doc """
     Iterates over all pages of a listing endpoint and returns the union of all
@@ -247,7 +247,7 @@ defmodule Dnsimple do
 
     """
     def get_all(module, function, params) do
-      get_pages(module, function, params, _all = [], _page = @first_page, _pages_left = @all_pages)
+      get_pages(module, function, params, _all = [], _page = @first_page, _pages_left = @unkown_pages_left)
     end
 
     defp get_pages(_module, _function, _params, all, _page, _pages_left = 0), do: {:ok, all}

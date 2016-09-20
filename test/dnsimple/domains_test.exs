@@ -332,4 +332,19 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
+
+  describe ".reject_push" do
+    test "rejects the push and returns an empty Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/pushes/#{@push_id}"
+      method     = "delete"
+      fixture    = "rejectPush/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.reject_push(@client, @account_id, @push_id)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
 end

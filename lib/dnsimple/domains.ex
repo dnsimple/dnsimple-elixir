@@ -319,4 +319,25 @@ defmodule Dnsimple.Domains do
     |> Response.parse(nil)
   end
 
+
+  @doc """
+  Rejects a pending push.  
+
+  See: https://developer.dnsimple.com/v2/domains/pushes#reject
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.reject_push(client, account_id = 1010, push_id = 6789)
+
+  """
+  @spec reject_push(Client.t, String.t | integer, integer, Keyword.t) :: Response.t
+  def reject_push(client, account_id, push_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/pushes/#{push_id}")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
+  end
+
 end

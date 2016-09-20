@@ -250,7 +250,7 @@ defmodule Dnsimple.Domains do
 
 
   @doc """
-  Returns the existing pushes in the account.
+  Returns the pending pushes in the account.
 
   See: https://developer.dnsimple.com/v2/domains/pushes#list
 

@@ -10,6 +10,7 @@ defmodule Dnsimple.Domains do
   alias Dnsimple.Response
   alias Dnsimple.Domain
   alias Dnsimple.EmailForward
+  alias Dnsimple.Push
 
   @doc """
   Lists the domains.
@@ -242,6 +243,98 @@ defmodule Dnsimple.Domains do
   @spec delete_email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
   def delete_email_forward(client, account_id, domain_id, email_forward_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards/#{email_forward_id}")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
+  end
+
+
+  @doc """
+  Returns the pending pushes in the account.
+
+  See: https://developer.dnsimple.com/v2/domains/pushes#list
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.list_pushes(client, account_id = 1010)
+
+  """
+  @spec list_pushes(Client.t, String.t | integer, Keyword.t) :: Response.t
+  def list_pushes(client, account_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/pushes")
+
+    Listing.get(client, url, options)
+    |> Response.parse(%{"data" => [%Push{}]})
+  end
+
+  @spec pushes(Client.t, String.t | integer, Keyword.t) :: Response.t
+  defdelegate pushes(client, account_id, options \\ []), to: __MODULE__, as: :list_pushes
+
+
+  @doc """
+  Initiates the push of a domain to a different account.
+
+  See: https://developer.dnsimple.com/v2/domains/pushes#initiate
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.initiate_push(client, account_id = 1010, domain_id = "example.com", %{
+      new_account_email: "other@example.com",
+    })
+
+  """
+  @spec initiate_push(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: Response.t
+  def initiate_push(client, account_id, domain_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/pushes")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %Push{}})
+  end
+
+
+  @doc """
+  Accept a pending push. Requires a contact_id corresponding to the that will
+  be used as the domain contact.
+
+  See: https://developer.dnsimple.com/v2/domains/pushes#accept
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.accept_push(client, account_id = 1010, push_id = 6789, %{
+      contact_id: 123,
+    })
+
+  """
+  @spec accept_push(Client.t, String.t | integer, integer, map, Keyword.t) :: Response.t
+  def accept_push(client, account_id, push_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/pushes/#{push_id}")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(nil)
+  end
+
+
+  @doc """
+  Rejects a pending push.
+
+  See: https://developer.dnsimple.com/v2/domains/pushes#reject
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.reject_push(client, account_id = 1010, push_id = 6789)
+
+  """
+  @spec reject_push(Client.t, String.t | integer, integer, Keyword.t) :: Response.t
+  def reject_push(client, account_id, push_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/pushes/#{push_id}")
 
     Client.delete(client, url, options)
     |> Response.parse(nil)

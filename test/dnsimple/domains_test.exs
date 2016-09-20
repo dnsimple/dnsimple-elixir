@@ -259,4 +259,92 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
+
+  describe ".list_pushes" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/pushes"
+      {:ok, fixture: "listPushes/success.http", method: "get", url: url}
+    end
+
+    test "returns the account's pushes in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_pushes(@client, @account_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert length(data) == 2
+        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Push end)
+      end
+    end
+
+    test "can be called using the alias .pushes", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.pushes(@client, @account_id)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
+
+  describe ".initiate_push" do
+    test "initiates the push and returns it in a Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/pushes"
+      method     = "post"
+      fixture    = "initiatePush/success.http"
+      attributes = %{new_account_email: "other_account@example.com"}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.initiate_push(@client, @account_id, @domain_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Push
+        assert data.id == 1
+        assert data.domain_id == 100
+        assert data.contact_id == nil
+        assert data.account_id == 2020
+        assert data.accepted_at == nil
+        assert data.created_at == "2016-08-11T10:16:03.340Z"
+        assert data.updated_at == "2016-08-11T10:16:03.340Z"
+      end
+    end
+  end
+
+
+  @push_id 6789
+
+
+  describe ".accept_push" do
+    test "accepts the push and returns an empty Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/pushes/#{@push_id}"
+      method     = "post"
+      fixture    = "acceptPush/success.http"
+      attributes = %{contact_id: 2}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.accept_push(@client, @account_id, @push_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
+
+  describe ".reject_push" do
+    test "rejects the push and returns an empty Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/pushes/#{@push_id}"
+      method     = "delete"
+      fixture    = "rejectPush/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.reject_push(@client, @account_id, @push_id)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
 end

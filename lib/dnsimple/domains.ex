@@ -295,4 +295,28 @@ defmodule Dnsimple.Domains do
     |> Response.parse(%{"data" => %Push{}})
   end
 
+
+  @doc """
+  Accept a pending push. Requires a contact_id corresponding to the that will
+  be used as the domain contact.
+
+  See: https://developer.dnsimple.com/v2/domains/pushes#accept
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.accept_push(client, account_id = 1010, push_id = 6789, %{
+      contact_id: 123,
+    })
+
+  """
+  @spec accept_push(Client.t, String.t | integer, integer, map, Keyword.t) :: Response.t
+  def accept_push(client, account_id, push_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/pushes/#{push_id}")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(nil)
+  end
+
 end

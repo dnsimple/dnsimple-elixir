@@ -312,4 +312,24 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
+
+  @push_id 6789
+
+
+  describe ".accept_push" do
+    test "accepts the push and returns an empty Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/pushes/#{@push_id}"
+      method     = "post"
+      fixture    = "acceptPush/success.http"
+      attributes = %{contact_id: 2}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.accept_push(@client, @account_id, @push_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
 end

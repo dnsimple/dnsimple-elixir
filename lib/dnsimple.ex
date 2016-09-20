@@ -178,7 +178,7 @@ defmodule Dnsimple do
   end
 
 
-  defmodule List do
+  defmodule Listing do
     @doc """
     Issues a GET request to the given url processing the listing options first.
     """
@@ -221,6 +221,51 @@ defmodule Dnsimple do
         false ->
           {params, options}
       end
+    end
+
+
+    @first_page 1
+    @unkown_pages_left nil
+
+    @doc """
+    Iterates over all pages of a listing endpoint and returns the union of all
+    the elements of all pages in the form of `{:ok, all_elements}`.  If an
+    error occurs it will return the response to the request that failed in the
+    form of `{:error, failed_response}`.
+
+    Note that the `params` attribute must include the `options` parameter even
+    if it's optional.
+
+    ## Examples
+
+      client     = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      account_id = 1010
+
+      Listing.get_all(Dnsimple.Zones, :list_zones, [client, account_id, []])
+      Listing.get_all(Dnsimple.Zones, :list_zones, [client, account_id, [sort: "name:desc"]])
+      Listing.get_all(Dnsimple.Zones, :list_zone_records, [client, account_id, _zone_id = "example.com", []])
+
+    """
+    def get_all(module, function, params) do
+      get_pages(module, function, params, _all = [], _page = @first_page, _pages_left = @unkown_pages_left)
+    end
+
+    defp get_pages(_module, _function, _params, all, _page, _pages_left = 0), do: {:ok, all}
+    defp get_pages(module, function, params, all, page, pages_left)do
+      case apply(module, function, add_page_param(params, page)) do
+        {:ok, response} ->
+          all        = all ++ response.data
+          next_page  = page + 1
+          pages_left = response.pagination.total_pages - page
+          get_pages(module, function, params, all, next_page, pages_left)
+        {:error, response} -> {:error, response}
+      end
+    end
+
+    defp add_page_param(params, page) do
+      arity   = Enum.count(params)
+      options = List.last(params) ++ [page: page]
+      List.replace_at(params, arity - 1, options)
     end
 
   end

@@ -65,7 +65,7 @@ defmodule Dnsimple.DomainsTest do
 
   test ".all_domains" do
     use_cassette "list_domains_paginated", custom: true do
-      domains = @module.all_domains(@client, @account_id)
+      {:ok, domains} = @module.all_domains(@client, @account_id)
       assert is_list(domains)
       assert length(domains) == 2
       assert Enum.all?(domains, fn(single) -> single.__struct__ == Dnsimple.Domain end)

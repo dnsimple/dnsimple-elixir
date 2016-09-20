@@ -6,8 +6,8 @@ defmodule Dnsimple.Certificates do
   See: https://developer.dnsimple.com/v2/domains/certificates/
   """
 
-  alias Dnsimple.List
   alias Dnsimple.Client
+  alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Certificate
 
@@ -31,7 +31,7 @@ defmodule Dnsimple.Certificates do
   def list_certificates(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Certificate{}], "pagination" => %Response.Pagination{}})
   end
 

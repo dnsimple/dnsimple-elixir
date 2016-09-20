@@ -7,8 +7,8 @@ defmodule Dnsimple.Templates do
   See: https://developer.dnsimple.com/v2/templates/domains/
   """
 
-  alias Dnsimple.List
   alias Dnsimple.Client
+  alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Template
   alias Dnsimple.TemplateRecord
@@ -30,7 +30,7 @@ defmodule Dnsimple.Templates do
   def list_templates(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/templates")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Template{}], "pagination" => %Response.Pagination{}})
   end
 
@@ -54,7 +54,7 @@ defmodule Dnsimple.Templates do
   def get_template(client, account_id, template_id, options \\ []) do
     url = Client.versioned("/#{account_id}/templates/#{template_id}")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => %Template{}})
   end
 
@@ -150,7 +150,7 @@ defmodule Dnsimple.Templates do
   def list_template_records(client, account_id, template_id, options \\ []) do
     url = Client.versioned("/#{account_id}/templates/#{template_id}/records")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%TemplateRecord{}], "pagination" => %Response.Pagination{}})
   end
 
@@ -174,7 +174,7 @@ defmodule Dnsimple.Templates do
   def get_template_record(client, account_id, template_id, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/templates/#{template_id}/records/#{record_id}")
 
-    List.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => %TemplateRecord{}})
   end
 

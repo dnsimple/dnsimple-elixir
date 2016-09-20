@@ -42,42 +42,71 @@ defmodule Dnsimple.ClientTest do
 
 end
 
-defmodule Dnsimple.ListTest do
-  use ExUnit.Case, async: true
+defmodule Dnsimple.ListingTest do
+  use TestCase, async: false
+  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  alias Dnsimple.List
+  alias Dnsimple.Listing
 
   describe ".format" do
     test "empty list options results in empty params list" do
-      assert List.format([]) == []
+      assert Listing.format([]) == []
     end
 
     test "empty list options with other options results in no params list" do
-      assert List.format([headers: [{"X-Header", "X-Value"}]]) == [headers: [{"X-Header", "X-Value"}]]
+      assert Listing.format([headers: [{"X-Header", "X-Value"}]]) == [headers: [{"X-Header", "X-Value"}]]
     end
 
     test "includes filter if present" do
-      assert List.format([filter: [name_like: "example"]]) == [params: [name_like: "example"]]
+      assert Listing.format([filter: [name_like: "example"]]) == [params: [name_like: "example"]]
     end
 
     test "includes sort if it present" do
-      assert List.format([sort: "foo:asc"]) == [params: [sort: "foo:asc"]]
+      assert Listing.format([sort: "foo:asc"]) == [params: [sort: "foo:asc"]]
     end
 
     test "includes page if it present" do
-      assert List.format([page: 1]) == [params: [page: 1]]
+      assert Listing.format([page: 1]) == [params: [page: 1]]
     end
 
     test "includes per page if present" do
-      assert List.format([per_page: 1]) == [params: [per_page: 1]]
+      assert Listing.format([per_page: 1]) == [params: [per_page: 1]]
     end
 
     test "combines options correctly" do
-      assert List.format([per_page: 1, sort: "foo:asc"]) == [params: [per_page: 1, sort: "foo:asc"]]
+      assert Listing.format([per_page: 1, sort: "foo:asc"]) == [params: [per_page: 1, sort: "foo:asc"]]
     end
 
     test "mantains other options" do
-      assert List.format([sort: "foo:asc", other: "foo"]) == [params: [sort: "foo:asc"], other: "foo"]
+      assert Listing.format([sort: "foo:asc", other: "foo"]) == [params: [sort: "foo:asc"], other: "foo"]
+    end
+  end
+
+  describe ".get_all" do
+    setup do
+      ExVCR.Config.cassette_library_dir("test/fixtures/vcr_cassettes", "test/fixtures/custom_cassettes")
+      client = %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
+      {:ok, client: client, account_id: 1010}
+    end
+
+    test "returns the resources of all pages", %{client: client, account_id: account_id} do
+      use_cassette "list_domains_paginated", custom: true do
+        {:ok, domains} = Listing.get_all(Dnsimple.Domains, :list_domains, [client, account_id, []])
+
+        assert is_list(domains)
+        assert length(domains) == 2
+        assert Enum.all?(domains, fn(single) -> single.__struct__ == Dnsimple.Domain end)
+      end
+    end
+
+    test "returns the resources of all pages respecting options", %{client: client, account_id: account_id} do
+      use_cassette "list_domains_paginated_sorted", custom: true do
+        {:ok, domains} = Listing.get_all(Dnsimple.Domains, :list_domains, [client, account_id, [sort: "id:asc"]])
+
+        assert is_list(domains)
+        assert length(domains) == 2
+        assert Enum.all?(domains, fn(single) -> single.__struct__ == Dnsimple.Domain end)
+      end
     end
   end
 

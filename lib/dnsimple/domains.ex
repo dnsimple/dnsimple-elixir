@@ -272,4 +272,27 @@ defmodule Dnsimple.Domains do
   @spec pushes(Client.t, String.t | integer, Keyword.t) :: Response.t
   defdelegate pushes(client, account_id, options \\ []), to: __MODULE__, as: :list_pushes
 
+
+  @doc """
+  Initiates the push of a domain to a different account.
+
+  See: https://developer.dnsimple.com/v2/domains/pushes#initiate
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.initiate_push(client, account_id = 1010, domain_id = "example.com", %{
+      new_account_email: "other@example.com",
+    })
+
+  """
+  @spec initiate_push(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: Response.t
+  def initiate_push(client, account_id, domain_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/pushes")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %Push{}})
+  end
+
 end

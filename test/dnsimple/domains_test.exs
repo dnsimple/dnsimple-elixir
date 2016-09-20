@@ -286,4 +286,30 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
+
+  describe ".initiate_push" do
+    test "initiates the push and returns it in a Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/pushes"
+      method     = "post"
+      fixture    = "initiatePush/success.http"
+      attributes = %{new_account_email: "other_account@example.com"}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.initiate_push(@client, @account_id, @domain_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Push
+        assert data.id == 1
+        assert data.domain_id == 100
+        assert data.contact_id == nil
+        assert data.account_id == 2020
+        assert data.accepted_at == nil
+        assert data.created_at == "2016-08-11T10:16:03.340Z"
+        assert data.updated_at == "2016-08-11T10:16:03.340Z"
+      end
+    end
+  end
+
 end

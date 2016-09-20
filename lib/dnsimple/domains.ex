@@ -39,8 +39,18 @@ defmodule Dnsimple.Domains do
 
 
   @doc """
-  List all domains from the account. This function will automatically
-  page through to the end of the list, returning all domain objects.
+  List all domains from the account.
+
+  This function will automatically page through to the end of the list,
+  returning all domains. It will respect the provided sorting and filtering
+  options.
+
+  ## Examples:
+
+    Dnsimple.Domains.all_domains(client, account_id = 1010)
+    Dnsimple.Domains.all_domains(client, account_id = 1010, sort: "name:asc")
+    Dnsimple.Domains.all_domains(client, account_id = 1010, filter: [name_like: ".com"])
+
   """
   @spec all_domains(Client.t, String.t | integer, Keyword.t) :: [Domain.t]
   def all_domains(client, account_id, options \\ []) do

@@ -259,4 +259,31 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
+
+  describe ".list_pushes" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/pushes"
+      {:ok, fixture: "listPushes/success.http", method: "get", url: url}
+    end
+
+    test "returns the account's pushes in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_pushes(@client, @account_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert length(data) == 2
+        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Push end)
+      end
+    end
+
+    test "can be called using the alias .pushes", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.pushes(@client, @account_id)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
 end

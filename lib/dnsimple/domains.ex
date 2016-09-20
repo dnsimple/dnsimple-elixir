@@ -10,6 +10,7 @@ defmodule Dnsimple.Domains do
   alias Dnsimple.Response
   alias Dnsimple.Domain
   alias Dnsimple.EmailForward
+  alias Dnsimple.Push
 
   @doc """
   Lists the domains.
@@ -246,5 +247,29 @@ defmodule Dnsimple.Domains do
     Client.delete(client, url, options)
     |> Response.parse(nil)
   end
+
+
+  @doc """
+  Returns the existing pushes in the account.
+
+  See: https://developer.dnsimple.com/v2/domains/pushes#list
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.list_pushes(client, account_id = 1010)
+
+  """
+  @spec list_pushes(Client.t, String.t | integer, Keyword.t) :: Response.t
+  def list_pushes(client, account_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/pushes")
+
+    Listing.get(client, url, options)
+    |> Response.parse(%{"data" => [%Push{}]})
+  end
+
+  @spec pushes(Client.t, String.t | integer, Keyword.t) :: Response.t
+  defdelegate pushes(client, account_id, options \\ []), to: __MODULE__, as: :list_pushes
 
 end

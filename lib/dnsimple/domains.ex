@@ -321,7 +321,7 @@ defmodule Dnsimple.Domains do
 
 
   @doc """
-  Rejects a pending push.  
+  Rejects a pending push.
 
   See: https://developer.dnsimple.com/v2/domains/pushes#reject
 

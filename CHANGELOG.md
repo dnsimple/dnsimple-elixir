@@ -2,6 +2,7 @@
 
 #### master
 
+- NEW: Added support for pushes (GH-65)
 - NEW: Added support for delegation endpoints (GH-55)
 - NEW: Added support for email forward endpoints (GH-56)
 - NEW: Added support for vanity name server endpoints (GH-60)
@@ -10,8 +11,8 @@
 - NEW: Added support for TLD endpoints (GH-49)
 - NEW: Added support for template endpoints (GH-51)
 
+
 - CHANGED: added aliases and consolidate function naming (GH-47)
-- CHANGED: switched to Poison decoding (GH-52)
 
 
 #### Release 0.9.0

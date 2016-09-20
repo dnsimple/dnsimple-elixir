@@ -2,14 +2,17 @@
 
 #### master
 
+
+#### Release 0.9.1
+
 - NEW: Added support for pushes (GH-65)
-- NEW: Added support for delegation endpoints (GH-55)
-- NEW: Added support for email forward endpoints (GH-56)
 - NEW: Added support for vanity name server endpoints (GH-60)
 - NEW: Added support to get zone files (GH-58)
+- NEW: Added support for email forward endpoints (GH-56)
+- NEW: Added support for delegation endpoints (GH-55)
 - NEW: Complete support of service endpoints (GH-53)
-- NEW: Added support for TLD endpoints (GH-49)
 - NEW: Added support for template endpoints (GH-51)
+- NEW: Added support for TLD endpoints (GH-49)
 
 
 - CHANGED: added aliases and consolidate function naming (GH-47)

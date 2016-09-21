@@ -114,8 +114,9 @@ defmodule Dnsimple do
     def execute(client, method, url, body \\ "", all_options \\ []) do
       {headers, options} = split_headers_options(client, all_options)
       {headers, body}    = process_request_body(headers, body)
+      base_options       = [recv_timeout: 30000]
 
-      HTTPoison.request!(method, url(client, url), body, headers, options)
+      HTTPoison.request!(method, url(client, url), body, headers, Keyword.merge(base_options, options))
       |> check_response
     end
 

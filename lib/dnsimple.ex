@@ -195,9 +195,9 @@ defmodule Dnsimple do
     def format(options) do
       {params, options} = Enum.reduce(@known_params, {[], options}, &extract_param/2)
 
-      case Enum.empty?(params) do
-        true  -> options
-        false -> Keyword.merge([params: params], options)
+      case params do
+        [] -> options
+        _  -> Keyword.put(options, :params, params)
       end
     end
 

@@ -202,25 +202,21 @@ defmodule Dnsimple do
     end
 
     defp extract_param(:filter = option, {params, options}) do
-      case Keyword.has_key?(options, option) do
-        true ->
-          value   = Keyword.get(options, option)
-          params  = Keyword.merge(params, value)
-          options = Keyword.delete(options, option)
+      case Keyword.get_and_update(options, option, fn _ -> :pop end) do
+        {nil, _} ->
           {params, options}
-        false ->
-          {params, options}
+        {value, updated_options} ->
+          updated_params = Keyword.merge(params, value)
+          {updated_params, updated_options}
       end
     end
     defp extract_param(option, {params, options}) do
-      case Keyword.has_key?(options, option) do
-        true ->
-          value   = Keyword.get(options, option)
-          params  = Keyword.put(params, option, value)
-          options = Keyword.delete(options, option)
+      case Keyword.get_and_update(options, option, fn _ -> :pop end) do
+        {nil, _} ->
           {params, options}
-        false ->
-          {params, options}
+        {value, updated_options} ->
+          updated_params = Keyword.put(params, option, value)
+          {updated_params, updated_options}
       end
     end
 

@@ -131,7 +131,7 @@ defmodule Dnsimple do
 
       case headers do
         nil     -> {default_headers, options}
-        headers -> {Map.merge(default_headers, Enum.into(headers, %{})), options}
+        headers -> {Enum.into(headers, default_headers), options}
       end
     end
 

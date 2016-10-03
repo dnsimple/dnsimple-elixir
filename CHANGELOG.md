@@ -2,9 +2,13 @@
 
 #### master
 
+- NEW: added new attributes to TLDs (GH-69)
+
+
 #### Release 0.9.2
 
 - CHANGED: increased timeout to 30 seconds (GH-67)
+
 
 #### Release 0.9.1
 

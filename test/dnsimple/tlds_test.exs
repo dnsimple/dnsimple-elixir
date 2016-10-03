@@ -67,6 +67,9 @@ defmodule Dnsimple.TldsTest do
         assert data.whois_privacy == true
         assert data.auto_renew_only == false
         assert data.minimum_registration == 1
+        assert data.registration_enabled == true
+        assert data.renewal_enabled == true
+        assert data.transfer_enabled == true
       end
     end
 

@@ -171,6 +171,7 @@ defmodule Dnsimple.ZonesTest do
         assert data.ttl == 600
         assert data.priority == 10
         assert data.system_record == false
+        assert data.regions == ["SV1", "IAD"]
         assert data.created_at == "2016-10-05T09:51:35.313Z"
         assert data.updated_at == "2016-10-05T09:51:35.313Z"
       end
@@ -190,7 +191,7 @@ defmodule Dnsimple.ZonesTest do
       url     = "#{@client.base_url}/v2/#{@account_id}/zones/example.com/records"
       fixture = "createZoneRecord/created.http"
       method  = "post"
-      attributes  = %{type: "MX", name: "", content: "mxa.example.com", ttl: 600, priority: 10}
+      attributes  = %{type: "MX", name: "", content: "mxa.example.com", ttl: 600, priority: 10, regions: ["SV1", "IAD"]}
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
@@ -208,6 +209,7 @@ defmodule Dnsimple.ZonesTest do
         assert data.ttl == 600
         assert data.priority == 10
         assert data.system_record == false
+        assert data.regions == ["SV1", "IAD"]
         assert data.created_at == "2016-10-05T09:51:35.313Z"
         assert data.updated_at == "2016-10-05T09:51:35.313Z"
       end
@@ -220,7 +222,7 @@ defmodule Dnsimple.ZonesTest do
       url       = "#{@client.base_url}/v2/#{@account_id}/zones/example.com/records/5"
       method   = "patch"
       fixture   = "updateZoneRecord/success.http"
-      attributes  = %{content: "mxb.example.com", ttl: 3600, priority: 20}
+      attributes  = %{content: "mxb.example.com", ttl: 3600, priority: 20, regions: ["global"]}
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
@@ -238,6 +240,7 @@ defmodule Dnsimple.ZonesTest do
         assert data.ttl == 3600
         assert data.priority == 20
         assert data.system_record == false
+        assert data.regions == ["global"]
         assert data.created_at == "2016-10-05T09:51:35.313Z"
         assert data.updated_at == "2016-10-05T09:51:35.313Z"
       end

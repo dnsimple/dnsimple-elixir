@@ -131,7 +131,7 @@ defmodule Dnsimple do
 
       case headers do
         nil     -> {default_headers, options}
-        headers -> {Map.merge(default_headers, Enum.into(headers, %{})), options}
+        headers -> {Enum.into(headers, default_headers), options}
       end
     end
 
@@ -195,32 +195,28 @@ defmodule Dnsimple do
     def format(options) do
       {params, options} = Enum.reduce(@known_params, {[], options}, &extract_param/2)
 
-      case Enum.empty?(params) do
-        true  -> options
-        false -> Keyword.merge([params: params], options)
+      case params do
+        [] -> options
+        _  -> Keyword.put(options, :params, params)
       end
     end
 
     defp extract_param(:filter = option, {params, options}) do
-      case Keyword.has_key?(options, option) do
-        true ->
-          value   = Keyword.get(options, option)
-          params  = Keyword.merge(params, value)
-          options = Keyword.delete(options, option)
+      case Keyword.get_and_update(options, option, fn _ -> :pop end) do
+        {nil, _} ->
           {params, options}
-        false ->
-          {params, options}
+        {value, updated_options} ->
+          updated_params = Keyword.merge(params, value)
+          {updated_params, updated_options}
       end
     end
     defp extract_param(option, {params, options}) do
-      case Keyword.has_key?(options, option) do
-        true ->
-          value   = Keyword.get(options, option)
-          params  = Keyword.put(params, option, value)
-          options = Keyword.delete(options, option)
+      case Keyword.get_and_update(options, option, fn _ -> :pop end) do
+        {nil, _} ->
           {params, options}
-        false ->
-          {params, options}
+        {value, updated_options} ->
+          updated_params = Keyword.put(params, option, value)
+          {updated_params, updated_options}
       end
     end
 

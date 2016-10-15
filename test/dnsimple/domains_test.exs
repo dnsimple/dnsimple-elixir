@@ -11,7 +11,7 @@ defmodule Dnsimple.DomainsTest do
     :ok
   end
 
-  describe ".domains" do
+  describe ".list_domains" do
     setup do
       url = "#{@client.base_url}/v2/#{@account_id}/domains"
       {:ok, fixture: "listDomains/success.http", method: "get", url: url}
@@ -19,7 +19,7 @@ defmodule Dnsimple.DomainsTest do
 
     test "returns the domains in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.domains(@client, @account_id)
+        {:ok, response} = @module.list_domains(@client, @account_id)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data

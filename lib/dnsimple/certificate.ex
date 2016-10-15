@@ -30,7 +30,8 @@ defmodule Dnsimple.Certificate do
     updated_at: String.t,
   }
 
-  defstruct ~w(id domain_id name common_name years csr state authority_identifier
-               server root chain private_key expires_on created_at updated_at)a
+  defstruct ~w(id domain_id name common_name years csr state
+               authority_identifier server root chain private_key expires_on
+               created_at updated_at)a
 
 end

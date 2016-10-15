@@ -26,10 +26,8 @@ defmodule Dnsimple.Contact do
     updated_at: String.t,
   }
 
-  defstruct ~w(
-   id account_id label first_name last_name email phone fax address1 address2
-   city state_province postal_code country job_title organization_name
-   created_at updated_at
-  )a
+  defstruct ~w(id account_id label first_name last_name email phone fax
+               address1 address2 city state_province postal_code country
+               job_title organization_name created_at updated_at)a
 
 end

@@ -15,6 +15,7 @@ defmodule Dnsimple.Template do
     updated_at: String.t,
   }
 
-  defstruct ~w(id account_id name short_name description created_at updated_at)a
+  defstruct ~w(id account_id name short_name description
+               created_at updated_at)a
 
 end

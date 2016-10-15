@@ -15,6 +15,7 @@ defmodule Dnsimple.Push do
     updated_at: String.t,
   }
 
-  defstruct ~w(id domain_id contact_id account_id accepted_at created_at updated_at)a
+  defstruct ~w(id domain_id contact_id account_id
+               accepted_at created_at updated_at)a
 
 end

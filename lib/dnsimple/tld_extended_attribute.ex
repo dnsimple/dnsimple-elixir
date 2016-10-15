@@ -30,4 +30,5 @@ defmodule Dnsimple.TldExtendedAttribute do
   }
 
   defstruct ~w(name description required options)a
+
 end

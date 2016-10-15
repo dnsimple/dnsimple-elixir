@@ -18,7 +18,8 @@ defmodule Dnsimple.Tld do
     transfer_enabled: boolean,
   }
 
-  defstruct ~w(tld tld_type idn whois_privacy auto_renew_only minimum_registration
+  defstruct ~w(tld tld_type idn whois_privacy auto_renew_only
+               minimum_registration
                registration_enabled renewal_enabled transfer_enabled)a
 
 end

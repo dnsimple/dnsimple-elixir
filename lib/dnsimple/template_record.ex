@@ -17,6 +17,7 @@ defmodule Dnsimple.TemplateRecord do
     updated_at: String.t,
   }
 
-  defstruct ~w(id template_id type name content ttl priority created_at updated_at)a
+  defstruct ~w(id template_id type name content ttl priority
+               created_at updated_at)a
 
 end

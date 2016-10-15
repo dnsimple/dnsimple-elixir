@@ -21,7 +21,7 @@ defmodule Dnsimple.ZoneRecord do
     updated_at: String.t,
   }
 
-  defstruct ~w(id zone_id parent_id type name content ttl priority system_record
-               regions created_at updated_at)a
+  defstruct ~w(id zone_id parent_id type name content ttl priority
+               system_record regions created_at updated_at)a
 
 end

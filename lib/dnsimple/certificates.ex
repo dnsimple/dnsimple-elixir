@@ -1,6 +1,6 @@
 defmodule Dnsimple.Certificates do
   @moduledoc """
-  This module provides functions to interact with the SSL certificate related 
+  This module provides functions to interact with the SSL certificate related
   endpoints.
 
   See: https://developer.dnsimple.com/v2/domains/certificates/

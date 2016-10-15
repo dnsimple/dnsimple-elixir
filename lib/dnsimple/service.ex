@@ -39,6 +39,7 @@ defmodule Dnsimple.Service do
   }
 
   defstruct ~w(id name short_name description setup_description
-               default_subdomain requires_setup settings created_at updated_at)a
+               default_subdomain requires_setup settings
+               created_at updated_at)a
 
 end

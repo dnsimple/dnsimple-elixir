@@ -1,5 +1,10 @@
 defmodule Dnsimple.WhoisPrivacy do
-  defstruct [:id, :domain_id, :enabled, :expires_on, :created_at, :updated_at]
+  @moduledoc """
+  Represents the whois privacy service of a domain.
+
+  See https://developer.dnsimple.com/v2/registrar/whois-privacy/
+  """
+
   @type t :: %__MODULE__{
     id: integer,
     domain_id: integer,
@@ -8,4 +13,7 @@ defmodule Dnsimple.WhoisPrivacy do
     created_at: String.t,
     updated_at: String.t,
   }
+
+  defstruct ~w(id domain_id enabled expires_on created_at updated_at)a
+
 end

@@ -347,4 +347,38 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
+
+  describe ".list_collaborators" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/collaborators"
+      {:ok, fixture: "listCollaborators/success.http", method: "get", url: url}
+    end
+
+    test "returns the collaborators in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_collaborators(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert length(data) == 2
+        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Collaborator end)
+      end
+    end
+
+    test "sends custom headers", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_collaborators(@client, @account_id, @domain_id, headers: %{"X-Header" => "X-Value"})
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+    test "can be called using the alias .collaborators", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.collaborators(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
 end

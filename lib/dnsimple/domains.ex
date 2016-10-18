@@ -386,4 +386,25 @@ defmodule Dnsimple.Domains do
     |> Response.parse(%{"data" => %Collaborator{}})
   end
 
+
+  @doc """
+  Removes a collaborator from the domain.
+
+  See: https://developer.dnsimple.com/v2/domains/collaborators/#remove
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.remove_collaborator(client, account_id = 1010, domain_id = "example.com", collaborator_id = 100)
+
+  """
+  @spec remove_collaborator(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  def remove_collaborator(client, account_id, domain_id, collaborator_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/collaborators/#{collaborator_id}")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
+  end
+
 end

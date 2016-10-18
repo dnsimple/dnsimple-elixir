@@ -382,7 +382,6 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
-
   describe ".add_collaborator" do
     test "adds the collaborator and returns an empty Dnsimple.Response" do
       url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/collaborators"
@@ -405,6 +404,21 @@ defmodule Dnsimple.DomainsTest do
         assert data.accepted_at == "2016-10-07T08:53:41.643Z"
         assert data.created_at == "2016-10-07T08:53:41.643Z"
         assert data.updated_at == "2016-10-07T08:53:41.643Z"
+      end
+    end
+  end
+
+
+  describe ".remove_collaborator" do
+    test "removes the collaborator and returns an empty Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/collaborators/100"
+      method     = "delete"
+      fixture    = "removeCollaborator/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.remove_collaborator(@client, @account_id, @domain_id, _collaborator_id = 100)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
       end
     end
   end

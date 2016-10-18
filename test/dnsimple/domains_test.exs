@@ -381,4 +381,32 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
+
+
+  describe ".add_collaborator" do
+    test "adds the collaborator and returns an empty Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/collaborators"
+      method     = "post"
+      fixture    = "addCollaborator/success.http"
+      attributes = %{email: "existing-user@example.com"}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.add_collaborator(@client, @account_id, @domain_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Collaborator
+        assert data.id == 100
+        assert data.domain_id == 1
+        assert data.domain_name == "example.com"
+        assert data.user_id == 999
+        assert data.user_email == "existing-user@example.com"
+        assert data.accepted_at == "2016-10-07T08:53:41.643Z"
+        assert data.created_at == "2016-10-07T08:53:41.643Z"
+        assert data.updated_at == "2016-10-07T08:53:41.643Z"
+      end
+    end
+  end
+
 end

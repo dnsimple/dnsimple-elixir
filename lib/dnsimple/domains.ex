@@ -365,4 +365,25 @@ defmodule Dnsimple.Domains do
   @spec collaborators(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   defdelegate collaborators(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :list_collaborators
 
+
+  @doc """
+  Adds a collaborator to the domain.
+
+  See: https://developer.dnsimple.com/v2/domains/collaborators/#add
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.add_collaborator(client, account_id = 1010, domain_id = "example.com", %{email: "existing-user@example.com"})
+
+  """
+  @spec add_collaborator(Client.t, String.t | integer, String.t | integer, Map.t, Keyword.t) :: Response.t
+  def add_collaborator(client, account_id, domain_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/collaborators")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %Collaborator{}})
+  end
+
 end

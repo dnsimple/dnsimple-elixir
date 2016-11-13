@@ -2,6 +2,7 @@
 
 #### master
 
+- NEW: added support for collaborator endpoints (GH-74)
 - NEW: added new attributes to zone records (GH-72)
 - NEW: added new attributes to TLDs (GH-69)
 

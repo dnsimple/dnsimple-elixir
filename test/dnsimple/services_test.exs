@@ -143,7 +143,7 @@ defmodule Dnsimple.ServicesTest do
       url      = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/services/1"
       method   = "post"
       fixture  = "applyService/success.http"
-      settings = %{name: "foobar"}
+      settings = %{settings: %{name: "value"}}
       body     = Poison.encode!(settings)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do

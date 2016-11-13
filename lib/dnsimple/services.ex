@@ -93,6 +93,9 @@ defmodule Dnsimple.Services do
     client = %Dnsimple.Client{access_token: "a1b2c3d4"}
 
     Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
+    Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 27, %{
+      setting_name: "setting value"
+    })
 
   """
   @spec apply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, Map.t, Keyword.t) :: Response.t

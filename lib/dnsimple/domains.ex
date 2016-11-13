@@ -11,6 +11,7 @@ defmodule Dnsimple.Domains do
   alias Dnsimple.Domain
   alias Dnsimple.EmailForward
   alias Dnsimple.Push
+  alias Dnsimple.Collaborator
 
   @doc """
   Lists the domains.
@@ -335,6 +336,72 @@ defmodule Dnsimple.Domains do
   @spec reject_push(Client.t, String.t | integer, integer, Keyword.t) :: Response.t
   def reject_push(client, account_id, push_id, options \\ []) do
     url = Client.versioned("/#{account_id}/pushes/#{push_id}")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
+  end
+
+
+  @doc """
+  Lists the collaborators of the domain.
+
+  See: https://developer.dnsimple.com/v2/domains/collaborators/#list
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.list_collaborators(client, account_id = 1010, domain_id = "example.com")
+
+  """
+  @spec list_collaborators(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def list_collaborators(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/collaborators")
+
+    Listing.get(client, url, options)
+    |> Response.parse(%{"data" => [%Collaborator{}], "pagination" => %Response.Pagination{}})
+  end
+
+  @spec collaborators(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  defdelegate collaborators(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :list_collaborators
+
+
+  @doc """
+  Adds a collaborator to the domain.
+
+  See: https://developer.dnsimple.com/v2/domains/collaborators/#add
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.add_collaborator(client, account_id = 1010, domain_id = "example.com", %{email: "existing-user@example.com"})
+
+  """
+  @spec add_collaborator(Client.t, String.t | integer, String.t | integer, Map.t, Keyword.t) :: Response.t
+  def add_collaborator(client, account_id, domain_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/collaborators")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %Collaborator{}})
+  end
+
+
+  @doc """
+  Removes a collaborator from the domain.
+
+  See: https://developer.dnsimple.com/v2/domains/collaborators/#remove
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Domains.remove_collaborator(client, account_id = 1010, domain_id = "example.com", collaborator_id = 100)
+
+  """
+  @spec remove_collaborator(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  def remove_collaborator(client, account_id, domain_id, collaborator_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/collaborators/#{collaborator_id}")
 
     Client.delete(client, url, options)
     |> Response.parse(nil)

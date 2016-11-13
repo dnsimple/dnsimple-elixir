@@ -347,4 +347,80 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
+
+  describe ".list_collaborators" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/collaborators"
+      {:ok, fixture: "listCollaborators/success.http", method: "get", url: url}
+    end
+
+    test "returns the collaborators in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_collaborators(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert length(data) == 2
+        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Collaborator end)
+      end
+    end
+
+    test "sends custom headers", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_collaborators(@client, @account_id, @domain_id, headers: %{"X-Header" => "X-Value"})
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+    test "can be called using the alias .collaborators", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.collaborators(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+  end
+
+
+  describe ".add_collaborator" do
+    test "adds the collaborator and returns an empty Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/collaborators"
+      method     = "post"
+      fixture    = "addCollaborator/success.http"
+      attributes = %{email: "existing-user@example.com"}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.add_collaborator(@client, @account_id, @domain_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Collaborator
+        assert data.id == 100
+        assert data.domain_id == 1
+        assert data.domain_name == "example.com"
+        assert data.user_id == 999
+        assert data.user_email == "existing-user@example.com"
+        assert data.accepted_at == "2016-10-07T08:53:41.643Z"
+        assert data.created_at == "2016-10-07T08:53:41.643Z"
+        assert data.updated_at == "2016-10-07T08:53:41.643Z"
+      end
+    end
+  end
+
+
+  describe ".remove_collaborator" do
+    test "removes the collaborator and returns an empty Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/collaborators/100"
+      method     = "delete"
+      fixture    = "removeCollaborator/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.remove_collaborator(@client, @account_id, @domain_id, _collaborator_id = 100)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
 end

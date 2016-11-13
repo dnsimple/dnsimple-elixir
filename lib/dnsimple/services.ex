@@ -95,11 +95,11 @@ defmodule Dnsimple.Services do
     Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
 
   """
-  @spec apply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  def apply_service(client, account_id, domain_id, service_id, options \\ []) do
+  @spec apply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, Map.t, Keyword.t) :: Response.t
+  def apply_service(client, account_id, domain_id, service_id, settings \\ %{}, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services/#{service_id}")
 
-    Client.post(client, url, Client.empty_body, options)
+    Client.post(client, url, settings, options)
     |> Response.parse(nil)
   end
 

@@ -140,12 +140,14 @@ defmodule Dnsimple.ServicesTest do
 
   describe ".apply_service" do
     test "applies the service and returns an empty Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/services/1"
-      method  = "post"
-      fixture = "applyService/success.http"
+      url      = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/services/1"
+      method   = "post"
+      fixture  = "applyService/success.http"
+      settings = %{settings: %{name: "value"}}
+      body     = Poison.encode!(settings)
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.apply_service(@client, @account_id, @domain_id, _service_id = 1)
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.apply_service(@client, @account_id, @domain_id, _service_id = 1, settings)
         assert response.__struct__ == Dnsimple.Response
         assert response.data == nil
       end

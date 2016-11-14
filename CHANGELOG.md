@@ -6,6 +6,8 @@
 - NEW: added new attributes to zone records (GH-72)
 - NEW: added new attributes to TLDs (GH-69)
 
+- CHANGED: updated httpoision to 0.10.0 (GH-75)
+
 
 #### Release 0.9.2
 

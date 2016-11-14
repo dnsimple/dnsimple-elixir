@@ -2,11 +2,12 @@
 
 #### master
 
-- NEW: added support for collaborator endpoints (GH-74)
-- NEW: added new attributes to zone records (GH-72)
-- NEW: added new attributes to TLDs (GH-69)
+- NEW: Added support for collaborator endpoints (GH-74)
+- NEW: Added new attributes to zone records (GH-72)
+- NEW: Added new attributes to TLDs (GH-69)
 
-- CHANGED: updated httpoision to 0.10.0 (GH-75)
+- CHANGED: Updated httpoision to 0.10.0 (GH-75)
+- CHANGED: Being able to provide settings when applying a service (GH-77)
 
 
 #### Release 0.9.2
@@ -26,7 +27,7 @@
 - NEW: Added support for TLD endpoints (GH-49)
 
 
-- CHANGED: added aliases and consolidate function naming (GH-47)
+- CHANGED: Added aliases and consolidate function naming (GH-47)
 
 
 #### Release 0.9.0

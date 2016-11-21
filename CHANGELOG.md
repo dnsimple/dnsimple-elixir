@@ -3,7 +3,7 @@
 #### master
 
 - NEW: Added support for collaborator endpoints (GH-74)
-- NEW: Added new attributes to zone records (GH-72)
+- NEW: Added support to zone records regions (GH-72)
 - NEW: Added new attributes to TLDs (GH-69)
 
 - CHANGED: Updated httpoision to 0.10.0 (GH-75)
@@ -26,14 +26,12 @@
 - NEW: Added support for template endpoints (GH-51)
 - NEW: Added support for TLD endpoints (GH-49)
 
-
 - CHANGED: Added aliases and consolidate function naming (GH-47)
 
 
 #### Release 0.9.0
 
 - NEW: Added function to start OTP app (GH-45)
-
 - NEW: Added support for contact endpoints (GH-38)
 - NEW: Added reset domain token endpoint support (GH-37)
 - NEW: Added support for accounts (GH-29)

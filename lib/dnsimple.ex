@@ -1,4 +1,5 @@
 defmodule Dnsimple do
+  require Logger
 
   def start, do: :application.ensure_all_started(:httpoison)
 
@@ -115,6 +116,8 @@ defmodule Dnsimple do
       {headers, options} = split_headers_options(client, all_options)
       {headers, body}    = process_request_body(headers, body)
       base_options       = [recv_timeout: 30000]
+
+      Logger.debug("[DNSimple-API] #{method} #{url(client, url)}") # log request
 
       HTTPoison.request!(method, url(client, url), body, headers, Keyword.merge(base_options, options))
       |> check_response

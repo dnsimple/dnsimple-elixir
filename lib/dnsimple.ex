@@ -117,7 +117,7 @@ defmodule Dnsimple do
       {headers, body}    = process_request_body(headers, body)
       base_options       = [recv_timeout: 30000]
 
-      Logger.debug("[DNSimple-API] #{String.upcase(Atom.to_string(method))} #{url(client, url)}")
+      Logger.debug("[dnsimple] #{String.upcase(Atom.to_string(method))} #{url(client, url)}")
 
       HTTPoison.request!(method, url(client, url), body, headers, Keyword.merge(base_options, options))
       |> check_response

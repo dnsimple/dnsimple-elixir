@@ -1,4 +1,5 @@
 defmodule Dnsimple do
+  require Logger
 
   def start, do: :application.ensure_all_started(:httpoison)
 
@@ -116,6 +117,8 @@ defmodule Dnsimple do
       {headers, body}    = process_request_body(headers, body)
       base_options       = [recv_timeout: 30000]
 
+      Logger.debug("[dnsimple] #{format_http_method(method)} #{url(client, url)}")
+
       HTTPoison.request!(method, url(client, url), body, headers, Keyword.merge(base_options, options))
       |> check_response
     end
@@ -176,6 +179,9 @@ defmodule Dnsimple do
         _   -> {:error, RequestError.new(http_response)}
       end
     end
+
+    defp format_http_method(method) when is_atom(method), do: format_http_method(Atom.to_string(method))
+    defp format_http_method(method) when is_binary(method), do: String.upcase(method)
   end
 
 

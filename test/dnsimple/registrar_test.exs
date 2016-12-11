@@ -69,17 +69,15 @@ defmodule Dnsimple.RegistrarTest do
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
+        assert data.__struct__ == Dnsimple.DomainRenewal
         assert data.id == 1
-        assert data.name == "example.com"
-        assert data.account_id == @account_id
-        assert data.registrant_id == 2
-        assert data.auto_renew == false
+        assert data.domain_id == 999
+        assert data.period == 1
+        assert data.state == "new"
         assert data.private_whois == false
-        assert data.state == "registered"
-        assert data.token == "domain-token"
-        assert data.expires_on == "2018-01-16"
-        assert data.created_at == "2016-01-16T16:08:50.649Z"
-        assert data.updated_at == "2016-02-15T15:19:24.689Z"
+        assert data.premium_price == nil
+        assert data.created_at == "2016-12-09T19:46:45Z"
+        assert data.updated_at == "2016-12-09T19:46:45Z"
       end
     end
   end

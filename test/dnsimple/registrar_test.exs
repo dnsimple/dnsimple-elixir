@@ -9,19 +9,19 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".check_domain" do
     test "returns the domain check in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/check"
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/ruby.codes/check"
       method  = "get"
       fixture = "checkDomain/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.check_domain(@client, @account_id, "example.com")
+        {:ok, response} = @module.check_domain(@client, @account_id, "ruby.codes")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.DomainCheck
-        assert data.domain == "example.com"
+        assert data.domain == "ruby.codes"
         assert data.available == true
-        assert data.premium == false
+        assert data.premium == true
       end
     end
   end
@@ -64,7 +64,7 @@ defmodule Dnsimple.RegistrarTest do
       url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registration"
       method      = "post"
       fixture     = "registerDomain/success.http"
-      attributes  = %{registrant_id: 2, auto_renew: false, privacy: false}
+      attributes  = %{registrant_id: 2, auto_renew: false, private_whois: false}
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
@@ -72,18 +72,17 @@ defmodule Dnsimple.RegistrarTest do
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
-        assert data.__struct__ == Dnsimple.Domain
+        assert data.__struct__ == Dnsimple.DomainRegistration
         assert data.id == 1
-        assert data.name == "example.com"
-        assert data.account_id == @account_id
+        assert data.domain_id == 999
         assert data.registrant_id == 2
+        assert data.period == 1
+        assert data.state == "new"
         assert data.auto_renew == false
         assert data.private_whois == false
-        assert data.state == "registered"
-        assert data.token == "cc8h1jP8bDLw5rXycL16k8BivcGiT6K9"
-        assert data.created_at == "2016-01-16T16:08:50.649Z"
-        assert data.updated_at == "2016-01-16T16:09:01.161Z"
-        assert data.expires_on == "2017-01-16"
+        assert data.premium_price == nil
+        assert data.created_at == "2016-12-09T19:35:31Z"
+        assert data.updated_at == "2016-12-09T19:35:31Z"
       end
     end
   end
@@ -102,17 +101,15 @@ defmodule Dnsimple.RegistrarTest do
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
+        assert data.__struct__ == Dnsimple.DomainRenewal
         assert data.id == 1
-        assert data.name == "example.com"
-        assert data.account_id == @account_id
-        assert data.registrant_id == 2
-        assert data.auto_renew == false
+        assert data.domain_id == 999
+        assert data.period == 1
+        assert data.state == "new"
         assert data.private_whois == false
-        assert data.state == "registered"
-        assert data.token == "domain-token"
-        assert data.expires_on == "2018-01-16"
-        assert data.created_at == "2016-01-16T16:08:50.649Z"
-        assert data.updated_at == "2016-02-15T15:19:24.689Z"
+        assert data.premium_price == nil
+        assert data.created_at == "2016-12-09T19:46:45Z"
+        assert data.updated_at == "2016-12-09T19:46:45Z"
       end
     end
   end
@@ -123,7 +120,7 @@ defmodule Dnsimple.RegistrarTest do
       url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer"
       method      = "post"
       fixture     = "transferDomain/success.http"
-      attributes  = %{registrant_id: 10, auth_code: "x1y2z3", auto_renew: false, privacy: false}
+      attributes  = %{registrant_id: 10, auth_code: "x1y2z3", auto_renew: false, private_whois: false}
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
@@ -131,18 +128,16 @@ defmodule Dnsimple.RegistrarTest do
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
-        assert data.__struct__ == Dnsimple.Domain
+        assert data.__struct__ == Dnsimple.DomainTransfer
         assert data.id == 1
-        assert data.name == "example.com"
-        assert data.account_id == @account_id
-        assert data.registrant_id == 10
+        assert data.domain_id == 999
+        assert data.registrant_id == 2
+        assert data.state == "transferring"
         assert data.auto_renew == false
         assert data.private_whois == false
-        assert data.state == "hosted"
-        assert data.token == "domain-token"
-        assert data.created_at == "2016-02-21T13:31:58.745Z"
-        assert data.updated_at == "2016-02-21T13:31:58.745Z"
-        assert data.expires_on == nil
+        assert data.premium_price == nil
+        assert data.created_at == "2016-12-09T19:43:41Z"
+        assert data.updated_at == "2016-12-09T19:43:43Z"
       end
     end
   end

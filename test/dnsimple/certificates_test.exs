@@ -58,25 +58,25 @@ defmodule Dnsimple.CertificatesTest do
 
   describe ".get_certificate" do
     setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/22289"
+      url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/1"
       {:ok, fixture: "getCertificate/success.http", method: "get", url: url}
     end
 
     test "returns the certificate in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.get_certificate(@client, @account_id, @domain_id, _certificate_id = "22289")
+        {:ok, response} = @module.get_certificate(@client, @account_id, @domain_id, _certificate_id = 1)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.Certificate
-        assert data.id == 22289
+        assert data.id == 1
         assert data.name == "www"
       end
     end
 
     test "can be called using the alias .certificate", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.certificate(@client, @account_id, @domain_id, _certificate_id = "22289")
+        {:ok, response} = @module.certificate(@client, @account_id, @domain_id, _certificate_id = 1)
         assert response.__struct__ == Dnsimple.Response
       end
     end

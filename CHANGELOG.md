@@ -9,6 +9,7 @@
 
 - CHANGED: Updated httpoision to 0.10.0 (GH-75)
 - CHANGED: Being able to provide settings when applying a service (GH-77)
+- CHANGED: Updated registration, transfer, renewal response payload (dnsimple/dnsimple-developer#111, dnsimple/dnsimple-elixir#88)
 
 
 #### Release 0.9.2

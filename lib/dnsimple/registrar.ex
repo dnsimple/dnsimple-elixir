@@ -12,6 +12,7 @@ defmodule Dnsimple.Registrar do
   alias Dnsimple.Response
   alias Dnsimple.Domain
   alias Dnsimple.DomainCheck
+  alias Dnsimple.DomainRegistration
   alias Dnsimple.WhoisPrivacy
   alias Dnsimple.VanityNameServer
 
@@ -57,7 +58,7 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registration")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(%{"data" => %Domain{}})
+    |> Response.parse(%{"data" => %DomainRegistration{}})
   end
 
 

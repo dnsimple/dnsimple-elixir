@@ -32,7 +32,7 @@ defmodule Dnsimple.RegistrarTest do
       url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registration"
       method      = "post"
       fixture     = "registerDomain/success.http"
-      attributes  = %{registrant_id: 2, auto_renew: false, privacy: false}
+      attributes  = %{registrant_id: 2, auto_renew: false, private_whois: false}
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
@@ -91,7 +91,7 @@ defmodule Dnsimple.RegistrarTest do
       url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer"
       method      = "post"
       fixture     = "transferDomain/success.http"
-      attributes  = %{registrant_id: 10, auth_code: "x1y2z3", auto_renew: false, privacy: false}
+      attributes  = %{registrant_id: 10, auth_code: "x1y2z3", auto_renew: false, private_whois: false}
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do

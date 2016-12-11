@@ -9,19 +9,19 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".check_domain" do
     test "returns the domain check in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/check"
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/ruby.codes/check"
       method  = "get"
       fixture = "checkDomain/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.check_domain(@client, @account_id, "example.com")
+        {:ok, response} = @module.check_domain(@client, @account_id, "ruby.codes")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.DomainCheck
-        assert data.domain == "example.com"
+        assert data.domain == "ruby.codes"
         assert data.available == true
-        assert data.premium == false
+        assert data.premium == true
       end
     end
   end
@@ -48,7 +48,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.auto_renew == false
         assert data.private_whois == false
         assert data.state == "registered"
-        assert data.token == "cc8h1jP8bDLw5rXycL16k8BivcGiT6K9"
+        assert data.token == "domain-token"
         assert data.created_at == "2016-01-16T16:08:50.649Z"
         assert data.updated_at == "2016-01-16T16:09:01.161Z"
         assert data.expires_on == "2017-01-16"
@@ -103,7 +103,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.id == 1
         assert data.name == "example.com"
         assert data.account_id == @account_id
-        assert data.registrant_id == 10
+        assert data.registrant_id == 2
         assert data.auto_renew == false
         assert data.private_whois == false
         assert data.state == "hosted"

@@ -12,6 +12,7 @@ defmodule Dnsimple.Registrar do
   alias Dnsimple.Response
   alias Dnsimple.Domain
   alias Dnsimple.DomainCheck
+  alias Dnsimple.DomainPremiumPrice
   alias Dnsimple.WhoisPrivacy
   alias Dnsimple.VanityNameServer
 
@@ -33,6 +34,31 @@ defmodule Dnsimple.Registrar do
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %DomainCheck{}})
+  end
+
+
+  @doc """
+  Checks the premium price for a domain.
+
+  See: https://developer.dnsimple.com/v2/registrar/#premium-price
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+
+    Dnsimple.Registrar.get_domain_premium_price(client, account_id = 1010, domain_id = "example.com")
+    Dnsimple.Registrar.get_domain_premium_price(client, account_id = 1010, domain_id = "example.com", %{action: "registration"})
+    Dnsimple.Registrar.get_domain_premium_price(client, account_id = 1010, domain_id = "example.com", %{action: "renewal"})
+    Dnsimple.Registrar.get_domain_premium_price(client, account_id = 1010, domain_id = "example.com", %{action: "transfer"})
+
+  """
+  @spec get_domain_premium_price(Client.t, String.t, String.t, Map.t, Keyword.t) :: Response.t
+  def get_domain_premium_price(client, account_id, domain_name, params \\ %{}, options \\ []) do
+    url     = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/premium_price")
+    options = Keyword.put(options, :action, Map.get(params, :action))
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %DomainPremiumPrice{}})
   end
 
 

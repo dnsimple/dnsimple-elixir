@@ -27,6 +27,25 @@ defmodule Dnsimple.RegistrarTest do
   end
 
 
+  describe ".get_domain_premium_price" do
+    test "returns the result in a Dnsimple.Response for a premium domain" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/premium.com/premium_price"
+      method  = "get"
+      fixture = "getDomainPremiumPrice/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.get_domain_premium_price(@client, @account_id, "premium.com", %{action: "registration"})
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.DomainPremiumPrice
+        assert data.premium_price == "109.0"
+        assert data.action == "registration"
+      end
+    end
+  end
+
+
   describe ".register_domain" do
     test "returns the registered domain in a Dnsimple.Response" do
       url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registration"

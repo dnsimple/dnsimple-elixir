@@ -10,8 +10,10 @@ defmodule Dnsimple.Registrar do
 
   alias Dnsimple.Client
   alias Dnsimple.Response
-  alias Dnsimple.Domain
   alias Dnsimple.DomainCheck
+  alias Dnsimple.DomainRegistration
+  alias Dnsimple.DomainRenewal
+  alias Dnsimple.DomainTransfer
   alias Dnsimple.WhoisPrivacy
   alias Dnsimple.VanityNameServer
 
@@ -57,7 +59,7 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registration")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(%{"data" => %Domain{}})
+    |> Response.parse(%{"data" => %DomainRegistration{}})
   end
 
 
@@ -79,7 +81,7 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/renewal")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(%{"data" => %Domain{}})
+    |> Response.parse(%{"data" => %DomainRenewal{}})
   end
 
 
@@ -105,7 +107,7 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(%{"data" => %Domain{}})
+    |> Response.parse(%{"data" => %DomainTransfer{}})
   end
 
 

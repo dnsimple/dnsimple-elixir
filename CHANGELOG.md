@@ -2,6 +2,7 @@
 
 #### master
 
+- NEW: Added request logging (GH-81)
 - NEW: Added support for collaborator endpoints (GH-74)
 - NEW: Added support to zone records regions (GH-72)
 - NEW: Added new attributes to TLDs (GH-69)

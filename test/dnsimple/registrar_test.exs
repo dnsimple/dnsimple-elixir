@@ -28,9 +28,12 @@ defmodule Dnsimple.RegistrarTest do
 
 
   describe ".get_domain_premium_price" do
-    test "returns the result in a Dnsimple.Response for a premium domain" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/premium.com/premium_price"
-      method  = "get"
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/premium.com/premium_price"
+      {:ok, method: "get", url: url}
+    end
+
+    test "returns the result in a Dnsimple.Response for a premium domain", %{method: method, url: url} do
       fixture = "getDomainPremiumPrice/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -41,6 +44,16 @@ defmodule Dnsimple.RegistrarTest do
         assert data.__struct__ == Dnsimple.DomainPremiumPrice
         assert data.premium_price == "109.0"
         assert data.action == "registration"
+      end
+    end
+
+    test "returns the result in a Dnsimple.Response for a domain that is not premium", %{method: method, url: url} do
+      fixture = "getDomainPremiumPrice/failure.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:error, response} = @module.get_domain_premium_price(@client, @account_id, "premium.com")
+        assert response.__struct__ == Dnsimple.RequestError
+        assert response.message == "HTTP 400: `example.com' is not a premium domain for registration."
       end
     end
   end

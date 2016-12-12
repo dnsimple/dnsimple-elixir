@@ -101,7 +101,7 @@ defmodule Dnsimple.Zones do
 
     Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = "example.com")
     Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = 12, page: 2, per_page: 10)
-    Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = "example.com, sort: "type:asc")
+    Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = "example.com", sort: "type:asc")
     Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = 12, filter: [type: "A", name: ""])
 
   """

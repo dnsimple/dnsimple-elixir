@@ -2,14 +2,17 @@
 
 #### master
 
+- NEW: Added support for get domain premium price endpoint (GH-87)
 - NEW: Added request logging (GH-81)
 - NEW: Added support for collaborator endpoints (GH-74)
 - NEW: Added support to zone records regions (GH-72)
 - NEW: Added new attributes to TLDs (GH-69)
 
-- CHANGED: Updated httpoision to 0.10.0 (GH-75)
-- CHANGED: Being able to provide settings when applying a service (GH-77)
+- CHANGED: Removed function aliases for simplicity (GH-95)
+- CHANGED: Updated structs to reflect latest APIv2 payloads (GH-94)
 - CHANGED: Updated registration, transfer, renewal response payload (dnsimple/dnsimple-developer#111, dnsimple/dnsimple-elixir#88)
+- CHANGED: Being able to provide settings when applying a service (GH-77)
+- CHANGED: Updated httpoision to 0.10.0 (GH-75)
 
 
 #### Release 0.9.2

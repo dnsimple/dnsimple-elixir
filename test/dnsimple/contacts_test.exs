@@ -39,22 +39,14 @@ defmodule Dnsimple.ContactsTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
-
-    test "can be called using the alias .contacts", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.contacts(@client, "1010")
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
   describe ".contact" do
-    setup do
-      url = "#{@client.base_url}/v2/1010/contacts/1"
-      {:ok, fixture: "getContact/success.http", method: "get", url: url}
-    end
+    test "returns the contact in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/1010/contacts/1"
+      fixture = "getContact/success.http"
+      method  = "get"
 
-    test "returns the contact in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
         {:ok, response} = @module.get_contact(@client, 1010, 1)
         assert response.__struct__ == Dnsimple.Response
@@ -79,13 +71,6 @@ defmodule Dnsimple.ContactsTest do
         assert contact.country == "IT"
         assert contact.created_at == "2016-01-19T20:50:26Z"
         assert contact.updated_at == "2016-01-19T20:50:26Z"
-      end
-    end
-
-    test "can be called using the alias .contact", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.contact(@client, 1010, 1)
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end

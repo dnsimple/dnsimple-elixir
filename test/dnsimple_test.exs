@@ -27,14 +27,14 @@ defmodule Dnsimple.ClientTest do
 
     test "handles headers defines as a map", %{client: client, fixture: fixture} do
       use_cassette :stub, fixture  do
-        {:ok, response} = Dnsimple.Domains.domains(client, "1010", headers: %{page: 2})
+        {:ok, response} = Dnsimple.Domains.list_domains(client, "1010", headers: %{page: 2})
         assert response.__struct__ == Dnsimple.Response
       end
     end
 
     test "handles headers defines as a list", %{client: client, fixture: fixture} do
       use_cassette :stub, fixture  do
-        {:ok, response} = Dnsimple.Domains.domains(client, "1010", headers: [{"X-Header", "X-Value"}])
+        {:ok, response} = Dnsimple.Domains.list_domains(client, "1010", headers: [{"X-Header", "X-Value"}])
         assert response.__struct__ == Dnsimple.Response
       end
     end

@@ -38,24 +38,16 @@ defmodule Dnsimple.TldsTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
-
-    test "can be called using the alias .tlds", %{fixture: fixture_file, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
-        {:ok, response} = @module.tlds(@client)
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
 
   describe ".get_tld" do
-    setup do
-      url = "#{@client.base_url}/v2/tlds/com"
-      {:ok, fixture: "getTld/success.http", method: "get", url: url}
-    end
+    test "returns the TLD in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/tlds/com"
+      method  = "get"
+      fixture = "getTld/success.http"
 
-    test "returns the TLD in a Dnsimple.Response", %{fixture: fixture_file, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_tld(@client, "com")
         assert response.__struct__ == Dnsimple.Response
 
@@ -72,23 +64,15 @@ defmodule Dnsimple.TldsTest do
         assert data.transfer_enabled == true
       end
     end
-
-    test "can be called using the alias .tld", %{fixture: fixture_file, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
-        {:ok, response} = @module.tld(@client, "com")
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
 
   describe ".get_tld_extended_attributes" do
-    setup do
-      url = "#{@client.base_url}/v2/tlds/com/extended_attributes"
-      {:ok, fixture: "getTldExtendedAttributes/success.http", method: "get", url: url}
-    end
+    test "returns the extended attributes in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/tlds/com/extended_attributes"
+      method  = "get"
+      fixture = "getTldExtendedAttributes/success.http"
 
-    test "returns the extended attributes in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
         {:ok, response} = @module.get_tld_extended_attributes(@client, "com")
         assert response.__struct__ == Dnsimple.Response
@@ -108,13 +92,6 @@ defmodule Dnsimple.TldsTest do
         assert option.title == "UK Individual"
         assert option.value == "IND"
         assert option.description == "UK Individual (our default value)"
-      end
-    end
-
-    test "can be called using the alias .tld_extended_attributes", %{fixture: fixture_file, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
-        {:ok, response} = @module.tld_extended_attributes(@client, "com")
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end

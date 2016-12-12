@@ -33,9 +33,6 @@ defmodule Dnsimple.Tlds do
     |> Response.parse(%{"data" => [%Tld{}], "pagination" => %Response.Pagination{}})
   end
 
-  @spec tlds(Client.t, Keyword.t) :: Response.t
-  defdelegate tlds(client, options \\ []), to: __MODULE__, as: :list_tlds
-
 
   @doc """
   Returns the information about a TLD.
@@ -57,9 +54,6 @@ defmodule Dnsimple.Tlds do
     |> Response.parse(%{"data" => %Tld{}})
   end
 
-  @spec tld(Client.t, String.t, Keyword.t) :: Response.t
-  defdelegate tld(client, tld, options \\ []), to: __MODULE__, as: :get_tld
-
 
   @doc """
   Returns the extended attributes required for a particular TLD.
@@ -80,8 +74,5 @@ defmodule Dnsimple.Tlds do
     Client.get(client, url, options)
     |> Response.parse(%{"data" => [%TldExtendedAttribute{options: [%TldExtendedAttribute.Option{}]}]})
   end
-
-  @spec tld_extended_attributes(Client.t, String.t,  Keyword.t) :: Response.t
-  defdelegate tld_extended_attributes(client, tld, options \\ []), to: __MODULE__, as: :get_tld_extended_attributes
 
 end

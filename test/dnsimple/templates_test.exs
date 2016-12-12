@@ -62,12 +62,12 @@ defmodule Dnsimple.TemplatesTest do
         data = response.data
         assert data.__struct__ == Dnsimple.Template
         assert data.id == 1
+        assert data.sid == "alpha"
         assert data.account_id == @account_id
         assert data.name == "Alpha"
-        assert data.short_name == "alpha"
         assert data.description == "An alpha template."
-        assert data.created_at == "2016-03-22T11:08:58.262Z"
-        assert data.updated_at == "2016-03-22T11:08:58.262Z"
+        assert data.created_at == "2016-03-22T11:08:58Z"
+        assert data.updated_at == "2016-03-22T11:08:58Z"
       end
     end
 
@@ -87,7 +87,7 @@ defmodule Dnsimple.TemplatesTest do
       url        = "#{@client.base_url}/v2/#{@account_id}/templates"
       method     = "post"
       fixture    = "createTemplate/created.http"
-      attributes = %{name: "Beta", short_name: "beta", description: "A beta template."}
+      attributes = %{sid: "beta", name: "Beta", description: "A beta template."}
       body       = Poison.encode!(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
@@ -106,7 +106,7 @@ defmodule Dnsimple.TemplatesTest do
       url        = "#{@client.base_url}/v2/#{@account_id}/templates/beta"
       method     = "patch"
       fixture    = "updateTemplate/success.http"
-      attributes = %{name: "Alpha", short_name: "alpha", description: "An alpha template."}
+      attributes = %{sid: "alpha", name: "Alpha", description: "An alpha template."}
       body       = Poison.encode!(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
@@ -115,8 +115,8 @@ defmodule Dnsimple.TemplatesTest do
 
         data = response.data
         assert data.__struct__ == Dnsimple.Template
+        assert data.sid == "alpha"
         assert data.name == "Alpha"
-        assert data.short_name == "alpha"
         assert data.description == "An alpha template."
       end
     end

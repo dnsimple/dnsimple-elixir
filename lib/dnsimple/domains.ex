@@ -36,9 +36,6 @@ defmodule Dnsimple.Domains do
     |> Response.parse(%{"data" => [%Domain{}], "pagination" => %Response.Pagination{}})
   end
 
-  @spec domains(Client.t, String.t | integer) :: Response.t
-  defdelegate domains(client, account_id, options \\ []), to: __MODULE__, as: :list_domains
-
 
   @doc """
   List all domains from the account.
@@ -80,9 +77,6 @@ defmodule Dnsimple.Domains do
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Domain{}})
   end
-
-  @spec domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate domain(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :get_domain
 
 
   @doc """
@@ -177,9 +171,6 @@ defmodule Dnsimple.Domains do
     |> Response.parse(%{"data" => [%EmailForward{}], "pagination" => %Response.Pagination{}})
   end
 
-  @spec email_forwards(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate email_forwards(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :list_email_forwards
-
 
   @doc """
   Creates an email forward for a domain.
@@ -225,9 +216,6 @@ defmodule Dnsimple.Domains do
     |> Response.parse(%{"data" => %EmailForward{}})
   end
 
-  @spec email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
-  defdelegate email_forward(client, account_id, domain_id, email_forward_id, options \\ []), to: __MODULE__, as: :get_email_forward
-
 
   @doc """
   Deletes an email forward of a domain.
@@ -269,9 +257,6 @@ defmodule Dnsimple.Domains do
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Push{}]})
   end
-
-  @spec pushes(Client.t, String.t | integer, Keyword.t) :: Response.t
-  defdelegate pushes(client, account_id, options \\ []), to: __MODULE__, as: :list_pushes
 
 
   @doc """
@@ -361,9 +346,6 @@ defmodule Dnsimple.Domains do
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Collaborator{}], "pagination" => %Response.Pagination{}})
   end
-
-  @spec collaborators(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate collaborators(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :list_collaborators
 
 
   @doc """

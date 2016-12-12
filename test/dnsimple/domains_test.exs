@@ -14,7 +14,7 @@ defmodule Dnsimple.DomainsTest do
   describe ".list_domains" do
     setup do
       url = "#{@client.base_url}/v2/#{@account_id}/domains"
-      {:ok, fixture: "listDomains/success.http", method: "get", url: url}
+      {:ok, url: url, fixture: "listDomains/success.http", method: "get"}
     end
 
     test "returns the domains in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
@@ -53,13 +53,6 @@ defmodule Dnsimple.DomainsTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
-
-    test "can be called using the alias .domains", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.domains(@client, @account_id)
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
 
@@ -74,27 +67,19 @@ defmodule Dnsimple.DomainsTest do
 
 
   describe ".get_domain" do
-    setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/domains/example-alpha.com"
-      {:ok, fixture: "getDomain/success.http", method: "get", url: url}
-    end
+    test "builds the correct request" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/example-alpha.com"
+      method  = "get"
+      fixture = "getDomain/success.http"
 
-    test "builds the correct request", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.domain(@client, @account_id, _domain_id = "example-alpha.com")
+        {:ok, response} = @module.get_domain(@client, @account_id, _domain_id = "example-alpha.com")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.Domain
         assert data.id == 1
         assert data.name == "example-alpha.com"
-      end
-    end
-
-    test "can be called using the alias .domain", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.get_domain(@client, @account_id, "example-alpha.com")
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end
@@ -185,13 +170,6 @@ defmodule Dnsimple.DomainsTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
-
-    test "can be called using the alias .email_forwards", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.email_forwards(@client, @account_id, @domain_id)
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
 
@@ -215,12 +193,11 @@ defmodule Dnsimple.DomainsTest do
 
 
   describe ".get_email_forward" do
-    setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards/17706"
-      {:ok, fixture: "getEmailForward/success.http", method: "get", url: url}
-    end
+    test "returns the email forward in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards/17706"
+      method  = "get"
+      fixture = "getEmailForward/success.http"
 
-    test "returns the email forward in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_email_forward(@client, @account_id, @domain_id, _email_forward_id = 17706)
         assert response.__struct__ == Dnsimple.Response
@@ -233,13 +210,6 @@ defmodule Dnsimple.DomainsTest do
         assert data.to == "jim@another.com"
         assert data.created_at == "2016-02-04T14:26:50Z"
         assert data.updated_at == "2016-02-04T14:26:50Z"
-      end
-    end
-
-    test "can be called using the alias .email_forward", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.email_forward(@client, @account_id, @domain_id, _email_forward_id = 17706)
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end
@@ -261,12 +231,11 @@ defmodule Dnsimple.DomainsTest do
 
 
   describe ".list_pushes" do
-    setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/pushes"
-      {:ok, fixture: "listPushes/success.http", method: "get", url: url}
-    end
+    test "returns the account's pushes in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/pushes"
+      method  = "get"
+      fixture = "listPushes/success.http"
 
-    test "returns the account's pushes in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.list_pushes(@client, @account_id)
         assert response.__struct__ == Dnsimple.Response
@@ -275,13 +244,6 @@ defmodule Dnsimple.DomainsTest do
         assert is_list(data)
         assert length(data) == 2
         assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Push end)
-      end
-    end
-
-    test "can be called using the alias .pushes", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.pushes(@client, @account_id)
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end
@@ -369,13 +331,6 @@ defmodule Dnsimple.DomainsTest do
     test "sends custom headers", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.list_collaborators(@client, @account_id, @domain_id, headers: %{"X-Header" => "X-Value"})
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
-
-    test "can be called using the alias .collaborators", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.collaborators(@client, @account_id, @domain_id)
         assert response.__struct__ == Dnsimple.Response
       end
     end

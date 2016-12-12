@@ -220,9 +220,6 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(%{"data" => %WhoisPrivacy{}})
   end
 
-  @spec whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
-  defdelegate whois_privacy(client, account_id, domain_name, options \\ []), to: __MODULE__, as: :get_whois_privacy
-
 
   @doc """
   Enables whois privacy for the domain.
@@ -286,8 +283,6 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(%{"data" => []})
   end
 
-  @spec domain_delegation(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
-  defdelegate domain_delegation(client, account_id, domain_name, options \\ []), to: __MODULE__, as: :get_domain_delegation
 
   @doc """
   Changes the domain's name servers and returns them.

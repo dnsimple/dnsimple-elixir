@@ -48,10 +48,10 @@ defmodule Dnsimple.Registrar do
 
     client = %Dnsimple.Client{access_token: "a1b2c3d4"}
 
-    Dnsimple.Registrar.get_domain_premium_price(client, account_id = 1010, domain_id = "example.com")
-    Dnsimple.Registrar.get_domain_premium_price(client, account_id = 1010, domain_id = "example.com", %{action: "registration"})
-    Dnsimple.Registrar.get_domain_premium_price(client, account_id = 1010, domain_id = "example.com", %{action: "renewal"})
-    Dnsimple.Registrar.get_domain_premium_price(client, account_id = 1010, domain_id = "example.com", %{action: "transfer"})
+    Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com")
+    Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "registration"})
+    Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "renewal"})
+    Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "transfer"})
 
   """
   @spec get_domain_premium_price(Client.t, String.t, String.t, Map.t, Keyword.t) :: Response.t

@@ -24,7 +24,4 @@ defmodule Dnsimple.Accounts do
     |> Response.parse(%{"data" => [%Account{}]})
   end
 
-  @spec accounts(Client.t) :: Response.t
-  defdelegate accounts(client), to: __MODULE__, as: :list_accounts
-
 end

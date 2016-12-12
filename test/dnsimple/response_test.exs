@@ -59,7 +59,7 @@ defmodule Dnsimple.ResponseTest do
     end
 
     test "parses pagination" do
-      use_cassette :stub, ExvcrUtils.response_fixture("pages1of3.http", method: "get") do
+      use_cassette :stub, ExvcrUtils.response_fixture("pages-1of3.http", method: "get") do
         http_response = Dnsimple.Client.execute(@client, "get", "/path")
         {:ok, response} = Dnsimple.Response.parse(http_response, %{"data" => [%Dnsimple.Domain{}], "pagination" => %Dnsimple.Response.Pagination{}})
 

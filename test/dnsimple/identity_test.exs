@@ -12,7 +12,7 @@ defmodule Dnsimple.IdentityTest do
     end
 
     test "returns the user in a DNSimple response", %{method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture("whoami/success_user.http", method: method, url: url) do
+      use_cassette :stub, ExvcrUtils.response_fixture("whoami/success-user.http", method: method, url: url) do
         {:ok, response} = @module.whoami(@client)
         assert response.__struct__ == Dnsimple.Response
 
@@ -29,7 +29,7 @@ defmodule Dnsimple.IdentityTest do
     end
 
     test "returns the account in a DNSimple response", %{method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture("whoami/success_account.http", method: method, url: url) do
+      use_cassette :stub, ExvcrUtils.response_fixture("whoami/success-account.http", method: method, url: url) do
         {:ok, response} = @module.whoami(@client)
         assert response.__struct__ == Dnsimple.Response
 

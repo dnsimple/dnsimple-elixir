@@ -200,8 +200,8 @@ defmodule Dnsimple.TemplatesTest do
         assert data.content == "mx.example.com"
         assert data.ttl == 600
         assert data.priority == 10
-        assert data.created_at == "2016-05-03T08:03:26.444Z"
-        assert data.updated_at == "2016-05-03T08:03:26.444Z"
+        assert data.created_at == "2016-05-03T08:03:26Z"
+        assert data.updated_at == "2016-05-03T08:03:26Z"
       end
     end
 

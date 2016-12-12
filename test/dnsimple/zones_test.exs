@@ -190,11 +190,11 @@ defmodule Dnsimple.ZonesTest do
 
 
   describe ".create_zone_record" do
-    test "creates the record and retuns it in a Dnsiple.Response" do
+    test "creates the record and retuns it in a Dnsimple.Response" do
       url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records"
       fixture = "createZoneRecord/created.http"
       method  = "post"
-      attributes  = %{type: "MX", name: "", content: "mxa.example.com", ttl: 600, priority: 10, regions: ["SV1", "IAD"]}
+      attributes  = %{type: "A", name: "www", content: "127.0.0.1", ttl: 600}
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
@@ -203,18 +203,18 @@ defmodule Dnsimple.ZonesTest do
 
         data = response.data
         assert data.__struct__ == Dnsimple.ZoneRecord
-        assert data.id == 5
+        assert data.id == 1
         assert data.zone_id == "example.com"
         assert data.parent_id == nil
-        assert data.type == "MX"
-        assert data.name == ""
-        assert data.content == "mxa.example.com"
+        assert data.type == "A"
+        assert data.name == "www"
+        assert data.content == "127.0.0.1"
         assert data.ttl == 600
-        assert data.priority == 10
+        assert data.priority == nil
         assert data.system_record == false
-        assert data.regions == ["SV1", "IAD"]
-        assert data.created_at == "2016-10-05T09:51:35Z"
-        assert data.updated_at == "2016-10-05T09:51:35Z"
+        assert data.regions == ["global"]
+        assert data.created_at == "2016-01-07T17:45:13Z"
+        assert data.updated_at == "2016-01-07T17:45:13Z"
       end
     end
   end

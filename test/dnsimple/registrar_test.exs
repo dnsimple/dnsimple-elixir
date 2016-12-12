@@ -42,7 +42,7 @@ defmodule Dnsimple.RegistrarTest do
 
         data = response.data
         assert data.__struct__ == Dnsimple.DomainPremiumPrice
-        assert data.premium_price == "109.0"
+        assert data.premium_price == "109.00"
         assert data.action == "registration"
       end
     end
@@ -53,7 +53,7 @@ defmodule Dnsimple.RegistrarTest do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:error, response} = @module.get_domain_premium_price(@client, @account_id, "premium.com")
         assert response.__struct__ == Dnsimple.RequestError
-        assert response.message == "HTTP 400: `example.com' is not a premium domain for registration."
+        assert response.message == "HTTP 400: `example.com` is not a premium domain for registration"
       end
     end
   end

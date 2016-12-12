@@ -40,7 +40,7 @@ defmodule Dnsimple.Registrar do
 
 
   @doc """
-  Checks the premium price for a domain.
+  Gets the premium price for a domain.
 
   See: https://developer.dnsimple.com/v2/registrar/#premium-price
 

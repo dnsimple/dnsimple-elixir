@@ -32,7 +32,7 @@ defmodule Dnsimple.RegistrarTest do
       url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registration"
       method      = "post"
       fixture     = "registerDomain/success.http"
-      attributes  = %{registrant_id: 2, auto_renew: false, private_whois: false}
+      attributes  = %{registrant_id: 2, auto_renew: false, whois_privacy: false}
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
@@ -47,7 +47,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.period == 1
         assert data.state == "new"
         assert data.auto_renew == false
-        assert data.private_whois == false
+        assert data.whois_privacy == false
         assert data.premium_price == nil
         assert data.created_at == "2016-12-09T19:35:31Z"
         assert data.updated_at == "2016-12-09T19:35:31Z"
@@ -74,7 +74,6 @@ defmodule Dnsimple.RegistrarTest do
         assert data.domain_id == 999
         assert data.period == 1
         assert data.state == "new"
-        assert data.private_whois == false
         assert data.premium_price == nil
         assert data.created_at == "2016-12-09T19:46:45Z"
         assert data.updated_at == "2016-12-09T19:46:45Z"
@@ -88,7 +87,7 @@ defmodule Dnsimple.RegistrarTest do
       url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer"
       method      = "post"
       fixture     = "transferDomain/success.http"
-      attributes  = %{registrant_id: 10, auth_code: "x1y2z3", auto_renew: false, private_whois: false}
+      attributes  = %{registrant_id: 10, auth_code: "x1y2z3", auto_renew: false, whois_privacy: false}
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
@@ -102,7 +101,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.registrant_id == 2
         assert data.state == "transferring"
         assert data.auto_renew == false
-        assert data.private_whois == false
+        assert data.whois_privacy == false
         assert data.premium_price == nil
         assert data.created_at == "2016-12-09T19:43:41Z"
         assert data.updated_at == "2016-12-09T19:43:43Z"

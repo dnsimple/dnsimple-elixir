@@ -10,13 +10,12 @@ defmodule Dnsimple.DomainRenewal do
     domain_id: integer,
     period: integer,
     state: String.t,
-    private_whois: boolean,
     premium_price: String.t,
     created_at: String.t,
     updated_at: String.t,
   }
 
-  defstruct ~w(id domain_id period state private_whois premium_price
+  defstruct ~w(id domain_id period state premium_price
                created_at updated_at)a
 
 end

@@ -2,6 +2,8 @@
 
 #### master
 
+#### Release 1.0.0
+
 - NEW: Added support for get domain premium price endpoint (GH-87)
 - NEW: Added request logging (GH-81)
 - NEW: Added support for collaborator endpoints (GH-74)

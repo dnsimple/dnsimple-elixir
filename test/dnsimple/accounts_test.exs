@@ -6,7 +6,7 @@ defmodule Dnsimple.AccountsTest do
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
 
-  describe ".accounts" do
+  describe ".list_accounts" do
     setup do
       {:ok, method: "get", url: "#{@client.base_url}/v2/accounts"}
     end
@@ -47,15 +47,6 @@ defmodule Dnsimple.AccountsTest do
         assert Enum.all?(data, fn(element) -> is_integer(element.id) end)
         assert Enum.all?(data, fn(element) -> is_binary(element.email) end)
         assert Enum.all?(data, fn(element) -> is_binary(element.plan_identifier) end)
-      end
-    end
-
-    test "can be called using the alias .accounts", %{method: method, url: url} do
-      fixture = "listAccounts/success-account.http"
-
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.accounts(@client)
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end

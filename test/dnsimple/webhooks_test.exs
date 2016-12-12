@@ -30,24 +30,16 @@ defmodule Dnsimple.WebhooksTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
-
-    test "can be called using the alias .webhooks", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.webhooks(@client, @account_id)
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
 
   describe ".get_webhook" do
-    setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/webhooks/1"
-      {:ok, fixture: ExvcrUtils.response_fixture("getWebhook/success.http", method: "get", url: url)}
-    end
+    test "returns the webhook in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/webhooks/1"
+      method  = "get"
+      fixture = "getWebhook/success.http"
 
-    test "returns the webhook in a Dnsimple.Response", %{fixture: fixture} do
-      use_cassette :stub, fixture do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_webhook(@client, @account_id, _webhook_id = 1)
         assert response.__struct__ == Dnsimple.Response
 
@@ -55,13 +47,6 @@ defmodule Dnsimple.WebhooksTest do
         assert data.__struct__ == Dnsimple.Webhook
         assert data.id == 1
         assert data.url == "https://webhook.test"
-      end
-    end
-
-    test "can be called using the alias .webhook", %{fixture: fixture} do
-      use_cassette :stub, fixture do
-        {:ok, response} = @module.webhook(@client, @account_id, _webhook_id = 1)
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end

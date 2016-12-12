@@ -49,23 +49,15 @@ defmodule Dnsimple.ServicesTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
-
-    test "can be called using the alias .services", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.services(@client)
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
 
   describe ".get_service" do
-    setup do
-      url = "#{@client.base_url}/v2/services/1"
-      {:ok, fixture: "getService/success.http", method: "get", url: url}
-    end
+    test "returns the service in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/services/1"
+      method  = "get"
+      fixture = "getService/success.http"
 
-    test "returns the service in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
         {:ok, response} = @module.get_service(@client, _service_id = 1)
         assert response.__struct__ == Dnsimple.Response
@@ -82,15 +74,6 @@ defmodule Dnsimple.ServicesTest do
         assert data.settings == [%Dnsimple.Service.Setting{append: ".service1.com", description: "Your Service 1 username is used to connect services to your account.", example: "username", label: "Service 1 Account Username", name: "username", password: false}]
         assert data.created_at == "2014-02-14T19:15:19Z"
         assert data.updated_at == "2016-03-04T09:23:27Z"
-      end
-    end
-
-    test "it can be called using the alias .service", %{fixture: fixture, method: method} do
-      url = "#{@client.base_url}/v2/services/wordpress"
-
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.service(@client, _service_id = "wordpress")
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end

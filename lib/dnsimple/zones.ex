@@ -36,9 +36,6 @@ defmodule Dnsimple.Zones do
     |> Response.parse(%{"data" => [%Zone{}], "pagination" => %Response.Pagination{}})
   end
 
-  @spec zones(Client.t, String.t | integer, Keyword.t) :: Response.t
-  defdelegate zones(client, account_id, options \\ []), to: __MODULE__, as: :list_zones
-
 
   @doc """
   Returns a zone in the account.
@@ -61,9 +58,6 @@ defmodule Dnsimple.Zones do
     |> Response.parse(%{"data" => %Zone{}})
   end
 
-  @spec zone(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate zone(client, account_id, zone_id, options \\ []), to: __MODULE__, as: :get_zone
-
 
   @doc """
   Returns the zone file of the zone.
@@ -85,9 +79,6 @@ defmodule Dnsimple.Zones do
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Zone.File{}})
   end
-
-  @spec zone_file(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate zone_file(client, account_id, zone_id, options \\ []), to: __MODULE__, as: :get_zone_file
 
 
   @doc """
@@ -113,9 +104,6 @@ defmodule Dnsimple.Zones do
     |> Response.parse(%{"data" => [%ZoneRecord{}], "pagination" => %Response.Pagination{}})
   end
 
-  @spec zone_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate zone_records(client, account_id, zone_id, options \\ []), to: __MODULE__, as: :list_zone_records
-
 
   @doc """
   Returns a record of the zone.
@@ -137,9 +125,6 @@ defmodule Dnsimple.Zones do
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %ZoneRecord{}})
   end
-
-  @spec zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
-  defdelegate zone_record(client, account_id, zone_id, record_id, options \\ []), to: __MODULE__, as: :get_zone_record
 
 
   @doc """

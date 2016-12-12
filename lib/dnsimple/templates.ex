@@ -34,9 +34,6 @@ defmodule Dnsimple.Templates do
     |> Response.parse(%{"data" => [%Template{}], "pagination" => %Response.Pagination{}})
   end
 
-  @spec templates(Client.t, String.t | integer, Keyword.t) :: Response.t
-  defdelegate templates(client, account_id, options \\ []), to: __MODULE__, as: :list_templates
-
 
   @doc """
   Returns a template in the account.
@@ -57,9 +54,6 @@ defmodule Dnsimple.Templates do
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => %Template{}})
   end
-
-  @spec template(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate template(client, account_id, template_id, options \\ []), to: __MODULE__, as: :get_template
 
 
   @doc """
@@ -154,9 +148,6 @@ defmodule Dnsimple.Templates do
     |> Response.parse(%{"data" => [%TemplateRecord{}], "pagination" => %Response.Pagination{}})
   end
 
-  @spec template_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate template_records(client, account_id, template_id, options \\ []), to: __MODULE__, as: :list_template_records
-
 
   @doc """
   Returns a record in of the template.
@@ -177,9 +168,6 @@ defmodule Dnsimple.Templates do
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => %TemplateRecord{}})
   end
-
-  @spec template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
-  defdelegate template_record(client, account_id, template_id, record_id, options \\ []), to: __MODULE__, as: :get_template_record
 
 
   @doc """

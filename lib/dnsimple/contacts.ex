@@ -23,9 +23,6 @@ defmodule Dnsimple.Contacts do
     |> Response.parse(%{"data" => [%Contact{}], "pagination" => %Response.Pagination{}})
   end
 
-  @spec contacts(Client.t, String.t | integer, Keyword.t) :: Response.t
-  defdelegate contacts(client, account_id, options \\ []), to: __MODULE__, as: :list_contacts
-
 
   @doc """
   Gets a contact in the account.
@@ -39,9 +36,6 @@ defmodule Dnsimple.Contacts do
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Contact{}})
   end
-
-  @spec contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate contact(client, account_id, contact_id, options \\ []), to: __MODULE__, as: :get_contact
 
 
   @doc """

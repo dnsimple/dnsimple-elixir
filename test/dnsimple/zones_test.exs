@@ -38,23 +38,15 @@ defmodule Dnsimple.ZonesTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
-
-    test "can be called using the alias .zones", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.zones(@client, @account_id)
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
 
   describe ".get_zone" do
-    setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/zones/example.com"
-      {:ok, fixture: "getZone/success.http", method: "get", url: url}
-    end
+    test "returns the zone in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/zones/example.com"
+      method  = "get"
+      fixture = "getZone/success.http"
 
-    test "returns the zone in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_zone(@client, @account_id, _zone_id = "example.com")
         assert response.__struct__ == Dnsimple.Response
@@ -69,13 +61,6 @@ defmodule Dnsimple.ZonesTest do
         assert data.updated_at == "2015-04-23T07:40:03Z"
       end
     end
-
-    test "can be called using the alias .zone", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.zone(@client, @account_id, _zone_id = "example.com")
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
 
@@ -83,25 +68,17 @@ defmodule Dnsimple.ZonesTest do
 
 
   describe ".get_zone_file" do
-    setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/file"
-      {:ok, fixture: "getZoneFile/success.http", method: "get", url: url}
-    end
+    test "returns the zone file in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/file"
+      method  = "get"
+      fixture = "getZoneFile/success.http"
 
-    test "returns the zone file in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_zone_file(@client, @account_id, @zone_id)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.zone == "$ORIGIN example.com.\n$TTL 1h\nexample.com. 3600 IN SOA ns1.dnsimple.com. admin.dnsimple.com. 1453132552 86400 7200 604800 300\nexample.com. 3600 IN NS ns1.dnsimple.com.\nexample.com. 3600 IN NS ns2.dnsimple.com.\nexample.com. 3600 IN NS ns3.dnsimple.com.\nexample.com. 3600 IN NS ns4.dnsimple.com.\n"
-      end
-    end
-
-    test "can be called using the alias .zone_file", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.zone_file(@client, @account_id, @zone_id)
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end
@@ -142,23 +119,15 @@ defmodule Dnsimple.ZonesTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
-
-    test "can be called using the alias .zone_records", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.zone_records(@client, @account_id, @zone_id)
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
 
   describe ".get_zone_record" do
-    setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/5"
-      {:ok, fixture: "getZoneRecord/success.http", method: "get", url: url}
-    end
+    test "returns the record in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/5"
+      method  = "get"
+      fixture = "getZoneRecord/success.http"
 
-    test "returns the record in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_zone_record(@client, @account_id, @zone_id, _record_id = 5)
         assert response.__struct__ == Dnsimple.Response
@@ -177,13 +146,6 @@ defmodule Dnsimple.ZonesTest do
         assert data.regions == ["SV1", "IAD"]
         assert data.created_at == "2016-10-05T09:51:35Z"
         assert data.updated_at == "2016-10-05T09:51:35Z"
-      end
-    end
-
-    test "can be called using the alias .zone_record", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.zone_record(@client, @account_id, @zone_id, _record_id = 5)
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end

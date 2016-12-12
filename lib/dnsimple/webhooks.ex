@@ -24,9 +24,6 @@ defmodule Dnsimple.Webhooks do
     |> Response.parse(%{"data" => [%Webhook{}], "pagination" => %Response.Pagination{}})
   end
 
-  @spec webhooks(Client.t, String.t | integer) :: Response.t
-  defdelegate webhooks(client, account_id, options \\ []), to: __MODULE__, as: :list_webhooks
-
 
   @doc """
   Get a webhook.
@@ -40,9 +37,6 @@ defmodule Dnsimple.Webhooks do
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Webhook{}})
   end
-
-  @spec webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate webhook(client, account_id, webhook_id, options \\ []), to: __MODULE__, as: :get_webhook
 
 
   @doc """

@@ -32,9 +32,6 @@ defmodule Dnsimple.Services do
     |> Response.parse(%{"data" => [%Service{settings: [%Service.Setting{}]}], "pagination" => %Response.Pagination{}})
   end
 
-  @spec services(Client.t, Keyword.t) :: Response.t
-  defdelegate services(client, options \\ []), to: __MODULE__, as: :list_services
-
 
   @doc """
   Returns a service.
@@ -56,9 +53,6 @@ defmodule Dnsimple.Services do
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Service{settings: [%Service.Setting{}]}})
   end
-
-  @spec service(Client.t, integer | String.t, Keyword.t) :: Response.t
-  defdelegate service(client, service_id, options \\ []), to: __MODULE__, as: :get_service
 
 
   @doc """

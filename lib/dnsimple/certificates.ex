@@ -35,9 +35,6 @@ defmodule Dnsimple.Certificates do
     |> Response.parse(%{"data" => [%Certificate{}], "pagination" => %Response.Pagination{}})
   end
 
-  @spec certificates(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate certificates(client, account_id, domain_id, options \\ []), to: __MODULE__, as: :list_certificates
-
 
   @doc """
   Returns the certificate data.
@@ -60,9 +57,6 @@ defmodule Dnsimple.Certificates do
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Certificate{}})
   end
-
-  @spec certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate certificate(client, account_id, domain_id, certificate_id, options \\ []), to: __MODULE__, as: :get_certificate
 
 
   @doc """
@@ -109,8 +103,5 @@ defmodule Dnsimple.Certificates do
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Certificate{}})
   end
-
-  @spec certificate_private_key(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
-  defdelegate certificate_private_key(client, account_id, domain_id, certificate_id, options \\ []), to: __MODULE__, as: :get_certificate_private_key
 
 end

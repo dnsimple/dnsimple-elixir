@@ -38,23 +38,15 @@ defmodule Dnsimple.TemplatesTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
-
-    test "it can be called using the alias .templates", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.templates(@client, @account_id)
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
 
   describe ".get_template" do
-    setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/templates/1"
-      {:ok, fixture: "getTemplate/success.http", method: "get", url: url}
-    end
+    test "returns the template in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/templates/1"
+      method  = "get"
+      fixture = "getTemplate/success.http"
 
-    test "returns the template in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
         {:ok, response} = @module.get_template(@client, @account_id, _template_id = 1)
         assert response.__struct__ == Dnsimple.Response
@@ -68,15 +60,6 @@ defmodule Dnsimple.TemplatesTest do
         assert data.description == "An alpha template."
         assert data.created_at == "2016-03-22T11:08:58Z"
         assert data.updated_at == "2016-03-22T11:08:58Z"
-      end
-    end
-
-    test "it can be called using the alias .template", %{fixture: fixture, method: method} do
-      url = "#{@client.base_url}/v2/#{@account_id}/templates/alpha"
-
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.template(@client, @account_id, _template_id = "alpha")
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end
@@ -170,23 +153,15 @@ defmodule Dnsimple.TemplatesTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
-
-    test "it can be called using the alias .template_records", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.template_records(@client, @account_id, _template_id = 1)
-        assert response.__struct__ == Dnsimple.Response
-      end
-    end
   end
 
 
   describe ".get_template_record" do
-    setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/templates/268/records/301"
-      {:ok, fixture: "getTemplateRecord/success.http", method: "get", url: url}
-    end
+    test "returns the record in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/templates/268/records/301"
+      method  = "get"
+      fixture = "getTemplateRecord/success.http"
 
-    test "returns the record in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
         {:ok, response} = @module.get_template_record(@client, @account_id, template_id = 268, record_id = 301)
         assert response.__struct__ == Dnsimple.Response
@@ -202,13 +177,6 @@ defmodule Dnsimple.TemplatesTest do
         assert data.priority == 10
         assert data.created_at == "2016-05-03T08:03:26Z"
         assert data.updated_at == "2016-05-03T08:03:26Z"
-      end
-    end
-
-    test "it can be called using the alias .template_record", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.template_record(@client, @account_id, _template_id = 268, _record_id = 301)
-        assert response.__struct__ == Dnsimple.Response
       end
     end
   end

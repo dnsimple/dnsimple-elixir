@@ -27,8 +27,8 @@ defmodule Dnsimple.Service do
 
   @type t :: %__MODULE__{
     id: integer,
+    sid: String.t,
     name: String.t,
-    short_name: String.t,
     description: String.t,
     setup_description: String.t,
     default_subdomain: String.t,
@@ -38,7 +38,7 @@ defmodule Dnsimple.Service do
     updated_at: String.t,
   }
 
-  defstruct ~w(id name short_name description setup_description
+  defstruct ~w(id sid name description setup_description
                default_subdomain requires_setup settings
                created_at updated_at)a
 

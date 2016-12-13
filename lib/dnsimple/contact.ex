@@ -1,8 +1,9 @@
 defmodule Dnsimple.Contact do
   @moduledoc """
-  Represents a DNSimple contact.
+  Represents a contact.
 
-  See: https://developer.dnsimple.com/v2/contacts/
+  See:
+  - https://developer.dnsimple.com/v2/contacts/
   """
 
   @type t :: %__MODULE__{

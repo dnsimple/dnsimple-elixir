@@ -1,15 +1,16 @@
 defmodule Dnsimple.Certificate do
   @moduledoc """
-  Represents a DNSimple certificate.
+  Represents an SSL certificate.
 
   The `server`, `root` and `chain` attributes are only relevant for the
-  download endpoint accessible through `Dnsimple.Certificates.download_certificate`.
+  download endpoint accessible through `Dnsimple.Certificates.download_certificate/5`.
 
   The `private_key` attribute is only relevant for the private key endpoint
-  accessible through `Dnsimple.Certificates.get_certificate_private_key`.
+  accessible through `Dnsimple.Certificates.get_certificate_private_key/5`.
 
-  See https://developer.dnsimple.com/v2/certificates
-  See https://developer.dnsimple.com/v2/certificates/#certificate-attributes
+  See:
+  - https://developer.dnsimple.com/v2/certificates
+  - https://developer.dnsimple.com/v2/certificates/#certificate-attributes
   """
 
   @type t :: %__MODULE__{

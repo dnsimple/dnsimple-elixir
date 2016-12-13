@@ -1,9 +1,8 @@
 defmodule Dnsimple.Certificates do
   @moduledoc """
-  This module provides functions to interact with the SSL certificate related
-  endpoints.
-
-  See: https://developer.dnsimple.com/v2/domains/certificates/
+  Provides functions to interact with the
+  [SSL certificate related endpoints](https://developer.dnsimple.com/v2/domains/certificates/)
+  of the DNSimple API.
   """
 
   alias Dnsimple.Client
@@ -12,20 +11,18 @@ defmodule Dnsimple.Certificates do
   alias Dnsimple.Certificate
 
   @doc """
-  Returns the list of certificates for the domain.
+  List certificates for a domain in an account.
 
-  See: https://developer.dnsimple.com/v2/domains/certificates/#list
+  See:
+  - https://developer.dnsimple.com/v2/domains/certificates/#list
 
   ## Examples:
-
-    client     = %Dnsimple.Client{access_token: "a1b2c3d4"}
-    account_id = "1010"
-    domain_id  = "example.com"
-
-    Dnsimple.Certificates.list_certificates(client, account_id, domain_id)
-    Dnsimple.Certificates.list_certificates(client, account_id, domain_id, page: 2, per_page: 10)
-    Dnsimple.Certificates.list_certificates(client, account_id, domain_id, sort: "expires_on:desc")
-
+  ```
+  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+  Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com")
+  Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com", page: 2, per_page: 10)
+  Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com", sort: "expires_on:desc")
+  ```
   """
   @spec list_certificates(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def list_certificates(client, account_id, domain_id, options \\ []) do
@@ -37,18 +34,16 @@ defmodule Dnsimple.Certificates do
 
 
   @doc """
-  Returns the certificate data.
+  Returns information about a certificate.
 
-  See https://developer.dnsimple.com/v2/domains/certificates/#get
+  See:
+  - https://developer.dnsimple.com/v2/domains/certificates/#get
 
   ## Examples
-
-    client     = %Dnsimple.Client{access_token: "a1b2c3d4"}
-    account_id = "1010"
-    domain_id  = "example.com"
-
-    Dnsimple.Certificates.get_certificate(client, account_id, domain_id)
-
+  ```
+  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+  Dnsimple.Certificates.get_certificate(client, account_id = "1010", domain_id = "example.com")
+  ```
   """
   @spec get_certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def get_certificate(client, account_id, domain_id, certificate_id, options \\ []) do
@@ -60,18 +55,16 @@ defmodule Dnsimple.Certificates do
 
 
   @doc """
-  Returns the certificate.
+  Returns a certificate.
 
-  See https://developer.dnsimple.com/v2/domains/certificates/#download
+  See:
+  - https://developer.dnsimple.com/v2/domains/certificates/#download
 
   ## Examples
-
-    client     = %Dnsimple.Client{access_token: "a1b2c3d4"}
-    account_id = "1010"
-    domain_id  = "example.com"
-
-    Dnsimple.Certificates.download_certificate(client, account_id, domain_id)
-
+  ```
+  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+  Dnsimple.Certificates.download_certificate(client, account_id = "1010", domain_id = "example.com")
+  ```
   """
   @spec download_certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def download_certificate(client, account_id, domain_id, certificate_id, options \\ []) do
@@ -85,16 +78,14 @@ defmodule Dnsimple.Certificates do
   @doc """
   Returns a certificate's private key.
 
-  See https://developer.dnsimple.com/v2/domains/certificates/#get-private-key
+  See:
+  - https://developer.dnsimple.com/v2/domains/certificates/#get-private-key
 
   ## Examples
-
-    client     = %Dnsimple.Client{access_token: "a1b2c3d4"}
-    account_id = "1010"
-    domain_id  = "example.com"
-
-    Dnsimple.Certificates.get_certificate_private_key(client, account_id, domain_id)
-
+  ```
+  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+  Dnsimple.Certificates.get_certificate_private_key(client, account_id = "1010", domain_id = "example.com")
+  ```
   """
   @spec get_certificate_private_key(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def get_certificate_private_key(client, account_id, domain_id, certificate_id, options \\ []) do

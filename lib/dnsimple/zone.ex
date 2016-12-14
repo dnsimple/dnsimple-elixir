@@ -11,8 +11,8 @@ defmodule Dnsimple.Zone do
     account_id: integer,
     name: String.t,
     reverse: boolean,
-    created_at: String.t,
-    updated_at: String.t
+    created_at: DateTime.t,
+    updated_at: DateTime.t
   }
 
   defstruct ~w(id account_id name reverse created_at updated_at)a
@@ -33,4 +33,11 @@ defmodule Dnsimple.Zone do
     defstruct ~w(zone)a
 
   end
+end
+
+defimpl Poison.Decoder, for: Dnsimple.Zone do
+  use Dnsimple.Decoder.Timestamps
+
+  @spec decode(Dnsimple.Zone.t, Keyword.t) :: Dnsimple.Zone.t
+  def decode(entity, _), do: entity
 end

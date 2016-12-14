@@ -36,12 +36,19 @@ defmodule Dnsimple.Service do
     default_subdomain: String.t,
     requires_setup: boolean,
     settings: list,
-    created_at: String.t,
-    updated_at: String.t,
+    created_at: DateTime.t,
+    updated_at: DateTime.t,
   }
 
   defstruct ~w(id sid name description setup_description
                default_subdomain requires_setup settings
                created_at updated_at)a
 
+end
+
+defimpl Poison.Decoder, for: Dnsimple.Service do
+  use Dnsimple.Decoder.Timestamps
+
+  @spec decode(Dnsimple.Service.t, Keyword.t) :: Dnsimple.Service.t
+  def decode(entity, _), do: entity
 end

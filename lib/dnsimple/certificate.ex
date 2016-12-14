@@ -24,9 +24,9 @@ defmodule Dnsimple.Certificate do
     state: String.t,
     authority_identifier: String.t,
     auto_renew: boolean,
-    created_at: String.t,
-    updated_at: String.t,
-    expires_on: String.t,
+    created_at: DateTime.t,
+    updated_at: DateTime.t,
+    expires_on: Date.t,
 
     private_key: String.t,
     server: String.t,
@@ -39,4 +39,12 @@ defmodule Dnsimple.Certificate do
                created_at updated_at expires_on
                server root chain private_key)a
 
+end
+
+defimpl Poison.Decoder, for: Dnsimple.Certificate do
+  use Dnsimple.Decoder.Timestamps
+  use Dnsimple.Decoder.Expires
+
+  @spec decode(Dnsimple.Certificate.t, Keyword.t) :: Dnsimple.Certificate.t
+  def decode(entity, _), do: entity
 end

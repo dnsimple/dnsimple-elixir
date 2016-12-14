@@ -11,11 +11,18 @@ defmodule Dnsimple.Template do
     account_id: integer,
     name: String.t,
     description: String.t,
-    created_at: String.t,
-    updated_at: String.t,
+    created_at: DateTime.t,
+    updated_at: DateTime.t,
   }
 
   defstruct ~w(id sid account_id name description
                created_at updated_at)a
 
+end
+
+defimpl Poison.Decoder, for: Dnsimple.Template do
+  use Dnsimple.Decoder.Timestamps
+
+  @spec decode(Dnsimple.Template.t, Keyword.t) :: Dnsimple.Template.t
+  def decode(entity, _), do: entity
 end

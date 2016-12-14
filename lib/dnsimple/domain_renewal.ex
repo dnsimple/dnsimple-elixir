@@ -11,11 +11,18 @@ defmodule Dnsimple.DomainRenewal do
     period: integer,
     state: String.t,
     premium_price: String.t,
-    created_at: String.t,
-    updated_at: String.t,
+    created_at: DateTime.t,
+    updated_at: DateTime.t,
   }
 
   defstruct ~w(id domain_id period state premium_price
                created_at updated_at)a
 
+end
+
+defimpl Poison.Decoder, for: Dnsimple.DomainRenewal do
+  use Dnsimple.Decoder.Timestamps
+
+  @spec decode(Dnsimple.DomainRenewal.t, Keyword.t) :: Dnsimple.DomainRenewal.t
+  def decode(entity, _), do: entity
 end

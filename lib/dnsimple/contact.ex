@@ -22,12 +22,19 @@ defmodule Dnsimple.Contact do
     country: String.t,
     job_title: String.t,
     organization_name: String.t,
-    created_at: String.t,
-    updated_at: String.t,
+    created_at: DateTime.t,
+    updated_at: DateTime.t,
   }
 
   defstruct ~w(id account_id label first_name last_name email phone fax
                address1 address2 city state_province postal_code country
                job_title organization_name created_at updated_at)a
 
+end
+
+defimpl Poison.Decoder, for: Dnsimple.Contact do
+  use Dnsimple.Decoder.Timestamps
+
+  @spec decode(Dnsimple.Contact.t, Keyword.t) :: Dnsimple.Contact.t
+  def decode(entity, _), do: entity
 end

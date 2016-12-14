@@ -14,11 +14,18 @@ defmodule Dnsimple.DomainRegistration do
     auto_renew: boolean,
     whois_privacy: boolean,
     premium_price: String.t,
-    created_at: String.t,
-    updated_at: String.t,
+    created_at: DateTime.t,
+    updated_at: DateTime.t,
   }
 
   defstruct ~w(id domain_id registrant_id period state auto_renew whois_privacy
                premium_price expires_on created_at updated_at)a
 
+end
+
+defimpl Poison.Decoder, for: Dnsimple.DomainRegistration do
+  use Dnsimple.Decoder.Timestamps
+
+  @spec decode(Dnsimple.DomainRegistration.t, Keyword.t) :: Dnsimple.DomainRegistration.t
+  def decode(entity, _), do: entity
 end

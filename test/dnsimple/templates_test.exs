@@ -58,8 +58,8 @@ defmodule Dnsimple.TemplatesTest do
         assert data.account_id == @account_id
         assert data.name == "Alpha"
         assert data.description == "An alpha template."
-        assert data.created_at == "2016-03-22T11:08:58Z"
-        assert data.updated_at == "2016-03-22T11:08:58Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-03-22T11:08:58Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-03-22T11:08:58Z"
       end
     end
   end
@@ -175,8 +175,8 @@ defmodule Dnsimple.TemplatesTest do
         assert data.content == "mx.example.com"
         assert data.ttl == 600
         assert data.priority == 10
-        assert data.created_at == "2016-05-03T08:03:26Z"
-        assert data.updated_at == "2016-05-03T08:03:26Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-05-03T08:03:26Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-05-03T08:03:26Z"
       end
     end
   end

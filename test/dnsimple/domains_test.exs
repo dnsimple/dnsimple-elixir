@@ -208,8 +208,8 @@ defmodule Dnsimple.DomainsTest do
         assert data.domain_id == 228963
         assert data.from == "jim@a-domain.com"
         assert data.to == "jim@another.com"
-        assert data.created_at == "2016-02-04T14:26:50Z"
-        assert data.updated_at == "2016-02-04T14:26:50Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-02-04T14:26:50Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-02-04T14:26:50Z"
       end
     end
   end
@@ -268,8 +268,8 @@ defmodule Dnsimple.DomainsTest do
         assert data.contact_id == nil
         assert data.account_id == 2020
         assert data.accepted_at == nil
-        assert data.created_at == "2016-08-11T10:16:03Z"
-        assert data.updated_at == "2016-08-11T10:16:03Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-08-11T10:16:03Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-08-11T10:16:03Z"
       end
     end
   end
@@ -356,9 +356,9 @@ defmodule Dnsimple.DomainsTest do
         assert data.domain_name == "example.com"
         assert data.user_id == 999
         assert data.user_email == "existing-user@example.com"
-        assert data.accepted_at == "2016-10-07T08:53:41Z"
-        assert data.created_at == "2016-10-07T08:53:41Z"
-        assert data.updated_at == "2016-10-07T08:53:41Z"
+        assert DateTime.to_iso8601(data.accepted_at) == "2016-10-07T08:53:41Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-10-07T08:53:41Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-10-07T08:53:41Z"
       end
     end
   end

@@ -57,8 +57,8 @@ defmodule Dnsimple.ZonesTest do
         assert data.account_id == @account_id
         assert data.name == "example-alpha.com"
         assert data.reverse == false
-        assert data.created_at == "2015-04-23T07:40:03Z"
-        assert data.updated_at == "2015-04-23T07:40:03Z"
+        assert DateTime.to_iso8601(data.created_at) == "2015-04-23T07:40:03Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2015-04-23T07:40:03Z"
       end
     end
   end
@@ -144,8 +144,8 @@ defmodule Dnsimple.ZonesTest do
         assert data.priority == 10
         assert data.system_record == false
         assert data.regions == ["SV1", "IAD"]
-        assert data.created_at == "2016-10-05T09:51:35Z"
-        assert data.updated_at == "2016-10-05T09:51:35Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-10-05T09:51:35Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-10-05T09:51:35Z"
       end
     end
   end
@@ -175,8 +175,8 @@ defmodule Dnsimple.ZonesTest do
         assert data.priority == nil
         assert data.system_record == false
         assert data.regions == ["global"]
-        assert data.created_at == "2016-01-07T17:45:13Z"
-        assert data.updated_at == "2016-01-07T17:45:13Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-01-07T17:45:13Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-01-07T17:45:13Z"
       end
     end
   end
@@ -206,8 +206,8 @@ defmodule Dnsimple.ZonesTest do
         assert data.priority == 20
         assert data.system_record == false
         assert data.regions == ["global"]
-        assert data.created_at == "2016-10-05T09:51:35Z"
-        assert data.updated_at == "2016-10-05T09:51:35Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-10-05T09:51:35Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-10-05T09:51:35Z"
       end
     end
   end

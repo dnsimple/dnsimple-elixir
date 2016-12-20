@@ -2,8 +2,9 @@ defmodule Dnsimple.OauthToken do
   @moduledoc """
   Represents an OAuth token.
 
-  See https://developer.dnsimple.com/v2/oauth/
-  See https://developer.dnsimple.com/v2/oauth/#step-2---access-token
+  See:
+  - https://developer.dnsimple.com/v2/oauth/
+  - https://developer.dnsimple.com/v2/oauth/#step-2---access-token
   """
 
   @type t :: %__MODULE__{

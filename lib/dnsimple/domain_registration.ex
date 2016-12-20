@@ -2,7 +2,8 @@ defmodule Dnsimple.DomainRegistration do
   @moduledoc """
   Represents a domain registration.
 
-  See https://developer.dnsimple.com/v2/registrar/#register
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#register
   """
 
   @type t :: %__MODULE__{

@@ -8,14 +8,14 @@ defmodule Dnsimple.Identity do
   @doc """
   Returns information about the currently authenticated user and/or account.
 
-  See: https://developer.dnsimple.com/v2/identity/#whoami
+  See:
+  - https://developer.dnsimple.com/v2/identity/#whoami
 
   ## Examples:
-
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Identity.whoami(client)
-
+  ```
+  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+  Dnsimple.Identity.whoami(client)
+  ```
   """
   @spec whoami(Client.t, Keyword.t) :: Response.t
   def whoami(client, options \\ []) do

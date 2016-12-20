@@ -2,7 +2,8 @@ defmodule Dnsimple.EmailForward do
   @moduledoc """
   Represents an email forward.
 
-  See: https://developer.dnsimple.com/v2/domains/email-forwards/
+  See:
+  - https://developer.dnsimple.com/v2/domains/email-forwards/
   """
 
   @type t :: %__MODULE__{

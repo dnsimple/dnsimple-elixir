@@ -2,7 +2,8 @@ defmodule Dnsimple.DomainTransfer do
   @moduledoc """
   Represents a domain transfer.
 
-  See https://developer.dnsimple.com/v2/registrar/#transfer
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#transfer
   """
   @type t :: %__MODULE__{
     id: integer,

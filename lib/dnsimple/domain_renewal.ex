@@ -2,7 +2,8 @@ defmodule Dnsimple.DomainRenewal do
   @moduledoc """
   Represents a domain renewal.
 
-  See https://developer.dnsimple.com/v2/registrar/#renew
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#renew
   """
 
   @type t :: %__MODULE__{

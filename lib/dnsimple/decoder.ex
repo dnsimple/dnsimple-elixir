@@ -1,8 +1,8 @@
 defmodule Dnsimple.Decoder.Timestamps do
   @moduledoc """
   When working with API responses containing the ususal timestamps:
-  - created_at
-  - updated_at
+  - `created_at`
+  - `updated_at`
   in ISO8601 ("2014-12-06T15:56:55Z") this module defines a macro to use to add the decoding implementations.
 
   The protocol implementation MUST still define its own `decode/2` function.

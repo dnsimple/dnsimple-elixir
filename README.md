@@ -58,6 +58,17 @@ client = %Dnsimple.Client{access_token: "TOKEN", base_url: "https://api.sandbox.
 Dnsimple.Identity.whoami(client)
 ```
 
+## Sandbox Environment
+
+We highly recommend testing against our [sandbox environment](https://developer.dnsimple.com/sandbox/) before using our production environment. This will allow you to avoid real purchases, live charges on your credit card, and reduce the chance of your running up against rate limits.
+
+The client supports both the production and sandbox environment. To switch to sandbox pass the sandbox API host using the `base_url` option when you construct the client:
+
+```elixir
+client = %Dnsimple::Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
+```
+
+You will need to ensure that you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
 
 ## License
 

@@ -80,6 +80,7 @@ defmodule Dnsimple.DomainsTest do
         assert data.__struct__ == Dnsimple.Domain
         assert data.id == 1
         assert data.name == "example-alpha.com"
+        assert data.unicode_name == "example-alpha.com"
       end
     end
   end

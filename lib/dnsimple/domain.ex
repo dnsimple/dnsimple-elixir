@@ -11,6 +11,7 @@ defmodule Dnsimple.Domain do
     account_id: integer,
     registrant_id: integer,
     name: String.t,
+    unicode_name: String.t,
     token: String.t,
     state: String.t,
     auto_renew: boolean,
@@ -20,7 +21,7 @@ defmodule Dnsimple.Domain do
     updated_at: DateTime.t,
   }
 
-  defstruct ~w(id account_id registrant_id name token state auto_renew
+  defstruct ~w(id account_id registrant_id name unicode_name token state auto_renew
                private_whois expires_on created_at updated_at)a
 
 end

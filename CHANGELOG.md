@@ -1,6 +1,7 @@
 # Changelog
 
 #### master
+ - NEW: Added `unicode_name` to `Dnsimple.Domain` struct (GH-104)
 
 #### Release 1.0.0
 

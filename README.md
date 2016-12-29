@@ -70,6 +70,16 @@ client = %Dnsimple::Client{base_url: "https://api.sandbox.dnsimple.com", access_
 
 You will need to ensure that you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
 
+## Setting a custom `User-Agent` header
+
+You customize the `User-Agent` header for the calls made to the DNSimple API:
+
+```elixir
+client = %Dnsimple::Client{user_agent: "my-app", access_token: "a1b2c3"}
+```
+
+Note that the value you provide will be appended to the default `User-Agent` the client uses. So, if you use `my-app`, the final header value will be something like `dnsimple-elixir/1.0 my-app`.
+
 ## License
 
 Copyright (c) 2015-2016 Aetrion LLC. This is Free Software distributed under the MIT license.

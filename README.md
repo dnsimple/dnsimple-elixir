@@ -78,7 +78,7 @@ You customize the `User-Agent` header for the calls made to the DNSimple API:
 client = %Dnsimple::Client{user_agent: "my-app", access_token: "a1b2c3"}
 ```
 
-Note that the value you provide will be appended to the default `User-Agent` the client uses. So, if you use `my-app`, the final header value will be something like `dnsimple-elixir/1.0 my-app`.
+The value you provide will be appended to the default `User-Agent` the client uses. For example, if you use `my-app`, the final header value will be `dnsimple-elixir/1.0 my-app` (note that it will vary depending on the client version).
 
 ## License
 

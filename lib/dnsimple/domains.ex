@@ -143,7 +143,7 @@ defmodule Dnsimple.Domains do
   def reset_domain_token(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/token")
 
-    Client.post(client, url, Client.empty_body, options)
+    Client.post(client, url, Client.empty_body(), options)
     |> Response.parse(%{"data" => %Domain{}})
   end
 

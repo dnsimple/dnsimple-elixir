@@ -234,7 +234,7 @@ defmodule Dnsimple.Templates do
   def apply_template(client, account_id, domain_id, template_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/templates/#{template_id}")
 
-    Client.post(client, url, Client.empty_body, options)
+    Client.post(client, url, Client.empty_body(), options)
     |> Response.parse(nil)
   end
 

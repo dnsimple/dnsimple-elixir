@@ -75,7 +75,7 @@ iex(2)> Dnsimple.Identity.whoami(client)
   rate_limit_reset: 1482745464}}
 ```
 
-The log level used for this is `debug`. If you want to disable the logging you will have to configure the logging level of your app.
+The log level used for this is `debug`. If you want to disable it you will have to configure the logging level of your app (as it's set to `debug` level by default).
 
 ```elixir
 config :logger, level: :info

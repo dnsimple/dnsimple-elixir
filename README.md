@@ -58,6 +58,30 @@ client = %Dnsimple.Client{access_token: "TOKEN", base_url: "https://api.sandbox.
 Dnsimple.Identity.whoami(client)
 ```
 
+
+## Logging
+
+The client logs the requests made to the DNSimple API:
+
+```
+iex(2)> Dnsimple.Identity.whoami(client)
+
+09:45:08.229 [debug] [dnsimple] GET https://api.sandbox.dnsimple.com/v2/whoami
+{:ok,
+ %Dnsimple.Response{data: %Dnsimple.Whoami{account: %Dnsimple.Account{email: "javier@dnsimple.com",
+    id: 63, plan_identifier: "dnsimple-professional"}, user: nil},
+  http_response: %HTTPoison.Response{...},
+  pagination: nil, rate_limit: 2400, rate_limit_remaining: 2398,
+  rate_limit_reset: 1482745464}}
+```
+
+The log level used for this is `debug`. If you want to disable it you will have to configure the logging level of your app (as it's set to `debug` level by default).
+
+```elixir
+config :logger, level: :info
+```
+
+
 ## Sandbox Environment
 
 We highly recommend testing against our [sandbox environment](https://developer.dnsimple.com/sandbox/) before using our production environment. This will allow you to avoid real purchases, live charges on your credit card, and reduce the chance of your running up against rate limits.
@@ -70,6 +94,7 @@ client = %Dnsimple::Client{base_url: "https://api.sandbox.dnsimple.com", access_
 
 You will need to ensure that you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
 
+
 ## Setting a custom `User-Agent` header
 
 You customize the `User-Agent` header for the calls made to the DNSimple API:
@@ -79,6 +104,7 @@ client = %Dnsimple::Client{user_agent: "my-app", access_token: "a1b2c3"}
 ```
 
 The value you provide will be appended to the default `User-Agent` the client uses. For example, if you use `my-app`, the final header value will be `dnsimple-elixir/1.0 my-app` (note that it will vary depending on the client version).
+
 
 ## License
 

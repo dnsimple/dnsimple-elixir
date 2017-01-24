@@ -292,7 +292,7 @@ defmodule Dnsimple.Domains do
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
       Dnsimple.Domains.accept_push(client, account_id = 1010, push_id = 6789, %{
-        contact_id: 123,
+        contact_id: 123
       })
 
   """

@@ -1,7 +1,7 @@
 defmodule Dnsimple.Templates do
   @moduledoc """
   Provides functions to interact with the
-  [template related endpoints](https://developer.dnsimple.com/v2/services/)
+  [template endpoints](https://developer.dnsimple.com/v2/services/)
   of the DNSimple API.
 
   See:

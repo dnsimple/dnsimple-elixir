@@ -1,7 +1,7 @@
 defmodule Dnsimple.Registrar do
   @moduledoc """
   Provides functions to interact with the
-  [registrar related endpoints](https://developer.dnsimple.com/v2/registrar/)
+  [registrar endpoints](https://developer.dnsimple.com/v2/registrar/)
   of the DNSimple API.
 
   See:

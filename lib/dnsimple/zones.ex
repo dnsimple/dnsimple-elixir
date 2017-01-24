@@ -178,7 +178,9 @@ defmodule Dnsimple.Zones do
 
 
   @doc """
-  PERMANENTLY deletes a record from the zone.
+  Deletes a record from the zone.
+
+  **Warning**: this is a destructive operation.
 
   See:
   - https://developer.dnsimple.com/v2/zones/records/#delete

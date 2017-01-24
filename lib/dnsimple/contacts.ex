@@ -108,7 +108,9 @@ defmodule Dnsimple.Contacts do
 
 
   @doc """
-  Deletes a contact in an account.
+  Deletes a contact from an account.
+
+  **Warning**: this is a destructive operation.
 
   See:
   - https://developer.dnsimple.com/v2/contacts/#delete

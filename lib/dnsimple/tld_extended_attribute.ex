@@ -2,14 +2,16 @@ defmodule Dnsimple.TldExtendedAttribute do
   @moduledoc """
   Represents an extended attribute of a TLD.
 
-  See: https://developer.dnsimple.com/v2/tlds/#extended-attributes
+  See:
+  - https://developer.dnsimple.com/v2/tlds/#extended-attributes
   """
 
   defmodule Option do
     @moduledoc """
     Represents one of the accepted values for an extended attribute of a TLD.
 
-    See: https://developer.dnsimple.com/v2/tlds/#extended-attributes
+    See:
+    - https://developer.dnsimple.com/v2/tlds/#extended-attributes
     """
 
     @type t :: %__MODULE__{

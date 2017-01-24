@@ -2,14 +2,16 @@ defmodule Dnsimple.Service do
   @moduledoc """
   Represents a one-click service.
 
-  See https://developer.dnsimple.com/v2/services
+  See:
+  - https://developer.dnsimple.com/v2/services
   """
 
   defmodule Setting do
     @moduledoc """
     Represents a one-click service setting.
 
-    See https://developer.dnsimple.com/v2/services
+    See:
+    - https://developer.dnsimple.com/v2/services
     """
 
     @type t :: %__MODULE__{

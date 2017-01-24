@@ -2,7 +2,8 @@ defmodule Dnsimple.Push do
   @moduledoc """
   Represents a push of a domain from an account to another.
 
-  See: https://developer.dnsimple.com/v2/domains/pushes/
+  See:
+  - https://developer.dnsimple.com/v2/domains/pushes/
   """
 
   @type t :: %__MODULE__{

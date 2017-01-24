@@ -2,7 +2,8 @@ defmodule Dnsimple.TemplateRecord do
   @moduledoc """
   Represents a template record.
 
-  See: https://developer.dnsimple.com/v2/templates/records/
+  See:
+  - https://developer.dnsimple.com/v2/templates/records/
   """
 
   @type t :: %__MODULE__{

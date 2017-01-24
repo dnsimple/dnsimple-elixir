@@ -1,8 +1,7 @@
 defmodule Dnsimple.Zones do
   @moduledoc """
   Provides functions to interact with the
-  [zone endpoints](https://developer.dnsimple.com/v2/zones/)
-  of the DNSimple API.
+  [zone endpoints](https://developer.dnsimple.com/v2/zones/).
 
   See:
   - https://developer.dnsimple.com/v2/zones/

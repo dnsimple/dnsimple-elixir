@@ -1,8 +1,7 @@
 defmodule Dnsimple.Certificates do
   @moduledoc """
   Provides functions to interact with the
-  [SSL certificate endpoints](https://developer.dnsimple.com/v2/domains/certificates/)
-  of the DNSimple API.
+  [SSL certificate endpoints](https://developer.dnsimple.com/v2/domains/certificates/).
   """
 
   alias Dnsimple.Client

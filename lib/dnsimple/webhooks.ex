@@ -1,8 +1,7 @@
 defmodule Dnsimple.Webhooks do
   @moduledoc """
   Provides functions to interact with the
-  [webhook endpoints](https://developer.dnsimple.com/v2/webhooks/)
-  of the DNSimple API.
+  [webhook endpoints](https://developer.dnsimple.com/v2/webhooks/).
 
   See:
   - https://developer.dnsimple.com/v2/webhooks/

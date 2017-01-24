@@ -1,8 +1,7 @@
 defmodule Dnsimple.Contacts do
   @moduledoc """
   Provides functions to interact with the
-  [contact endpoints](https://developer.dnsimple.com/v2/contacts/)
-  of the DNSimple API.
+  [contact endpoints](https://developer.dnsimple.com/v2/contacts/).
   """
 
   alias Dnsimple.Client

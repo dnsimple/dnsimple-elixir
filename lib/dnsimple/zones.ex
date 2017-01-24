@@ -14,7 +14,6 @@ defmodule Dnsimple.Zones do
   alias Dnsimple.Zone
   alias Dnsimple.ZoneRecord
 
-
   @doc """
   Returns the zones in the account.
 

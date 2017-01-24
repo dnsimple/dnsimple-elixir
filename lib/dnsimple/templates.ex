@@ -109,7 +109,9 @@ defmodule Dnsimple.Templates do
 
 
   @doc """
-  PERMANENTLY deletes an existing template.
+  Deletes a template.
+
+  **Warning**: this is a destructive operation.
 
   See:
   - https://developer.dnsimple.com/v2/templates/#delete
@@ -200,7 +202,9 @@ defmodule Dnsimple.Templates do
 
 
   @doc """
-  PERMANENTLY deletes a record from the template.
+  Deletes a record from a template.
+
+  **Warning**: this is a destructive operation.
 
   See:
   - https://developer.dnsimple.com/v2/templates/records/#delete

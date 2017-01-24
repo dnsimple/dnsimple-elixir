@@ -79,7 +79,9 @@ defmodule Dnsimple.Webhooks do
 
 
   @doc """
-  PERMANENTLY deletes a webhook.
+  Deletes a webhook.
+
+  **Warning**: this is a destructive operation.
 
   See:
   - https://developer.dnsimple.com/v2/webhooks/#delete

@@ -103,7 +103,9 @@ defmodule Dnsimple.Domains do
 
 
   @doc """
-  Permanently deletes a domain from an account.
+  Deletes a domain from an account.
+
+  **Warning**: this is a destructive operation.
 
   See:
   - https://developer.dnsimple.com/v2/domains/#delete
@@ -217,6 +219,8 @@ defmodule Dnsimple.Domains do
 
   @doc """
   Deletes an email forward of a domain.
+
+  **Warning**: this is a destructive operation.
 
   See:
   - https://developer.dnsimple.com/v2/domains/email-forwards/#delete

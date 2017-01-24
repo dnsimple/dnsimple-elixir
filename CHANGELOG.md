@@ -1,6 +1,7 @@
 # Changelog
 
 #### master
+ - NEW: Fix compilation warnings on Elixir 1.4.0 (GH-106)
  - NEW: Added `unicode_name` to `Dnsimple.Domain` struct (GH-104)
 
 #### Release 1.0.0

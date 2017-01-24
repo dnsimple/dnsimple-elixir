@@ -1,8 +1,7 @@
 defmodule Dnsimple.Accounts do
   @moduledoc """
   Provides functions to interact with the
-  [account endpoints](https://developer.dnsimple.com/v2/accounts/)
-  of the DNSimple API.
+  [account endpoints](https://developer.dnsimple.com/v2/accounts/).
   """
 
   alias Dnsimple.Client

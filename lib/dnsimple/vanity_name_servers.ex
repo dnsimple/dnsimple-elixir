@@ -1,8 +1,7 @@
 defmodule Dnsimple.VanityNameServers do
   @moduledoc """
   Provides functions to interact with the
-  [vanity name server endpoints](https://developer.dnsimple.com/v2/vanity/)
-  of the DNSimple API.
+  [vanity name server endpoints](https://developer.dnsimple.com/v2/vanity/).
 
   See:
   - https://developer.dnsimple.com/v2/vanity/

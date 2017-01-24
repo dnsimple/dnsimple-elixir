@@ -1,8 +1,7 @@
 defmodule Dnsimple.Tlds do
   @moduledoc """
   Provides functions to interact with the
-  [TLD endpoints](https://developer.dnsimple.com/v2/tlds/)
-  of the DNSimple API.
+  [TLD endpoints](https://developer.dnsimple.com/v2/tlds/).
 
   See:
   - https://developer.dnsimple.com/v2/tlds/

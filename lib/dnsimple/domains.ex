@@ -1,8 +1,7 @@
 defmodule Dnsimple.Domains do
   @moduledoc """
   Provides functions to interact with the
-  [domain endpoints](https://developer.dnsimple.com/v2/domains/)
-  of the DNSimple API.
+  [domain endpoints](https://developer.dnsimple.com/v2/domains/).
   """
 
   alias Dnsimple.Client

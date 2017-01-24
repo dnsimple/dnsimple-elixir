@@ -26,7 +26,7 @@ defmodule Dnsimple.VanityNameServers do
   def enable_vanity_name_servers(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/vanity/#{domain_id}")
 
-    Client.put(client, url, Client.empty_body, options)
+    Client.put(client, url, Client.empty_body(), options)
     |> Response.parse(%{"data" => [%VanityNameServer{}]})
   end
 

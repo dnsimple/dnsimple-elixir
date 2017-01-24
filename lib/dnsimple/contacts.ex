@@ -17,12 +17,12 @@ defmodule Dnsimple.Contacts do
   - https://developer.dnsimple.com/v2/contacts/#list
 
   ## Examples:
-  ```
-  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-  Dnsimple.Contacts.list_contacts(client, account_id = "1010")
-  Dnsimple.Contacts.list_contacts(client, account_id = "1010")
-  Dnsimple.Contacts.list_contacts(client, account_id = "1010", sort: "email:desc")
-  ```
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      Dnsimple.Contacts.list_contacts(client, account_id = "1010")
+      Dnsimple.Contacts.list_contacts(client, account_id = "1010")
+      Dnsimple.Contacts.list_contacts(client, account_id = "1010", sort: "email:desc")
+
   """
   @spec list_contacts(Client.t, String.t | integer) :: Response.t
   def list_contacts(client, account_id, options \\ []) do
@@ -40,10 +40,10 @@ defmodule Dnsimple.Contacts do
   - https://developer.dnsimple.com/v2/contacts/#get
 
   ## Examples:
-  ```
-  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-  Dnsimple.Contacts.get_contact(client, account_id = "1010", contact_id = "123")
-  ```
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      Dnsimple.Contacts.get_contact(client, account_id = "1010", contact_id = "123")
+
   """
   @spec get_contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def get_contact(client, account_id, contact_id, options \\ []) do
@@ -61,21 +61,21 @@ defmodule Dnsimple.Contacts do
   - https://developer.dnsimple.com/v2/contacts/#create
 
   ## Examples:
-  ```
-  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-  Dnsimple.Contacts.create_contact(client, account_id = "1010", %{
-    first_name: "John",
-    last_name: "Doe",
-    address1: "Italian street, 10",
-    city: "Roma",
-    state_province: "RM",
-    postal_code: "00100",
-    country: "IT",
-    email: "john.doe@email.com",
-    phone: "+18001234567",
-    fax: "+18011234567",
-  })
-  ```
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      Dnsimple.Contacts.create_contact(client, account_id = "1010", %{
+        first_name: "John",
+        last_name: "Doe",
+        address1: "Italian street, 10",
+        city: "Roma",
+        state_province: "RM",
+        postal_code: "00100",
+        country: "IT",
+        email: "john.doe@email.com",
+        phone: "+18001234567",
+        fax: "+18011234567",
+      })
+
   """
   @spec create_contact(Client.t, String.t | integer, Keyword.t, Keyword.t) :: Response.t
   def create_contact(client, account_id, attributes, options \\ []) do
@@ -93,12 +93,12 @@ defmodule Dnsimple.Contacts do
   - https://developer.dnsimple.com/v2/contacts/#update
 
   ## Examples:
-  ```
-  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-  Dnsimple.Contacts.update_contact(client, account_id = "1010", contact_id = "123", %{
-    email: "johndoe@email-provider.com",
-  })
-  ```
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      Dnsimple.Contacts.update_contact(client, account_id = "1010", contact_id = "123", %{
+        email: "johndoe@email-provider.com",
+      })
+
   """
   @spec update_contact(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: Response.t
   def update_contact(client, account_id, contact_id, attributes, options \\ []) do
@@ -116,9 +116,10 @@ defmodule Dnsimple.Contacts do
   - https://developer.dnsimple.com/v2/contacts/#delete
 
   ## Examples:
-  ```
-  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-  Dnsimple.Contacts.delete_contact(client, account_id = "1010", contact_id = "123")
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      Dnsimple.Contacts.delete_contact(client, account_id = "1010", contact_id = "123")
+
   """
   @spec delete_contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def delete_contact(client, account_id, contact_id, options \\ []) do

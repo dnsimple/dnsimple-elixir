@@ -1,4 +1,13 @@
 defmodule Dnsimple.Identity do
+  @moduledoc """
+  Provides functions to interact with the
+  [identity related endpoints](https://developer.dnsimple.com/v2/identity/)
+  of the DNSimple API.
+
+  See:
+  - https://developer.dnsimple.com/v2/identity/
+  """
+
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.Whoami
@@ -12,10 +21,10 @@ defmodule Dnsimple.Identity do
   - https://developer.dnsimple.com/v2/identity/#whoami
 
   ## Examples:
-  ```
-  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-  Dnsimple.Identity.whoami(client)
-  ```
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      Dnsimple.Identity.whoami(client)
+
   """
   @spec whoami(Client.t, Keyword.t) :: Response.t
   def whoami(client, options \\ []) do

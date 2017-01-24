@@ -2,7 +2,8 @@ defmodule Dnsimple.VanityNameServer do
   @moduledoc """
   Represents a vanity name server.
 
-  See: https://developer.dnsimple.com/v2/vanity/
+  See:
+  - https://developer.dnsimple.com/v2/vanity/
   """
 
   @type t :: %__MODULE__{

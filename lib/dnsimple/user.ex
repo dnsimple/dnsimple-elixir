@@ -2,7 +2,8 @@ defmodule Dnsimple.User do
   @moduledoc """
   Represents a user.
 
-  See: https://developer.dnsimple.com/v2/identity/
+  See:
+  - https://developer.dnsimple.com/v2/identity/
   """
 
   @type t :: %__MODULE__{

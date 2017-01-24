@@ -10,10 +10,10 @@ defmodule Dnsimple.Oauth do
   - https://developer.dnsimple.com/v2/oauth/#step-1---authorization
 
   ## Examples:
-  ```
-  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-  Dnsimple.Oauth.authorize_url(client, client_id = "1z2y3x", state: "12345678")
-  ```
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      Dnsimple.Oauth.authorize_url(client, client_id = "1z2y3x", state: "12345678")
+
   """
   @spec authorize_url(Client.t, String.t, Keyword.t) :: String.t
   def authorize_url(client, client_id, query \\ []) do
@@ -31,15 +31,15 @@ defmodule Dnsimple.Oauth do
   - https://developer.dnsimple.com/v2/oauth/#step-2---access-token
 
   ## Examples:
-  ```
-  client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-  Dnsimple.Oauth.exchange_authorization_for_token(client, %{
-    code: "authorization_code",
-    state: "12345678",
-    client_id: "1z2y3x",
-    client_secret: "xXxXxX",
-  })
-  ```
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      Dnsimple.Oauth.exchange_authorization_for_token(client, %{
+        code: "authorization_code",
+        state: "12345678",
+        client_id: "1z2y3x",
+        client_secret: "xXxXxX",
+      })
+
   """
   @spec exchange_authorization_for_token(Client.t, Map.t, Keyword.t) :: String.t
   def exchange_authorization_for_token(client, attributes, options \\ []) do

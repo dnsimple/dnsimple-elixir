@@ -1,7 +1,7 @@
 defmodule Dnsimple.Identity do
   @moduledoc """
   Provides functions to interact with the
-  [identity related endpoints](https://developer.dnsimple.com/v2/identity/)
+  [identity endpoints](https://developer.dnsimple.com/v2/identity/)
   of the DNSimple API.
 
   See:

@@ -2,8 +2,9 @@ defmodule Dnsimple.ZoneRecord do
   @moduledoc """
   Represents a record of a zone.
 
-  See: https://developer.dnsimple.com/v2/zones/records
-  See: https://developer.dnsimple.com/v2/zones/records/#zone-record-regions
+  See:
+  - https://developer.dnsimple.com/v2/zones/records
+  - https://developer.dnsimple.com/v2/zones/records/#zone-record-regions
   """
 
   @type t :: %__MODULE__{

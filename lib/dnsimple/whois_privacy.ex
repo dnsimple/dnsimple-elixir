@@ -1,8 +1,9 @@
 defmodule Dnsimple.WhoisPrivacy do
   @moduledoc """
-  Represents the whois privacy service of a domain.
+  Represents the whois privacy of a domain.
 
-  See https://developer.dnsimple.com/v2/registrar/whois-privacy/
+  See:
+  - https://developer.dnsimple.com/v2/registrar/whois-privacy/
   """
 
   @type t :: %__MODULE__{

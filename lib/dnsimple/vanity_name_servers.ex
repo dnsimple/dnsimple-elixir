@@ -1,9 +1,11 @@
 defmodule Dnsimple.VanityNameServers do
   @moduledoc """
-  This module provides functions to interact with the vanity name server
-  related endpoints.
+  Provides functions to interact with the
+  [vanity name server endpoints](https://developer.dnsimple.com/v2/vanity/)
+  of the DNSimple API.
 
-  See: https://developer.dnsimple.com/v2/vanity/
+  See:
+  - https://developer.dnsimple.com/v2/vanity/
   """
 
   alias Dnsimple.Client
@@ -11,15 +13,15 @@ defmodule Dnsimple.VanityNameServers do
   alias Dnsimple.VanityNameServer
 
   @doc """
-  Enables and returns vanity name servers for the domain.
+  Enables vanity name servers for the domain.
 
-  See https://developer.dnsimple.com/v2/vanity/#enable
+  See:
+  - https://developer.dnsimple.com/v2/vanity/#enable
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.VanityNameServers.enable_vanity_name_servers(client, account_id = 1010, domain_id = "example.com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      Dnsimple.VanityNameServers.enable_vanity_name_servers(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec enable_vanity_name_servers(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -34,13 +36,13 @@ defmodule Dnsimple.VanityNameServers do
   @doc """
   Disables vanity name servers for the domain.
 
-  See https://developer.dnsimple.com/v2/vanity/#disable
+  See:
+  - https://developer.dnsimple.com/v2/vanity/#disable
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.VanityNameServers.disable_vanity_name_servers(client, account_id = 1010, domain_id = "example.com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      Dnsimple.VanityNameServers.disable_vanity_name_servers(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec disable_vanity_name_servers(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t

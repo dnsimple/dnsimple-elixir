@@ -2,7 +2,8 @@ defmodule Dnsimple.Webhook do
   @moduledoc """
   Represents a DNSimple webhook
 
-  See https://developer.dnsimple.com/v2/webhooks
+  See:
+  - https://developer.dnsimple.com/v2/webhooks
   """
 
   @type t :: %__MODULE__{

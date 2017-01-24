@@ -2,7 +2,8 @@ defmodule Dnsimple.Zone do
   @moduledoc """
   Represents a zone.
 
-  See: https://developer.dnsimple.com/v2/zones/
+  See:
+  - https://developer.dnsimple.com/v2/zones/
   """
 
   @type t :: %__MODULE__{
@@ -20,8 +21,9 @@ defmodule Dnsimple.Zone do
     @moduledoc """
     Represents a zone file.
 
-    See: https://developer.dnsimple.com/v2/zones/#file
-    See: https://support.dnsimple.com/articles/zone-files/#whats-a-zone-file
+    See:
+    - https://developer.dnsimple.com/v2/zones/#file
+    - https://support.dnsimple.com/articles/zone-files/#whats-a-zone-file
     """
 
     @type t :: %__MODULE__{

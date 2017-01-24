@@ -20,7 +20,6 @@ defmodule Dnsimple.Contacts do
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
       Dnsimple.Contacts.list_contacts(client, account_id = "1010")
-      Dnsimple.Contacts.list_contacts(client, account_id = "1010")
       Dnsimple.Contacts.list_contacts(client, account_id = "1010", sort: "email:desc")
 
   """

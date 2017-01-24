@@ -8,10 +8,8 @@ defmodule Dnsimple.Webhook do
   @type t :: %__MODULE__{
     id: integer,
     url: String.t,
-    created_at: String.t,
-    updated_at: String.t,
   }
 
-  defstruct ~w(id url created_at updated_at)a
+  defstruct ~w(id url)a
 
 end

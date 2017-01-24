@@ -1,4 +1,13 @@
 defmodule Dnsimple.Oauth do
+  @moduledoc """
+  Provides functions to authenticate through the
+  [OAuth web application flow](https://developer.dnsimple.com/v2/oauth/).
+
+  See:
+  - https://developer.dnsimple.com/v2/oauth/
+  - https://developer.dnsimple.com/v2/#authentication
+  """
+
   alias Dnsimple.Client
   alias Dnsimple.Response
   alias Dnsimple.OauthToken

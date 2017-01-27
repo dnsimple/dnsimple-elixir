@@ -21,7 +21,7 @@ defmodule Dnsimple.Oauth do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Oauth.authorize_url(client, client_id = "1z2y3x", state: "12345678")
+      url = Dnsimple.Oauth.authorize_url(client, client_id = "1z2y3x", state: "12345678")
 
   """
   @spec authorize_url(Client.t, String.t, Keyword.t) :: String.t
@@ -42,7 +42,7 @@ defmodule Dnsimple.Oauth do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Oauth.exchange_authorization_for_token(client, %{
+      {:ok, response} = Dnsimple.Oauth.exchange_authorization_for_token(client, %{
         code: "authorization_code",
         state: "12345678",
         client_id: "1z2y3x",

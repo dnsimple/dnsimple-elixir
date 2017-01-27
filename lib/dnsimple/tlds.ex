@@ -22,9 +22,9 @@ defmodule Dnsimple.Tlds do
   ## Examples
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Tlds.list_tlds(client)
-      Dnsimple.Tlds.list_tlds(client, page: 2, per_page: 10)
-      Dnsimple.Tlds.list_tlds(client, sort: "tlds:desc")
+      {:ok, response} = Dnsimple.Tlds.list_tlds(client)
+      {:ok, response} = Dnsimple.Tlds.list_tlds(client, page: 2, per_page: 10)
+      {:ok, response} = Dnsimple.Tlds.list_tlds(client, sort: "tlds:desc")
 
   """
   @spec list_tlds(Client.t, Keyword.t) :: Response.t
@@ -45,7 +45,7 @@ defmodule Dnsimple.Tlds do
   ## Examples
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Tlds.get_tld(client, "com")
+      {:ok, response} = Dnsimple.Tlds.get_tld(client, "com")
 
   """
   @spec get_tld(Client.t, String.t,  Keyword.t) :: Response.t
@@ -66,7 +66,7 @@ defmodule Dnsimple.Tlds do
   ## Examples
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Tlds.get_tld_extended_attributes(client, "com")
+      {:ok, response} = Dnsimple.Tlds.get_tld_extended_attributes(client, "com")
 
   """
   @spec get_tld_extended_attributes(Client.t, String.t,  Keyword.t) :: Response.t

@@ -18,8 +18,8 @@ defmodule Dnsimple.Contacts do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Contacts.list_contacts(client, account_id = "1010")
-      Dnsimple.Contacts.list_contacts(client, account_id = "1010", sort: "email:desc")
+      {:ok, response} = Dnsimple.Contacts.list_contacts(client, account_id = "1010")
+      {:ok, response} = Dnsimple.Contacts.list_contacts(client, account_id = "1010", sort: "email:desc")
 
   """
   @spec list_contacts(Client.t, String.t | integer) :: Response.t
@@ -40,7 +40,7 @@ defmodule Dnsimple.Contacts do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Contacts.get_contact(client, account_id = "1010", contact_id = "123")
+      {:ok, response} = Dnsimple.Contacts.get_contact(client, account_id = "1010", contact_id = "123")
 
   """
   @spec get_contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -61,7 +61,7 @@ defmodule Dnsimple.Contacts do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Contacts.create_contact(client, account_id = "1010", %{
+      {:ok, response} = Dnsimple.Contacts.create_contact(client, account_id = "1010", %{
         first_name: "John",
         last_name: "Doe",
         address1: "Italian street, 10",
@@ -93,7 +93,7 @@ defmodule Dnsimple.Contacts do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Contacts.update_contact(client, account_id = "1010", contact_id = "123", %{
+      {:ok, response} = Dnsimple.Contacts.update_contact(client, account_id = "1010", contact_id = "123", %{
         email: "johndoe@email-provider.com",
       })
 
@@ -118,7 +118,7 @@ defmodule Dnsimple.Contacts do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Contacts.delete_contact(client, account_id = "1010", contact_id = "123")
+      {:ok, response} = Dnsimple.Contacts.delete_contact(client, account_id = "1010", contact_id = "123")
 
   """
   @spec delete_contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t

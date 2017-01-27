@@ -22,8 +22,8 @@ defmodule Dnsimple.Services do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.list_services(client)
-      Dnsimple.Templates.list_services(client, sort: "short_name:desc")
+      {:ok, response} = Dnsimple.Templates.list_services(client)
+      {:ok, response} = Dnsimple.Templates.list_services(client, sort: "short_name:desc")
 
   """
   @spec list_services(Client.t, Keyword.t) :: Response.t
@@ -44,8 +44,8 @@ defmodule Dnsimple.Services do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.get_service(client, service_id = 1)
-      Dnsimple.Templates.get_service(client, service_id = "wordpress")
+      {:ok, response} = Dnsimple.Templates.get_service(client, service_id = 1)
+      {:ok, response} = Dnsimple.Templates.get_service(client, service_id = "wordpress")
 
   """
   @spec get_service(Client.t, integer | String.t, Keyword.t) :: Response.t
@@ -66,8 +66,8 @@ defmodule Dnsimple.Services do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Services.applied_services(client, account_id = 1010, domain_id = "example.com")
-      Dnsimple.Services.applied_services(client, account_id = 1010, domain_id = "example.com", page: 2)
+      {:ok, response} = Dnsimple.Services.applied_services(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Services.applied_services(client, account_id = 1010, domain_id = "example.com", page: 2)
 
   """
   @spec applied_services(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -88,8 +88,8 @@ defmodule Dnsimple.Services do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
-      Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 27, %{
+      {:ok, response} = Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
+      {:ok, response} = Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 27, %{
         %{settings: %{setting_name: "setting value"}}
       })
 
@@ -112,7 +112,7 @@ defmodule Dnsimple.Services do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Services.unapply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
+      {:ok, response} = Dnsimple.Services.unapply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
 
   """
   @spec unapply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t

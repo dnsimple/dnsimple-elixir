@@ -21,10 +21,10 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.list_domains(client, account_id = 1010)
-      Dnsimple.Domains.list_domains(client, account_id = 1010, sort: "name:asc")
-      Dnsimple.Domains.list_domains(client, account_id = 1010, per_page: 50, page: 4)
-      Dnsimple.Domains.list_domains(client, account_id = 1010, filter: [name_like: ".com"])
+      {:ok, response} = Dnsimple.Domains.list_domains(client, account_id = 1010)
+      {:ok, response} = Dnsimple.Domains.list_domains(client, account_id = 1010, sort: "name:asc")
+      {:ok, response} = Dnsimple.Domains.list_domains(client, account_id = 1010, per_page: 50, page: 4)
+      {:ok, response} = Dnsimple.Domains.list_domains(client, account_id = 1010, filter: [name_like: ".com"])
 
   """
   @spec list_domains(Client.t, String.t | integer) :: Response.t
@@ -45,9 +45,9 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.all_domains(client, account_id = 1010)
-      Dnsimple.Domains.all_domains(client, account_id = 1010, sort: "name:asc")
-      Dnsimple.Domains.all_domains(client, account_id = 1010, filter: [name_like: ".com"])
+      {:ok, response} = Dnsimple.Domains.all_domains(client, account_id = 1010)
+      {:ok, response} = Dnsimple.Domains.all_domains(client, account_id = 1010, sort: "name:asc")
+      {:ok, response} = Dnsimple.Domains.all_domains(client, account_id = 1010, filter: [name_like: ".com"])
 
   """
   @spec all_domains(Client.t, String.t | integer, Keyword.t) :: [Domain.t]
@@ -65,8 +65,8 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.get_domain(client, account_id = 1010, domain_id = 123)
-      Dnsimple.Domains.get_domain(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Domains.get_domain(client, account_id = 1010, domain_id = 123)
+      {:ok, response} = Dnsimple.Domains.get_domain(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec get_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -90,7 +90,7 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.create_domain(client, account_id = 1010, %{name: "example.io"})
+      {:ok, response} = Dnsimple.Domains.create_domain(client, account_id = 1010, %{name: "example.io"})
 
   """
   @spec create_domain(Client.t, String.t | integer, map, Keyword.t) :: Response.t
@@ -113,8 +113,8 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.delete_domain(client, account_id = 1010, domain_id = 237)
-      Dnsimple.Domains.delete_domain(client, account_id = 1010, domain_id = "example.io")
+      {:ok, response} = Dnsimple.Domains.delete_domain(client, account_id = 1010, domain_id = 237)
+      {:ok, response} = Dnsimple.Domains.delete_domain(client, account_id = 1010, domain_id = "example.io")
 
   """
   @spec delete_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -135,8 +135,8 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.reset_domain_token(client, account_id = 1010, domain_id = 123)
-      Dnsimple.Domains.reset_domain_token(client, account_id = 1010, domain_id = "example.io")
+      {:ok, response} = Dnsimple.Domains.reset_domain_token(client, account_id = 1010, domain_id = 123)
+      {:ok, response} = Dnsimple.Domains.reset_domain_token(client, account_id = 1010, domain_id = "example.io")
 
   """
   @spec reset_domain_token(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -157,10 +157,10 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = 23)
-      Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = "example.com")
-      Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = "example.com", sort: "to:asc")
-      Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = "example.com", per_page: 5, page: 1)
+      {:ok, response} = Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = 23)
+      {:ok, response} = Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = "example.com", sort: "to:asc")
+      {:ok, response} = Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = "example.com", per_page: 5, page: 1)
 
   """
   @spec list_email_forwards(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -181,7 +181,7 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.create_email_forward(client, account_id = 1010, domain_id = "example.com", %{
+      {:ok, response} = Dnsimple.Domains.create_email_forward(client, account_id = 1010, domain_id = "example.com", %{
         from: "jacegu@example.com",
         to: "me@provider.com",
       })
@@ -205,7 +205,7 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.get_email_forward(client, account_id = 1010, domain_id = "example.com", email_forward_id = 123)
+      {:ok, response} = Dnsimple.Domains.get_email_forward(client, account_id = 1010, domain_id = "example.com", email_forward_id = 123)
 
   """
   @spec get_email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
@@ -228,7 +228,7 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.delete_email_forward(client, account_id = 1010, domain_id = "example.com", email_forward_id = 123)
+      {:ok, response} = Dnsimple.Domains.delete_email_forward(client, account_id = 1010, domain_id = "example.com", email_forward_id = 123)
 
   """
   @spec delete_email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
@@ -249,7 +249,7 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.list_pushes(client, account_id = 1010)
+      {:ok, response} = Dnsimple.Domains.list_pushes(client, account_id = 1010)
 
   """
   @spec list_pushes(Client.t, String.t | integer, Keyword.t) :: Response.t
@@ -270,7 +270,7 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.initiate_push(client, account_id = 1010, domain_id = "example.com", %{
+      {:ok, response} = Dnsimple.Domains.initiate_push(client, account_id = 1010, domain_id = "example.com", %{
         new_account_email: "other@example.com",
       })
 
@@ -294,7 +294,7 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.accept_push(client, account_id = 1010, push_id = 6789, %{
+      {:ok, response} = Dnsimple.Domains.accept_push(client, account_id = 1010, push_id = 6789, %{
         contact_id: 123
       })
 
@@ -317,7 +317,7 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.reject_push(client, account_id = 1010, push_id = 6789)
+      {:ok, response} = Dnsimple.Domains.reject_push(client, account_id = 1010, push_id = 6789)
 
   """
   @spec reject_push(Client.t, String.t | integer, integer, Keyword.t) :: Response.t
@@ -338,7 +338,7 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.list_collaborators(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Domains.list_collaborators(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec list_collaborators(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -359,7 +359,7 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.add_collaborator(client, account_id = 1010, domain_id = "example.com", %{
+      {:ok, response} = Dnsimple.Domains.add_collaborator(client, account_id = 1010, domain_id = "example.com", %{
         email: "existing-user@example.com"
       })
 
@@ -382,7 +382,7 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Domains.remove_collaborator(client, account_id = 1010, domain_id = "example.com", collaborator_id = 100)
+      {:ok, response} = Dnsimple.Domains.remove_collaborator(client, account_id = 1010, domain_id = "example.com", collaborator_id = 100)
 
   """
   @spec remove_collaborator(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t

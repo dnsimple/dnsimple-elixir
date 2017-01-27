@@ -22,7 +22,7 @@ defmodule Dnsimple.Webhooks do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Webhooks.list_webhooks(client, account_id = "1010")
+      {:ok, response} = Dnsimple.Webhooks.list_webhooks(client, account_id = "1010")
 
   """
   @spec list_webhooks(Client.t, String.t | integer) :: Response.t
@@ -43,7 +43,7 @@ defmodule Dnsimple.Webhooks do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Webhooks.get_webhook(client, account_id = "1010", webhook_id = 1234)
+      {:ok, response} = Dnsimple.Webhooks.get_webhook(client, account_id = "1010", webhook_id = 1234)
 
   """
   @spec get_webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -64,7 +64,7 @@ defmodule Dnsimple.Webhooks do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Webhooks.create_webhook(client, account_id = "1010", %{
+      {:ok, response} = Dnsimple.Webhooks.create_webhook(client, account_id = "1010", %{
         url: "https://test.host/handler"
       })
 
@@ -89,7 +89,7 @@ defmodule Dnsimple.Webhooks do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Webhooks.delete_webhook(client, account_id = "1010", webhook_id = 1234)
+      {:ok, response} = Dnsimple.Webhooks.delete_webhook(client, account_id = "1010", webhook_id = 1234)
 
   """
   @spec delete_webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t

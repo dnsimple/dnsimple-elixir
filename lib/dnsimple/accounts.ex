@@ -18,7 +18,7 @@ defmodule Dnsimple.Accounts do
   Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Accounts.list_accounts(client)
+      {:ok, response} = Dnsimple.Accounts.list_accounts(client)
 
   """
   @spec list_accounts(Client.t) :: Response.t

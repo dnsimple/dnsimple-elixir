@@ -23,10 +23,10 @@ defmodule Dnsimple.Zones do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Zones.list_zones(client, account_id = 1010)
-      Dnsimple.Zones.list_zones(client, account_id = 1010, page: 2, per_page: 10)
-      Dnsimple.Zones.list_zones(client, account_id = 1010, sort: "name:desc")
-      Dnsimple.Zones.list_zones(client, account_id = 1010, filter: [name_like: ".es"])
+      {:ok, response} = Dnsimple.Zones.list_zones(client, account_id = 1010)
+      {:ok, response} = Dnsimple.Zones.list_zones(client, account_id = 1010, page: 2, per_page: 10)
+      {:ok, response} = Dnsimple.Zones.list_zones(client, account_id = 1010, sort: "name:desc")
+      {:ok, response} = Dnsimple.Zones.list_zones(client, account_id = 1010, filter: [name_like: ".es"])
 
   """
   @spec list_zones(Client.t, String.t | integer, Keyword.t) :: Response.t
@@ -47,8 +47,8 @@ defmodule Dnsimple.Zones do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Zones.get_zone(client, account_id = 1010, zone_id = 12)
-      Dnsimple.Zones.get_zone(client, account_id = 1010, zone_id = "example.com")
+      {:ok, response} = Dnsimple.Zones.get_zone(client, account_id = 1010, zone_id = 12)
+      {:ok, response} = Dnsimple.Zones.get_zone(client, account_id = 1010, zone_id = "example.com")
 
   """
   @spec get_zone(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -69,8 +69,8 @@ defmodule Dnsimple.Zones do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Zones.get_zone_file(client, account_id = 1010, zone_id = 12)
-      Dnsimple.Zones.get_zone_file(client, account_id = 1010, zone_id = "example.com")
+      {:ok, response} = Dnsimple.Zones.get_zone_file(client, account_id = 1010, zone_id = 12)
+      {:ok, response} = Dnsimple.Zones.get_zone_file(client, account_id = 1010, zone_id = "example.com")
 
   """
   @spec get_zone_file(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -91,10 +91,10 @@ defmodule Dnsimple.Zones do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = "example.com")
-      Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = 12, page: 2, per_page: 10)
-      Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = "example.com", sort: "type:asc")
-      Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = 12, filter: [type: "A", name: ""])
+      {:ok, response} = Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = "example.com")
+      {:ok, response} = Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = 12, page: 2, per_page: 10)
+      {:ok, response} = Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = "example.com", sort: "type:asc")
+      {:ok, response} = Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = 12, filter: [type: "A", name: ""])
 
   """
   @spec list_zone_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -115,8 +115,8 @@ defmodule Dnsimple.Zones do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Zones.get_zone_record(client, account_id = 1010, zone_id = 12, record_id = 345)
-      Dnsimple.Zones.get_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 123)
+      {:ok, response} = Dnsimple.Zones.get_zone_record(client, account_id = 1010, zone_id = 12, record_id = 345)
+      {:ok, response} = Dnsimple.Zones.get_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 123)
 
   """
   @spec get_zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
@@ -137,7 +137,7 @@ defmodule Dnsimple.Zones do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Zones.create_zone_record(client, account_id = 1010, zone_id = "example.com", %{
+      {:ok, response} = Dnsimple.Zones.create_zone_record(client, account_id = 1010, zone_id = "example.com", %{
         name: "www",
         type: "CNAME",
         content: "example.com",
@@ -163,7 +163,7 @@ defmodule Dnsimple.Zones do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Zones.update_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 1, %{
+      {:ok, response} = Dnsimple.Zones.update_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 1, %{
         ttl: 600
       })
 
@@ -188,8 +188,8 @@ defmodule Dnsimple.Zones do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Zones.delete_zone_record(client, account_id = 1010, zone_id = 12, record_id = 1)
-      Dnsimple.Zones.delete_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 1)
+      {:ok, response} = Dnsimple.Zones.delete_zone_record(client, account_id = 1010, zone_id = 12, record_id = 1)
+      {:ok, response} = Dnsimple.Zones.delete_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 1)
 
   """
   @spec delete_zone_record(Client.t, String.t, String.t, integer, Keyword.t) :: Response.t

@@ -22,7 +22,7 @@ defmodule Dnsimple.Identity do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Identity.whoami(client)
+      {:ok, response} = Dnsimple.Identity.whoami(client)
 
   """
   @spec whoami(Client.t, Keyword.t) :: Response.t

@@ -24,8 +24,8 @@ defmodule Dnsimple.Templates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.list_templates(client, account_id = 1010)
-      Dnsimple.Templates.list_templates(client, account_id = 1010, sort: "name:asc")
+      {:ok, response} = Dnsimple.Templates.list_templates(client, account_id = 1010)
+      {:ok, response} = Dnsimple.Templates.list_templates(client, account_id = 1010, sort: "name:asc")
 
   """
   @spec list_templates(Client.t, String.t | integer, Keyword.t) :: Response.t
@@ -46,7 +46,7 @@ defmodule Dnsimple.Templates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.get_template(client, account_id = 1010, template_id = "alpha")
+      {:ok, response} = Dnsimple.Templates.get_template(client, account_id = 1010, template_id = "alpha")
 
   """
   @spec get_template(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -67,7 +67,7 @@ defmodule Dnsimple.Templates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.create_template(client, account_id = 1010, %{
+      {:ok, response} = Dnsimple.Templates.create_template(client, account_id = 1010, %{
         name: "Beta",
         short_name: "beta",
         description: "A beta template.",
@@ -92,7 +92,7 @@ defmodule Dnsimple.Templates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.update_template(client, account_id = 1010, template_id = 1, %{
+      {:ok, response} = Dnsimple.Templates.update_template(client, account_id = 1010, template_id = 1, %{
         name: "Beta",
         short_name: "beta",
         description: "A beta template.",
@@ -119,7 +119,7 @@ defmodule Dnsimple.Templates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.delete_template(client, account_id = 1010, template_id = "alpha")
+      {:ok, response} = Dnsimple.Templates.delete_template(client, account_id = 1010, template_id = "alpha")
 
   """
   @spec delete_template(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -140,7 +140,7 @@ defmodule Dnsimple.Templates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.list_template_records(client, account_id = 1010, template_id = 1)
+      {:ok, response} = Dnsimple.Templates.list_template_records(client, account_id = 1010, template_id = 1)
       Dnsimple.Templates.list_template_records(client, account_id = 1010, template_id = 1, sort: "type:asc")
 
   """
@@ -162,7 +162,7 @@ defmodule Dnsimple.Templates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.get_template_record(client, account_id = 1010, template_id = "alpha", record_id = 123)
+      {:ok, response} = Dnsimple.Templates.get_template_record(client, account_id = 1010, template_id = "alpha", record_id = 123)
 
   """
   @spec get_template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
@@ -183,7 +183,7 @@ defmodule Dnsimple.Templates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.create_template_record(client, account_id = 1010, template_id = "alpha" %{
+      {:ok, response} = Dnsimple.Templates.create_template_record(client, account_id = 1010, template_id = "alpha" %{
         name: "",
         type: "mx",
         content: "mx.example.com",
@@ -212,7 +212,7 @@ defmodule Dnsimple.Templates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.delete_template_record(client, account_id = 1010, template_id = "alpha", record_id = 1)
+      {:ok, response} = Dnsimple.Templates.delete_template_record(client, account_id = 1010, template_id = "alpha", record_id = 1)
 
   """
   @spec delete_template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
@@ -233,7 +233,7 @@ defmodule Dnsimple.Templates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Templates.apply_template(client, account_id = 1010, domain_id = "example.com", template_id = "alpha")
+      {:ok, response} = Dnsimple.Templates.apply_template(client, account_id = 1010, domain_id = "example.com", template_id = "alpha")
 
   """
   @spec apply_template(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t

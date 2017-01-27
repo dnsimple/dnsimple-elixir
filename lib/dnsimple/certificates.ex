@@ -18,9 +18,9 @@ defmodule Dnsimple.Certificates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com")
-      Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com", page: 2, per_page: 10)
-      Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com", sort: "expires_on:desc")
+      {:ok, response} = Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com")
+      {:ok, response} = Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com", page: 2, per_page: 10)
+      {:ok, response} = Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com", sort: "expires_on:desc")
 
   """
   @spec list_certificates(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -41,7 +41,7 @@ defmodule Dnsimple.Certificates do
   ## Examples
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Certificates.get_certificate(client, account_id = "1010", domain_id = "example.com")
+      {:ok, response} = Dnsimple.Certificates.get_certificate(client, account_id = "1010", domain_id = "example.com")
 
   """
   @spec get_certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -62,7 +62,7 @@ defmodule Dnsimple.Certificates do
   ## Examples
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Certificates.download_certificate(client, account_id = "1010", domain_id = "example.com")
+      {:ok, response} = Dnsimple.Certificates.download_certificate(client, account_id = "1010", domain_id = "example.com")
 
   """
   @spec download_certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -83,7 +83,7 @@ defmodule Dnsimple.Certificates do
   ## Examples
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.Certificates.get_certificate_private_key(client, account_id = "1010", domain_id = "example.com")
+      {:ok, response} = Dnsimple.Certificates.get_certificate_private_key(client, account_id = "1010", domain_id = "example.com")
 
   """
   @spec get_certificate_private_key(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t

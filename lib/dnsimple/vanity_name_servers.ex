@@ -20,7 +20,7 @@ defmodule Dnsimple.VanityNameServers do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.VanityNameServers.enable_vanity_name_servers(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.VanityNameServers.enable_vanity_name_servers(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec enable_vanity_name_servers(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -41,7 +41,7 @@ defmodule Dnsimple.VanityNameServers do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      Dnsimple.VanityNameServers.disable_vanity_name_servers(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.VanityNameServers.disable_vanity_name_servers(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec disable_vanity_name_servers(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t

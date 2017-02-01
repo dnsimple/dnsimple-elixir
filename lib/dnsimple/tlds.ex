@@ -1,8 +1,10 @@
 defmodule Dnsimple.Tlds do
   @moduledoc """
-  This module provides functions to interact with the TLD related endpoints.
+  Provides functions to interact with the
+  [TLD endpoints](https://developer.dnsimple.com/v2/tlds/).
 
-  See: https://developer.dnsimple.com/v2/tlds/
+  See:
+  - https://developer.dnsimple.com/v2/tlds/
   """
 
   alias Dnsimple.Client
@@ -12,17 +14,17 @@ defmodule Dnsimple.Tlds do
   alias Dnsimple.TldExtendedAttribute
 
   @doc """
-  Returns the lists of supported TLDs on DNSimple.
+  Returns the lists of DNSimple supported TLDs.
 
-  See https://developer.dnsimple.com/v2/tlds/#list
+  See:
+  - https://developer.dnsimple.com/v2/tlds/#list
 
   ## Examples
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Tlds.list_tlds(client)
-    Dnsimple.Tlds.list_tlds(client, page: 2, per_page: 10)
-    Dnsimple.Tlds.list_tlds(client, sort: "tlds:desc")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Tlds.list_tlds(client)
+      {:ok, response} = Dnsimple.Tlds.list_tlds(client, page: 2, per_page: 10)
+      {:ok, response} = Dnsimple.Tlds.list_tlds(client, sort: "tlds:desc")
 
   """
   @spec list_tlds(Client.t, Keyword.t) :: Response.t
@@ -35,15 +37,15 @@ defmodule Dnsimple.Tlds do
 
 
   @doc """
-  Returns the information about a TLD.
+  Returns a TLD.
 
-  See https://developer.dnsimple.com/v2/tlds/#get
+  See:
+  - https://developer.dnsimple.com/v2/tlds/#get
 
   ## Examples
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Tlds.get_tld(client, "com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Tlds.get_tld(client, "com")
 
   """
   @spec get_tld(Client.t, String.t,  Keyword.t) :: Response.t
@@ -56,15 +58,15 @@ defmodule Dnsimple.Tlds do
 
 
   @doc """
-  Returns the extended attributes required for a particular TLD.
+  Returns the extended attributes for a TLD.
 
-  See https://developer.dnsimple.com/v2/tlds/#extended-attributes
+  See:
+  - https://developer.dnsimple.com/v2/tlds/#extended-attributes
 
   ## Examples
-  #
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
 
-    Dnsimple.Tlds.get_tld_extended_attributes(client, "com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Tlds.get_tld_extended_attributes(client, "com")
 
   """
   @spec get_tld_extended_attributes(Client.t, String.t,  Keyword.t) :: Response.t

@@ -2,7 +2,8 @@ defmodule Dnsimple.Account do
   @moduledoc """
   Represents an account.
 
-  See: https://developer.dnsimple.com/v2/accounts/
+  See:
+  - https://developer.dnsimple.com/v2/accounts/
   """
 
   @type t :: %__MODULE__{

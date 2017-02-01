@@ -1,11 +1,13 @@
 defmodule Dnsimple.Registrar do
   @moduledoc """
-  This module provides functions to interact with the registrar related endpoints.
+  Provides functions to interact with the
+  [registrar endpoints](https://developer.dnsimple.com/v2/registrar/).
 
-  See: https://developer.dnsimple.com/v2/registrar/
-  See: https://developer.dnsimple.com/v2/registrar/auto-renewal/
-  See: https://developer.dnsimple.com/v2/registrar/whois-privacy/
-  See: https://developer.dnsimple.com/v2/registrar/delegation/
+  See:
+  - https://developer.dnsimple.com/v2/registrar/
+  - https://developer.dnsimple.com/v2/registrar/auto-renewal/
+  - https://developer.dnsimple.com/v2/registrar/whois-privacy/
+  - https://developer.dnsimple.com/v2/registrar/delegation/
   """
 
   alias Dnsimple.Client
@@ -19,15 +21,16 @@ defmodule Dnsimple.Registrar do
   alias Dnsimple.VanityNameServer
 
   @doc """
-  Checks whether a domain is available to be registered.
+  Checks if a domain name is available to be registered and whether premium
+  pricing applies to that domain name.
 
-  See: https://developer.dnsimple.com/v2/registrar/#check
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#check
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.check_domain(client, account_id = 1010, domain_id = "example.com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.check_domain(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec check_domain(Client.t, String.t, String.t, Keyword.t) :: Response.t
@@ -42,16 +45,16 @@ defmodule Dnsimple.Registrar do
   @doc """
   Gets the premium price for a domain.
 
-  See: https://developer.dnsimple.com/v2/registrar/#premium-price
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#premium-price
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com")
-    Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "registration"})
-    Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "renewal"})
-    Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "transfer"})
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "registration"})
+      {:ok, response} = Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "renewal"})
+      {:ok, response} = Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "transfer"})
 
   """
   @spec get_domain_premium_price(Client.t, String.t, String.t, Map.t, Keyword.t) :: Response.t
@@ -67,17 +70,17 @@ defmodule Dnsimple.Registrar do
   @doc """
   Registers a domain.
 
-  See https://developer.dnsimple.com/v2/registrar/#register
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#register
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.register_domain(client, account_id = 1010, domain_id = "example.com", %{
-      registrant_id: 1,
-      privacy: true,
-      auto_renew: false,
-    })
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.register_domain(client, account_id = 1010, domain_id = "example.com", %{
+        registrant_id: 1,
+        privacy: true,
+        auto_renew: false,
+      })
 
   """
   @spec register_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
@@ -92,14 +95,14 @@ defmodule Dnsimple.Registrar do
   @doc """
   Renews a domain.
 
-  See https://developer.dnsimple.com/v2/registrar/#renew
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#renew
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.renew_domain(client, account_id = 1010, domain_id = "example.com")
-    Dnsimple.Registrar.renew_domain(client, account_id = 1010, domain_id = "example.com", %{period: 5})
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.renew_domain(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.renew_domain(client, account_id = 1010, domain_id = "example.com", %{period: 5})
 
   """
   @spec renew_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
@@ -114,18 +117,18 @@ defmodule Dnsimple.Registrar do
   @doc """
   Starts the transfer of a domain to DNSimple.
 
-  See https://developer.dnsimple.com/v2/registrar/#transfer
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#transfer
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.transfer_domain(client, account_id = 1010, domain_id = "example.com", %{
-      registrant_id: 1,
-      auth_code: "XXXXXXXXX",
-      privacy: true,
-      auto_renew: true,
-    })
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.transfer_domain(client, account_id = 1010, domain_id = "example.com", %{
+        registrant_id: 1,
+        auth_code: "XXXXXXXXX",
+        privacy: true,
+        auto_renew: true,
+      })
 
   """
   @spec transfer_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
@@ -140,13 +143,13 @@ defmodule Dnsimple.Registrar do
   @doc """
   Requests the transfer of a domain out of DNSimple.
 
-  See https://developer.dnsimple.com/v2/registrar/#transfer_out
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#transfer_out
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.transfer_domain_out(client, account_id = 1010, domain_id = "example.com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.transfer_domain_out(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec transfer_domain_out(Client.t, String.t, String.t, Keyword.t) :: Response.t
@@ -161,13 +164,13 @@ defmodule Dnsimple.Registrar do
   @doc """
   Enables auto-renewal for the domain.
 
-  See: https://developer.dnsimple.com/v2/registrar/auto-renewal/#enable
+  See:
+  - https://developer.dnsimple.com/v2/registrar/auto-renewal/#enable
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.enable_domain_auto_renewal(client, account_id = 1010, domain_id = "example.com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.enable_domain_auto_renewal(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec enable_domain_auto_renewal(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
@@ -182,13 +185,13 @@ defmodule Dnsimple.Registrar do
   @doc """
   Disables auto-renewal for the domain.
 
-  See: https://developer.dnsimple.com/v2/registrar/auto-renewal/#disable
+  See:
+  - https://developer.dnsimple.com/v2/registrar/auto-renewal/#disable
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.disable_domain_auto_renewal(client, account_id = 1010, domain_id = "example.com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.disable_domain_auto_renewal(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec disable_domain_auto_renewal(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
@@ -203,13 +206,13 @@ defmodule Dnsimple.Registrar do
   @doc """
   Returns the whois privacy of the domain.
 
-  See: https://developer.dnsimple.com/v2/registrar/whois-privacy/#get
+  See:
+  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#get
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.get_whois_privacy(client, account_id = 1010, domain_id = "example.com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.get_whois_privacy(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec get_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
@@ -224,13 +227,13 @@ defmodule Dnsimple.Registrar do
   @doc """
   Enables whois privacy for the domain.
 
-  See: https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable
+  See:
+  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.enable_whois_privacy(client, account_id = 1010, domain_id = "example.com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.enable_whois_privacy(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec enable_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
@@ -245,13 +248,13 @@ defmodule Dnsimple.Registrar do
   @doc """
   Disables whois privacy for the domain.
 
-  See: https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable
+  See:
+  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.disable_whois_privacy(client, account_id = 1010, domain_id = "example.com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.disable_whois_privacy(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec disable_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
@@ -266,13 +269,13 @@ defmodule Dnsimple.Registrar do
   @doc """
   Returns the name servers the domain is delegating to.
 
-  See: https://developer.dnsimple.com/v2/registrar/delegation/#list
+  See:
+  - https://developer.dnsimple.com/v2/registrar/delegation/#list
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.get_domain_delegation(client, account_id = 1010, domain_id = "example.com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.get_domain_delegation(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec get_domain_delegation(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
@@ -287,18 +290,18 @@ defmodule Dnsimple.Registrar do
   @doc """
   Changes the domain's name servers and returns them.
 
-  See: https://developer.dnsimple.com/v2/registrar/delegation/#update
+  See:
+  - https://developer.dnsimple.com/v2/registrar/delegation/#update
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.change_domain_delegation(client, account_id = 1010, domain_id = "example.com", [
-      "ns1.provider.com",
-      "ns2.provider.com",
-      "ns3.provider.com",
-      "ns4.provider.com",
-    ])
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.change_domain_delegation(client, account_id = 1010, domain_id = "example.com", [
+        "ns1.provider.com",
+        "ns2.provider.com",
+        "ns3.provider.com",
+        "ns4.provider.com",
+      ])
 
   """
   @spec change_domain_delegation(Client.t, integer | String.t, String.t, List.t, Keyword.t) :: Response.t
@@ -311,21 +314,20 @@ defmodule Dnsimple.Registrar do
 
 
   @doc """
-  Changes the domain's name servers to a set of vanity name servers and
-  returns them.
+  Delegates the domain to vanity name servers.
 
-  See: https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity
+  See:
+  - https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.change_domain_delegation_to_vanity(client, account_id = 1010, domain_id = "example.com", [
-      "ns1.example.com.com",
-      "ns2.example.com.com",
-      "ns3.example.com.com",
-      "ns4.example.com.com",
-    ])
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.change_domain_delegation_to_vanity(client, account_id = 1010, domain_id = "example.com", [
+        "ns1.example.com",
+        "ns2.example.com",
+        "ns3.example.com",
+        "ns4.example.com",
+      ])
 
   """
   @spec change_domain_delegation_to_vanity(Client.t, integer | String.t, String.t, List.t, Keyword.t) :: Response.t
@@ -342,13 +344,13 @@ defmodule Dnsimple.Registrar do
   delegates the domain back to DNSimple's name servers (if DNSimple is the
   registrar of the domain).
 
-  See: https://developer.dnsimple.com/v2/registrar/delegation/#dedelegateFromVanity
+  See:
+  - https://developer.dnsimple.com/v2/registrar/delegation/#dedelegateFromVanity
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Registrar.change_domain_delegation_from_vanity(client, account_id = 1010, domain_id = "example.com")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.change_domain_delegation_from_vanity(client, account_id = 1010, domain_id = "example.com")
 
   """
   @spec change_domain_delegation_from_vanity(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t

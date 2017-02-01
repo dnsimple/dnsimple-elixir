@@ -1,9 +1,7 @@
 defmodule Dnsimple.Accounts do
   @moduledoc """
-  Accounts handles communication with the account related
-  methods of the DNSimple API.
-
-  See https://developer.dnsimple.com/v2/accounts/
+  Provides functions to interact with the
+  [account endpoints](https://developer.dnsimple.com/v2/accounts/).
   """
 
   alias Dnsimple.Client
@@ -12,9 +10,16 @@ defmodule Dnsimple.Accounts do
 
 
   @doc """
-  Lists the accounts
+  Lists the accounts the current authenticated entity has access to.
 
-  See https://developer.dnsimple.com/v2/accounts/#list
+  See:
+  - https://developer.dnsimple.com/v2/accounts/#list
+
+  Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Accounts.list_accounts(client)
+
   """
   @spec list_accounts(Client.t) :: Response.t
   def list_accounts(client, options \\ []) do

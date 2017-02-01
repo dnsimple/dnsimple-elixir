@@ -2,8 +2,9 @@ defmodule Dnsimple.Domain do
   @moduledoc """
   Represents a domain.
 
-  See https://developer.dnsimple.com/v2/domains/
-  See https://developer.dnsimple.com/v2/domains/#domain-attributes
+  See:
+  - https://developer.dnsimple.com/v2/domains/
+  - https://developer.dnsimple.com/v2/domains/#domain-attributes
   """
 
   @type t :: %__MODULE__{
@@ -21,7 +22,7 @@ defmodule Dnsimple.Domain do
     updated_at: String.t,
   }
 
-  defstruct ~w(id account_id registrant_id name unicode_name token state auto_renew
-               private_whois expires_on created_at updated_at)a
+  defstruct ~w(id account_id registrant_id name unicode_name token state
+               auto_renew private_whois expires_on created_at updated_at)a
 
 end

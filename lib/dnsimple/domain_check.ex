@@ -2,7 +2,8 @@ defmodule Dnsimple.DomainCheck do
   @moduledoc """
   Represent a domain check.
 
-  See https://developer.dnsimple.com/v2/registrar/#check
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#check
   """
 
   @type t :: %__MODULE__{

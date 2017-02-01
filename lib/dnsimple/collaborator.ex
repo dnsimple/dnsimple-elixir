@@ -2,7 +2,8 @@ defmodule Dnsimple.Collaborator do
   @moduledoc """
   Represents a collaborator in a domain.
 
-  See https://developer.dnsimple.com/v2/domains/collaborators
+  See:
+  - https://developer.dnsimple.com/v2/domains/collaborators
   """
 
   @type t :: %__MODULE__{

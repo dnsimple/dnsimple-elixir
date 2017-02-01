@@ -1,9 +1,11 @@
 defmodule Dnsimple.Services do
   @moduledoc """
-  This module provides functions to interact with the service related endpoints.
+  Provides functions to interact with the
+  [one-click service endpoints](https://developer.dnsimple.com/v2/services/).
 
-  See https://developer.dnsimple.com/v2/services
-  See https://developer.dnsimple.com/v2/services/domains/
+  See:
+  - https://developer.dnsimple.com/v2/services
+  - https://developer.dnsimple.com/v2/services/domains/
   """
 
   alias Dnsimple.Client
@@ -12,16 +14,16 @@ defmodule Dnsimple.Services do
   alias Dnsimple.Service
 
   @doc """
-  Returns the list of existing services.
+  Returns the list of available one-click services.
 
-  See https://developer.dnsimple.com/v2/services/#list
+  See:
+  - https://developer.dnsimple.com/v2/services/#list
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.list_services(client)
-    Dnsimple.Templates.list_services(client, sort: "short_name:desc")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.list_services(client)
+      {:ok, response} = Dnsimple.Templates.list_services(client, sort: "short_name:desc")
 
   """
   @spec list_services(Client.t, Keyword.t) :: Response.t
@@ -34,16 +36,16 @@ defmodule Dnsimple.Services do
 
 
   @doc """
-  Returns a service.
+  Returns a one-click service.
 
-  See https://developer.dnsimple.com/v2/services/#get
+  See:
+  - https://developer.dnsimple.com/v2/services/#get
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.get_service(client, service_id = 1)
-    Dnsimple.Templates.get_service(client, service_id = "wordpress")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.get_service(client, service_id = 1)
+      {:ok, response} = Dnsimple.Templates.get_service(client, service_id = "wordpress")
 
   """
   @spec get_service(Client.t, integer | String.t, Keyword.t) :: Response.t
@@ -56,16 +58,16 @@ defmodule Dnsimple.Services do
 
 
   @doc """
-  Lists the services already applied to a domain.
+  Lists the one-click services already applied to a domain.
 
-  See https://developer.dnsimple.com/v2/services/domains/#applied
+  See:
+  - https://developer.dnsimple.com/v2/services/domains/#applied
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Services.applied_services(client, account_id = 1010, domain_id = "example.com")
-    Dnsimple.Services.applied_services(client, account_id = 1010, domain_id = "example.com", page: 2)
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Services.applied_services(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Services.applied_services(client, account_id = 1010, domain_id = "example.com", page: 2)
 
   """
   @spec applied_services(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -78,18 +80,18 @@ defmodule Dnsimple.Services do
 
 
   @doc """
-  Apply a service to a domain.
+  Apply a one-click service to a domain.
 
-  See https://developer.dnsimple.com/v2/services/domains/#apply
+  See:
+  - https://developer.dnsimple.com/v2/services/domains/#apply
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
-    Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 27, %{
-      %{settings: %{setting_name: "setting value"}}
-    })
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
+      {:ok, response} = Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 27, %{
+        %{settings: %{setting_name: "setting value"}}
+      })
 
   """
   @spec apply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, Map.t, Keyword.t) :: Response.t
@@ -102,15 +104,15 @@ defmodule Dnsimple.Services do
 
 
   @doc """
-  Unapply a service previously applied to a domain.
+  Remove a one-click service previously applied to a domain.
 
-  See https://developer.dnsimple.com/v2/services/domains/#unapply
+  See:
+  - https://developer.dnsimple.com/v2/services/domains/#unapply
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Services.unapply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Services.unapply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
 
   """
   @spec unapply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t

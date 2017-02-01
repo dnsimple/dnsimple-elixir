@@ -1,9 +1,10 @@
 defmodule Dnsimple.Webhooks do
   @moduledoc """
-  WebhooksService handles communication with webhook related
-  methods of the DNSimple API.
+  Provides functions to interact with the
+  [webhook endpoints](https://developer.dnsimple.com/v2/webhooks/).
 
-  See https://developer.dnsimple.com/v2/webhooks/
+  See:
+  - https://developer.dnsimple.com/v2/webhooks/
   """
 
   alias Dnsimple.Client
@@ -11,10 +12,18 @@ defmodule Dnsimple.Webhooks do
   alias Dnsimple.Response
   alias Dnsimple.Webhook
 
-  @doc """
-  Lists the webhooks.
 
-  See https://developer.dnsimple.com/v2/webhooks/#list
+  @doc """
+  Lists the existing webhooks in the account.
+
+  See:
+  - https://developer.dnsimple.com/v2/webhooks/#list
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Webhooks.list_webhooks(client, account_id = "1010")
+
   """
   @spec list_webhooks(Client.t, String.t | integer) :: Response.t
   def list_webhooks(client, account_id, options \\ []) do
@@ -26,9 +35,16 @@ defmodule Dnsimple.Webhooks do
 
 
   @doc """
-  Get a webhook.
+  Returns a webhook.
 
-  See https://developer.dnsimple.com/v2/webhooks/#get
+  See:
+  - https://developer.dnsimple.com/v2/webhooks/#get
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Webhooks.get_webhook(client, account_id = "1010", webhook_id = 1234)
+
   """
   @spec get_webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def get_webhook(client, account_id, webhook_id, options \\ []) do
@@ -40,9 +56,18 @@ defmodule Dnsimple.Webhooks do
 
 
   @doc """
-  Creates a new webhook in the account.
+  Creates a new webhook.
 
-  See https://developer.dnsimple.com/v2/webhooks/#create
+  See:
+  - https://developer.dnsimple.com/v2/webhooks/#create
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Webhooks.create_webhook(client, account_id = "1010", %{
+        url: "https://test.host/handler"
+      })
+
   """
   @spec create_webhook(Client.t, String.t | integer, map, Keyword.t) :: Response.t
   def create_webhook(client, account_id, attributes, options \\ []) do
@@ -54,9 +79,18 @@ defmodule Dnsimple.Webhooks do
 
 
   @doc """
-  PERMANENTLY deletes a webhook from the account.
+  Deletes a webhook.
 
-  See https://developer.dnsimple.com/v2/webhooks/#delete
+  **Warning**: this is a destructive operation.
+
+  See:
+  - https://developer.dnsimple.com/v2/webhooks/#delete
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Webhooks.delete_webhook(client, account_id = "1010", webhook_id = 1234)
+
   """
   @spec delete_webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
   def delete_webhook(client, account_id, webhook_id, options \\ []) do

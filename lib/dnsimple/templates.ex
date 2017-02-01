@@ -1,10 +1,12 @@
 defmodule Dnsimple.Templates do
   @moduledoc """
-  This module provides functions to interact with the template related endpoints.
+  Provides functions to interact with the
+  [template endpoints](https://developer.dnsimple.com/v2/services/).
 
-  See: https://developer.dnsimple.com/v2/templates/
-  See: https://developer.dnsimple.com/v2/templates/records/
-  See: https://developer.dnsimple.com/v2/templates/domains/
+  See:
+  - https://developer.dnsimple.com/v2/templates/
+  - https://developer.dnsimple.com/v2/templates/records/
+  - https://developer.dnsimple.com/v2/templates/domains/
   """
 
   alias Dnsimple.Client
@@ -16,14 +18,14 @@ defmodule Dnsimple.Templates do
   @doc """
   Returns the list of existing templates in the account.
 
-  See https://developer.dnsimple.com/v2/templates/#list
+  See:
+  - https://developer.dnsimple.com/v2/templates/#list
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.list_templates(client, account_id = 1010)
-    Dnsimple.Templates.list_templates(client, account_id = 1010, sort: "name:asc")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.list_templates(client, account_id = 1010)
+      {:ok, response} = Dnsimple.Templates.list_templates(client, account_id = 1010, sort: "name:asc")
 
   """
   @spec list_templates(Client.t, String.t | integer, Keyword.t) :: Response.t
@@ -36,15 +38,15 @@ defmodule Dnsimple.Templates do
 
 
   @doc """
-  Returns a template in the account.
+  Returns a template.
 
-  See https://developer.dnsimple.com/v2/templates/#get
+  See:
+  - https://developer.dnsimple.com/v2/templates/#get
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.get_template(client, account_id = 1010, template_id = "alpha")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.get_template(client, account_id = 1010, template_id = "alpha")
 
   """
   @spec get_template(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -57,19 +59,19 @@ defmodule Dnsimple.Templates do
 
 
   @doc """
-  Creates a new template in the account.
+  Creates a new template.
 
-  See https://developer.dnsimple.com/v2/templates/#create
+  See:
+  - https://developer.dnsimple.com/v2/templates/#create
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.create_template(client, account_id = 1010, %{
-      name: "Beta",
-      short_name: "beta",
-      description: "A beta template.",
-    })
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.create_template(client, account_id = 1010, %{
+        name: "Beta",
+        short_name: "beta",
+        description: "A beta template.",
+      })
 
   """
   @spec create_template(Client.t, String.t | integer, map, Keyword.t) :: Response.t
@@ -84,17 +86,17 @@ defmodule Dnsimple.Templates do
   @doc """
   Updates an existing template.
 
-  See https://developer.dnsimple.com/v2/templates/#update
+  See:
+  - https://developer.dnsimple.com/v2/templates/#update
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.update_template(client, account_id = 1010, template_id = 1, %{
-      name: "Beta",
-      short_name: "beta",
-      description: "A beta template.",
-    })
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.update_template(client, account_id = 1010, template_id = 1, %{
+        name: "Beta",
+        short_name: "beta",
+        description: "A beta template.",
+      })
 
   """
   @spec update_template(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: Response.t
@@ -107,15 +109,17 @@ defmodule Dnsimple.Templates do
 
 
   @doc """
-  PERMANENTLY deletes an existing template.
+  Deletes a template.
 
-  See https://developer.dnsimple.com/v2/templates/#delete
+  **Warning**: this is a destructive operation.
+
+  See:
+  - https://developer.dnsimple.com/v2/templates/#delete
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.delete_template(client, account_id = 1010, template_id = "alpha")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.delete_template(client, account_id = 1010, template_id = "alpha")
 
   """
   @spec delete_template(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -128,16 +132,16 @@ defmodule Dnsimple.Templates do
 
 
   @doc """
-  Returns the list of records in the  template.
+  Returns the list of records in the template.
 
-  See https://developer.dnsimple.com/v2/templates/records/#list
+  See:
+  - https://developer.dnsimple.com/v2/templates/records/#list
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.list_template_records(client, account_id = 1010, template_id = 1)
-    Dnsimple.Templates.list_template_records(client, account_id = 1010, template_id = 1, sort: "type:asc")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.list_template_records(client, account_id = 1010, template_id = 1)
+      Dnsimple.Templates.list_template_records(client, account_id = 1010, template_id = 1, sort: "type:asc")
 
   """
   @spec list_template_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
@@ -150,15 +154,15 @@ defmodule Dnsimple.Templates do
 
 
   @doc """
-  Returns a record in of the template.
+  Returns a record of the template.
 
-  See https://developer.dnsimple.com/v2/templates/records/#get
+  See:
+  - https://developer.dnsimple.com/v2/templates/records/#get
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.get_template_record(client, account_id = 1010, template_id = "alpha", record_id = 123)
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.get_template_record(client, account_id = 1010, template_id = "alpha", record_id = 123)
 
   """
   @spec get_template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
@@ -173,19 +177,19 @@ defmodule Dnsimple.Templates do
   @doc """
   Creates a new record in the template.
 
-  See https://developer.dnsimple.com/v2/templates/records/#create
+  See:
+  - https://developer.dnsimple.com/v2/templates/records/#create
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.create_template_record(client, account_id = 1010, template_id = "alpha" %{
-      name: "",
-      type: "mx",
-      content: "mx.example.com",
-      ttl: 600,
-      prio: 10,
-    })
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.create_template_record(client, account_id = 1010, template_id = "alpha" %{
+        name: "",
+        type: "mx",
+        content: "mx.example.com",
+        ttl: 600,
+        prio: 10,
+      })
 
   """
   @spec create_template_record(Client.t, String.t | integer, String.t | integer, map,  Keyword.t) :: Response.t
@@ -198,15 +202,17 @@ defmodule Dnsimple.Templates do
 
 
   @doc """
-  PERMANENTLY deletes a record from the template.
+  Deletes a record from a template.
 
-  See https://developer.dnsimple.com/v2/templates/records/#delete
+  **Warning**: this is a destructive operation.
+
+  See:
+  - https://developer.dnsimple.com/v2/templates/records/#delete
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.delete_template_record(client, account_id = 1010, template_id = "alpha", record_id = 1)
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.delete_template_record(client, account_id = 1010, template_id = "alpha", record_id = 1)
 
   """
   @spec delete_template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
@@ -221,13 +227,13 @@ defmodule Dnsimple.Templates do
   @doc """
   Applies a template to a domain.
 
-  See https://developer.dnsimple.com/v2/templates/domains/#apply
+  See:
+  - https://developer.dnsimple.com/v2/templates/domains/#apply
 
   ## Examples:
 
-    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-
-    Dnsimple.Templates.apply_template(client, account_id = 1010, domain_id = "example.com", template_id = "alpha")
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Templates.apply_template(client, account_id = 1010, domain_id = "example.com", template_id = "alpha")
 
   """
   @spec apply_template(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t

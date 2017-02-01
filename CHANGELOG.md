@@ -4,6 +4,9 @@
  - NEW: Fix compilation warnings on Elixir 1.4.0 (GH-106)
  - NEW: Added `unicode_name` to `Dnsimple.Domain` struct (GH-104)
 
+ - CHANGED: Improve and unify documentation styles (GH-101)
+
+
 #### Release 1.0.0
 
 - NEW: Added support for get domain premium price endpoint (GH-87)

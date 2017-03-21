@@ -155,6 +155,22 @@ defmodule Dnsimple.DomainsTest do
         assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.DelegationSignerRecord end)
       end
     end
+
+    test "sends custom headers", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_delegation_signer_records(@client, @account_id, @domain_id, headers: %{"X-Header" => "X-Value"})
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+    test "supports sorting", %{fixture: fixture, method: method} do
+      url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/ds_records?sort=id%3Aasc"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_delegation_signer_records(@client, @account_id, @domain_id, sort: "id:asc")
+        assert response.__struct__ == Dnsimple.Response
+      end
+    end
   end
 
 

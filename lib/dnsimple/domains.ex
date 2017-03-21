@@ -166,7 +166,7 @@ defmodule Dnsimple.Domains do
   def list_delegation_signer_records(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records")
 
-    Client.get(client, url, options)
+    Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%DelegationSignerRecord{}], "pagination" => %Response.Pagination{}})
   end
 

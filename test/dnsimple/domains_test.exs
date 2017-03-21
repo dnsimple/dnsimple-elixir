@@ -125,9 +125,9 @@ defmodule Dnsimple.DomainsTest do
 
   describe "reset_domain_token" do
     test "returns a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/token"
-      method      = "post"
-      fixture     = "resetDomainToken/success.http"
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/token"
+      method  = "post"
+      fixture = "resetDomainToken/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
         {:ok, response} = @module.reset_domain_token(@client, @account_id, @domain_id)
@@ -156,9 +156,9 @@ defmodule Dnsimple.DomainsTest do
 
   describe ".disable_dnssec" do
     test "disables DNSSEC and returns nothing" do
-      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/dnssec"
-      method     = "delete"
-      fixture    = "disableDnssec/success.http"
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/dnssec"
+      method  = "delete"
+      fixture = "disableDnssec/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
         {:ok, response} = @module.disable_dnssec(@client, @account_id, @domain_id)
@@ -171,9 +171,9 @@ defmodule Dnsimple.DomainsTest do
 
   describe ".get_dnssec" do
     test "get the DNSSEC state and returns a Dnsimple.Response" do
-      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/dnssec"
-      method     = "get"
-      fixture    = "getDnssec/success.http"
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/dnssec"
+      method  = "get"
+      fixture = "getDnssec/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
         {:ok, response} = @module.get_dnssec(@client, @account_id, @domain_id)

@@ -170,6 +170,26 @@ defmodule Dnsimple.Domains do
     |> Response.parse(%{"data" => [%DelegationSignerRecord{}], "pagination" => %Response.Pagination{}})
   end
 
+  @doc """
+  Returns a delegation signer record of a domain.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.get_delegation_signer_record(client, account_id = 1010, domain_id = "example.com", ds_record_id = 123)
+
+  """
+  @spec get_delegation_signer_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  def get_delegation_signer_record(client, account_id, domain_id, ds_record_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records/#{ds_record_id}")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %DelegationSignerRecord{}})
+  end
+
 
   @doc """
   Lists the email forwards of a domain.

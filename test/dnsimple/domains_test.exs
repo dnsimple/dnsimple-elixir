@@ -174,6 +174,31 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
+  describe ".get_delegation_signer_record" do
+    test "returns the delegation signer record in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/ds_records/24"
+      method  = "get"
+      fixture = "getDelegationSignerRecord/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.get_delegation_signer_record(@client, @account_id, @domain_id, _ds_record_id = 24)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.DelegationSignerRecord
+        assert data.id == 24
+        assert data.domain_id == 1010
+        assert data.algorithm == "8"
+        assert data.digest == "C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F"
+        assert data.digest_type == "2"
+        assert data.keytag == "44620"
+        assert data.created_at == "2017-03-03T13:49:58Z"
+        assert data.updated_at == "2017-03-03T13:49:58Z"
+      end
+    end
+  end
+
+
   describe ".list_email_forwards" do
     setup do
       url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards"

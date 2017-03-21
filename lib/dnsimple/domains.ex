@@ -171,6 +171,31 @@ defmodule Dnsimple.Domains do
   end
 
   @doc """
+  Creates a delegation signer record for a domain.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.create_delegation_signer_record(client, account_id = 1010, domain_id = "example.com", %{
+        algorithm: "13",
+        digest: "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03",
+        digest_type: "2",
+        keytag: "2371"
+      })
+
+  """
+  @spec create_delegation_signer_record(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: Response.t
+  def create_delegation_signer_record(client, account_id, domain_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %DelegationSignerRecord{}})
+  end
+
+  @doc """
   Returns a delegation signer record of a domain.
 
   See:

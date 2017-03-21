@@ -174,6 +174,25 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
+  describe ".create_delegation_signer_record" do
+    test "creates the delegation signer record and returns it in a Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/ds_records"
+      method     = "post"
+      fixture    = "createDelegationSignerRecord/created.http"
+      attributes = %{algorithm: "13", digest: "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03", digest_type: "2", keytag: "2371"}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.create_delegation_signer_record(@client, @account_id, @domain_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.DelegationSignerRecord
+      end
+    end
+  end
+
+
   describe ".get_delegation_signer_record" do
     test "returns the delegation signer record in a Dnsimple.Response" do
       url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/ds_records/24"

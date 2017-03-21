@@ -173,6 +173,28 @@ defmodule Dnsimple.Domains do
 
 
   @doc """
+  Disable DNSSEC for the domain in the account.
+
+  See:
+  - https://developer.dnsimple.com/v2/dnssec/#disable
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.disable_dnssec(client, account_id = 1000, domain_id = 123)
+      {:ok, response} = Dnsimple.Domains.disable_dnssec(client, account_id = 1000, domain_id = "example.io")
+
+  """
+  @spec disable_dnssec(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def disable_dnssec(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/dnssec")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
+  end
+
+
+  @doc """
   Lists the delegation signer records for the domain.
 
   See:

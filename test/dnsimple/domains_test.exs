@@ -154,6 +154,21 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
+  describe ".disable_dnssec" do
+    test "disables DNSSEC and returns nothing" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/dnssec"
+      method     = "delete"
+      fixture    = "disableDnssec/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
+        {:ok, response} = @module.disable_dnssec(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
+
   describe ".list_delegation_signer_records" do
     setup do
       url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/ds_records"

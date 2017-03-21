@@ -20,4 +20,3 @@ defmodule Dnsimple.DelegationSignerRecord do
   defstruct ~w(id domain_id algorithm digest digest_type keytag created_at updated_at)a
 
 end
-

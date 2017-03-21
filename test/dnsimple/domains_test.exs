@@ -138,6 +138,22 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
+  describe ".enable_dnssec" do
+    test "enables DNSSEC and returns a Dnsimple.Response" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/dnssec"
+      method     = "post"
+      fixture    = "enableDnssec/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
+        {:ok, response} = @module.enable_dnssec(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data.__struct__ == Dnsimple.Dnssec
+        assert response.data.enabled == true
+      end
+    end
+  end
+
+
   describe ".list_delegation_signer_records" do
     setup do
       url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/ds_records"

@@ -8,6 +8,7 @@ defmodule Dnsimple.Domains do
   alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Domain
+  alias Dnsimple.Dnssec
   alias Dnsimple.DelegationSignerRecord
   alias Dnsimple.EmailForward
   alias Dnsimple.Push
@@ -149,7 +150,29 @@ defmodule Dnsimple.Domains do
   end
 
 
-  @ doc """
+  @doc """
+  Enable DNSSEC for the domain in the account.
+
+  See:
+  - https://developer.dnsimple.com/v2/dnssec/#enable
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.enable_dnssec(client, account_id = 1000, domain_id = 123)
+      {:ok, response} = Dnsimple.Domains.enable_dnssec(client, account_id = 1000, domain_id = "example.io")
+
+  """
+  @spec enable_dnssec(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def enable_dnssec(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/dnssec")
+
+    Client.post(client, url, Client.empty_body(), options)
+    |> Response.parse(%{"data" => %Dnssec{}})
+  end
+
+
+  @doc """
   Lists the delegation signer records for the domain.
 
   See:

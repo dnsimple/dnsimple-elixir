@@ -8,6 +8,7 @@ defmodule Dnsimple.Domains do
   alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Domain
+  alias Dnsimple.DelegationSignerRecord
   alias Dnsimple.EmailForward
   alias Dnsimple.Push
   alias Dnsimple.Collaborator
@@ -145,6 +146,28 @@ defmodule Dnsimple.Domains do
 
     Client.post(client, url, Client.empty_body(), options)
     |> Response.parse(%{"data" => %Domain{}})
+  end
+
+
+  @ doc """
+  Lists the delegation signer records for the domain.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.list_delegation_signer_records(client, account_id = 1000, domain_id = 123)
+      {:ok, response} = Dnsimple.Domains.list_delegation_signer_records(client, account_id = 1000, domain_id = "example.io")
+
+  """
+  @spec list_delegation_signer_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def list_delegation_signer_records(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => [%DelegationSignerRecord{}], "pagination" => %Response.Pagination{}})
   end
 
 

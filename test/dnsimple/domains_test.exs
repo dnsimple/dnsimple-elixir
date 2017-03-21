@@ -138,6 +138,26 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
+  describe ".list_delegation_signer_records" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/ds_records"
+      {:ok, fixture: "listDelegationSignerRecords/success.http", method: "get", url: url}
+    end
+
+    test "returns the list of delegation signer records in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.list_delegation_signer_records(@client, @account_id, @domain_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert length(data) == 1
+        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.DelegationSignerRecord end)
+      end
+    end
+  end
+
+
   describe ".list_email_forwards" do
     setup do
       url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards"

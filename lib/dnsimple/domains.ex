@@ -217,6 +217,29 @@ defmodule Dnsimple.Domains do
 
 
   @doc """
+  Deletes an delegation signer record from a domain.
+
+  **Warning**: this is a destructive operation.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.delete_delegation_signer_record(client, account_id = 1010, domain_id = "example.com", ds_record_id = 123)
+
+  """
+  @spec delete_email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  def delete_delegation_signer_record(client, account_id, domain_id, ds_record_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records/#{ds_record_id}")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
+  end
+
+
+  @doc """
   Lists the email forwards of a domain.
 
   See:

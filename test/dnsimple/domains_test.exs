@@ -218,6 +218,21 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
+  describe ".delete_delegation_signer_record" do
+    test "deletes the delegation signer record and returns an empty Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/example.org/ds_records/1"
+      method  = "delete"
+      fixture = "deleteDelegationSignerRecord/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.delete_delegation_signer_record(@client, @account_id, _domain_id = "example.org", _ds_record_id = 1)
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data == nil
+      end
+    end
+  end
+
+
   describe ".list_email_forwards" do
     setup do
       url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards"

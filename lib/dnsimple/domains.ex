@@ -195,6 +195,28 @@ defmodule Dnsimple.Domains do
 
 
   @doc """
+  Get the DNSSEC status for the domain in the account.
+
+  See:
+  - https://developer.dnsimple.com/v2/dnssec/#get
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.get_dnssec(client, account_id = 1000, domain_id = 123)
+      {:ok, response} = Dnsimple.Domains.get_dnssec(client, account_id = 1000, domain_id = "example.io")
+
+  """
+  @spec get_dnssec(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def get_dnssec(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/dnssec")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %Dnssec{}})
+  end
+
+
+  @doc """
   Lists the delegation signer records for the domain.
 
   See:

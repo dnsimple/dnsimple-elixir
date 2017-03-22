@@ -2,12 +2,20 @@
 
 #### master
 
+#### Release 1.1.0
+
+ - NEW: Add support for DNSSEC endpoints (GH-109)
+
+ - CHANGED: Updated poison to 3.1.0
+ - CHANGED: Updated httpoison to 0.11.1
+
+
 #### Release 1.0.1
 
- - NEW: Fix compilation warnings on Elixir 1.4.0 (GH-106)
- - NEW: Added `unicode_name` to `Dnsimple.Domain` struct (GH-104)
+- NEW: Fix compilation warnings on Elixir 1.4.0 (GH-106)
+- NEW: Added `unicode_name` to `Dnsimple.Domain` struct (GH-104)
 
- - CHANGED: Improve and unify documentation styles (GH-101)
+- CHANGED: Improve and unify documentation styles (GH-101)
 
 
 #### Release 1.0.0
@@ -22,7 +30,7 @@
 - CHANGED: Updated structs to reflect latest APIv2 payloads (GH-94)
 - CHANGED: Updated registration, transfer, renewal response payload (dnsimple/dnsimple-developer#111, dnsimple/dnsimple-elixir#88)
 - CHANGED: Being able to provide settings when applying a service (GH-77)
-- CHANGED: Updated httpoision to 0.10.0 (GH-75)
+- CHANGED: Updated httpoison to 0.10.0 (GH-75)
 
 
 #### Release 0.9.2

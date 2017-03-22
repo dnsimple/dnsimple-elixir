@@ -8,6 +8,8 @@ defmodule Dnsimple.Domains do
   alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Domain
+  alias Dnsimple.Dnssec
+  alias Dnsimple.DelegationSignerRecord
   alias Dnsimple.EmailForward
   alias Dnsimple.Push
   alias Dnsimple.Collaborator
@@ -145,6 +147,162 @@ defmodule Dnsimple.Domains do
 
     Client.post(client, url, Client.empty_body(), options)
     |> Response.parse(%{"data" => %Domain{}})
+  end
+
+
+  @doc """
+  Enable DNSSEC for the domain in the account.
+
+  See:
+  - https://developer.dnsimple.com/v2/dnssec/#enable
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.enable_dnssec(client, account_id = 1000, domain_id = 123)
+      {:ok, response} = Dnsimple.Domains.enable_dnssec(client, account_id = 1000, domain_id = "example.io")
+
+  """
+  @spec enable_dnssec(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def enable_dnssec(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/dnssec")
+
+    Client.post(client, url, Client.empty_body(), options)
+    |> Response.parse(%{"data" => %Dnssec{}})
+  end
+
+
+  @doc """
+  Disable DNSSEC for the domain in the account.
+
+  See:
+  - https://developer.dnsimple.com/v2/dnssec/#disable
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.disable_dnssec(client, account_id = 1000, domain_id = 123)
+      {:ok, response} = Dnsimple.Domains.disable_dnssec(client, account_id = 1000, domain_id = "example.io")
+
+  """
+  @spec disable_dnssec(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def disable_dnssec(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/dnssec")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
+  end
+
+
+  @doc """
+  Get the DNSSEC status for the domain in the account.
+
+  See:
+  - https://developer.dnsimple.com/v2/dnssec/#get
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.get_dnssec(client, account_id = 1000, domain_id = 123)
+      {:ok, response} = Dnsimple.Domains.get_dnssec(client, account_id = 1000, domain_id = "example.io")
+
+  """
+  @spec get_dnssec(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def get_dnssec(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/dnssec")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %Dnssec{}})
+  end
+
+
+  @doc """
+  Lists the delegation signer records for the domain.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.list_delegation_signer_records(client, account_id = 1000, domain_id = 123)
+      {:ok, response} = Dnsimple.Domains.list_delegation_signer_records(client, account_id = 1000, domain_id = "example.io")
+
+  """
+  @spec list_delegation_signer_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  def list_delegation_signer_records(client, account_id, domain_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records")
+
+    Listing.get(client, url, options)
+    |> Response.parse(%{"data" => [%DelegationSignerRecord{}], "pagination" => %Response.Pagination{}})
+  end
+
+  @doc """
+  Creates a delegation signer record for a domain.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.create_delegation_signer_record(client, account_id = 1010, domain_id = "example.com", %{
+        algorithm: "13",
+        digest: "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03",
+        digest_type: "2",
+        keytag: "2371"
+      })
+
+  """
+  @spec create_delegation_signer_record(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: Response.t
+  def create_delegation_signer_record(client, account_id, domain_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %DelegationSignerRecord{}})
+  end
+
+  @doc """
+  Returns a delegation signer record of a domain.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.get_delegation_signer_record(client, account_id = 1010, domain_id = "example.com", ds_record_id = 123)
+
+  """
+  @spec get_delegation_signer_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  def get_delegation_signer_record(client, account_id, domain_id, ds_record_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records/#{ds_record_id}")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %DelegationSignerRecord{}})
+  end
+
+
+  @doc """
+  Deletes an delegation signer record from a domain.
+
+  **Warning**: this is a destructive operation.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.delete_delegation_signer_record(client, account_id = 1010, domain_id = "example.com", ds_record_id = 123)
+
+  """
+  @spec delete_email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  def delete_delegation_signer_record(client, account_id, domain_id, ds_record_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records/#{ds_record_id}")
+
+    Client.delete(client, url, options)
+    |> Response.parse(nil)
   end
 
 

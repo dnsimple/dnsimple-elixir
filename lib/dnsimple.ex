@@ -1,7 +1,7 @@
 defmodule Dnsimple do
   require Logger
 
-  def start, do: :application.ensure_all_started(:httpoison)
+  def start, do: :application.ensure_all_started(:httpoison, :logger)
 
 
   defmodule Error do

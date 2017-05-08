@@ -31,7 +31,7 @@ defmodule Dnsimple.Mixfile do
   defp deps do
     [
       {:httpoison, "~> 0.11.1"},
-      {:poison, "~> 3.1.0"},
+      {:poison, ">= 2.0.0"},
       {:exvcr, "~> 0.8.2", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev},
     ]

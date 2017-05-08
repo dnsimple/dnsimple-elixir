@@ -2,6 +2,9 @@
 
 #### master
 
+- CHANGED: Relax poison dependency to fix incompatibility with Phoenix (GH-110)
+
+
 #### Release 1.1.0
 
  - NEW: Add support for DNSSEC endpoints (GH-109)

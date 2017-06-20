@@ -61,7 +61,7 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".register_domain" do
     test "returns the registered domain in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registration"
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registrations"
       method      = "post"
       fixture     = "registerDomain/success.http"
       attributes  = %{registrant_id: 2, auto_renew: false, whois_privacy: false}
@@ -90,7 +90,7 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".renew_domain" do
     test "returns the renewed domain in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/renewal"
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/renewals"
       method      = "post"
       fixture     = "renewDomain/success.http"
       attributes  = %{period: 3}
@@ -116,7 +116,7 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".transfer_domain" do
     test "returns the domain to be transferred in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer"
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers"
       method      = "post"
       fixture     = "transferDomain/success.http"
       attributes  = %{registrant_id: 10, auth_code: "x1y2z3", auto_renew: false, whois_privacy: false}
@@ -144,7 +144,7 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".transfer_domain_out" do
     test "requests the transfer out and returns an empty Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer_out"
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/authorize_transfer_out"
       method      = "post"
       fixture     = "transferDomainOut/success.http"
 

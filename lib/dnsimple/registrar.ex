@@ -85,7 +85,7 @@ defmodule Dnsimple.Registrar do
   """
   @spec register_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
   def register_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
-    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registration")
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registrations")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %DomainRegistration{}})
@@ -107,7 +107,7 @@ defmodule Dnsimple.Registrar do
   """
   @spec renew_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
   def renew_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
-    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/renewal")
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/renewals")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %DomainRenewal{}})
@@ -133,7 +133,7 @@ defmodule Dnsimple.Registrar do
   """
   @spec transfer_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
   def transfer_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
-    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer")
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfers")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %DomainTransfer{}})
@@ -154,7 +154,7 @@ defmodule Dnsimple.Registrar do
   """
   @spec transfer_domain_out(Client.t, String.t, String.t, Keyword.t) :: Response.t
   def transfer_domain_out(client, account_id, domain_name, options \\ []) do
-    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer_out")
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/authorize_transfer_out")
 
     Client.post(client, url, Client.empty_body(), options)
     |> Response.parse(nil)

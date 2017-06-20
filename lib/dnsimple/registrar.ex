@@ -133,7 +133,7 @@ defmodule Dnsimple.Registrar do
   """
   @spec transfer_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
   def transfer_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
-    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer")
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfers")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %DomainTransfer{}})

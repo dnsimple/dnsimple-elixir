@@ -116,7 +116,7 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".transfer_domain" do
     test "returns the domain to be transferred in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer"
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers"
       method      = "post"
       fixture     = "transferDomain/success.http"
       attributes  = %{registrant_id: 10, auth_code: "x1y2z3", auto_renew: false, whois_privacy: false}

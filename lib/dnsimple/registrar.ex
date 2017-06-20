@@ -85,7 +85,7 @@ defmodule Dnsimple.Registrar do
   """
   @spec register_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
   def register_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
-    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registration")
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registrations")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %DomainRegistration{}})

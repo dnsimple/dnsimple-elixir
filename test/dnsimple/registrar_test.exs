@@ -90,7 +90,7 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".renew_domain" do
     test "returns the renewed domain in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/renewal"
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/renewals"
       method      = "post"
       fixture     = "renewDomain/success.http"
       attributes  = %{period: 3}

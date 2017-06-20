@@ -144,7 +144,7 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".transfer_domain_out" do
     test "requests the transfer out and returns an empty Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer_out"
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/authorize_transfer_out"
       method      = "post"
       fixture     = "transferDomainOut/success.http"
 

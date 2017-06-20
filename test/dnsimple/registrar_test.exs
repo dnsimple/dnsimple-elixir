@@ -61,7 +61,7 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".register_domain" do
     test "returns the registered domain in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registration"
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registrations"
       method      = "post"
       fixture     = "registerDomain/success.http"
       attributes  = %{registrant_id: 2, auto_renew: false, whois_privacy: false}

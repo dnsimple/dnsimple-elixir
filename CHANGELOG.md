@@ -2,6 +2,10 @@
 
 #### master
 
+
+
+#### Release 1.1.1
+
 - CHANGED: Relax poison dependency to fix incompatibility with Phoenix (GH-110)
 - CHANGED: Update registrar endpoint URLs (GH-112)
 

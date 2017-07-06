@@ -69,8 +69,8 @@ defmodule Dnsimple.ContactsTest do
         assert contact.state_province == "RM"
         assert contact.postal_code == "00100"
         assert contact.country == "IT"
-        assert contact.created_at == "2016-01-19T20:50:26Z"
-        assert contact.updated_at == "2016-01-19T20:50:26Z"
+        assert DateTime.to_iso8601(contact.created_at) == "2016-01-19T20:50:26Z"
+        assert DateTime.to_iso8601(contact.updated_at) == "2016-01-19T20:50:26Z"
       end
     end
   end

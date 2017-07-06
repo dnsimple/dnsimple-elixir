@@ -13,11 +13,18 @@ defmodule Dnsimple.DomainTransfer do
     auto_renew: boolean,
     whois_privacy: boolean,
     premium_price: String.t,
-    created_at: String.t,
-    updated_at: String.t,
+    created_at: DateTime.t,
+    updated_at: DateTime.t,
   }
 
   defstruct ~w(id domain_id registrant_id state auto_renew whois_privacy
                premium_price created_at updated_at)a
 
+end
+
+defimpl Poison.Decoder, for: Dnsimple.DomainTransfer do
+  use Dnsimple.Decoder.Timestamps
+
+  @spec decode(Dnsimple.DomainTransfer.t, Keyword.t) :: Dnsimple.DomainTransfer.t
+  def decode(entity, _), do: entity
 end

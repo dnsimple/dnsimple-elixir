@@ -26,13 +26,21 @@ defmodule Dnsimple.Certificate do
     root: String.t,
     chain: String.t,
     private_key: String.t,
-    expires_on: String.t,
-    created_at: String.t,
-    updated_at: String.t,
+    expires_on: Date.t,
+    created_at: DateTime.t,
+    updated_at: DateTime.t,
   }
 
   defstruct ~w(id domain_id name common_name years csr state
                authority_identifier server root chain private_key expires_on
                created_at updated_at)a
 
+end
+
+defimpl Poison.Decoder, for: Dnsimple.Certificate do
+  use Dnsimple.Decoder.Timestamps
+  use Dnsimple.Decoder.Expires
+
+  @spec decode(Dnsimple.Certificate.t, Keyword.t) :: Dnsimple.Certificate.t
+  def decode(entity, _), do: entity
 end

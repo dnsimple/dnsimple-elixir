@@ -72,8 +72,8 @@ defmodule Dnsimple.ServicesTest do
         assert data.requires_setup == true
         assert data.default_subdomain == nil
         assert data.settings == [%Dnsimple.Service.Setting{append: ".service1.com", description: "Your Service 1 username is used to connect services to your account.", example: "username", label: "Service 1 Account Username", name: "username", password: false}]
-        assert data.created_at == "2014-02-14T19:15:19Z"
-        assert data.updated_at == "2016-03-04T09:23:27Z"
+        assert DateTime.to_iso8601(data.created_at) == "2014-02-14T19:15:19Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-03-04T09:23:27Z"
       end
     end
   end

@@ -81,8 +81,8 @@ defmodule Dnsimple.RegistrarTest do
         assert data.auto_renew == false
         assert data.whois_privacy == false
         assert data.premium_price == nil
-        assert data.created_at == "2016-12-09T19:35:31Z"
-        assert data.updated_at == "2016-12-09T19:35:31Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-12-09T19:35:31Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-12-09T19:35:31Z"
       end
     end
   end
@@ -107,8 +107,8 @@ defmodule Dnsimple.RegistrarTest do
         assert data.period == 1
         assert data.state == "new"
         assert data.premium_price == nil
-        assert data.created_at == "2016-12-09T19:46:45Z"
-        assert data.updated_at == "2016-12-09T19:46:45Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-12-09T19:46:45Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-12-09T19:46:45Z"
       end
     end
   end
@@ -135,8 +135,8 @@ defmodule Dnsimple.RegistrarTest do
         assert data.auto_renew == false
         assert data.whois_privacy == false
         assert data.premium_price == nil
-        assert data.created_at == "2016-12-09T19:43:41Z"
-        assert data.updated_at == "2016-12-09T19:43:43Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-12-09T19:43:41Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-12-09T19:43:43Z"
       end
     end
   end
@@ -202,9 +202,9 @@ defmodule Dnsimple.RegistrarTest do
         assert data.id == 1
         assert data.domain_id == 2
         assert data.enabled == true
-        assert data.expires_on == "2017-02-13"
-        assert data.created_at == "2016-02-13T14:34:50Z"
-        assert data.updated_at == "2016-02-13T14:34:52Z"
+        assert Date.to_iso8601(data.expires_on) == "2017-02-13"
+        assert DateTime.to_iso8601(data.created_at) == "2016-02-13T14:34:50Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-02-13T14:34:52Z"
       end
     end
   end
@@ -226,8 +226,8 @@ defmodule Dnsimple.RegistrarTest do
         assert data.domain_id == 2
         assert data.enabled == nil
         assert data.expires_on == nil
-        assert data.created_at == "2016-02-13T14:34:50Z"
-        assert data.updated_at == "2016-02-13T14:34:50Z"
+        assert DateTime.to_iso8601(data.created_at) == "2016-02-13T14:34:50Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-02-13T14:34:50Z"
       end
     end
   end
@@ -248,9 +248,9 @@ defmodule Dnsimple.RegistrarTest do
         assert data.id == 1
         assert data.domain_id == 2
         assert data.enabled == false
-        assert data.expires_on == "2017-02-13"
-        assert data.created_at == "2016-02-13T14:34:50Z"
-        assert data.updated_at == "2016-02-13T14:36:38Z"
+        assert Date.to_iso8601(data.expires_on) == "2017-02-13"
+        assert DateTime.to_iso8601(data.created_at) == "2016-02-13T14:34:50Z"
+        assert DateTime.to_iso8601(data.updated_at) == "2016-02-13T14:36:38Z"
       end
     end
   end
@@ -315,8 +315,8 @@ defmodule Dnsimple.RegistrarTest do
         assert first.name == "ns1.example.com"
         assert first.ipv4 == "127.0.0.1"
         assert first.ipv6 == "::1"
-        assert first.created_at == "2016-07-11T09:40:19Z"
-        assert first.updated_at == "2016-07-11T09:40:19Z"
+        assert DateTime.to_iso8601(first.created_at) == "2016-07-11T09:40:19Z"
+        assert DateTime.to_iso8601(first.updated_at) == "2016-07-11T09:40:19Z"
       end
     end
   end

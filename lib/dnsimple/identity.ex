@@ -25,7 +25,7 @@ defmodule Dnsimple.Identity do
       {:ok, response} = Dnsimple.Identity.whoami(client)
 
   """
-  @spec whoami(Client.t, Keyword.t) :: Response.t
+  @spec whoami(Client.t, Keyword.t) :: {:ok|:error, Response.t}
   def whoami(client, options \\ []) do
     url = Client.versioned("/whoami")
 

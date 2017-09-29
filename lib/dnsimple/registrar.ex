@@ -33,7 +33,7 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.check_domain(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec check_domain(Client.t, String.t, String.t, Keyword.t) :: Response.t
+  @spec check_domain(Client.t, String.t, String.t, keyword()) :: {:ok|:error, Response.t}
   def check_domain(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/check")
 
@@ -57,7 +57,7 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "transfer"})
 
   """
-  @spec get_domain_premium_price(Client.t, String.t, String.t, Map.t, Keyword.t) :: Response.t
+  @spec get_domain_premium_price(Client.t, String.t, String.t, map(), keyword()) :: {:ok|:error, Response.t}
   def get_domain_premium_price(client, account_id, domain_name, params \\ %{}, options \\ []) do
     url     = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/premium_price")
     options = Keyword.put(options, :action, Map.get(params, :action))
@@ -83,7 +83,7 @@ defmodule Dnsimple.Registrar do
       })
 
   """
-  @spec register_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
+  @spec register_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
   def register_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registrations")
 
@@ -105,7 +105,7 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.renew_domain(client, account_id = 1010, domain_id = "example.com", %{period: 5})
 
   """
-  @spec renew_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
+  @spec renew_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
   def renew_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/renewals")
 
@@ -131,7 +131,7 @@ defmodule Dnsimple.Registrar do
       })
 
   """
-  @spec transfer_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: Response.t
+  @spec transfer_domain(Client.t, String.t, String.t, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
   def transfer_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfers")
 
@@ -152,7 +152,7 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.transfer_domain_out(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec transfer_domain_out(Client.t, String.t, String.t, Keyword.t) :: Response.t
+  @spec transfer_domain_out(Client.t, String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
   def transfer_domain_out(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/authorize_transfer_out")
 
@@ -173,7 +173,7 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.enable_domain_auto_renewal(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec enable_domain_auto_renewal(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  @spec enable_domain_auto_renewal(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
   def enable_domain_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
 
@@ -194,7 +194,7 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.disable_domain_auto_renewal(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec disable_domain_auto_renewal(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  @spec disable_domain_auto_renewal(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
   def disable_domain_auto_renewal(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/auto_renewal")
 
@@ -215,7 +215,7 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.get_whois_privacy(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec get_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  @spec get_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
   def get_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
@@ -236,7 +236,7 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.enable_whois_privacy(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec enable_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  @spec enable_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
   def enable_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
@@ -257,7 +257,7 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.disable_whois_privacy(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec disable_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  @spec disable_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
   def disable_whois_privacy(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
 
@@ -278,7 +278,7 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.get_domain_delegation(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec get_domain_delegation(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  @spec get_domain_delegation(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
   def get_domain_delegation(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/delegation")
 
@@ -304,7 +304,7 @@ defmodule Dnsimple.Registrar do
       ])
 
   """
-  @spec change_domain_delegation(Client.t, integer | String.t, String.t, List.t, Keyword.t) :: Response.t
+  @spec change_domain_delegation(Client.t, integer | String.t, String.t, list(), keyword()) :: {:ok|:error, Response.t}
   def change_domain_delegation(client, account_id, domain_name, name_servers, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/delegation")
 
@@ -330,7 +330,7 @@ defmodule Dnsimple.Registrar do
       ])
 
   """
-  @spec change_domain_delegation_to_vanity(Client.t, integer | String.t, String.t, List.t, Keyword.t) :: Response.t
+  @spec change_domain_delegation_to_vanity(Client.t, integer | String.t, String.t, list(), keyword()) :: {:ok|:error, Response.t}
   def change_domain_delegation_to_vanity(client, account_id, domain_name, name_servers, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/delegation/vanity")
 
@@ -353,7 +353,7 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.change_domain_delegation_from_vanity(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec change_domain_delegation_from_vanity(Client.t, integer | String.t, String.t, Keyword.t) :: Response.t
+  @spec change_domain_delegation_from_vanity(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
   def change_domain_delegation_from_vanity(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/delegation/vanity")
 

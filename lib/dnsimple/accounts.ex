@@ -21,7 +21,7 @@ defmodule Dnsimple.Accounts do
       {:ok, response} = Dnsimple.Accounts.list_accounts(client)
 
   """
-  @spec list_accounts(Client.t) :: Response.t
+  @spec list_accounts(Client.t) :: {:ok|:error, Response.t}
   def list_accounts(client, options \\ []) do
     url = Client.versioned("/accounts")
 

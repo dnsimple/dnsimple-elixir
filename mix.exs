@@ -9,7 +9,9 @@ defmodule Dnsimple.Mixfile do
      start_permanent: Mix.env == :prod,
      package: package(),
      description: description(),
-     deps: deps()]
+     deps: deps(),
+     dialyzer: [plt_add_deps: :transitive]
+    ]
   end
 
   # Configuration for the OTP application

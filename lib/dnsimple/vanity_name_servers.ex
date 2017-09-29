@@ -23,7 +23,7 @@ defmodule Dnsimple.VanityNameServers do
       {:ok, response} = Dnsimple.VanityNameServers.enable_vanity_name_servers(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec enable_vanity_name_servers(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  @spec enable_vanity_name_servers(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
   def enable_vanity_name_servers(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/vanity/#{domain_id}")
 
@@ -44,7 +44,7 @@ defmodule Dnsimple.VanityNameServers do
       {:ok, response} = Dnsimple.VanityNameServers.disable_vanity_name_servers(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec disable_vanity_name_servers(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  @spec disable_vanity_name_servers(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
   def disable_vanity_name_servers(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/vanity/#{domain_id}")
 

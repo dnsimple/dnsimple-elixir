@@ -50,7 +50,7 @@ defmodule Dnsimple.Oauth do
       })
 
   """
-  @spec exchange_authorization_for_token(Client.t, Map.t, Keyword.t) :: String.t
+  @spec exchange_authorization_for_token(Client.t, map(), keyword()) :: {:ok|:error, String.t}
   def exchange_authorization_for_token(client, attributes, options \\ []) do
     url        = Client.versioned("/oauth/access_token")
     attributes = Map.merge(attributes, %{grant_type: "authorization_code"})

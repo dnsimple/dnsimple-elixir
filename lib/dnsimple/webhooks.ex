@@ -25,7 +25,7 @@ defmodule Dnsimple.Webhooks do
       {:ok, response} = Dnsimple.Webhooks.list_webhooks(client, account_id = "1010")
 
   """
-  @spec list_webhooks(Client.t, String.t | integer) :: Response.t
+  @spec list_webhooks(Client.t, String.t | integer) :: {:ok|:error, Response.t}
   def list_webhooks(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/webhooks")
 
@@ -46,7 +46,7 @@ defmodule Dnsimple.Webhooks do
       {:ok, response} = Dnsimple.Webhooks.get_webhook(client, account_id = "1010", webhook_id = 1234)
 
   """
-  @spec get_webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  @spec get_webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
   def get_webhook(client, account_id, webhook_id, options \\ []) do
     url = Client.versioned("/#{account_id}/webhooks/#{webhook_id}")
 
@@ -69,7 +69,7 @@ defmodule Dnsimple.Webhooks do
       })
 
   """
-  @spec create_webhook(Client.t, String.t | integer, map, Keyword.t) :: Response.t
+  @spec create_webhook(Client.t, String.t | integer, map, Keyword.t) :: {:ok|:error, Response.t}
   def create_webhook(client, account_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/webhooks")
 
@@ -92,7 +92,7 @@ defmodule Dnsimple.Webhooks do
       {:ok, response} = Dnsimple.Webhooks.delete_webhook(client, account_id = "1010", webhook_id = 1234)
 
   """
-  @spec delete_webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  @spec delete_webhook(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
   def delete_webhook(client, account_id, webhook_id, options \\ []) do
     url = Client.versioned("/#{account_id}/webhooks/#{webhook_id}")
 

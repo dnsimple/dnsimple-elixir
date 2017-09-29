@@ -8,7 +8,7 @@ defmodule Dnsimple.Dnssec do
 
   @type t :: %__MODULE__{
     id: integer,
-    enabled: Boolean.t,
+    enabled: boolean(),
     created_at: String.t,
     updated_at: String.t,
   }

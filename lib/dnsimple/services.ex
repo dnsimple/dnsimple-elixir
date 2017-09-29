@@ -26,7 +26,7 @@ defmodule Dnsimple.Services do
       {:ok, response} = Dnsimple.Templates.list_services(client, sort: "short_name:desc")
 
   """
-  @spec list_services(Client.t, Keyword.t) :: Response.t
+  @spec list_services(Client.t, Keyword.t) :: {:ok|:error, Response.t}
   def list_services(client, options \\ []) do
     url = Client.versioned("/services")
 
@@ -48,7 +48,7 @@ defmodule Dnsimple.Services do
       {:ok, response} = Dnsimple.Templates.get_service(client, service_id = "wordpress")
 
   """
-  @spec get_service(Client.t, integer | String.t, Keyword.t) :: Response.t
+  @spec get_service(Client.t, integer | String.t, Keyword.t) :: {:ok|:error, Response.t}
   def get_service(client, service_id, options \\ []) do
     url = Client.versioned("/services/#{service_id}")
 
@@ -70,7 +70,7 @@ defmodule Dnsimple.Services do
       {:ok, response} = Dnsimple.Services.applied_services(client, account_id = 1010, domain_id = "example.com", page: 2)
 
   """
-  @spec applied_services(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  @spec applied_services(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
   def applied_services(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services")
 
@@ -94,7 +94,7 @@ defmodule Dnsimple.Services do
       })
 
   """
-  @spec apply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, Map.t, Keyword.t) :: Response.t
+  @spec apply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, map(), keyword()) :: {:ok|:error, Response.t}
   def apply_service(client, account_id, domain_id, service_id, settings \\ %{}, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services/#{service_id}")
 
@@ -115,7 +115,7 @@ defmodule Dnsimple.Services do
       {:ok, response} = Dnsimple.Services.unapply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
 
   """
-  @spec unapply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  @spec unapply_service(Client.t, String.t | integer, String.t | integer, String.t | integer, keyword()) :: {:ok|:error, Response.t}
   def unapply_service(client, account_id, domain_id, service_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services/#{service_id}")
 

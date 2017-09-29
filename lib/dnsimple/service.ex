@@ -35,7 +35,7 @@ defmodule Dnsimple.Service do
     setup_description: String.t,
     default_subdomain: String.t,
     requires_setup: boolean,
-    settings: List.t,
+    settings: list,
     created_at: DateTime.t,
     updated_at: DateTime.t,
   }

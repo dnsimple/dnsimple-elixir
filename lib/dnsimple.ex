@@ -1,7 +1,7 @@
 defmodule Dnsimple do
   require Logger
 
-  def start, do: :application.ensure_all_started(:httpoison, :logger)
+  def start, do: Application.ensure_all_started(:dnsimple)
 
 
   defmodule Error do
@@ -85,31 +85,31 @@ defmodule Dnsimple do
     @doc """
     Issues a GET request to the given url.
     """
-    @spec get(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    @spec get(Client.t, binary, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
     def get(client, url, options \\ []), do: execute(client, :get, url, empty_body(), options)
 
     @doc """
     Issues a POST request to the given url.
     """
-    @spec post(Client.t, binary, body, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    @spec post(Client.t, binary, body, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
     def post(client, url, body, options \\ []), do: execute(client, :post, url, body, options)
 
     @doc """
     Issues a PUT request to the given url.
     """
-    @spec put(Client.t, binary, body, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    @spec put(Client.t, binary, body, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
     def put(client, url, body, options \\ []), do: execute(client, :put, url, body, options)
 
     @doc """
     Issues a PATCH request to the given url.
     """
-    @spec patch(Client.t, binary, body, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    @spec patch(Client.t, binary, body, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
     def patch(client, url, body, options \\ []), do: execute(client, :patch, url, body, options)
 
     @doc """
     Issues a DELETE request to the given url.
     """
-    @spec delete(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    @spec delete(Client.t, binary, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
     def delete(client, url, options \\ []), do: execute(client, :delete, url, empty_body(), options)
 
     def execute(client, method, url, body \\ "", all_options \\ []) do
@@ -189,7 +189,7 @@ defmodule Dnsimple do
     @doc """
     Issues a GET request to the given url processing the listing options first.
     """
-    @spec get(Client.t, binary, Keyword.t) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t
+    @spec get(Client.t, binary, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
     def get(client, url, options \\ []), do: Client.get(client, url, format(options))
 
 

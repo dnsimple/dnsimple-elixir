@@ -17,7 +17,7 @@ defmodule Dnsimple.ZoneRecord do
     ttl: integer,
     priority: integer,
     system_record: boolean,
-    regions: List.t,
+    regions: list,
     created_at: DateTime.t,
     updated_at: DateTime.t,
   }

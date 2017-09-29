@@ -27,7 +27,7 @@ defmodule Dnsimple.Tlds do
       {:ok, response} = Dnsimple.Tlds.list_tlds(client, sort: "tlds:desc")
 
   """
-  @spec list_tlds(Client.t, Keyword.t) :: Response.t
+  @spec list_tlds(Client.t, Keyword.t) :: {:ok|:error, Response.t}
   def list_tlds(client, options \\ []) do
     url = Client.versioned("/tlds")
 
@@ -48,7 +48,7 @@ defmodule Dnsimple.Tlds do
       {:ok, response} = Dnsimple.Tlds.get_tld(client, "com")
 
   """
-  @spec get_tld(Client.t, String.t,  Keyword.t) :: Response.t
+  @spec get_tld(Client.t, String.t,  Keyword.t) :: {:ok|:error, Response.t}
   def get_tld(client, tld, options \\ []) do
     url = Client.versioned("/tlds/#{tld}")
 
@@ -69,7 +69,7 @@ defmodule Dnsimple.Tlds do
       {:ok, response} = Dnsimple.Tlds.get_tld_extended_attributes(client, "com")
 
   """
-  @spec get_tld_extended_attributes(Client.t, String.t,  Keyword.t) :: Response.t
+  @spec get_tld_extended_attributes(Client.t, String.t,  Keyword.t) :: {:ok|:error, Response.t}
   def get_tld_extended_attributes(client, tld, options \\ []) do
     url = Client.versioned("/tlds/#{tld}/extended_attributes")
 

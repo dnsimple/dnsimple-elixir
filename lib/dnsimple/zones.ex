@@ -29,7 +29,7 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.list_zones(client, account_id = 1010, filter: [name_like: ".es"])
 
   """
-  @spec list_zones(Client.t, String.t | integer, Keyword.t) :: Response.t
+  @spec list_zones(Client.t, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
   def list_zones(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones")
 
@@ -51,7 +51,7 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.get_zone(client, account_id = 1010, zone_id = "example.com")
 
   """
-  @spec get_zone(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  @spec get_zone(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
   def get_zone(client, account_id, zone_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}")
 
@@ -73,7 +73,7 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.get_zone_file(client, account_id = 1010, zone_id = "example.com")
 
   """
-  @spec get_zone_file(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  @spec get_zone_file(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
   def get_zone_file(client, account_id, zone_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/file")
 
@@ -97,7 +97,7 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = 12, filter: [type: "A", name: ""])
 
   """
-  @spec list_zone_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: Response.t
+  @spec list_zone_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
   def list_zone_records(client, account_id, zone_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records")
 
@@ -119,7 +119,7 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.get_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 123)
 
   """
-  @spec get_zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: Response.t
+  @spec get_zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
   def get_zone_record(client, account_id, zone_id, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records/#{record_id}")
 
@@ -145,7 +145,7 @@ defmodule Dnsimple.Zones do
       })
 
   """
-  @spec create_zone_record(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: Response.t
+  @spec create_zone_record(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
   def create_zone_record(client, account_id, zone_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records")
 
@@ -156,8 +156,6 @@ defmodule Dnsimple.Zones do
 
   @doc """
   Updates a zone record.
-
-  See:
   - https://developer.dnsimple.com/v2/zones/records/#update
 
   ## Examples:
@@ -168,7 +166,7 @@ defmodule Dnsimple.Zones do
       })
 
   """
-  @spec update_zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t, Keyword.t) :: Response.t
+  @spec update_zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
   def update_zone_record(client, account_id, zone_id, record_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records/#{record_id}")
 
@@ -192,7 +190,7 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.delete_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 1)
 
   """
-  @spec delete_zone_record(Client.t, String.t, String.t, integer, Keyword.t) :: Response.t
+  @spec delete_zone_record(Client.t, String.t, String.t, integer, Keyword.t) :: {:ok|:error, Response.t}
   def delete_zone_record(client, account_id, zone_id, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records/#{record_id}")
 

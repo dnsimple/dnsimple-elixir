@@ -59,13 +59,13 @@ Dnsimple.Identity.whoami(client)
 ```
 
 ### Configuration
-You can configure Dnsimple inside your app's `config.exs`. For example if I have a development config, inside `dev.exs`:
+You can configure DNSimple inside of your app's `config.exs`. For example, if you have a development config, inside `dev.exs`:
 
 ```elixir
 config :dnsimple, base_url: "https://api.sandbox.dnsimple.com"
 ```
 
-Now we can simply call `client = %Dnsimple.Client{access_token: "TOKEN"`.
+Now you can simply call `client = %Dnsimple.Client{access_token: "TOKEN"}`.
 
 
 ## Logging

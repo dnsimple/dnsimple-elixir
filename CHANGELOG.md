@@ -2,6 +2,7 @@
 
 #### master
 
+- NEW: Configuration setting for base URL (GH-113)
 
 
 #### Release 1.1.1

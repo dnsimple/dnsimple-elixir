@@ -58,6 +58,15 @@ client = %Dnsimple.Client{access_token: "TOKEN", base_url: "https://api.sandbox.
 Dnsimple.Identity.whoami(client)
 ```
 
+### Configuration
+You can configure DNSimple inside of your app's `config.exs`. For example, if you have a development config, inside `dev.exs`:
+
+```elixir
+config :dnsimple, base_url: "https://api.sandbox.dnsimple.com"
+```
+
+Now you can simply call `client = %Dnsimple.Client{access_token: "TOKEN"}`.
+
 
 ## Logging
 

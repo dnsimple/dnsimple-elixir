@@ -84,6 +84,37 @@ defmodule Dnsimple.ZonesTest do
   end
 
 
+  describe ".get_zone_distribution" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/distribution"
+      {:ok, method: "get", url: url}
+    end
+
+    test "returns the zone's distribution status in a Dnsimple.Response", %{method: method, url: url} do
+      fixture = "getZoneDistribution/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.get_zone_distribution(@client, @account_id, @zone_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.ZoneDistribution
+        assert data.distributed == true
+      end
+    end
+
+    test "returns an error if the distribution status couldn't be retrieved", %{method: method, url: url} do
+      fixture = "getZoneDistribution/error.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:error, response} = @module.get_zone_distribution(@client, @account_id, @zone_id)
+        assert response.__struct__ == Dnsimple.RequestError
+        assert response.message == "HTTP 500: Could not query zone, connection timed out"
+      end
+    end
+  end
+
+
   describe ".list_zone_records" do
     setup do
       url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records"
@@ -227,5 +258,6 @@ defmodule Dnsimple.ZonesTest do
       end
     end
   end
+
 
 end

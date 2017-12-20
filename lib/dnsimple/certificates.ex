@@ -13,7 +13,7 @@ defmodule Dnsimple.Certificates do
   List certificates for a domain in an account.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#list
+  - https://developer.dnsimple.com/v2/domains/certificates/#listCertificates
 
   ## Examples:
 
@@ -36,7 +36,7 @@ defmodule Dnsimple.Certificates do
   Returns information about a certificate.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#get
+  - https://developer.dnsimple.com/v2/domains/certificates/#getCertificate
 
   ## Examples
 
@@ -57,7 +57,7 @@ defmodule Dnsimple.Certificates do
   Returns a certificate.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#download
+  - https://developer.dnsimple.com/v2/domains/certificates/#downloadCertificate
 
   ## Examples
 
@@ -78,7 +78,7 @@ defmodule Dnsimple.Certificates do
   Returns a certificate's private key.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#get-private-key
+  - https://developer.dnsimple.com/v2/domains/certificates/#getCertificatePrivateKey
 
   ## Examples
 

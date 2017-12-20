@@ -174,4 +174,22 @@ defmodule Dnsimple.CertificatesTest do
     end
   end
 
+
+  describe ".issue_letsencrypt_certificate_renewal" do
+    test "returns the Certificate in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt/200/renewals/300/issue"
+      method  = "post"
+      fixture = "issueRenewalLetsencryptCertificate/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.issue_letsencrypt_certificate_renewal(@client, @account_id, @domain_id, _certificate_id = 200, _certificate_renewal_id = 300)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Certificate
+        assert data.id == 300
+      end
+    end
+  end
+
 end

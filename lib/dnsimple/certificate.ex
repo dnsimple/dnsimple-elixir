@@ -16,24 +16,28 @@ defmodule Dnsimple.Certificate do
   @type t :: %__MODULE__{
     id: integer,
     domain_id: integer,
-    name: String.t,
+    contact_id: integer,
     common_name: String.t,
+    alternate_names: List.t,
     years: integer,
     csr: String.t,
     state: String.t,
     authority_identifier: String.t,
+    auto_renew: boolean,
+    created_at: DateTime.t,
+    updated_at: DateTime.t,
+    expires_on: Date.t,
+
+    private_key: String.t,
     server: String.t,
     root: String.t,
     chain: String.t,
-    private_key: String.t,
-    expires_on: Date.t,
-    created_at: DateTime.t,
-    updated_at: DateTime.t,
   }
 
-  defstruct ~w(id domain_id name common_name years csr state
-               authority_identifier server root chain private_key expires_on
-               created_at updated_at)a
+  defstruct ~w(id domain_id contact_id
+               common_name alternate_names years csr state authority_identifier auto_renew
+               created_at updated_at expires_on
+               server root chain private_key)a
 
 end
 

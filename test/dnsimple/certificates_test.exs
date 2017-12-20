@@ -62,7 +62,11 @@ defmodule Dnsimple.CertificatesTest do
         data = response.data
         assert data.__struct__ == Dnsimple.Certificate
         assert data.id == 1
-        assert data.name == "www"
+        assert data.domain_id == 2
+        assert data.contact_id == 3
+        assert data.common_name == "www.weppos.net"
+        assert data.alternate_names == ["weppos.net", "www.weppos.net"]
+        assert data.auto_renew == false
       end
     end
   end

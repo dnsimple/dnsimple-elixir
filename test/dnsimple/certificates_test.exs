@@ -107,7 +107,7 @@ defmodule Dnsimple.CertificatesTest do
 
 
   describe ".purchase_letsencrypt_certificate" do
-    test "returns the certificate in a Dnsimple.Response" do
+    test "returns the Certificate in a Dnsimple.Response" do
       url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt"
       method  = "post"
       fixture = "purchaseLetsencryptCertificate/success.http"
@@ -134,7 +134,7 @@ defmodule Dnsimple.CertificatesTest do
 
 
   describe ".issue_letsencrypt_certificate" do
-    test "returns the certificate in a Dnsimple.Response" do
+    test "returns the Certificate in a Dnsimple.Response" do
       url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt/200/issue"
       method  = "post"
       fixture = "issueLetsencryptCertificate/success.http"
@@ -146,6 +146,30 @@ defmodule Dnsimple.CertificatesTest do
         data = response.data
         assert data.__struct__ == Dnsimple.Certificate
         assert data.id == 200
+      end
+    end
+  end
+
+
+  describe ".purchase_letsencrypt_certificate_renewal" do
+    test "returns the CertificateRenewal in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt/200/renewals"
+      method  = "post"
+      fixture = "purchaseRenewalLetsencryptCertificate/success.http"
+      attributes = %{
+        auto_renew: true
+      }
+      {:ok, body} = Poison.encode(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.purchase_letsencrypt_certificate_renewal(@client, @account_id, @domain_id, _certificate_id = 200, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.CertificateRenewal
+        assert data.id == 999
+        assert data.old_certificate_id == 200
+        assert data.new_certificate_id == 300
       end
     end
   end

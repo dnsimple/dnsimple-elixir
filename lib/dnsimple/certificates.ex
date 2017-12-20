@@ -8,6 +8,7 @@ defmodule Dnsimple.Certificates do
   alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Certificate
+  alias Dnsimple.CertificateRenewal
 
   @doc """
   List certificates for a domain in the account.
@@ -130,4 +131,18 @@ defmodule Dnsimple.Certificates do
     |> Response.parse(%{"data" => %Certificate{}})
   end
 
+
+    @doc """
+    Purchase a Let's Encrypt certificate renewal.
+
+    See:
+    - https://developer.dnsimple.com/v2/domains/certificates/#purchaseRenewalLetsencryptCertificate
+    """
+    @spec purchase_letsencrypt_certificate_renewal(Client.t, String.t | integer, String.t | integer, integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
+    def purchase_letsencrypt_certificate_renewal(client, account_id, domain_id, certificate_id, attributes, options \\ []) do
+      url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/letsencrypt/#{certificate_id}/renewals")
+
+      Client.post(client, url, attributes, options)
+      |> Response.parse(%{"data" => %CertificateRenewal{}})
+    end
 end

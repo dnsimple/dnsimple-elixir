@@ -105,4 +105,31 @@ defmodule Dnsimple.CertificatesTest do
     end
   end
 
+
+  describe ".purchase_letsencrypt_certificate" do
+    test "returns the certificate in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt"
+      method  = "post"
+      fixture = "purchaseLetsencryptCertificate/success.http"
+      attributes = %{
+        contact_id: 1010
+      }
+      {:ok, body} = Poison.encode(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
+        {:ok, response} = @module.purchase_letsencrypt_certificate(@client, @account_id, @domain_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Certificate
+        assert data.id == 200
+        assert data.domain_id == 300
+        assert data.contact_id == 100
+        assert data.common_name == "www.example.com"
+        assert data.alternate_names == []
+        assert data.auto_renew == false
+      end
+    end
+  end
+
 end

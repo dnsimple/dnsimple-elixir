@@ -10,7 +10,7 @@ defmodule Dnsimple.Certificates do
   alias Dnsimple.Certificate
 
   @doc """
-  List certificates for a domain in an account.
+  List certificates for a domain in the account.
 
   See:
   - https://developer.dnsimple.com/v2/domains/certificates/#listCertificates
@@ -33,7 +33,7 @@ defmodule Dnsimple.Certificates do
 
 
   @doc """
-  Returns information about a certificate.
+  Get the details of a certificate.
 
   See:
   - https://developer.dnsimple.com/v2/domains/certificates/#getCertificate
@@ -54,7 +54,7 @@ defmodule Dnsimple.Certificates do
 
 
   @doc """
-  Returns a certificate.
+  Get the PEM-encoded certificate, along with the root certificate and intermediate chain.
 
   See:
   - https://developer.dnsimple.com/v2/domains/certificates/#downloadCertificate
@@ -75,7 +75,7 @@ defmodule Dnsimple.Certificates do
 
 
   @doc """
-  Returns a certificate's private key.
+  Get the PEM-encoded certificate private key.
 
   See:
   - https://developer.dnsimple.com/v2/domains/certificates/#getCertificatePrivateKey
@@ -91,6 +91,24 @@ defmodule Dnsimple.Certificates do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}/private_key")
 
     Client.get(client, url, options)
+    |> Response.parse(%{"data" => %Certificate{}})
+  end
+
+
+  @doc """
+  Purchase a Let's Encrypt certificate.
+
+  This method creates a new certificate order. The certificate ID should be used to
+  request the issuance of the certificate using {#letsencrypt_issue}.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/certificates/#purchaseLetsencryptCertificate
+  """
+  @spec purchase_letsencrypt_certificate(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
+  def purchase_letsencrypt_certificate(client, account_id, domain_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/letsencrypt")
+
+    Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %Certificate{}})
   end
 

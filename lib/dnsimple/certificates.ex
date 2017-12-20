@@ -44,7 +44,7 @@ defmodule Dnsimple.Certificates do
       {:ok, response} = Dnsimple.Certificates.get_certificate(client, account_id = "1010", domain_id = "example.com")
 
   """
-  @spec get_certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:errorm, Response.t}
+  @spec get_certificate(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:errorm, Response.t}
   def get_certificate(client, account_id, domain_id, certificate_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}")
 
@@ -65,7 +65,7 @@ defmodule Dnsimple.Certificates do
       {:ok, response} = Dnsimple.Certificates.download_certificate(client, account_id = "1010", domain_id = "example.com")
 
   """
-  @spec download_certificate(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec download_certificate(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
   def download_certificate(client, account_id, domain_id, certificate_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}/download")
 
@@ -86,7 +86,7 @@ defmodule Dnsimple.Certificates do
       {:ok, response} = Dnsimple.Certificates.get_certificate_private_key(client, account_id = "1010", domain_id = "example.com")
 
   """
-  @spec get_certificate_private_key(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_certificate_private_key(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
   def get_certificate_private_key(client, account_id, domain_id, certificate_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}/private_key")
 
@@ -99,7 +99,7 @@ defmodule Dnsimple.Certificates do
   Purchase a Let's Encrypt certificate.
 
   This method creates a new certificate order. The certificate ID should be used to
-  request the issuance of the certificate using {#letsencrypt_issue}.
+  request the issuance of the certificate using `#purchase_letsencrypt_certificate`.
 
   See:
   - https://developer.dnsimple.com/v2/domains/certificates/#purchaseLetsencryptCertificate
@@ -109,6 +109,24 @@ defmodule Dnsimple.Certificates do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/letsencrypt")
 
     Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %Certificate{}})
+  end
+
+
+  @doc """
+  Issue a pending Let's Encrypt certificate order.
+
+  Note that the issuance process is async. A successful response means the issuance
+  request has been successfully acknowledged and queued for processing.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/certificates/#issueLetsencryptCertificate
+  """
+  @spec issue_letsencrypt_certificate(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  def issue_letsencrypt_certificate(client, account_id, domain_id, certificate_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/letsencrypt/#{certificate_id}/issue")
+
+    Client.post(client, url, Client.empty_body(), options)
     |> Response.parse(%{"data" => %Certificate{}})
   end
 

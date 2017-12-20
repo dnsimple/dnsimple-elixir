@@ -146,7 +146,7 @@ defmodule Dnsimple.RegistrarTest do
     test "requests the transfer out and returns an empty Dnsimple.Response" do
       url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/authorize_transfer_out"
       method      = "post"
-      fixture     = "transferDomainOut/success.http"
+      fixture     = "authorizeDomainTransferOut/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.transfer_domain_out(@client, @account_id, "example.com")

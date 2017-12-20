@@ -132,17 +132,35 @@ defmodule Dnsimple.Certificates do
   end
 
 
-    @doc """
-    Purchase a Let's Encrypt certificate renewal.
+  @doc """
+  Purchase a Let's Encrypt certificate renewal.
 
-    See:
-    - https://developer.dnsimple.com/v2/domains/certificates/#purchaseRenewalLetsencryptCertificate
-    """
-    @spec purchase_letsencrypt_certificate_renewal(Client.t, String.t | integer, String.t | integer, integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
-    def purchase_letsencrypt_certificate_renewal(client, account_id, domain_id, certificate_id, attributes, options \\ []) do
-      url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/letsencrypt/#{certificate_id}/renewals")
+  See:
+  - https://developer.dnsimple.com/v2/domains/certificates/#purchaseRenewalLetsencryptCertificate
+  """
+  @spec purchase_letsencrypt_certificate_renewal(Client.t, String.t | integer, String.t | integer, integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
+  def purchase_letsencrypt_certificate_renewal(client, account_id, domain_id, certificate_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/letsencrypt/#{certificate_id}/renewals")
 
-      Client.post(client, url, attributes, options)
-      |> Response.parse(%{"data" => %CertificateRenewal{}})
-    end
+    Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %CertificateRenewal{}})
+  end
+
+
+  @doc """
+  Issue a pending Let's Encrypt certificate renewal order.
+
+  Note that the issuance process is async. A successful response means the issuance
+  request has been successfully acknowledged and queued for processing.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/certificates/#issueRenewalLetsencryptCertificate
+  """
+  @spec issue_letsencrypt_certificate_renewal(Client.t, String.t | integer, String.t | integer, integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  def issue_letsencrypt_certificate_renewal(client, account_id, domain_id, certificate_id, certificate_renewal_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/letsencrypt/#{certificate_id}/renewals/#{certificate_renewal_id}/issue")
+
+    Client.post(client, url, Client.empty_body(), options)
+    |> Response.parse(%{"data" => %Certificate{}})
+  end
 end

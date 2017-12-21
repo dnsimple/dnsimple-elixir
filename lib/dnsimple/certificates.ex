@@ -45,7 +45,7 @@ defmodule Dnsimple.Certificates do
       {:ok, response} = Dnsimple.Certificates.get_certificate(client, account_id = "1010", domain_id = "example.com")
 
   """
-  @spec get_certificate(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:errorm, Response.t}
+  @spec get_certificate(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
   def get_certificate(client, account_id, domain_id, certificate_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/#{certificate_id}")
 

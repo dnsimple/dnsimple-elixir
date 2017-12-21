@@ -99,11 +99,27 @@ defmodule Dnsimple.Certificates do
   @doc """
   Purchase a Let's Encrypt certificate.
 
-  This method creates a new certificate order. The certificate ID should be used to
+  This method creates a new purchase order. The order ID should be used to
   request the issuance of the certificate using `#purchase_letsencrypt_certificate`.
 
   See:
   - https://developer.dnsimple.com/v2/domains/certificates/#purchaseLetsencryptCertificate
+
+  ## Examples
+
+      # Purchase a certificate for a single name
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Certificates.purchase_letsencrypt_certificate(client, account_id = "1010", domain_id = "example.com", contact_id: 1, name: "www")
+      purchase_id     = response.data.id
+
+      # Purchase a certificate for multiple names (SAN)
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Certificates.purchase_letsencrypt_certificate(client, account_id = "1010", domain_id = "example.com", contact_id: 1, alternate_names: ["example.com", "www.example.com", "status.example.com"])
+
+      # Enable auto-renew on purchase
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Certificates.purchase_letsencrypt_certificate(client, account_id = "1010", domain_id = "example.com", contact_id: 1, auto_renew: true)
+
   """
   @spec purchase_letsencrypt_certificate(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
   def purchase_letsencrypt_certificate(client, account_id, domain_id, attributes, options \\ []) do
@@ -122,6 +138,12 @@ defmodule Dnsimple.Certificates do
 
   See:
   - https://developer.dnsimple.com/v2/domains/certificates/#issueLetsencryptCertificate
+
+  ## Examples
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Certificates.issue_letsencrypt_certificate(client, account_id = "1010", domain_id = "example.com", purchase_id = 100)
+
   """
   @spec issue_letsencrypt_certificate(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
   def issue_letsencrypt_certificate(client, account_id, domain_id, certificate_id, options \\ []) do
@@ -135,8 +157,22 @@ defmodule Dnsimple.Certificates do
   @doc """
   Purchase a Let's Encrypt certificate renewal.
 
+  This method creates a new renewal order. The order ID should be used to
+  request the issuance of the certificate using `#issue_letsencrypt_certificate_renewal`.
+
   See:
   - https://developer.dnsimple.com/v2/domains/certificates/#purchaseRenewalLetsencryptCertificate
+
+  ## Examples
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Certificates.purchase_letsencrypt_certificate_renewal(client, account_id = "1010", domain_id = "example.com", certificate_id = 100)
+      renewal_id      = response.data.id
+
+      # Enable auto-renew on purchase
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Certificates.purchase_letsencrypt_certificate_renewal(client, account_id = "1010", domain_id = "example.com", certificate_id = 100, auto_renew: true)
+
   """
   @spec purchase_letsencrypt_certificate_renewal(Client.t, String.t | integer, String.t | integer, integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
   def purchase_letsencrypt_certificate_renewal(client, account_id, domain_id, certificate_id, attributes, options \\ []) do
@@ -155,6 +191,12 @@ defmodule Dnsimple.Certificates do
 
   See:
   - https://developer.dnsimple.com/v2/domains/certificates/#issueRenewalLetsencryptCertificate
+
+  ## Examples
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Certificates.issue_letsencrypt_certificate(client, account_id = "1010", domain_id = "example.com", certificate_id = 100, renewal_id: 200)
+
   """
   @spec issue_letsencrypt_certificate_renewal(Client.t, String.t | integer, String.t | integer, integer, integer, Keyword.t) :: {:ok|:error, Response.t}
   def issue_letsencrypt_certificate_renewal(client, account_id, domain_id, certificate_id, certificate_renewal_id, options \\ []) do

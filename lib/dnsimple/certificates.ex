@@ -1,7 +1,7 @@
 defmodule Dnsimple.Certificates do
   @moduledoc """
   Provides functions to interact with the
-  [SSL certificate endpoints](https://developer.dnsimple.com/v2/domains/certificates/).
+  [SSL certificate endpoints](https://developer.dnsimple.com/v2/certificates/).
   """
 
   alias Dnsimple.Client
@@ -14,7 +14,7 @@ defmodule Dnsimple.Certificates do
   List certificates for a domain in the account.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#listCertificates
+  - https://developer.dnsimple.com/v2/certificates/#listCertificates
 
   ## Examples:
 
@@ -37,7 +37,7 @@ defmodule Dnsimple.Certificates do
   Get the details of a certificate.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#getCertificate
+  - https://developer.dnsimple.com/v2/certificates/#getCertificate
 
   ## Examples
 
@@ -58,7 +58,7 @@ defmodule Dnsimple.Certificates do
   Get the PEM-encoded certificate, along with the root certificate and intermediate chain.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#downloadCertificate
+  - https://developer.dnsimple.com/v2/certificates/#downloadCertificate
 
   ## Examples
 
@@ -79,7 +79,7 @@ defmodule Dnsimple.Certificates do
   Get the PEM-encoded certificate private key.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#getCertificatePrivateKey
+  - https://developer.dnsimple.com/v2/certificates/#getCertificatePrivateKey
 
   ## Examples
 
@@ -103,7 +103,7 @@ defmodule Dnsimple.Certificates do
   request the issuance of the certificate using `#purchase_letsencrypt_certificate`.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#purchaseLetsencryptCertificate
+  - https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate
 
   ## Examples
 
@@ -137,7 +137,7 @@ defmodule Dnsimple.Certificates do
   request has been successfully acknowledged and queued for processing.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#issueLetsencryptCertificate
+  - https://developer.dnsimple.com/v2/certificates/#issueLetsencryptCertificate
 
   ## Examples
 
@@ -161,7 +161,7 @@ defmodule Dnsimple.Certificates do
   request the issuance of the certificate using `#issue_letsencrypt_certificate_renewal`.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#purchaseRenewalLetsencryptCertificate
+  - https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate
 
   ## Examples
 
@@ -190,7 +190,7 @@ defmodule Dnsimple.Certificates do
   request has been successfully acknowledged and queued for processing.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/certificates/#issueRenewalLetsencryptCertificate
+  - https://developer.dnsimple.com/v2/certificates/#issueRenewalLetsencryptCertificate
 
   ## Examples
 

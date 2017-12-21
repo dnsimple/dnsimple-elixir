@@ -175,7 +175,7 @@ defmodule Dnsimple.Certificates do
 
   """
   @spec purchase_letsencrypt_certificate_renewal(Client.t, String.t | integer, String.t | integer, integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
-  def purchase_letsencrypt_certificate_renewal(client, account_id, domain_id, certificate_id, attributes, options \\ []) do
+  def purchase_letsencrypt_certificate_renewal(client, account_id, domain_id, certificate_id, attributes \\ %{}, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/letsencrypt/#{certificate_id}/renewals")
 
     Client.post(client, url, attributes, options)

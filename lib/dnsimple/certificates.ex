@@ -100,7 +100,7 @@ defmodule Dnsimple.Certificates do
   Purchase a Let's Encrypt certificate.
 
   This method creates a new purchase order. The order ID should be used to
-  request the issuance of the certificate using `#purchase_letsencrypt_certificate`.
+  request the issuance of the certificate using `#issue_letsencrypt_certificate`.
 
   See:
   - https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate

@@ -14,13 +14,13 @@ defmodule Dnsimple.DomainRegistration do
     state: String.t,
     auto_renew: boolean,
     whois_privacy: boolean,
-    premium_price: String.t,
     created_at: DateTime.t,
     updated_at: DateTime.t,
   }
 
-  defstruct ~w(id domain_id registrant_id period state auto_renew whois_privacy
-               premium_price expires_on created_at updated_at)a
+  defstruct ~w(id domain_id registrant_id
+               period state auto_renew whois_privacy
+               expires_on created_at updated_at)a
 
 end
 

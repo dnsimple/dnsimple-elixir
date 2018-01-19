@@ -3,6 +3,7 @@
 #### master
 
 - NEW: Configuration setting for base URL (GH-113)
+- NEW: Added Let's Encrypt certificate methods (GH-118)
 
 - REMOVED: Removed premium_price attribute from registrar order responses (GH-120). Please do not rely on that attribute, as it returned an incorrect value. The attribute is going to be removed, and the API now returns a null value.
 

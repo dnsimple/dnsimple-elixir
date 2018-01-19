@@ -62,7 +62,11 @@ defmodule Dnsimple.CertificatesTest do
         data = response.data
         assert data.__struct__ == Dnsimple.Certificate
         assert data.id == 1
-        assert data.name == "www"
+        assert data.domain_id == 2
+        assert data.contact_id == 3
+        assert data.common_name == "www.weppos.net"
+        assert data.alternate_names == ["weppos.net", "www.weppos.net"]
+        assert data.auto_renew == false
       end
     end
   end
@@ -97,6 +101,90 @@ defmodule Dnsimple.CertificatesTest do
         data = response.data
         assert data.__struct__ == Dnsimple.Certificate
         assert data.private_key == "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAtzCcMfWoQRt5AMEY0HUb2GaraL1GsWOo6YXdPfe+YDvtnmDw\n23NcoTX7VSeCgU9M3RKs19AsCJcRNTLJ2dmDrAuyCTud9YTAaXQcTOLUhtO8T8+9\nAFVIva2OmAlKCR5saBW3JaRxW7V2aHEd/d1ss1CvNOO7jNppc9NwGSnDHcn3rqNv\n/U3MaU0gpJJRqsKkvcLU6IHJGgxyQ6AbpwJDIqBnzkjHu2IuhGEbRuMjyWLA2qts\njyVlfPotDxUdVouUQpz7dGHUFrLR7ma8QAYuOfl1ZMyrc901HGMa7zwbnFWurs3f\ned7vAosTRZIjnn72/3Wo7L9RiMB+vwr3NX7c9QIDAQABAoIBAEQx32OlzK34GTKT\nr7Yicmw7xEGofIGa1Q2h3Lut13whsxKLif5X0rrcyqRnoeibacS+qXXrJolIG4rP\nTl8/3wmUDQHs5J+6fJqFM+fXZUCP4AFiFzzhgsPBsVyd0KbWYYrZ0qU7s0ttoRe+\nTGjuHgIe3ip1QKNtx2Xr50YmytDydknmro79J5Gfrub1l2iA8SDm1eBrQ4SFaNQ2\nU709pHeSwX8pTihUX2Zy0ifpr0O1wYQjGLneMoG4rrNQJG/z6iUdhYczwwt1kDRQ\n4WkM2sovFOyxbBfoCQ3Gy/eem7OXfjNKUe47DAVLnPkKbqL/3Lo9FD7kcB8K87Ap\nr/vYrl0CgYEA413RAk7571w5dM+VftrdbFZ+Yi1OPhUshlPSehavro8kMGDEG5Ts\n74wEz2X3cfMxauMpMrBk/XnUCZ20AnWQClK73RB5fzPw5XNv473Tt/AFmt7eLOzl\nOcYrhpEHegtsD/ZaljlGtPqsjQAL9Ijhao03m1cGB1+uxI7FgacdckcCgYEAzkKP\n6xu9+WqOol73cnlYPS3sSZssyUF+eqWSzq2YJGRmfr1fbdtHqAS1ZbyC5fZVNZYV\nml1vfXi2LDcU0qS04JazurVyQr2rJZMTlCWVET1vhik7Y87wgCkLwKpbwamPDmlI\n9GY+fLNEa4yfAOOpvpTJpenUScxyKWH2cdYFOOMCgYBhrJnvffINC/d64Pp+BpP8\nyKN+lav5K6t3AWd4H2rVeJS5W7ijiLTIq8QdPNayUyE1o+S8695WrhGTF/aO3+ZD\nKQufikZHiQ7B43d7xL7BVBF0WK3lateGnEVyh7dIjMOdj92Wj4B6mv2pjQ2VvX/p\nAEWVLCtg24/+zL64VgxmXQKBgGosyXj1Zu2ldJcQ28AJxup3YVLilkNje4AXC2No\n6RCSvlAvm5gpcNGE2vvr9lX6YBKdl7FGt8WXBe/sysNEFfgmm45ZKOBCUn+dHk78\nqaeeQHKHdxMBy7utZWdgSqt+ZS299NgaacA3Z9kVIiSLDS4V2VeW7riujXXP/9TJ\nnxaRAoGBAMWXOfNVzfTyrKff6gvDWH+hqNICLyzvkEn2utNY9Q6WwqGuY9fvP/4Z\nXzc48AOBzUr8OeA4sHKJ79sJirOiWHNfD1swtvyVzsFZb6moiNwD3Ce/FzYCa3lQ\nU8blTH/uqpR2pSC6whzJ/lnSdqHUqhyp00000000000000000000\n-----END RSA PRIVATE KEY-----\n"
+      end
+    end
+  end
+
+
+  describe ".purchase_letsencrypt_certificate" do
+    test "returns the Certificate in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt"
+      method  = "post"
+      fixture = "purchaseLetsencryptCertificate/success.http"
+      attributes = %{
+        contact_id: 1010
+      }
+      {:ok, body} = Poison.encode(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.purchase_letsencrypt_certificate(@client, @account_id, @domain_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.CertificatePurchase
+        assert data.id == 300
+        assert data.certificate_id == 300
+        assert data.auto_renew == false
+      end
+    end
+  end
+
+
+  describe ".issue_letsencrypt_certificate" do
+    test "returns the Certificate in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt/200/issue"
+      method  = "post"
+      fixture = "issueLetsencryptCertificate/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.issue_letsencrypt_certificate(@client, @account_id, @domain_id, _certificate_id = 200)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Certificate
+        assert data.id == 200
+      end
+    end
+  end
+
+
+  describe ".purchase_letsencrypt_certificate_renewal" do
+    test "returns the CertificateRenewal in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt/200/renewals"
+      method  = "post"
+      fixture = "purchaseRenewalLetsencryptCertificate/success.http"
+      attributes = %{
+        auto_renew: true
+      }
+      {:ok, body} = Poison.encode(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.purchase_letsencrypt_certificate_renewal(@client, @account_id, @domain_id, _certificate_id = 200, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.CertificateRenewal
+        assert data.id == 999
+        assert data.old_certificate_id == 200
+        assert data.new_certificate_id == 300
+      end
+    end
+  end
+
+
+  describe ".issue_letsencrypt_certificate_renewal" do
+    test "returns the Certificate in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt/200/renewals/300/issue"
+      method  = "post"
+      fixture = "issueRenewalLetsencryptCertificate/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.issue_letsencrypt_certificate_renewal(@client, @account_id, @domain_id, _certificate_id = 200, _certificate_renewal_id = 300)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Certificate
+        assert data.id == 300
       end
     end
   end

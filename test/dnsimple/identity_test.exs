@@ -42,7 +42,7 @@ defmodule Dnsimple.IdentityTest do
         assert account.__struct__ == Dnsimple.Account
         assert account.id == 1
         assert account.email == "example-account@example.com"
-        assert account.plan_identifier == nil
+        assert account.plan_identifier == "dnsimple-professional"
       end
     end
   end

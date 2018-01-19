@@ -8,6 +8,7 @@ defmodule Dnsimple.Certificates do
   alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Certificate
+  alias Dnsimple.CertificatePurchase
   alias Dnsimple.CertificateRenewal
 
   @doc """
@@ -126,7 +127,7 @@ defmodule Dnsimple.Certificates do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/certificates/letsencrypt")
 
     Client.post(client, url, attributes, options)
-    |> Response.parse(%{"data" => %Certificate{}})
+    |> Response.parse(%{"data" => %CertificatePurchase{}})
   end
 
 

@@ -121,12 +121,9 @@ defmodule Dnsimple.CertificatesTest do
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
-        assert data.__struct__ == Dnsimple.Certificate
-        assert data.id == 200
-        assert data.domain_id == 300
-        assert data.contact_id == 100
-        assert data.common_name == "www.example.com"
-        assert data.alternate_names == []
+        assert data.__struct__ == Dnsimple.CertificatePurchase
+        assert data.id == 300
+        assert data.certificate_id == 300
         assert data.auto_renew == false
       end
     end

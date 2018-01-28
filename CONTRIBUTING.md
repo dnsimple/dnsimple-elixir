@@ -2,33 +2,34 @@
 
 ## Getting started
 
-### Environment Setup
+#### 1. Clone the repository
 
--   **Clone the repository**
-
-    ```shell
-    $ git clone git@github.com:weppos/dnsimple-elixir.git
-    $ cd dnsimple-elixir
-    ```
-
--   **Install Elixir**
-
--   **Install the dependencies**
-
-    ```shell
-    $ mix deps.get
-    ```
-
--   **Build and test**
-
-    Compile the project and [run the test suite](#testing) to check everything works as expected.
-
-### Testing
+Clone the repository and move into it:
 
 ```shell
-$ mix compile
+$ git clone git@github.com:weppos/dnsimple-elixir.git
+$ cd dnsimple-elixir
+```
+
+#### 2. Install Elixir
+
+#### 3. Install the dependencies
+
+```shell
+$ mix deps.get
+```
+
+#### 4. Build and test
+
+Compile the project and [run the test suite](#testing) to check everything works as expected.
+
+
+## Testing
+
+```shell
 $ mix test
 ```
+
 
 ## Tests
 

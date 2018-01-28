@@ -7,8 +7,8 @@
 Clone the repository and move into it:
 
 ```shell
-$ git clone git@github.com:weppos/dnsimple-elixir.git
-$ cd dnsimple-elixir
+git clone git@github.com:weppos/dnsimple-elixir.git
+cd dnsimple-elixir
 ```
 
 #### 2. Install Elixir
@@ -16,7 +16,7 @@ $ cd dnsimple-elixir
 #### 3. Install the dependencies
 
 ```shell
-$ mix deps.get
+mix deps.get
 ```
 
 #### 4. Build and test
@@ -27,8 +27,50 @@ Compile the project and [run the test suite](#testing) to check everything works
 ## Testing
 
 ```shell
-$ mix test
+mix test
 ```
+
+
+## Releasing
+
+The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is a `MAJOR.MINOR.BUGFIX` release such as `1.2.0`.
+
+1. Run the test suite and ensure all the tests pass.
+
+1. Set the version in `mix.exs`:
+
+    ```elixir
+    defmodule Dnsimple.Mixfile do
+      use Mix.Project
+
+      def project do
+        [app: :dnsimple,
+         version: "$VERSION",
+    ```
+
+1. Close open `## master` section in `CHANGELOG.md` assigning the version.
+
+1. Commit and push the changes
+
+    ```shell
+    git commit -a -m "Release $VERSION"
+    git push origin master
+    ```
+
+1. Wait for CI to complete.
+
+1. Create a signed tag.
+
+    ```shell
+    git tag -a v$VERSION -s -m "Release v$VERSION"
+    git push origin --tags
+    ```
+
+1. Release to Hex.
+
+    ```shell
+    mix hex.publish
+    ```
 
 
 ## Tests

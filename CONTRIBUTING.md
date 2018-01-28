@@ -48,7 +48,7 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
          version: "$VERSION",
     ```
 
-1. Close open `## master` section in `CHANGELOG.md` assigning the version.
+1. Finalize the `## master` section in `CHANGELOG.md` assigning the version.
 
 1. Commit and push the changes
 
@@ -62,7 +62,7 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
 1. Create a signed tag.
 
     ```shell
-    git tag -a v$VERSION -s -m "Release vVERSION"
+    git tag -a v$VERSION -s -m "Release $VERSION"
     git push origin --tags
     ```
 

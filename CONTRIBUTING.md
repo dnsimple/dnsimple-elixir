@@ -7,7 +7,7 @@
 Clone the repository and move into it:
 
 ```shell
-git clone git@github.com:weppos/dnsimple-elixir.git
+git clone git@github.com:dnsimple/dnsimple-elixir.git
 cd dnsimple-elixir
 ```
 

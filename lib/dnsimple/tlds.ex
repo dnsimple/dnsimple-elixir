@@ -17,7 +17,7 @@ defmodule Dnsimple.Tlds do
   Returns the lists of DNSimple supported TLDs.
 
   See:
-  - https://developer.dnsimple.com/v2/tlds/#list
+  - https://developer.dnsimple.com/v2/tlds/#listTlds
 
   ## Examples
 
@@ -40,7 +40,7 @@ defmodule Dnsimple.Tlds do
   Returns a TLD.
 
   See:
-  - https://developer.dnsimple.com/v2/tlds/#get
+  - https://developer.dnsimple.com/v2/tlds/#getTld
 
   ## Examples
 
@@ -61,7 +61,7 @@ defmodule Dnsimple.Tlds do
   Returns the extended attributes for a TLD.
 
   See:
-  - https://developer.dnsimple.com/v2/tlds/#extended-attributes
+  - https://developer.dnsimple.com/v2/tlds/#getTldExtendedAttributes
 
   ## Examples
 

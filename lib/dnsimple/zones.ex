@@ -86,7 +86,7 @@ defmodule Dnsimple.Zones do
   Returns the records in the zone.
 
   See:
-  - https://developer.dnsimple.com/v2/zones/records/#list
+  - https://developer.dnsimple.com/v2/zones/records/#listZoneRecords
 
   ## Examples:
 
@@ -110,7 +110,7 @@ defmodule Dnsimple.Zones do
   Returns a zone record.
 
   See:
-  - https://developer.dnsimple.com/v2/zones/records/#get
+  - https://developer.dnsimple.com/v2/zones/records/#getZoneRecord
 
   ## Examples:
 
@@ -132,7 +132,7 @@ defmodule Dnsimple.Zones do
   Creates a record in the zone.
 
   See:
-  - https://developer.dnsimple.com/v2/zones/records/#create
+  - https://developer.dnsimple.com/v2/zones/records/#createZoneRecord
 
   ## Examples:
 
@@ -156,7 +156,7 @@ defmodule Dnsimple.Zones do
 
   @doc """
   Updates a zone record.
-  - https://developer.dnsimple.com/v2/zones/records/#update
+  - https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord
 
   ## Examples:
 
@@ -181,7 +181,7 @@ defmodule Dnsimple.Zones do
   **Warning**: this is a destructive operation.
 
   See:
-  - https://developer.dnsimple.com/v2/zones/records/#delete
+  - https://developer.dnsimple.com/v2/zones/records/#deleteZoneRecord
 
   ## Examples:
 

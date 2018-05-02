@@ -3,7 +3,7 @@ defmodule Dnsimple.Mixfile do
 
   def project do
     [app: :dnsimple,
-     version: "1.1.1",
+     version: "1.2.0",
      elixir: ">= 1.3.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -32,9 +32,9 @@ defmodule Dnsimple.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 0.11.1"},
+      {:httpoison, ">= 0.13.0"},
       {:poison, ">= 2.0.0"},
-      {:exvcr, "~> 0.8.2", only: :test},
+      {:exvcr, "~> 0.10.0", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:dialyxir, "~> 0.5", only: :dev, runtime: false},
     ]

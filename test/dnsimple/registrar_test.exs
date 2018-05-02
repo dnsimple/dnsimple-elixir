@@ -80,7 +80,6 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "new"
         assert data.auto_renew == false
         assert data.whois_privacy == false
-        assert data.premium_price == nil
         assert data.created_at == "2016-12-09T19:35:31Z"
         assert data.updated_at == "2016-12-09T19:35:31Z"
       end
@@ -106,7 +105,6 @@ defmodule Dnsimple.RegistrarTest do
         assert data.domain_id == 999
         assert data.period == 1
         assert data.state == "new"
-        assert data.premium_price == nil
         assert data.created_at == "2016-12-09T19:46:45Z"
         assert data.updated_at == "2016-12-09T19:46:45Z"
       end
@@ -134,7 +132,6 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "transferring"
         assert data.auto_renew == false
         assert data.whois_privacy == false
-        assert data.premium_price == nil
         assert data.created_at == "2016-12-09T19:43:41Z"
         assert data.updated_at == "2016-12-09T19:43:43Z"
       end
@@ -146,7 +143,7 @@ defmodule Dnsimple.RegistrarTest do
     test "requests the transfer out and returns an empty Dnsimple.Response" do
       url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/authorize_transfer_out"
       method      = "post"
-      fixture     = "transferDomainOut/success.http"
+      fixture     = "authorizeDomainTransferOut/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.transfer_domain_out(@client, @account_id, "example.com")

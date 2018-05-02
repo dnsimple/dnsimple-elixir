@@ -109,7 +109,7 @@ defmodule Dnsimple.ZonesTest do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:error, response} = @module.check_zone_distribution(@client, @account_id, @zone_id)
         assert response.__struct__ == Dnsimple.RequestError
-        assert response.message == "HTTP 500: Could not query zone, connection timed out"
+        assert response.message == "HTTP 504: Could not query zone, connection timed out"
       end
     end
   end

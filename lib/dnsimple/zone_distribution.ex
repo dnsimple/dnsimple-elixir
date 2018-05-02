@@ -4,7 +4,7 @@ defmodule Dnsimple.ZoneDistribution do
 
   See:
   - https://developer.dnsimple.com/v2/zones
-  - https://developer.dnsimple.com/v2/zones#get-zone-distribution
+  - https://developer.dnsimple.com/v2/zones/#checkZoneDistribution
   """
 
   @type t :: %__MODULE__{

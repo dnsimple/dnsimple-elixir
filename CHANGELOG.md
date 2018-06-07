@@ -1,5 +1,9 @@
 # Changelog
 
+#### master
+
+- CHANGED: Dates are represented as `DateTime.t`
+
 #### Release 1.2.0
 
 - NEW: Configuration setting for base URL (GH-113)

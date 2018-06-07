@@ -28,7 +28,7 @@ defimpl Poison.Decoder, for: Dnsimple.Collaborator do
 
   @spec decode(Dnsimple.Collaborator.t, Keyword.t) :: Dnsimple.Collaborator.t
   def decode(%{accepted_at: accepted_at} = certificate, options) when is_binary(accepted_at) do
-    {:ok, accepted_at, _} = Dnsimple.DateTimeShim.from_iso8601(accepted_at)
+    {:ok, accepted_at, _} = DateTime.from_iso8601(accepted_at)
     decode(%{certificate | accepted_at: accepted_at}, options)
   end
   def decode(certificate, _options), do: certificate

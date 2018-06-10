@@ -23,11 +23,8 @@ end
 
 defimpl Poison.Decoder, for: Dnsimple.Push do
   use Dnsimple.Decoder.Timestamps
+  use Dnsimple.Decoder.Acceptable
 
   @spec decode(Dnsimple.Push.t, Keyword.t) :: Dnsimple.Push.t
-  def decode(%{accepted_at: accepted_at} = push, options) when is_binary(accepted_at) do
-    {:ok, accepted_at, _} = DateTime.from_iso8601(accepted_at)
-    decode(%{push | accepted_at: accepted_at}, options)
-  end
   def decode(push, _options), do: push
 end

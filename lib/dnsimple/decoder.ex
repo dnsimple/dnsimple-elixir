@@ -59,3 +59,32 @@ defmodule Dnsimple.Decoder.Expires do
     end
   end
 end
+
+defmodule Dnsimple.Decoder.Acceptable do
+  @moduledoc """
+  When working with API responses containing a `accepted_at` date in
+  ISO8601 ("2015-12-06") this module defines a macro to use to add
+  the decoding implementations.
+
+  The protocol implementation MUST still define its own `decode/2` function.
+
+  ## Examples:
+
+      defimpl Poison.Decoder, for: Dnsimple.Domain do
+        use Dnsimple.Decoder.Acceptable
+
+        @spec decode(Dnsimple.Domain.t, Keyword.t) :: Dnsimple.Domain.t
+        def decode(entity, _), do: entity
+      end
+
+  """
+  defmacro __using__(_opts) do
+    quote do
+      @spec decode(map, Keyword.t()) :: map
+      def decode(%{accepted_at: accepted_at} = push, options) when is_binary(accepted_at) do
+        {:ok, accepted_at, _} = DateTime.from_iso8601(accepted_at)
+        decode(%{push | accepted_at: accepted_at}, options)
+      end
+    end
+  end
+end

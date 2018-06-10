@@ -2,7 +2,7 @@
 
 #### master
 
-- CHANGED: Dates are represented as `DateTime.t`
+- CHANGED: Dates are represented as `DateTime.t` (#121)
 
 #### Release 1.2.0
 

@@ -98,7 +98,7 @@ We highly recommend testing against our [sandbox environment](https://developer.
 The client supports both the production and sandbox environment. To switch to sandbox pass the sandbox API host using the `base_url` option when you construct the client:
 
 ```elixir
-client = %Dnsimple::Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
+client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
 ```
 
 You will need to ensure that you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
@@ -109,7 +109,7 @@ You will need to ensure that you are using an access token created in the sandbo
 You customize the `User-Agent` header for the calls made to the DNSimple API:
 
 ```elixir
-client = %Dnsimple::Client{user_agent: "my-app", access_token: "a1b2c3"}
+client = %Dnsimple.Client{user_agent: "my-app", access_token: "a1b2c3"}
 ```
 
 The value you provide will be appended to the default `User-Agent` the client uses. For example, if you use `my-app`, the final header value will be `dnsimple-elixir/1.0 my-app` (note that it will vary depending on the client version).

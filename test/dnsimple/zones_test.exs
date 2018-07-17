@@ -5,6 +5,7 @@ defmodule Dnsimple.ZonesTest do
   @module Dnsimple.Zones
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
   @account_id 1010
+  @record_id 1
 
   describe ".list_zones" do
     setup do
@@ -103,11 +104,68 @@ defmodule Dnsimple.ZonesTest do
       end
     end
 
-    test "returns an error if the distribution status couldn't be retrieved", %{method: method, url: url} do
+    test "returns the zone's distribution failing status in a Dnsimple.Response", %{method: method, url: url} do
+      fixture = "checkZoneDistribution/failure.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.check_zone_distribution(@client, @account_id, @zone_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.ZoneDistribution
+        assert data.distributed == false
+      end
+    end
+
+    test "returns an error if the zone distribution status couldn't be retrieved", %{method: method, url: url} do
       fixture = "checkZoneDistribution/error.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:error, response} = @module.check_zone_distribution(@client, @account_id, @zone_id)
+        assert response.__struct__ == Dnsimple.RequestError
+        assert response.message == "HTTP 504: Could not query zone, connection timed out"
+      end
+    end
+  end
+
+
+  describe ".check_zone_record_distribution" do
+    setup do
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/#{@record_id}/distribution"
+      {:ok, method: "get", url: url}
+    end
+
+    test "returns the zone record's distribution status in a Dnsimple.Response", %{method: method, url: url} do
+      fixture = "checkZoneRecordDistribution/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.check_zone_record_distribution(@client, @account_id, @zone_id, @record_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.ZoneRecordDistribution
+        assert data.distributed == true
+      end
+    end
+
+    test "returns the zone record's distribution failing status in a Dnsimple.Response", %{method: method, url: url} do
+      fixture = "checkZoneRecordDistribution/failure.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.check_zone_record_distribution(@client, @account_id, @zone_id, @record_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.ZoneRecordDistribution
+        assert data.distributed == false
+      end
+    end
+
+    test "returns an error if the zone record distribution status couldn't be retrieved", %{method: method, url: url} do
+      fixture = "checkZoneRecordDistribution/error.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:error, response} = @module.check_zone_record_distribution(@client, @account_id, @zone_id, @record_id)
         assert response.__struct__ == Dnsimple.RequestError
         assert response.message == "HTTP 504: Could not query zone, connection timed out"
       end

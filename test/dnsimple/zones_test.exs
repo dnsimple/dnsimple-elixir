@@ -143,7 +143,7 @@ defmodule Dnsimple.ZonesTest do
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
-        assert data.__struct__ == Dnsimple.ZoneRecordDistribution
+        assert data.__struct__ == Dnsimple.ZoneDistribution
         assert data.distributed == true
       end
     end
@@ -156,7 +156,7 @@ defmodule Dnsimple.ZonesTest do
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
-        assert data.__struct__ == Dnsimple.ZoneRecordDistribution
+        assert data.__struct__ == Dnsimple.ZoneDistribution
         assert data.distributed == false
       end
     end

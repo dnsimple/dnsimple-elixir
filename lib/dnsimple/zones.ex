@@ -12,6 +12,7 @@ defmodule Dnsimple.Zones do
   alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Zone
+  alias Dnsimple.ZoneDistribution
   alias Dnsimple.ZoneRecord
 
   @doc """
@@ -79,6 +80,49 @@ defmodule Dnsimple.Zones do
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Zone.File{}})
+  end
+
+
+  @doc """
+  Returns the distribution status of a zone.
+
+  See:
+  - https://developer.dnsimple.com/v2/zones/#checkZoneDistribution
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Zones.check_zone_distribution(client, account_id = 1010, zone_id = 12)
+      {:ok, response} = Dnsimple.Zones.check_zone_distribution(client, account_id = 1010, zone_id = "example.com")
+
+  """
+  @spec check_zone_distribution(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  def check_zone_distribution(client, account_id, zone_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_id}/distribution")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %ZoneDistribution{}})
+  end
+
+  @doc """
+  Returns the distribution status of a zone record.
+
+  See:
+  - https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Zones.check_zone_record_distribution(client, account_id = 1010, zone_id = 12, record_id = 999)
+      {:ok, response} = Dnsimple.Zones.check_zone_record_distribution(client, account_id = 1010, zone_id = "example.com", record_id = 999)
+
+  """
+  @spec check_zone_record_distribution(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  def check_zone_record_distribution(client, account_id, zone_id, record_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_id}/records/#{record_id}/distribution")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %ZoneDistribution{}})
   end
 
 

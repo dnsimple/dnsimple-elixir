@@ -1,5 +1,9 @@
 # Changelog
 
+### master
+
+- NEW: Added zone distribution and zone record distribution (GH-115)
+
 #### Release 1.2.0
 
 - NEW: Configuration setting for base URL (GH-113)

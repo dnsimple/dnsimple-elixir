@@ -254,7 +254,7 @@ defmodule Dnsimple do
     end
 
     defp get_pages(_module, _function, _params, all, _page, _pages_left = 0), do: {:ok, all}
-    defp get_pages(module, function, params, all, page, pages_left)do
+    defp get_pages(module, function, params, all, page, pages_left) do
       case apply(module, function, add_page_param(params, page)) do
         {:ok, response} ->
           all        = all ++ response.data

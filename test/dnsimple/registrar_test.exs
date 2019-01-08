@@ -253,6 +253,31 @@ defmodule Dnsimple.RegistrarTest do
   end
 
 
+  describe ".renew_whois_privacy" do
+    test "renews the whois privacy and returns it in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/whois_privacy/renewals"
+      method  = "post"
+      fixture = "renewWhoisPrivacy/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.renew_whois_privacy(@client, @account_id, "example.com")
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.WhoisPrivacyRenewal
+        assert data.id == 1
+        assert data.domain_id == 100
+        assert data.whois_privacy_id == 999
+        assert data.state == "new"
+        assert data.enabled == true
+        assert data.expires_on == "2018-12-27"
+        assert data.created_at == "2018-12-21T14:10:04Z"
+        assert data.updated_at == "2018-12-21T14:10:04Z"
+      end
+    end
+  end
+
+
   describe ".get_domain_delegation" do
     test "returns the name servers in a Dnsimple.Response" do
       url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation"

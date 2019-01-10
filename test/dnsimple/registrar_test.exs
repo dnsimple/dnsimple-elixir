@@ -270,9 +270,9 @@ defmodule Dnsimple.RegistrarTest do
         assert data.whois_privacy_id == 999
         assert data.state == "new"
         assert data.enabled == true
-        assert data.expires_on == "2018-12-27"
-        assert data.created_at == "2018-12-21T14:10:04Z"
-        assert data.updated_at == "2018-12-21T14:10:04Z"
+        assert data.expires_on == "2020-01-10"
+        assert data.created_at == "2019-01-10T12:12:48Z"
+        assert data.updated_at == "2019-01-10T12:12:48Z"
       end
     end
   end

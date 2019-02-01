@@ -1,5 +1,9 @@
 # Changelog
 
+### Release 1.4.0
+
+- NEW: Added WHOIS privacy renewal (GH-123)
+
 ### Release 1.3.0
 
 - NEW: Added zone distribution and zone record distribution (GH-115)

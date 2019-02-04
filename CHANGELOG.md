@@ -1,12 +1,18 @@
 # Changelog
 
-### Release 1.4.0
+
+- CHANGED: Fix compilation warning (GH-125).
+
+
+#### Release 1.4.0
 
 - NEW: Added WHOIS privacy renewal (GH-123)
 
-### Release 1.3.0
+
+#### Release 1.3.0
 
 - NEW: Added zone distribution and zone record distribution (GH-115)
+
 
 #### Release 1.2.0
 

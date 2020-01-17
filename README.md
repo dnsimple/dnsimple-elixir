@@ -117,5 +117,4 @@ The value you provide will be appended to the default `User-Agent` the client us
 
 ## License
 
-Copyright (c) 2015-2018 Aetrion LLC. This is Free Software distributed under the MIT license.
-
+Copyright (c) 2015-2020 DNSimple Corporation. This is Free Software distributed under the MIT license.

@@ -151,7 +151,7 @@ defmodule Dnsimple do
     #
     defp format_user_agent(nil), do: @default_user_agent
     defp format_user_agent(custom_agent) do
-      "#{@default_user_agent} #{custom_agent}"
+      "#{custom_agent} #{@default_user_agent}"
     end
 
     # Extracts a specific {"Name", "Value"} header tuple.

@@ -1,7 +1,7 @@
 # Changelog
 
 
-## master
+## Release 1.4.1
 
 - CHANGED: Fix compilation warning (GH-125).
 - CHANGED: User-agent format has been changed to prepend custom token before default token.

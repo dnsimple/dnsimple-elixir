@@ -1,6 +1,11 @@
 # Changelog
 
 
+## master
+
+- CHANGED: Requires Elixir >= 1.6.
+
+
 ## Release 1.4.1
 
 - CHANGED: Fix compilation warning (GH-125).
@@ -36,9 +41,6 @@
 ## Release 1.1.0
 
  - NEW: Add support for DNSSEC endpoints (GH-109)
-
- - CHANGED: Updated poison to 3.1.0
- - CHANGED: Updated httpoison to 0.11.1
 
 
 ## Release 1.0.1

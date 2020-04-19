@@ -32,7 +32,7 @@ defmodule Dnsimple.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, ">= 0.13.0"},
+      {:httpoison, "~> 1.0"},
       {:poison, ">= 2.0.0"},
       {:exvcr, "~> 0.11.1", only: :test},
       {:ex_doc, "~> 0.19", only: :dev},

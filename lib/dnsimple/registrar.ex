@@ -140,6 +140,46 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(%{"data" => %DomainTransfer{}})
   end
 
+  @doc """
+  Retrieves the details of an existing domain transfer.
+
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#getDomainTransfer
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.get_domain_transfer(client, account_id = 1010, domain_name = "example.com", transfer_id = 42)
+
+  """
+  @spec get_domain_transfer(Client.t, String.t | integer, String.t, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  def get_domain_transfer(client, account_id, domain_name, domain_transfer_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfers/#{domain_transfer_id}")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %DomainTransfer{}})
+  end
+
+  @doc """
+  Cancels an in progress domain transfer.
+
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#cancelDomainTransfer
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.cancel_domain_transfer(client, account_id = 1010, domain_name = "example.com", transfer_id = 42)
+
+  """
+  @spec cancel_domain_transfer(Client.t, String.t | integer, String.t, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  def cancel_domain_transfer(client, account_id, domain_name, domain_transfer_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfers/#{domain_transfer_id}")
+
+    Client.delete(client, url, options)
+    |> Response.parse(%{"data" => %DomainTransfer{}})
+  end
+
 
   @doc """
   Requests the transfer of a domain out of DNSimple.

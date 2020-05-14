@@ -4,6 +4,9 @@
 ## master
 
 - CHANGED: Requires Elixir >= 1.6.
+- NEW: Added `Dnsimple.Registrar.get_domain_transfer` to retrieve a domain transfer. (dnsimple/dnsimple-elixir#133)
+- NEW: Added `Dnsimple.Registrar.cancel_domain_transfer` to cancel an in progress domain transfer. (dnsimple/dnsimple-elixir#133)
+- NEW: Added `status_description` to `Dnsimple.DomainTransfer` struct to identify the failure reason of a transfer. (dnsimple/dnsimple-elixir#133)
 
 
 ## Release 1.4.1

@@ -1,0 +1,19 @@
+HTTP/1.1 202 Accepted
+Server: nginx
+Date: Mon, 18 May 2020 16:55:35 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+X-RateLimit-Limit: 2400
+X-RateLimit-Remaining: 2398
+X-RateLimit-Reset: 1589824450
+Cache-Control: no-cache
+X-Request-Id: c9ecfbd2-3db4-4550-a6d6-8dd9f5b68a06
+X-Runtime: 0.905412
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Download-Options: noopen
+X-Permitted-Cross-Domain-Policies: none
+
+{"data":{"id":358,"domain_id":180716,"registrant_id":2459,"state":"transferring","auto_renew":false,"whois_privacy":false,"premium_price":null,"status_description":null,"created_at":"2020-05-18T16:54:15Z","updated_at":"2020-05-18T16:54:22Z"}}

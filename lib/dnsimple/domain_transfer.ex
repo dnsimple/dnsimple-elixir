@@ -12,12 +12,13 @@ defmodule Dnsimple.DomainTransfer do
     state: String.t,
     auto_renew: boolean,
     whois_privacy: boolean,
+    status_description: String.t,
     created_at: String.t,
     updated_at: String.t,
   }
 
   defstruct ~w(id domain_id registrant_id
-               state auto_renew whois_privacy
+               state auto_renew whois_privacy status_description
                created_at updated_at)a
 
 end

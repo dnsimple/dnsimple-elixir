@@ -138,6 +138,55 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
+  describe ".get_domain_transfer" do
+    test "returns the domain transfer in a Dnsimple.Response" do
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers/358"
+      method      = "get"
+      fixture     = "getDomainTransfer/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.get_domain_transfer(@client, @account_id, "example.com", 358)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.DomainTransfer
+        assert data.id == 358
+        assert data.domain_id == 180716
+        assert data.registrant_id == 2459
+        assert data.state == "cancelled"
+        assert data.auto_renew == false
+        assert data.whois_privacy == false
+        assert data.status_description == "Canceled by customer"
+        assert data.created_at == "2020-05-18T16:54:15Z"
+        assert data.updated_at == "2020-05-18T17:00:02Z"
+      end
+    end
+  end
+
+  describe ".cancel_domain_transfer" do
+    test "returns the domain transfer in a Dnsimple.Response" do
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers/358"
+      method      = "delete"
+      fixture     = "cancelDomainTransfer/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.cancel_domain_transfer(@client, @account_id, "example.com", 358)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.DomainTransfer
+        assert data.id == 358
+        assert data.domain_id == 180716
+        assert data.registrant_id == 2459
+        assert data.state == "transferring"
+        assert data.auto_renew == false
+        assert data.whois_privacy == false
+        assert data.status_description == nil
+        assert data.created_at == "2020-05-18T16:54:15Z"
+        assert data.updated_at == "2020-05-18T16:54:22Z"
+      end
+    end
+  end
 
   describe ".transfer_domain_out" do
     test "requests the transfer out and returns an empty Dnsimple.Response" do

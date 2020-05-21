@@ -1,7 +1,7 @@
 # Changelog
 
 
-## master
+## Release 2.0.0
 
 - NEW: Added `Dnsimple.Registrar.get_domain_transfer/5` to retrieve a domain transfer. (dnsimple/dnsimple-elixir#133)
 - NEW: Added `Dnsimple.Registrar.cancel_domain_transfer/5` to cancel an in progress domain transfer. (dnsimple/dnsimple-elixir#133)

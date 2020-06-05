@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- CHANGED: `Dnsimple.Domain` struct now have `expires_at` (timestamp) instead of `expires_on` (date only).
+  (dnsimple/dnsimple-elixir#135)
 
 ## Release 2.0.0
 

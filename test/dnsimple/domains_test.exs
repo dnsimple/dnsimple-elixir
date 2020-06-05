@@ -78,9 +78,16 @@ defmodule Dnsimple.DomainsTest do
 
         data = response.data
         assert data.__struct__ == Dnsimple.Domain
-        assert data.id == 1
+        assert data.id == 181984
+        assert data.registrant_id == 2715
         assert data.name == "example-alpha.com"
         assert data.unicode_name == "example-alpha.com"
+        assert data.state == "registered"
+        assert data.auto_renew == false
+        assert data.private_whois == false
+        assert data.expires_at == "2021-06-05T02:15:00Z"
+        assert data.created_at == "2020-06-04T19:15:14Z"
+        assert data.updated_at == "2020-06-04T19:15:21Z"
       end
     end
   end

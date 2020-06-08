@@ -20,6 +20,6 @@ defmodule Dnsimple.DomainRegistration do
 
   defstruct ~w(id domain_id registrant_id
                period state auto_renew whois_privacy
-               created_at updated_at)a
+               expires_on created_at updated_at)a
 
 end

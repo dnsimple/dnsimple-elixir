@@ -7,6 +7,7 @@ defmodule Dnsimple.Domain do
   - https://developer.dnsimple.com/v2/domains/#domain-attributes
   """
 
+  @doc "expires_on is deprecated in favor of expires_at"
   @type t :: %__MODULE__{
     id: integer,
     account_id: integer,

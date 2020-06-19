@@ -7,6 +7,7 @@ defmodule Dnsimple.Domain do
   - https://developer.dnsimple.com/v2/domains/#domain-attributes
   """
 
+  @doc "expires_on is deprecated in favor of expires_at"
   @type t :: %__MODULE__{
     id: integer,
     account_id: integer,
@@ -17,12 +18,12 @@ defmodule Dnsimple.Domain do
     state: String.t,
     auto_renew: boolean,
     private_whois: boolean,
+    expires_at: String.t,
     expires_on: String.t,
     created_at: String.t,
     updated_at: String.t,
   }
 
   defstruct ~w(id account_id registrant_id name unicode_name token state
-               auto_renew private_whois expires_on created_at updated_at)a
-
+               auto_renew private_whois expires_at expires_on created_at updated_at)a
 end

@@ -4,6 +4,8 @@
 
 - CHANGED: `Dnsimple.Domain` struct now has `expires_at` (timestamp) to be used in favor of `expires_on` (date only).
   (dnsimple/dnsimple-elixir#135)
+- CHANGED: `Dnsimple.Certificate` struct now has `expires_at` (timestamp) to be used in favor of `expires_on` (date only).
+  (dnsimple/dnsimple-elixir#137)
 
 ## Release 2.0.0
 

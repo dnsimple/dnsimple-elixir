@@ -13,6 +13,7 @@ defmodule Dnsimple.Certificate do
   - https://developer.dnsimple.com/v2/certificates/#certificate-attributes
   """
 
+  @doc "expires_on is deprecated in favor of expires_at"
   @type t :: %__MODULE__{
     id: integer,
     domain_id: integer,
@@ -26,6 +27,7 @@ defmodule Dnsimple.Certificate do
     auto_renew: boolean,
     created_at: String.t,
     updated_at: String.t,
+    expires_at: String.t,
     expires_on: String.t,
 
     private_key: String.t,
@@ -36,7 +38,7 @@ defmodule Dnsimple.Certificate do
 
   defstruct ~w(id domain_id contact_id
                common_name alternate_names years csr state authority_identifier auto_renew
-               created_at updated_at expires_on
+               created_at updated_at expires_at expires_on
                server root chain private_key)a
 
 end

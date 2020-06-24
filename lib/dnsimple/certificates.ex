@@ -22,7 +22,7 @@ defmodule Dnsimple.Certificates do
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
       {:ok, response} = Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com")
       {:ok, response} = Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com", page: 2, per_page: 10)
-      {:ok, response} = Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com", sort: "expires_on:desc")
+      {:ok, response} = Dnsimple.Certificates.list_certificates(client, account_id = "1010", domain_id = "example.com", sort: "expiration:desc")
 
   """
   @spec list_certificates(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}

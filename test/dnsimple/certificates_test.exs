@@ -5,17 +5,16 @@ defmodule Dnsimple.CertificatesTest do
   @module Dnsimple.Certificates
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
   @account_id 1010
-  @domain_id "example.com"
 
   describe ".list_certificates" do
     setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates"
+      url = "#{@client.base_url}/v2/#{@account_id}/domains/dnsimple.us/certificates"
       {:ok, fixture: "listCertificates/success.http", method: "get", url: url}
     end
 
     test "returns the certificates in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.list_certificates(@client, @account_id, @domain_id)
+        {:ok, response} = @module.list_certificates(@client, @account_id, "dnsimple.us")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -27,23 +26,23 @@ defmodule Dnsimple.CertificatesTest do
 
     test "sends custom headers", %{fixture: fixture, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        @module.list_certificates(@client, "1010", "example.com", headers: %{"X-Header" => "X-Value"})
+        @module.list_certificates(@client, "1010", "dnsimple.us", headers: %{"X-Header" => "X-Value"})
       end
     end
 
     test "supports sorting", %{fixture: fixture, method: method} do
-      url = "#{@client.base_url}/v2/1010/domains/example.com/certificates?sort=id%3Adesc"
+      url = "#{@client.base_url}/v2/1010/domains/dnsimple.us/certificates?sort=id%3Adesc"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        @module.list_certificates(@client, "1010", "example.com", sort: "id:desc")
+        @module.list_certificates(@client, "1010", "dnsimple.us", sort: "id:desc")
       end
     end
 
     test "supports filtering", %{fixture: fixture, method: method} do
-      url = "#{@client.base_url}/v2/1010/domains/example.com/certificates?common_name_like=www"
+      url = "#{@client.base_url}/v2/1010/domains/dnsimple.us/certificates?common_name_like=www"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        @module.list_certificates(@client, "1010", "example.com", filter: [common_name_like: "www"])
+        @module.list_certificates(@client, "1010", "dnsimple.us", filter: [common_name_like: "www"])
       end
     end
   end
@@ -51,22 +50,24 @@ defmodule Dnsimple.CertificatesTest do
 
   describe ".get_certificate" do
     test "returns the certificate in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/1"
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/bingo.pizza/certificates/101967"
       fixture = "getCertificate/success.http"
       method  = "get"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.get_certificate(@client, @account_id, @domain_id, _certificate_id = 1)
+        {:ok, response} = @module.get_certificate(@client, @account_id, "bingo.pizza", _certificate_id = 101967)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.Certificate
-        assert data.id == 1
-        assert data.domain_id == 2
-        assert data.contact_id == 3
-        assert data.common_name == "www.weppos.net"
-        assert data.alternate_names == ["weppos.net", "www.weppos.net"]
+        assert data.id == 101967
+        assert data.domain_id == 289333
+        assert data.contact_id == 2511
+        assert data.common_name == "www.bingo.pizza"
+        assert data.alternate_names == []
         assert data.auto_renew == false
+        assert data.expires_on == "2020-09-16"
+        assert data.expires_at == "2020-09-16T18:10:13Z"
       end
     end
   end
@@ -90,12 +91,12 @@ defmodule Dnsimple.CertificatesTest do
 
   describe ".get_certificate_private_key" do
     test "returns the private key in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/22289/private_key"
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/example.com/certificates/22289/private_key"
       fixture = "getCertificatePrivateKey/success.http"
       method  = "get"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.get_certificate_private_key(@client, @account_id, @domain_id, _certificate_id = "22289")
+        {:ok, response} = @module.get_certificate_private_key(@client, @account_id, "example.com", _certificate_id = "22289")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -108,7 +109,7 @@ defmodule Dnsimple.CertificatesTest do
 
   describe ".purchase_letsencrypt_certificate" do
     test "returns the Certificate in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt"
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/bingo.pizza/certificates/letsencrypt"
       method  = "post"
       fixture = "purchaseLetsencryptCertificate/success.http"
       attributes = %{
@@ -117,13 +118,13 @@ defmodule Dnsimple.CertificatesTest do
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-        {:ok, response} = @module.purchase_letsencrypt_certificate(@client, @account_id, @domain_id, attributes)
+        {:ok, response} = @module.purchase_letsencrypt_certificate(@client, @account_id, "bingo.pizza", attributes)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.CertificatePurchase
-        assert data.id == 300
-        assert data.certificate_id == 300
+        assert data.id == 101967
+        assert data.certificate_id == 101967
         assert data.auto_renew == false
       end
     end
@@ -132,17 +133,17 @@ defmodule Dnsimple.CertificatesTest do
 
   describe ".issue_letsencrypt_certificate" do
     test "returns the Certificate in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt/200/issue"
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/bingo.pizza/certificates/letsencrypt/101967/issue"
       method  = "post"
       fixture = "issueLetsencryptCertificate/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.issue_letsencrypt_certificate(@client, @account_id, @domain_id, _certificate_id = 200)
+        {:ok, response} = @module.issue_letsencrypt_certificate(@client, @account_id, "bingo.pizza", _certificate_id = 101967)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.Certificate
-        assert data.id == 200
+        assert data.id == 101967
       end
     end
   end
@@ -150,7 +151,7 @@ defmodule Dnsimple.CertificatesTest do
 
   describe ".purchase_letsencrypt_certificate_renewal" do
     test "returns the CertificateRenewal in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt/200/renewals"
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/bingo.pizza/certificates/letsencrypt/101967/renewals"
       method  = "post"
       fixture = "purchaseRenewalLetsencryptCertificate/success.http"
       attributes = %{
@@ -159,14 +160,14 @@ defmodule Dnsimple.CertificatesTest do
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-        {:ok, response} = @module.purchase_letsencrypt_certificate_renewal(@client, @account_id, @domain_id, _certificate_id = 200, attributes)
+        {:ok, response} = @module.purchase_letsencrypt_certificate_renewal(@client, @account_id, "bingo.pizza", _certificate_id = 101967, attributes)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.CertificateRenewal
-        assert data.id == 999
-        assert data.old_certificate_id == 200
-        assert data.new_certificate_id == 300
+        assert data.id == 65082
+        assert data.old_certificate_id == 101967
+        assert data.new_certificate_id == 101972
       end
     end
   end
@@ -174,17 +175,17 @@ defmodule Dnsimple.CertificatesTest do
 
   describe ".issue_letsencrypt_certificate_renewal" do
     test "returns the Certificate in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/certificates/letsencrypt/200/renewals/300/issue"
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/bingo.pizza/certificates/letsencrypt/101967/renewals/101972/issue"
       method  = "post"
       fixture = "issueRenewalLetsencryptCertificate/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.issue_letsencrypt_certificate_renewal(@client, @account_id, @domain_id, _certificate_id = 200, _certificate_renewal_id = 300)
+        {:ok, response} = @module.issue_letsencrypt_certificate_renewal(@client, @account_id, "bingo.pizza", _certificate_id = 101967, _certificate_renewal_id = 101972)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.Certificate
-        assert data.id == 300
+        assert data.id == 101972
       end
     end
   end

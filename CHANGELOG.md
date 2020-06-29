@@ -2,7 +2,8 @@
 
 ## master
 
-- CHANGED: Bump httpoison to 1.7.0 #136
+- CHANGED: Fix warning about ExvcrUtils (dnsimple/dnsimple-elixir#139)
+- CHANGED: Bump httpoison to 1.7.0 (dnsimple/dnsimple-elixir#136)
 - CHANGED: `Dnsimple.Domain` struct now has `expires_at` (timestamp) to be used in favor of `expires_on` (date only).
   (dnsimple/dnsimple-elixir#135)
 - CHANGED: `Dnsimple.Certificate` struct now has `expires_at` (timestamp) to be used in favor of `expires_on` (date only).

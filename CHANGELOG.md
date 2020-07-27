@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## main
 
 - CHANGED: Bump exvcr to 0.11.2 (dnsimple/dnsimple-elixir#141)
 - CHANGED: Bump exdoc to 0.22.2 (dnsimple/dnsimple-elixir#140)

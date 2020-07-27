@@ -2,7 +2,7 @@
 
 An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
-[![Build Status](https://travis-ci.com/dnsimple/dnsimple-elixir.svg?branch=master)](https://travis-ci.com/dnsimple/dnsimple-elixir)
+[![Build Status](https://travis-ci.com/dnsimple/dnsimple-elixir.svg?branch=main)](https://travis-ci.com/dnsimple/dnsimple-elixir)
 
 
 ## Installation

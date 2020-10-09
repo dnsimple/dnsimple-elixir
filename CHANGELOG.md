@@ -2,8 +2,8 @@
 
 ## main
 
+- CHANGED: Bump exvcr to 0.12.1 (dnsimple/dnsimple-elixir#145)
 - CHANGED: Bump exdoc to 0.22.6 (dnsimple/dnsimple-elixir#143)
-- CHANGED: Bump exvcr to 0.11.2 (dnsimple/dnsimple-elixir#141)
 - CHANGED: Fix warning about ExvcrUtils (dnsimple/dnsimple-elixir#139)
 - CHANGED: Bump httpoison to 1.7.0 (dnsimple/dnsimple-elixir#136)
 - CHANGED: `Dnsimple.Domain` struct now has `expires_at` (timestamp) to be used in favor of `expires_on` (date only).

@@ -131,21 +131,6 @@ defmodule Dnsimple.DomainsTest do
   @domain_id "a-domain.com"
 
 
-  describe "reset_domain_token" do
-    test "returns a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/token"
-      method  = "post"
-      fixture = "resetDomainToken/success.http"
-
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
-        {:ok, response} = @module.reset_domain_token(@client, @account_id, @domain_id)
-        assert response.__struct__ == Dnsimple.Response
-        assert response.data.__struct__ == Dnsimple.Domain
-      end
-    end
-  end
-
-
   describe ".enable_dnssec" do
     test "enables DNSSEC and returns a Dnsimple.Response" do
       url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/dnssec"

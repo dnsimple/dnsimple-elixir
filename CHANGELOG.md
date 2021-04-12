@@ -9,6 +9,8 @@
   (dnsimple/dnsimple-elixir#135)
 - CHANGED: `Dnsimple.Certificate` struct now has `expires_at` (timestamp) to be used in favor of `expires_on` (date only).
   (dnsimple/dnsimple-elixir#137)
+- REMOVED: `Dnsimple.Domain.reset_domain_token` endpoint no longer exists and the client method is removed.
+  (dnsimple/dnsimple-elixir#153)
 
 ## Release 2.0.0
 

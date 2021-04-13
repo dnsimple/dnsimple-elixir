@@ -61,7 +61,7 @@ defmodule Dnsimple.RegistrarTest do
   describe ".get_domain_prices" do
     test "returns the result in a Dnsimple.Response for the domain" do
       url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/bingo.pizza/prices"
-      fixture = "getdomainPrices/success.http"
+      fixture = "getDomainPrices/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: "get", url: url) do
         {:ok, response} = @module.get_domain_prices(@client, @account_id, "bingo.pizza")

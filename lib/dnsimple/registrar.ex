@@ -14,6 +14,7 @@ defmodule Dnsimple.Registrar do
   alias Dnsimple.Response
   alias Dnsimple.DomainCheck
   alias Dnsimple.DomainPremiumPrice
+  alias Dnsimple.DomainPrice
   alias Dnsimple.DomainRegistration
   alias Dnsimple.DomainRenewal
   alias Dnsimple.DomainTransfer
@@ -47,7 +48,7 @@ defmodule Dnsimple.Registrar do
   Gets the premium price for a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/#premium-price
+  - https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice
 
   ## Examples:
 
@@ -67,12 +68,30 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(%{"data" => %DomainPremiumPrice{}})
   end
 
+  @doc """
+  Get prices for a domain.
+
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#getDomainPrices
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.get_domain_prices(client, account_id = "1010", domain_id = "example.com")
+  """
+  @spec get_domain_prices(Client.t, String.t, String.t, keyword()) :: {:ok|:error, Response.t}
+  def get_domain_prices(client, account_id, domain_name, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/prices")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %DomainPrice{}})
+  end
 
   @doc """
   Registers a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/#register
+  - https://developer.dnsimple.com/v2/registrar/#registerDomain
 
   ## Examples:
 
@@ -97,7 +116,7 @@ defmodule Dnsimple.Registrar do
   Renews a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/#renew
+  - https://developer.dnsimple.com/v2/registrar/#renewDomain
 
   ## Examples:
 
@@ -119,7 +138,7 @@ defmodule Dnsimple.Registrar do
   Starts the transfer of a domain to DNSimple.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/#transfer
+  - https://developer.dnsimple.com/v2/registrar/#transferDomain
 
   ## Examples:
 
@@ -185,7 +204,7 @@ defmodule Dnsimple.Registrar do
   Requests the transfer of a domain out of DNSimple.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/#transfer_out
+  - https://developer.dnsimple.com/v2/registrar/#authorizeDomainTransferOut
 
   ## Examples:
 
@@ -206,7 +225,7 @@ defmodule Dnsimple.Registrar do
   Enables auto-renewal for the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/auto-renewal/#enable
+  - https://developer.dnsimple.com/v2/registrar/auto-renewal/#enableDomainAutoRenewal
 
   ## Examples:
 
@@ -227,7 +246,7 @@ defmodule Dnsimple.Registrar do
   Disables auto-renewal for the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/auto-renewal/#disable
+  - https://developer.dnsimple.com/v2/registrar/auto-renewal/#disableDomainAutoRenewal
 
   ## Examples:
 
@@ -248,7 +267,7 @@ defmodule Dnsimple.Registrar do
   Returns the whois privacy of the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#get
+  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#getWhoisPrivacy
 
   ## Examples:
 
@@ -269,7 +288,7 @@ defmodule Dnsimple.Registrar do
   Enables whois privacy for the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable
+  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#enableWhoisPrivacy
 
   ## Examples:
 
@@ -290,7 +309,7 @@ defmodule Dnsimple.Registrar do
   Disables whois privacy for the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable
+  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#disableWhoisPrivacy
 
   ## Examples:
 
@@ -311,7 +330,7 @@ defmodule Dnsimple.Registrar do
   Renews whois privacy for the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#renew
+  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#renewWhoisPrivacy
 
   ## Examples:
 
@@ -332,7 +351,7 @@ defmodule Dnsimple.Registrar do
   Returns the name servers the domain is delegating to.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/delegation/#list
+  - https://developer.dnsimple.com/v2/registrar/delegation/#getDomainDelegation
 
   ## Examples:
 
@@ -353,7 +372,7 @@ defmodule Dnsimple.Registrar do
   Changes the domain's name servers and returns them.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/delegation/#update
+  - https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegation
 
   ## Examples:
 
@@ -379,7 +398,7 @@ defmodule Dnsimple.Registrar do
   Delegates the domain to vanity name servers.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity
+  - https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationToVanity
 
   ## Examples:
 
@@ -407,7 +426,7 @@ defmodule Dnsimple.Registrar do
   registrar of the domain).
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/delegation/#dedelegateFromVanity
+  - https://developer.dnsimple.com/v2/registrar/delegation/#changeDomainDelegationFromVanity
 
   ## Examples:
 

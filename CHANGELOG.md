@@ -7,7 +7,7 @@
   (dnsimple/dnsimple-elixir#135)
 - CHANGED: `Dnsimple.Certificate` struct now has `expires_at` (timestamp) to be used in favor of `expires_on` (date only).
   (dnsimple/dnsimple-elixir#137)
-- NEW: Added `Dnsimple.Registrar.get_domain_prices/3` to retrieve whether a domain is premium and the prices to register, transfer, and renew. (dnsimple/dnsimple-elixir#154)
+- NEW: Added `Dnsimple.Registrar.get_domain_prices` to retrieve whether a domain is premium and the prices to register, transfer, and renew. (dnsimple/dnsimple-elixir#154)
 
 ## Release 2.0.0
 

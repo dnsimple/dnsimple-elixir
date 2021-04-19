@@ -330,22 +330,22 @@ defmodule Dnsimple.DomainsTest do
 
   describe ".get_email_forward" do
     test "returns the email forward in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards/17706"
+      url     = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards/41872"
       method  = "get"
       fixture = "getEmailForward/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.get_email_forward(@client, @account_id, @domain_id, _email_forward_id = 17706)
+        {:ok, response} = @module.get_email_forward(@client, @account_id, @domain_id, _email_forward_id = 41872)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.EmailForward
-        assert data.id == 17706
-        assert data.domain_id == 228963
-        assert data.from == "jim@a-domain.com"
-        assert data.to == "jim@another.com"
-        assert data.created_at == "2016-02-04T14:26:50Z"
-        assert data.updated_at == "2016-02-04T14:26:50Z"
+        assert data.id == 41872
+        assert data.domain_id == 235146
+        assert data.from == "example@dnsimple.xyz"
+        assert data.to == "example@example.com"
+        assert data.created_at == "2021-01-25T13:54:40Z"
+        assert data.updated_at == "2021-01-25T13:54:40Z"
       end
     end
   end

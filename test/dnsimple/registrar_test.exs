@@ -58,6 +58,36 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
+  describe ".get_domain_prices" do
+    test "returns the result in a Dnsimple.Response for the domain" do
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/bingo.pizza/prices"
+      fixture = "getDomainPrices/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: "get", url: url) do
+        {:ok, response} = @module.get_domain_prices(@client, @account_id, "bingo.pizza")
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.DomainPrice
+        assert data.domain == "bingo.pizza"
+        assert data.premium == true
+        assert data.registration_price == 20.0
+        assert data.renewal_price == 20.0
+        assert data.transfer_price == 20.0
+      end
+    end
+
+    test "returns the error result in a Dnsimple.Response for a not supported TLD" do
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/bingo.pineapple/prices"
+      fixture = "getDomainPrices/failure.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: "get", url: url) do
+        {:error, response} = @module.get_domain_prices(@client, @account_id, "bingo.pineapple")
+        assert response.__struct__ == Dnsimple.RequestError
+        assert response.message == "HTTP 400: TLD .PINEAPPLE is not supported"
+      end
+    end
+  end
 
   describe ".register_domain" do
     test "returns the registered domain in a Dnsimple.Response" do
@@ -140,50 +170,50 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".get_domain_transfer" do
     test "returns the domain transfer in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers/358"
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers/361"
       method      = "get"
       fixture     = "getDomainTransfer/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.get_domain_transfer(@client, @account_id, "example.com", 358)
+        {:ok, response} = @module.get_domain_transfer(@client, @account_id, "example.com", 361)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.DomainTransfer
-        assert data.id == 358
-        assert data.domain_id == 180716
-        assert data.registrant_id == 2459
+        assert data.id == 361
+        assert data.domain_id == 182245
+        assert data.registrant_id == 2715
         assert data.state == "cancelled"
         assert data.auto_renew == false
         assert data.whois_privacy == false
         assert data.status_description == "Canceled by customer"
-        assert data.created_at == "2020-05-18T16:54:15Z"
-        assert data.updated_at == "2020-05-18T17:00:02Z"
+        assert data.created_at == "2020-06-05T18:08:00Z"
+        assert data.updated_at == "2020-06-05T18:10:01Z"
       end
     end
   end
 
   describe ".cancel_domain_transfer" do
     test "returns the domain transfer in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers/358"
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers/361"
       method      = "delete"
       fixture     = "cancelDomainTransfer/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.cancel_domain_transfer(@client, @account_id, "example.com", 358)
+        {:ok, response} = @module.cancel_domain_transfer(@client, @account_id, "example.com", 361)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.DomainTransfer
-        assert data.id == 358
-        assert data.domain_id == 180716
-        assert data.registrant_id == 2459
+        assert data.id == 361
+        assert data.domain_id == 182245
+        assert data.registrant_id == 2715
         assert data.state == "transferring"
         assert data.auto_renew == false
         assert data.whois_privacy == false
         assert data.status_description == nil
-        assert data.created_at == "2020-05-18T16:54:15Z"
-        assert data.updated_at == "2020-05-18T16:54:22Z"
+        assert data.created_at == "2020-06-05T18:08:00Z"
+        assert data.updated_at == "2020-06-05T18:08:04Z"
       end
     end
   end

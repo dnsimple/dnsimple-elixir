@@ -1,9 +1,7 @@
 # Changelog
 
 ## main
-- CHANGED: Bump httpoison to 1.8.0 (dnsimple/dnsimple-elixir#148)
-- CHANGED: Bump exdoc to 0.23.0 (dnsimple/dnsimple-elixir#146)
-- CHANGED: Bump exvcr to 0.12.1 (dnsimple/dnsimple-elixir#145)
+
 - CHANGED: Fix warning about ExvcrUtils (dnsimple/dnsimple-elixir#139)
 - CHANGED: `Dnsimple.Domain` struct now has `expires_at` (timestamp) to be used in favor of `expires_on` (date only).
   (dnsimple/dnsimple-elixir#135)
@@ -11,6 +9,7 @@
   (dnsimple/dnsimple-elixir#137)
 - REMOVED: `Dnsimple.Domain.reset_domain_token` endpoint no longer exists and the client method is removed.
   (dnsimple/dnsimple-elixir#153)
+- NEW: Added `Dnsimple.Registrar.get_domain_prices` to retrieve whether a domain is premium and the prices to register, transfer, and renew. (dnsimple/dnsimple-elixir#154)
 
 ## Release 2.0.0
 

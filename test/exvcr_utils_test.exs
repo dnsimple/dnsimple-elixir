@@ -9,7 +9,6 @@ defmodule ExvcrUtilsTest do
     Server: nginx\r
     Date: Fri, 26 Feb 2016 16:04:05 GMT\r
     Content-Type: application/json; charset=utf-8\r
-    Transfer-Encoding: chunked\r
     Connection: keep-alive\r
     Status: 200 OK\r
     X-RateLimit-Limit: 4000\r

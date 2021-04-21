@@ -86,7 +86,6 @@ defmodule Dnsimple.DomainsTest do
         assert data.auto_renew == false
         assert data.private_whois == false
         assert data.expires_at == "2021-06-05T02:15:00Z"
-        assert data.expires_on == "2021-06-05"
         assert data.created_at == "2020-06-04T19:15:14Z"
         assert data.updated_at == "2020-06-04T19:15:21Z"
       end

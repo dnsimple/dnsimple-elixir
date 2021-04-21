@@ -2,6 +2,7 @@
 
 ## main
 
+- REMOVED: Deprecated attribute `expires_on` has been rmeoved from `Dnsimple.Domain` (dnsimple/dnsimple-elixir#156)
 - CHANGED: Fix warning about ExvcrUtils (dnsimple/dnsimple-elixir#139)
 - CHANGED: `Dnsimple.Domain` struct now has `expires_at` (timestamp) to be used in favor of `expires_on` (date only).
   (dnsimple/dnsimple-elixir#135)

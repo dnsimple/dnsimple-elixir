@@ -66,7 +66,6 @@ defmodule Dnsimple.CertificatesTest do
         assert data.common_name == "www.bingo.pizza"
         assert data.alternate_names == []
         assert data.auto_renew == false
-        assert data.expires_on == "2020-09-16"
         assert data.expires_at == "2020-09-16T18:10:13Z"
       end
     end

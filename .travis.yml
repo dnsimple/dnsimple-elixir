@@ -11,28 +11,19 @@ otp_release:
   - "21.0"
   - "22.0"
   - "23.0"
-  - "24.0"
 
 jobs:
   exclude:
     - elixir: "1.8"
       otp_release: "23.0"
-    - elixir: "1.8"
-      otp_release: "24.0"
     - elixir: "1.9"
       otp_release: "23.0"
-    - elixir: "1.9"
-      otp_release: "24.0"
     - elixir: "1.10"
       otp_release: "20.0"
     - elixir: "1.10"
       otp_release: "23.0"
-    - elixir: "1.10"
-      otp_release: "24.0"
     - elixir: "1.11"
       otp_release: "20.0"
-    - elixir: "1.11"
-      otp_release: "24.0"
     - elixir: "1.12"
       otp_release: "20.0"
 

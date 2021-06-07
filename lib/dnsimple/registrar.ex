@@ -60,6 +60,7 @@ defmodule Dnsimple.Registrar do
 
   """
   @spec get_domain_premium_price(Client.t, String.t, String.t, map(), keyword()) :: {:ok|:error, Response.t}
+  @deprecated "Use get_domain_prices/4 instead"
   def get_domain_premium_price(client, account_id, domain_name, params \\ %{}, options \\ []) do
     url     = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/premium_price")
     options = Keyword.put(options, :action, Map.get(params, :action))

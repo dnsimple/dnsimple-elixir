@@ -2,6 +2,10 @@
 
 ## main
 
+### Release 3.0.1
+
+- CHANGED: Deprecated `Dnsimple.Registrar.get_domain_premium_price`. 
+
 ## Release 3.0.0
 
 - REMOVED: Deprecated attribute `expires_on` has been rmeoved from `Dnsimple.Domain` (dnsimple/dnsimple-elixir#156)

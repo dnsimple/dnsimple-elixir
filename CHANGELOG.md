@@ -2,9 +2,13 @@
 
 ## main
 
+### Release 3.0.2
+
+- CHANGED: adjust mix application configuration to only explicitly list `extra_applications` - Fixes #160
+
 ### Release 3.0.1
 
-- CHANGED: Deprecated `Dnsimple.Registrar.get_domain_premium_price`. 
+- CHANGED: Deprecated `Dnsimple.Registrar.get_domain_premium_price`.
 
 ## Release 3.0.0
 

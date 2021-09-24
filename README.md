@@ -1,13 +1,18 @@
 # DNSimple Elixir Client
 
-An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
-
 [![Build Status](https://travis-ci.com/dnsimple/dnsimple-elixir.svg?branch=main)](https://travis-ci.com/dnsimple/dnsimple-elixir)
+[![Module Version](https://img.shields.io/hexpm/v/dnsimple.svg)](https://hex.pm/packages/dnsimple)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/dnsimple/)
+[![Total Download](https://img.shields.io/hexpm/dt/dnsimple.svg)](https://hex.pm/packages/dnsimple)
+[![License](https://img.shields.io/hexpm/l/dnsimple.svg)](https://github.com/dnsimple/dnsimple-elixir/blob/master/LICENSE.md)
+[![Last Updated](https://img.shields.io/github/last-commit/dnsimple/dnsimple-elixir.svg)](https://github.com/dnsimple/dnsimple-elixir/commits/master)
+
+An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 
 ## Installation
 
-You will have to add the `dnsimple` app to your `mix.exs` file as a dependency:
+You will have to add the `:dnsimple` app to your `mix.exs` file as a dependency:
 
 ```elixir
 def deps do
@@ -115,6 +120,9 @@ client = %Dnsimple.Client{user_agent: "my-app", access_token: "a1b2c3"}
 The value you provide will be appended to the default `User-Agent` the client uses. For example, if you use `my-app`, the final header value will be `dnsimple-elixir/1.0 my-app` (note that it will vary depending on the client version).
 
 
-## License
+## Copyright and License
 
-Copyright (c) 2015-2020 DNSimple Corporation. This is Free Software distributed under the MIT license.
+Copyright (c) 2015 DNSimple Corporation.
+
+This work is free. You can redistribute it and/or modify it under the
+terms of the MIT License. See the [LICENSE.md](./LICENSE.md) file for more details.

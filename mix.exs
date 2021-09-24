@@ -1,61 +1,61 @@
 defmodule Dnsimple.Mixfile do
   use Mix.Project
 
+  @source_url "https://github.com/dnsimple/dnsimple-elixir"
+  @version "3.0.2"
+
   def project do
     [app: :dnsimple,
-     version: "3.0.2",
+     version: @version,
      elixir: "~> 1.8",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      package: package(),
-     description: description(),
      deps: deps(),
+     docs: docs(),
      dialyzer: [plt_add_deps: :transitive]
     ]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
   def application do
     [extra_applications: [:logger]]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
   defp deps do
     [
       {:httpoison, "~> 1.0"},
       {:poison, ">= 2.0.0"},
       {:exvcr, "~> 0.13.2", only: :test},
-      {:ex_doc, "~> 0.19", only: :dev},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
     ]
   end
 
   defp package do
     [
+      description: "Elixir client for the DNSimple API v2.",
       files: ["lib", "mix.exs", "*.md"],
       maintainers: ["Simone Carletti", "Javier Acero", "Anthony Eden"],
       licenses: ["MIT"],
       links: %{
-        "GitHub"      => "https://github.com/dnsimple/dnsimple-elixir",
-        "API v2 docs" => "https://developer.dnsimple.com/v2",
+        "GitHub" => @source_url,
+        "API v2 docs" => "https://developer.dnsimple.com/v2"
       }
     ]
   end
 
-  defp description do
-    """
-    Elixir client for the DNSimple API v2.
-    """
+  defp docs do
+    [
+      extras: [
+        "CHANGELOG.md": [],
+        "CONTRIBUTING.md": [title: "Contributing"],
+        "LICENSE.md": [title: "License"],
+        "README.md": [title: "Overview"],
+      ],
+      main: "readme",
+      source_url: @source_url,
+      source_ref: "v#{@version}",
+      formatters: ["html"]
+    ]
   end
-
 end

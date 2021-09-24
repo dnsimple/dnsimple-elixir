@@ -77,7 +77,7 @@ defmodule Dnsimple.ListingTest do
       assert Listing.format([per_page: 1, sort: "foo:asc"]) == [params: [per_page: 1, sort: "foo:asc"]]
     end
 
-    test "mantains other options" do
+    test "maintains other options" do
       assert Listing.format([sort: "foo:asc", other: "foo"]) == [params: [sort: "foo:asc"], other: "foo"]
     end
   end

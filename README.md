@@ -120,9 +120,6 @@ client = %Dnsimple.Client{user_agent: "my-app", access_token: "a1b2c3"}
 The value you provide will be appended to the default `User-Agent` the client uses. For example, if you use `my-app`, the final header value will be `dnsimple-elixir/1.0 my-app` (note that it will vary depending on the client version).
 
 
-## Copyright and License
+## License
 
-Copyright (c) 2015 DNSimple Corporation.
-
-This work is free. You can redistribute it and/or modify it under the
-terms of the MIT License. See the [LICENSE.md](./LICENSE.md) file for more details.
+Copyright (c) 2015-2020 DNSimple Corporation. This is Free Software distributed under the MIT license.

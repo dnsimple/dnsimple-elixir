@@ -20,7 +20,7 @@ defmodule Dnsimple.OauthTest do
       "https://dnsimple.test/oauth/authorize?response_type=code&client_id=a1b2c3d4&state=12345678&foo=bar"
   end
 
-  test "exchanging the autorization token" do
+  test "exchanging the authorization token" do
     fixture     = "oauthAccessToken/success.http"
     method      = "post"
     url         = "#{@client.base_url}/v2/oauth/access_token"

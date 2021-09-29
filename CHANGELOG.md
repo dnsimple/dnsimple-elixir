@@ -1,5 +1,10 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## main
 
 ### Release 3.0.2
@@ -12,7 +17,7 @@
 
 ## Release 3.0.0
 
-- REMOVED: Deprecated attribute `expires_on` has been rmeoved from `Dnsimple.Domain` (dnsimple/dnsimple-elixir#156)
+- REMOVED: Deprecated attribute `expires_on` has been removed from `Dnsimple.Domain` (dnsimple/dnsimple-elixir#156)
 - CHANGED: Fix warning about ExvcrUtils (dnsimple/dnsimple-elixir#139)
 - CHANGED: `Dnsimple.Domain` struct now has `expires_at` (timestamp) to be used in favor of `expires_on` (date only).
   (dnsimple/dnsimple-elixir#135)

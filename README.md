@@ -1,13 +1,18 @@
 # DNSimple Elixir Client
 
-An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
-
 [![Build Status](https://travis-ci.com/dnsimple/dnsimple-elixir.svg?branch=main)](https://travis-ci.com/dnsimple/dnsimple-elixir)
+[![Module Version](https://img.shields.io/hexpm/v/dnsimple.svg)](https://hex.pm/packages/dnsimple)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/dnsimple/)
+[![Total Download](https://img.shields.io/hexpm/dt/dnsimple.svg)](https://hex.pm/packages/dnsimple)
+[![License](https://img.shields.io/hexpm/l/dnsimple.svg)](https://github.com/dnsimple/dnsimple-elixir/blob/master/LICENSE.md)
+[![Last Updated](https://img.shields.io/github/last-commit/dnsimple/dnsimple-elixir.svg)](https://github.com/dnsimple/dnsimple-elixir/commits/master)
+
+An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 
 ## Installation
 
-You will have to add the `dnsimple` app to your `mix.exs` file as a dependency:
+You will have to add the `:dnsimple` app to your `mix.exs` file as a dependency:
 
 ```elixir
 def deps do

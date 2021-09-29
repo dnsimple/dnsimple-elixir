@@ -62,6 +62,7 @@ defmodule Dnsimple.TldsTest do
         assert data.registration_enabled == true
         assert data.renewal_enabled == true
         assert data.transfer_enabled == true
+        assert data.dnssec_interface_type == "ds"
       end
     end
   end

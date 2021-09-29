@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+- CHANGED: Switched CI to GitHub Actions
+
 ### Release 3.0.2
 
 - CHANGED: adjust mix application configuration to only explicitly list `extra_applications` - Fixes #160

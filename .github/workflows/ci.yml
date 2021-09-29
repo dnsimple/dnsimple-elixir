@@ -15,25 +15,27 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+
+    name: Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}}
     strategy:
       matrix:
         otp: ['20.0', '21.0', '22.0', '23.0']
         elixir: ['1.8', '1.9', '1.10', '1.11', '1.12']
         exclude:
-          - elixir: "1.8"
-            otp: "23.0"
-          - elixir: "1.9"
-            otp: "23.0"
-          - elixir: "1.10"
-            otp: "20.0"
-          - elixir: "1.10"
-            otp: "23.0"
-          - elixir: "1.11"
-            otp: "20.0"
-          - elixir: "1.12"
-            otp: "20.0"
+          - elixir: '1.8'
+            otp: '23.0'
+          - elixir: '1.9'
+            otp: '23.0'
+          - elixir: '1.10'
+            otp: '20.0'
+          - elixir: '1.10'
+            otp: '23.0'
+          - elixir: '1.11'
+            otp: '20.0'
+          - elixir: '1.12'
+            otp: '20.0'
+          - elixir: '1.12'
+            otp: '21.0'
 
     steps:
       - uses: actions/checkout@v2

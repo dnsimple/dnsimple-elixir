@@ -43,9 +43,8 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
     defmodule Dnsimple.Mixfile do
       use Mix.Project
 
-      def project do
-        [app: :dnsimple,
-         version: "$VERSION",
+      @version "$VERSION"
+
     ```
 
 1. Run the test suite and ensure all the tests pass.

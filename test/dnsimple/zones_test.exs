@@ -241,7 +241,7 @@ defmodule Dnsimple.ZonesTest do
 
 
   describe ".create_zone_record" do
-    test "creates the record and retuns it in a Dnsimple.Response" do
+    test "creates the record and returns it in a Dnsimple.Response" do
       url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records"
       fixture = "createZoneRecord/created.http"
       method  = "post"

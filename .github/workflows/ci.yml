@@ -21,6 +21,7 @@ jobs:
       matrix:
         otp: ['20.0', '21.0', '22.0', '23.0']
         elixir: ['1.8', '1.9', '1.10', '1.11', '1.12']
+        # As per https://hexdocs.pm/elixir/compatibility-and-deprecations.html#compatibility-between-elixir-and-erlang-otp
         exclude:
           - elixir: '1.8'
             otp: '23.0'

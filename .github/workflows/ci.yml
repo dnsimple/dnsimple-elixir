@@ -11,10 +11,28 @@ name: ci
   workflow_dispatch:
 
 jobs:
-  build:
-    # The type of runner that the job will run on
+  markdownlint-cli:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Run markdownlint-cli
+        uses: nosborn/github-action-markdown-cli@v2.0.0
+        with:
+          files: .
+          config_file: ".markdownlint.yaml"
 
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Run YAML Lint
+        uses: actionshub/yamllint@main
+
+  build:
+    needs: [markdownlint-cli, yamllint]
+    runs-on: ubuntu-latest
     name: Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}}
     strategy:
       matrix:

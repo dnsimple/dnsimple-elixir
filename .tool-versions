@@ -1,2 +1,2 @@
-# Update also: .travis.yml
+# Update also: .ci.yml
 elixir 1.11.4-otp-23

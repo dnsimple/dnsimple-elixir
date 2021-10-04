@@ -2,7 +2,7 @@
 
 ## Getting started
 
-#### 1. Clone the repository
+### 1. Clone the repository
 
 Clone the repository and move into it:
 
@@ -11,25 +11,23 @@ git clone git@github.com:dnsimple/dnsimple-elixir.git
 cd dnsimple-elixir
 ```
 
-#### 2. Install Elixir
+### 2. Install Elixir
 
-#### 3. Install the dependencies
+### 3. Install the dependencies
 
 ```shell
 mix deps.get
 ```
 
-#### 4. Build and test
+### 4. Build and test
 
 Compile the project and [run the test suite](#testing) to check everything works as expected.
-
 
 ## Testing
 
 ```shell
 mix test
 ```
-
 
 ## Releasing
 
@@ -72,7 +70,6 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
     ```shell
     mix hex.publish
     ```
-
 
 ## Tests
 

@@ -38,22 +38,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - CHANGED: Requires Elixir >= 1.6.
 
-
 ## Release 1.4.1
 
 - CHANGED: Fix compilation warning (GH-125).
 - CHANGED: User-agent format has been changed to prepend custom token before default token.
 
-
 ## Release 1.4.0
 
 - NEW: Added WHOIS privacy renewal (GH-123)
 
-
 ## Release 1.3.0
 
 - NEW: Added zone distribution and zone record distribution (GH-115)
-
 
 ## Release 1.2.0
 
@@ -64,17 +60,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - REMOVED: Removed premium_price attribute from registrar order responses (GH-120). Please do not rely on that attribute, as it returned an incorrect value. The attribute is going to be removed, and the API now returns a null value.
 
-
 ## Release 1.1.1
 
 - CHANGED: Relax poison dependency to fix incompatibility with Phoenix (GH-110)
 - CHANGED: Update registrar endpoint URLs (GH-112)
 
-
 ## Release 1.1.0
 
- - NEW: Add support for DNSSEC endpoints (GH-109)
-
+- NEW: Add support for DNSSEC endpoints (GH-109)
 
 ## Release 1.0.1
 
@@ -82,7 +75,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - NEW: Added `unicode_name` to `Dnsimple.Domain` struct (GH-104)
 
 - CHANGED: Improve and unify documentation styles (GH-101)
-
 
 ## Release 1.0.0
 
@@ -98,11 +90,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGED: Being able to provide settings when applying a service (GH-77)
 - CHANGED: Updated httpoison to 0.10.0 (GH-75)
 
-
 ## Release 0.9.2
 
 - CHANGED: increased timeout to 30 seconds (GH-67)
-
 
 ## Release 0.9.1
 
@@ -116,7 +106,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - NEW: Added support for TLD endpoints (GH-49)
 
 - CHANGED: Added aliases and consolidate function naming (GH-47)
-
 
 ## Release 0.9.0
 
@@ -137,11 +126,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - REMOVED: Removed support for wildcard accounts (GH-16).
 
-
 ## Release 0.1.0
 
 - NEW: Added support for Zone, Domain, ZoneRecord
-
 
 ## Release 0.0.1
 

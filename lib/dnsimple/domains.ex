@@ -228,6 +228,7 @@ defmodule Dnsimple.Domains do
         algorithm: "13",
         digest: "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03",
         digest_type: "2",
+        public_key: nil,
         keytag: "2371"
       })
 

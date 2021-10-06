@@ -16,10 +16,11 @@ defmodule Dnsimple.Tld do
     registration_enabled: boolean,
     renewal_enabled: boolean,
     transfer_enabled: boolean,
+    dnssec_interface_type: String.t,
   }
 
   defstruct ~w(tld tld_type idn whois_privacy auto_renew_only
-               minimum_registration
-               registration_enabled renewal_enabled transfer_enabled)a
+               minimum_registration registration_enabled
+               renewal_enabled transfer_enabled dnssec_interface_type)a
 
 end

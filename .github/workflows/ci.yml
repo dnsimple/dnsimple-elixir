@@ -52,7 +52,6 @@ jobs:
             otp: '20.0'
           - elixir: '1.12'
             otp: '21.0'
-
     steps:
       - uses: actions/checkout@v2
       - uses: erlef/setup-beam@v1
@@ -61,3 +60,16 @@ jobs:
           elixir-version: ${{matrix.elixir}}
       - run: mix deps.get
       - run: mix test
+
+  slack-workflow-status:
+    if: always()
+    name: Post Workflow Status To Slack
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Workflow Notification
+        uses: Gamesight/slack-workflow-status@master
+        with:
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL_DEVELOPMENT}}

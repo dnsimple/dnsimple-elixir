@@ -1,6 +1,6 @@
 # DNSimple Elixir Client
 
-[![CI](https://github.com/dnsimple/dnsimple-elixir/actions/workflows/ci.yml/badge.svg)](https://github.com/dnsimple/dnsimple-elixir/actions/workflows/ci.yml)
+[![Build Status](https://github.com/dnsimple/dnsimple-elixir/actions/workflows/ci.yml/badge.svg)](https://github.com/dnsimple/dnsimple-elixir/actions/workflows/ci.yml)
 [![Module Version](https://img.shields.io/hexpm/v/dnsimple.svg)](https://hex.pm/packages/dnsimple)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/dnsimple/)
 [![Total Download](https://img.shields.io/hexpm/dt/dnsimple.svg)](https://hex.pm/packages/dnsimple)

@@ -42,7 +42,7 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
       use Mix.Project
 
       @version "$VERSION"
-
+    end
     ```
 
 1. Run the test suite and ensure all the tests pass.

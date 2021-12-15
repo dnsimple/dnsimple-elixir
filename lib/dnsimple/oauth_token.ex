@@ -6,6 +6,7 @@ defmodule Dnsimple.OauthToken do
   - https://developer.dnsimple.com/v2/oauth/
   - https://developer.dnsimple.com/v2/oauth/#step-2---access-token
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     access_token: String.t,

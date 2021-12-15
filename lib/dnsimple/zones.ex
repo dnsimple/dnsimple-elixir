@@ -7,6 +7,7 @@ defmodule Dnsimple.Zones do
   - https://developer.dnsimple.com/v2/zones/
   - https://developer.dnsimple.com/v2/zones/records/
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Listing

@@ -3,6 +3,7 @@ defmodule Dnsimple.Domains do
   Provides functions to interact with the
   [domain endpoints](https://developer.dnsimple.com/v2/domains/).
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Listing

@@ -2,6 +2,7 @@ defmodule Dnsimple.CertificateRenewal do
   @moduledoc """
   Represents a Certificate Renewal order.
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     id: integer,

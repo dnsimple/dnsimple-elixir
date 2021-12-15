@@ -5,6 +5,7 @@ defmodule Dnsimple.Tld do
   See: https://developer.dnsimple.com/v2/tlds
   See: https://developer.dnsimple.com/v2/tlds/#tld-attributes
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     tld: String.t,

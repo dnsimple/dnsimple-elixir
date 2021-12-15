@@ -6,6 +6,7 @@ defmodule Dnsimple.Webhooks do
   See:
   - https://developer.dnsimple.com/v2/webhooks/
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Listing

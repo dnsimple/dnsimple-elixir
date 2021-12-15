@@ -3,6 +3,7 @@ defmodule Dnsimple.Contacts do
   Provides functions to interact with the
   [contact endpoints](https://developer.dnsimple.com/v2/contacts/).
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Listing

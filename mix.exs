@@ -52,6 +52,11 @@ defmodule Dnsimple.Mixfile do
         "LICENSE.md": [title: "License"],
         "README.md": [title: "Overview"],
       ],
+      groups_for_modules: [
+        "API": & &1[:section] == :api,
+        "Data Types": & &1[:section] == :data_types,
+        "Util": & &1[:section] == :util
+      ],
       main: "readme",
       source_url: @source_url,
       source_ref: "v#{@version}",

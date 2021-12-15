@@ -5,6 +5,7 @@ defmodule Dnsimple.Zone do
   See:
   - https://developer.dnsimple.com/v2/zones/
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     id: integer,
@@ -25,6 +26,7 @@ defmodule Dnsimple.Zone do
     - https://developer.dnsimple.com/v2/zones/#file
     - https://support.dnsimple.com/articles/zone-files/#whats-a-zone-file
     """
+    @moduledoc section: :data_types
 
     @type t :: %__MODULE__{
       zone: String.t,

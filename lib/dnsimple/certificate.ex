@@ -12,6 +12,7 @@ defmodule Dnsimple.Certificate do
   - https://developer.dnsimple.com/v2/certificates
   - https://developer.dnsimple.com/v2/certificates/#certificate-attributes
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     id: integer,

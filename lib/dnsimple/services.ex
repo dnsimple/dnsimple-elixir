@@ -7,6 +7,7 @@ defmodule Dnsimple.Services do
   - https://developer.dnsimple.com/v2/services
   - https://developer.dnsimple.com/v2/services/domains/
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Listing

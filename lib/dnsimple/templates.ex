@@ -8,6 +8,7 @@ defmodule Dnsimple.Templates do
   - https://developer.dnsimple.com/v2/templates/records/
   - https://developer.dnsimple.com/v2/templates/domains/
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Listing

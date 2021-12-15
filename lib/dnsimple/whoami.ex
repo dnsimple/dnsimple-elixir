@@ -5,6 +5,7 @@ defmodule Dnsimple.Whoami do
   See:
   - https://developer.dnsimple.com/v2/identity/
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     user: Dnsimple.User.t,

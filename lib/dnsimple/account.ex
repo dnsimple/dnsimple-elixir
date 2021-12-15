@@ -5,6 +5,7 @@ defmodule Dnsimple.Account do
   See:
   - https://developer.dnsimple.com/v2/accounts/
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     id: integer,

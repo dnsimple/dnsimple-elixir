@@ -5,6 +5,7 @@ defmodule Dnsimple.DomainPremiumPrice do
   See:
   - https://developer.dnsimple.com/v2/registrar/#premium-price
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     premium_price: String.t,

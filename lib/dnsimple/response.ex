@@ -1,4 +1,6 @@
 defmodule Dnsimple.Response do
+  @moduledoc section: :util
+
   defstruct ~w(http_response data pagination rate_limit rate_limit_remaining rate_limit_reset)a
 
   @type t :: %__MODULE__{
@@ -11,6 +13,8 @@ defmodule Dnsimple.Response do
   }
 
   defmodule Pagination do
+    @moduledoc section: :util
+
     defstruct ~w(current_page per_page total_pages total_entries)a
 
     @type t :: %__MODULE__{

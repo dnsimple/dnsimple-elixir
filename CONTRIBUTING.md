@@ -65,11 +65,7 @@ The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is
     git push origin --tags
     ```
 
-1. Release to Hex.
-
-    ```shell
-    mix hex.publish
-    ```
+1. GitHub actions will take it from there and release to Hex
 
 ## Tests
 

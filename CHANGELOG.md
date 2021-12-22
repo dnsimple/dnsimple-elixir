@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
-- CHANGED: Grouped module docs to make them easier to navigate.
+### Release 3.1.1
+
+- CHANGED: Grouped module docs to make them easier to navigate (dnsimple/dnsimple-elixir#176).
 
 ### Release 3.1.0
 

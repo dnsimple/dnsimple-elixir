@@ -13,6 +13,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
       - name: Publish to Hex
-        uses: erlangpack/github-actions@v1
+        uses: erlangpack/github-action@v1
         env:
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}

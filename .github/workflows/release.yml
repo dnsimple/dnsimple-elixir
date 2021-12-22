@@ -16,3 +16,4 @@ jobs:
         uses: erlangpack/github-action@v1
         env:
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+          DEBUG: 1

@@ -5,6 +5,8 @@ defmodule Dnsimple do
 
 
   defmodule Error do
+    @moduledoc false
+
     def decode(body) do
       Poison.decode!(body)
     end
@@ -186,6 +188,8 @@ defmodule Dnsimple do
 
 
   defmodule Listing do
+    @moduledoc section: :util
+
     @doc """
     Issues a GET request to the given url processing the listing options first.
     """

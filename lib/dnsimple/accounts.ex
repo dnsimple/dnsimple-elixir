@@ -3,6 +3,7 @@ defmodule Dnsimple.Accounts do
   Provides functions to interact with the
   [account endpoints](https://developer.dnsimple.com/v2/accounts/).
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Account

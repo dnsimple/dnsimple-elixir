@@ -7,6 +7,7 @@ defmodule Dnsimple.Oauth do
   - https://developer.dnsimple.com/v2/oauth/
   - https://developer.dnsimple.com/v2/#authentication
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Response

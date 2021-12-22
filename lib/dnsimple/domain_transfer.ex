@@ -5,6 +5,8 @@ defmodule Dnsimple.DomainTransfer do
   See:
   - https://developer.dnsimple.com/v2/registrar/#transfer
   """
+  @moduledoc section: :data_types
+
   @type t :: %__MODULE__{
     id: integer,
     domain_id: integer,

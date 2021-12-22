@@ -5,6 +5,7 @@ defmodule Dnsimple.DelegationSignerRecord do
   See:
   - https://developer.dnsimple.com/v2/domains/dnssec/
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     id: integer,

@@ -9,6 +9,7 @@ defmodule Dnsimple.Registrar do
   - https://developer.dnsimple.com/v2/registrar/whois-privacy/
   - https://developer.dnsimple.com/v2/registrar/delegation/
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Response

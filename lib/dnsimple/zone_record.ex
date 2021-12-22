@@ -6,6 +6,7 @@ defmodule Dnsimple.ZoneRecord do
   - https://developer.dnsimple.com/v2/zones/records
   - https://developer.dnsimple.com/v2/zones/records/#zone-record-regions
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     id: integer,

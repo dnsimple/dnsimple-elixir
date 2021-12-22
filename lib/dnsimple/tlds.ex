@@ -6,6 +6,7 @@ defmodule Dnsimple.Tlds do
   See:
   - https://developer.dnsimple.com/v2/tlds/
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Listing

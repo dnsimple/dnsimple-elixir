@@ -5,6 +5,7 @@ defmodule Dnsimple.TemplateRecord do
   See:
   - https://developer.dnsimple.com/v2/templates/records/
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     id: integer,

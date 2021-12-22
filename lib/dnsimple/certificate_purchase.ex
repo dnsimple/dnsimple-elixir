@@ -2,6 +2,7 @@ defmodule Dnsimple.CertificatePurchase do
   @moduledoc """
   Represents a Certificate Purchase order.
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     id: integer,

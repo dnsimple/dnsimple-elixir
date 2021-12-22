@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+- CHANGED: Grouped module docs to make them easier to navigate.
+
 ### Release 3.1.0
 
 - CHANGED: Updated DNSSEC-related structs and entry-points to support DS record key-data interface. (dnsimple/dnsimple-elixir#171)

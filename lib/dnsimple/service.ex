@@ -5,6 +5,7 @@ defmodule Dnsimple.Service do
   See:
   - https://developer.dnsimple.com/v2/services
   """
+  @moduledoc section: :data_types
 
   defmodule Setting do
     @moduledoc """
@@ -13,6 +14,7 @@ defmodule Dnsimple.Service do
     See:
     - https://developer.dnsimple.com/v2/services
     """
+    @moduledoc section: :data_types
 
     @type t :: %__MODULE__{
       name: String.t,

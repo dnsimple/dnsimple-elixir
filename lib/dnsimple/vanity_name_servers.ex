@@ -6,6 +6,7 @@ defmodule Dnsimple.VanityNameServers do
   See:
   - https://developer.dnsimple.com/v2/vanity/
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Response

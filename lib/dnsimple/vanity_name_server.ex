@@ -5,6 +5,7 @@ defmodule Dnsimple.VanityNameServer do
   See:
   - https://developer.dnsimple.com/v2/vanity/
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     id: integer,

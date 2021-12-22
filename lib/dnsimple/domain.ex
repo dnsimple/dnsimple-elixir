@@ -6,6 +6,7 @@ defmodule Dnsimple.Domain do
   - https://developer.dnsimple.com/v2/domains/
   - https://developer.dnsimple.com/v2/domains/#domain-attributes
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     id: integer,

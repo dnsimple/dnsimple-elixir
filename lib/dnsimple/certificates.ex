@@ -3,6 +3,7 @@ defmodule Dnsimple.Certificates do
   Provides functions to interact with the
   [SSL certificate endpoints](https://developer.dnsimple.com/v2/certificates/).
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Listing

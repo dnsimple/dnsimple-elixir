@@ -5,6 +5,7 @@ defmodule Dnsimple.TldExtendedAttribute do
   See:
   - https://developer.dnsimple.com/v2/tlds/#extended-attributes
   """
+  @moduledoc section: :data_types
 
   defmodule Option do
     @moduledoc """
@@ -13,6 +14,7 @@ defmodule Dnsimple.TldExtendedAttribute do
     See:
     - https://developer.dnsimple.com/v2/tlds/#extended-attributes
     """
+    @moduledoc section: :data_types
 
     @type t :: %__MODULE__{
       title: String.t,

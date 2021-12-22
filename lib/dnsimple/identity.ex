@@ -6,6 +6,7 @@ defmodule Dnsimple.Identity do
   See:
   - https://developer.dnsimple.com/v2/identity/
   """
+  @moduledoc section: :api
 
   alias Dnsimple.Client
   alias Dnsimple.Response

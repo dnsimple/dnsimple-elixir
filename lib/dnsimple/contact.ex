@@ -5,6 +5,7 @@ defmodule Dnsimple.Contact do
   See:
   - https://developer.dnsimple.com/v2/contacts/
   """
+  @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
     id: integer,

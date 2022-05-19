@@ -111,13 +111,11 @@ defmodule Dnsimple.CertificatesTest do
       url     = "#{@client.base_url}/v2/#{@account_id}/domains/bingo.pizza/certificates/letsencrypt"
       method  = "post"
       fixture = "purchaseLetsencryptCertificate/success.http"
-      attributes = %{
-        contact_id: 1010
-      }
+      attributes = %{}
       {:ok, body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-        {:ok, response} = @module.purchase_letsencrypt_certificate(@client, @account_id, "bingo.pizza", attributes)
+        {:ok, response} = @module.purchase_letsencrypt_certificate(@client, @account_id, "bingo.pizza")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data

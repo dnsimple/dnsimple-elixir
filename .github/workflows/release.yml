@@ -1,5 +1,4 @@
----
-name: release
+name: Release
 
 on:
   push:
@@ -8,8 +7,17 @@ on:
 
 jobs:
   publish:
+    name: Publish Client
     runs-on: ubuntu-latest
     steps:
+      - name: Wait for tests to succeed
+        uses: lewagon/wait-on-check-action@v1.0.0
+        with:
+          ref: 'refs/heads/main'
+          running-workflow-name: 'Publish Client'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+          allowed-conclusions: success
       - name: Checkout Code
         uses: actions/checkout@v3
       - name: Publish to Hex

@@ -19,20 +19,21 @@ defmodule Dnsimple.ClientTest do
   describe ".execute" do
     setup do
       client  = %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
-      url     = "#{client.base_url}/v2/1010/domains"
-      fixture = ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url)
-
-      {:ok, client: client, fixture: fixture}
+      {:ok, client: client}
     end
 
-    test "handles headers defines as a map", %{client: client, fixture: fixture} do
+    test "handles headers defines as a map", %{client: client} do
+      url     = "#{client.base_url}/v2/1010/domains"
+      fixture = ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url)
       use_cassette :stub, fixture  do
         {:ok, response} = Dnsimple.Domains.list_domains(client, "1010", headers: %{page: 2})
         assert response.__struct__ == Dnsimple.Response
       end
     end
 
-    test "handles headers defines as a list", %{client: client, fixture: fixture} do
+    test "handles headers defines as a list", %{client: client} do
+      url     = "#{client.base_url}/v2/1010/domains"
+      fixture = ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url)
       use_cassette :stub, fixture  do
         {:ok, response} = Dnsimple.Domains.list_domains(client, "1010", headers: [{"X-Header", "X-Value"}])
         assert response.__struct__ == Dnsimple.Response

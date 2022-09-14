@@ -73,6 +73,15 @@ defmodule Dnsimple.ClientTest do
       end
     end
 
+    test "returns a ResponseError when the response has a 5XX status code", %{client: client} do
+      url        = "#{client.base_url}/v2/1010/domains"
+      fixture    = ExvcrUtils.response_fixture("badgateway.http", method: "get", url: url)
+      use_cassette :stub, fixture  do
+        {:error, response} = Dnsimple.Domains.list_domains(client, "1010")
+        assert response.__struct__ == Dnsimple.RequestError
+        assert response.message == "HTTP 502: <html>\n<head><title>502 Bad Gateway</title></head>\n<body bgcolor=\"white\">\n<center><h1>502 Bad Gateway</h1></center>\n<hr><center>nginx</center>\n</body>\n</html>\n"
+      end
+    end
   end
 
 end

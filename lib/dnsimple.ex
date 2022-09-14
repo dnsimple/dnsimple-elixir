@@ -21,12 +21,25 @@ defmodule Dnsimple do
     defexception [:message, :http_response]
 
     def new(http_response) do
-      message = Error.decode(http_response.body) |> Map.get("message")
-
       %__MODULE__{
-        message: "HTTP #{http_response.status_code}: #{message}",
+        message: extract_message(http_response),
         http_response: http_response
       }
+    end
+
+    defp extract_message(http_response) do
+      if is_json_response?(http_response) do
+        message = Error.decode(http_response.body) |> Map.get("message")
+        "HTTP #{http_response.status_code}: #{message}"
+      else
+        "HTTP #{http_response.status_code}: #{http_response.body}"
+      end
+    end
+
+    defp is_json_response?(http_response) do
+      Enum.any?(http_response.headers, fn({header, content}) ->
+        header == "Content-Type" && String.starts_with?(content, "application/json")
+      end)
     end
   end
 

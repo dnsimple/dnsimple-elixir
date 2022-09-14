@@ -18,11 +18,12 @@ defmodule Dnsimple do
     invalid request information.
     """
 
-    defexception [:message, :http_response]
+    defexception [:message, :errors, :http_response]
 
     def new(http_response) do
       %__MODULE__{
         message: extract_message(http_response),
+        errors: extract_errors(http_response),
         http_response: http_response
       }
     end
@@ -33,6 +34,12 @@ defmodule Dnsimple do
         "HTTP #{http_response.status_code}: #{message}"
       else
         "HTTP #{http_response.status_code}: #{http_response.body}"
+      end
+    end
+
+    defp extract_errors(http_response) do
+      if is_json_response?(http_response) do
+        Error.decode(http_response.body) |> Map.get("errors")
       end
     end
 

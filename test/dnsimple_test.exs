@@ -59,6 +59,7 @@ defmodule Dnsimple.ClientTest do
         {:error, response} = Dnsimple.Registrar.renew_whois_privacy(client, "1010", domain_id)
         assert response.__struct__ == Dnsimple.RequestError
         assert response.message == "HTTP 400: The whois privacy for example.com has just been renewed, a new renewal cannot be started at this time"
+        assert response.errors == nil
       end
     end
 
@@ -70,6 +71,17 @@ defmodule Dnsimple.ClientTest do
         {:error, response} = Dnsimple.Contacts.create_contact(client, "1010", attributes)
         assert response.__struct__ == Dnsimple.RequestError
         assert response.message == "HTTP 400: Validation failed"
+        assert response.errors == %{
+          "address1" => ["can't be blank"],
+          "city" => ["can't be blank"],
+          "country" => ["can't be blank"],
+          "email" => ["can't be blank", "is an invalid email address"],
+          "first_name" => ["can't be blank"],
+          "last_name" => ["can't be blank"],
+          "phone" => ["can't be blank", "is probably not a phone number"],
+          "postal_code" => ["can't be blank"],
+          "state_province" => ["can't be blank"]
+        }
       end
     end
 
@@ -80,6 +92,7 @@ defmodule Dnsimple.ClientTest do
         {:error, response} = Dnsimple.Domains.list_domains(client, "1010")
         assert response.__struct__ == Dnsimple.RequestError
         assert response.message == "HTTP 502: <html>\n<head><title>502 Bad Gateway</title></head>\n<body bgcolor=\"white\">\n<center><h1>502 Bad Gateway</h1></center>\n<hr><center>nginx</center>\n</body>\n</html>\n"
+        assert response.errors == nil
       end
     end
   end

@@ -39,6 +39,40 @@ defmodule Dnsimple.ClientTest do
         assert response.__struct__ == Dnsimple.Response
       end
     end
+
+    test "returns a NotFoundError when the response has a 404 status code", %{client: client} do
+      domain_id = 0
+      url       = "#{client.base_url}/v2/1010/domains/#{domain_id}"
+      fixture   = ExvcrUtils.response_fixture("notfound-domain.http", method: "get", url: url)
+      use_cassette :stub, fixture  do
+        {:error, response} = Dnsimple.Domains.get_domain(client, "1010", domain_id)
+        assert response.__struct__ == Dnsimple.NotFoundError
+        assert response.message == "Domain `0` not found"
+      end
+    end
+
+    test "returns a ResponseError when the response has a 4XX status code (other than 404)", %{client: client} do
+      domain_id  = "example.com"
+      url        = "#{client.base_url}/v2/1010/registrar/domains/#{domain_id}/whois_privacy/renewals"
+      fixture    = ExvcrUtils.response_fixture("renewWhoisPrivacy/whois-privacy-duplicated-order.http", method: "post", url: url)
+      use_cassette :stub, fixture  do
+        {:error, response} = Dnsimple.Registrar.renew_whois_privacy(client, "1010", domain_id)
+        assert response.__struct__ == Dnsimple.RequestError
+        assert response.message == "HTTP 400: The whois privacy for example.com has just been renewed, a new renewal cannot be started at this time"
+      end
+    end
+
+    test "returns a ResponseError when the response has a 4XX status code (other than 404) with attribute-specific errors", %{client: client} do
+      attributes = %{}
+      url        = "#{client.base_url}/v2/1010/contacts"
+      fixture    = ExvcrUtils.response_fixture("validation-error.http", method: "post", url: url)
+      use_cassette :stub, fixture  do
+        {:error, response} = Dnsimple.Contacts.create_contact(client, "1010", attributes)
+        assert response.__struct__ == Dnsimple.RequestError
+        assert response.message == "HTTP 400: Validation failed"
+      end
+    end
+
   end
 
 end

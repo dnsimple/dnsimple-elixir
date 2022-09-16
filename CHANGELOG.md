@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+- CHANGED: Expose all information available in error responses (dnsimple/dnsimple-elixir#197)
 - CHANGED: Deprecate Certificate's `contact_id` (dnsimple/dnsimple-elixir#186)
 
 ### Release 3.1.1

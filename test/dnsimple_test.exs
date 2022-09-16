@@ -19,23 +19,80 @@ defmodule Dnsimple.ClientTest do
   describe ".execute" do
     setup do
       client  = %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
-      url     = "#{client.base_url}/v2/1010/domains"
-      fixture = ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url)
-
-      {:ok, client: client, fixture: fixture}
+      {:ok, client: client}
     end
 
-    test "handles headers defines as a map", %{client: client, fixture: fixture} do
+    test "handles headers defines as a map", %{client: client} do
+      url     = "#{client.base_url}/v2/1010/domains"
+      fixture = ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url)
       use_cassette :stub, fixture  do
         {:ok, response} = Dnsimple.Domains.list_domains(client, "1010", headers: %{page: 2})
         assert response.__struct__ == Dnsimple.Response
       end
     end
 
-    test "handles headers defines as a list", %{client: client, fixture: fixture} do
+    test "handles headers defines as a list", %{client: client} do
+      url     = "#{client.base_url}/v2/1010/domains"
+      fixture = ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url)
       use_cassette :stub, fixture  do
         {:ok, response} = Dnsimple.Domains.list_domains(client, "1010", headers: [{"X-Header", "X-Value"}])
         assert response.__struct__ == Dnsimple.Response
+      end
+    end
+
+    test "returns a NotFoundError when the response has a 404 status code", %{client: client} do
+      domain_id = 0
+      url       = "#{client.base_url}/v2/1010/domains/#{domain_id}"
+      fixture   = ExvcrUtils.response_fixture("notfound-domain.http", method: "get", url: url)
+      use_cassette :stub, fixture  do
+        {:error, response} = Dnsimple.Domains.get_domain(client, "1010", domain_id)
+        assert response.__struct__ == Dnsimple.NotFoundError
+        assert response.message == "Domain `0` not found"
+      end
+    end
+
+    test "returns a ResponseError when the response has a 4XX status code (other than 404)", %{client: client} do
+      domain_id  = "example.com"
+      url        = "#{client.base_url}/v2/1010/registrar/domains/#{domain_id}/whois_privacy/renewals"
+      fixture    = ExvcrUtils.response_fixture("renewWhoisPrivacy/whois-privacy-duplicated-order.http", method: "post", url: url)
+      use_cassette :stub, fixture  do
+        {:error, response} = Dnsimple.Registrar.renew_whois_privacy(client, "1010", domain_id)
+        assert response.__struct__ == Dnsimple.RequestError
+        assert response.message == "HTTP 400: The whois privacy for example.com has just been renewed, a new renewal cannot be started at this time"
+        assert response.attribute_errors == nil
+      end
+    end
+
+    test "returns a ResponseError when the response has a 4XX status code (other than 404) with attribute-specific errors", %{client: client} do
+      attributes = %{}
+      url        = "#{client.base_url}/v2/1010/contacts"
+      fixture    = ExvcrUtils.response_fixture("validation-error.http", method: "post", url: url)
+      use_cassette :stub, fixture  do
+        {:error, response} = Dnsimple.Contacts.create_contact(client, "1010", attributes)
+        assert response.__struct__ == Dnsimple.RequestError
+        assert response.message == "HTTP 400: Validation failed"
+        assert response.attribute_errors == %{
+          "address1" => ["can't be blank"],
+          "city" => ["can't be blank"],
+          "country" => ["can't be blank"],
+          "email" => ["can't be blank", "is an invalid email address"],
+          "first_name" => ["can't be blank"],
+          "last_name" => ["can't be blank"],
+          "phone" => ["can't be blank", "is probably not a phone number"],
+          "postal_code" => ["can't be blank"],
+          "state_province" => ["can't be blank"]
+        }
+      end
+    end
+
+    test "returns a ResponseError when the response has a 5XX status code", %{client: client} do
+      url        = "#{client.base_url}/v2/1010/domains"
+      fixture    = ExvcrUtils.response_fixture("badgateway.http", method: "get", url: url)
+      use_cassette :stub, fixture  do
+        {:error, response} = Dnsimple.Domains.list_domains(client, "1010")
+        assert response.__struct__ == Dnsimple.RequestError
+        assert response.message == "HTTP 502: <html>\n<head><title>502 Bad Gateway</title></head>\n<body bgcolor=\"white\">\n<center><h1>502 Bad Gateway</h1></center>\n<hr><center>nginx</center>\n</body>\n</html>\n"
+        assert response.attribute_errors == nil
       end
     end
   end

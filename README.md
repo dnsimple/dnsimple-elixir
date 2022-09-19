@@ -67,6 +67,13 @@ Dnsimple.Identity.whoami(client)
 
 ## Documentation
 
+### Useful links
+
+- [`dnsimple-elixir` hex.pm docs](https://hexdocs.pm/dnsimple/readme.html).
+- [DNSimple API documentation](https://developer.dnsimple.com).
+- [DNSimple API examples repository](https://github.com/dnsimple/dnsimple-api-examples).
+- [DNSimple support documentation](https://support.dnsimple.com).
+
 ### Sandbox Environment
 
 We highly recommend testing against our [sandbox environment](https://developer.dnsimple.com/sandbox/) before using our production environment. This will allow you to avoid real purchases, live charges on your credit card, and reduce the chance of your running up against rate limits.

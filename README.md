@@ -69,10 +69,10 @@ Dnsimple.Identity.whoami(client)
 
 ### Useful links
 
-- [`dnsimple-elixir` hex.pm docs](https://hexdocs.pm/dnsimple/readme.html).
-- [DNSimple API documentation](https://developer.dnsimple.com).
-- [DNSimple API examples repository](https://github.com/dnsimple/dnsimple-api-examples).
-- [DNSimple support documentation](https://support.dnsimple.com).
+* [`dnsimple-elixir` hex.pm docs](https://hexdocs.pm/dnsimple/readme.html).
+* [DNSimple API documentation](https://developer.dnsimple.com).
+* [DNSimple API examples repository](https://github.com/dnsimple/dnsimple-api-examples).
+* [DNSimple support documentation](https://support.dnsimple.com).
 
 ### Sandbox Environment
 
@@ -146,8 +146,9 @@ The value you provide will be appended to the default `User-Agent` the client us
 #### Creating a domain
 
 You will need:
-- The `account_id` of the account you want to create the domain for.
-- The `registrant_id` which is the ID of a contact of the corresponding account.
+
+* The `account_id` of the account you want to create the domain for.
+* The `registrant_id` which is the ID of a contact of the corresponding account.
 
 ```elixir
 client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
@@ -157,8 +158,9 @@ client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_t
 #### Creating a record
 
 You will need:
-- The `account_id` of the account you want to create the domain for.
-- The `zone_id` (can be the numeric ID or the name eg. "example.com").
+
+* The `account_id` of the account you want to create the domain for.
+* The `zone_id` (can be the numeric ID or the name eg. "example.com").
 
 ```elixir
 client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}

@@ -38,24 +38,29 @@ jobs:
     name: Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}}
     strategy:
       matrix:
-        otp: ['20.0', '21.0', '22.0', '23.0']
-        elixir: ['1.8', '1.9', '1.10', '1.11', '1.12']
+        # Only support last 5 minor versions (https://hexdocs.pm/elixir/compatibility-and-deprecations.html)
+        elixir: ['1.10', '1.11', '1.12', '1.13', '1.14']
+        otp: ['21.0', '22.0', '23.0', '24.0', '25.0']
         # As per https://hexdocs.pm/elixir/compatibility-and-deprecations.html#compatibility-between-elixir-and-erlang-otp
         exclude:
-          - elixir: '1.8'
-            otp: '23.0'
-          - elixir: '1.9'
-            otp: '23.0'
           - elixir: '1.10'
-            otp: '20.0'
+            otp: '24.0'
           - elixir: '1.10'
-            otp: '23.0'
+            otp: '25.0'
           - elixir: '1.11'
-            otp: '20.0'
-          - elixir: '1.12'
-            otp: '20.0'
+            otp: '25.0'
           - elixir: '1.12'
             otp: '21.0'
+          - elixir: '1.12'
+            otp: '25.0'
+          - elixir: '1.13'
+            otp: '21.0'
+          - elixir: '1.13'
+            otp: '25.0'
+          - elixir: '1.14'
+            otp: '21.0'
+          - elixir: '1.14'
+            otp: '22.0'
     steps:
       - uses: actions/checkout@v3
       - uses: erlef/setup-beam@v1

@@ -119,6 +119,20 @@ config :logger, level: :info
 ```
 
 ### Examples
+
+#### Authentication
+
+```elixir
+client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
+{:ok, response } = Dnsimple.Identity.whoami(client)
+```
+
+You can get your `account_id` from the response, if you don't know it.
+
+```elixir
+account_id = response.data.account.id
+```
+
 #### Setting a custom `User-Agent` header
 
 You customize the `User-Agent` header for the calls made to the DNSimple API:
@@ -128,6 +142,32 @@ client = %Dnsimple.Client{user_agent: "my-app", access_token: "a1b2c3"}
 ```
 
 The value you provide will be appended to the default `User-Agent` the client uses. For example, if you use `my-app`, the final header value will be `dnsimple-elixir/1.0 my-app` (note that it will vary depending on the client version).
+
+#### Creating a domain
+
+You will need:
+- The `account_id` of the account you want to create the domain for.
+- The `registrant_id` which is the ID of a contact of the corresponding account.
+
+```elixir
+client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
+{:ok, response} = Dnsimple.Domains.create_domain(client, account_id = 1010, %{name: "example.com", registrant: registrant_id = 123})
+```
+
+#### Creating a record
+
+You will need:
+- The `account_id` of the account you want to create the domain for.
+- The `zone_id` (can be the numeric ID or the name eg. "example.com").
+
+```elixir
+client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
+{:ok, response} = Dnsimple.Zones.create_zone_record(client, account_id = 1010, zone_id = "example.com", %{
+  type: "CNAME",
+  name: "provider",
+  content: "dnsimple.com"
+})
+```
 
 ## License
 

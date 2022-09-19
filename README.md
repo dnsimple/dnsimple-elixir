@@ -36,9 +36,9 @@ def application do
 end
 ```
 
-## Usage
+### Usage
 
-### From iex
+#### From iex
 
 ```elixir
 # Create a client passing the proper settings
@@ -52,7 +52,7 @@ iex> response.data
 # =>   "updated_at" => "2015-04-01T10:07:47.559Z"}, "user" => nil}
 ```
 
-### From an .exs file
+#### From an .exs file
 
 ```elixir
 # Start Dnsimple app
@@ -65,6 +65,20 @@ client = %Dnsimple.Client{access_token: "TOKEN", base_url: "https://api.sandbox.
 Dnsimple.Identity.whoami(client)
 ```
 
+## Documentation
+
+### Sandbox Environment
+
+We highly recommend testing against our [sandbox environment](https://developer.dnsimple.com/sandbox/) before using our production environment. This will allow you to avoid real purchases, live charges on your credit card, and reduce the chance of your running up against rate limits.
+
+The client supports both the production and sandbox environment. To switch to sandbox pass the sandbox API host using the `base_url` option when you construct the client:
+
+```elixir
+client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
+```
+
+You will need to ensure that you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
+
 ### Configuration
 
 You can configure DNSimple inside of your app's `config.exs`. For example, if you have a development config, inside `dev.exs`:
@@ -75,7 +89,7 @@ config :dnsimple, base_url: "https://api.sandbox.dnsimple.com"
 
 Now you can simply call `client = %Dnsimple.Client{access_token: "TOKEN"}`.
 
-## Logging
+### Logging
 
 The client logs the requests made to the DNSimple API:
 
@@ -97,19 +111,8 @@ The log level used for this is `debug`. If you want to disable it you will have 
 config :logger, level: :info
 ```
 
-## Sandbox Environment
-
-We highly recommend testing against our [sandbox environment](https://developer.dnsimple.com/sandbox/) before using our production environment. This will allow you to avoid real purchases, live charges on your credit card, and reduce the chance of your running up against rate limits.
-
-The client supports both the production and sandbox environment. To switch to sandbox pass the sandbox API host using the `base_url` option when you construct the client:
-
-```elixir
-client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
-```
-
-You will need to ensure that you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
-
-## Setting a custom `User-Agent` header
+### Examples
+#### Setting a custom `User-Agent` header
 
 You customize the `User-Agent` header for the calls made to the DNSimple API:
 

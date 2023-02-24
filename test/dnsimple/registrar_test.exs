@@ -116,6 +116,31 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
+  describe ".get_domain_registration" do
+    test "returns the domain registration in a Dnsimple.Response" do
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registrations/1"
+      method      = "get"
+      fixture     = "getDomainRegistration/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.get_domain_registration(@client, @account_id, "example.com", 1)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.DomainRegistration
+        assert data.id == 361
+        assert data.domain_id == 104040
+        assert data.registrant_id == 2715
+        assert data.period == 1
+        assert data.state == "registering"
+        assert data.auto_renew == false
+        assert data.whois_privacy == false
+        assert data.created_at == "2023-01-27T17:44:32Z"
+        assert data.updated_at == "2023-01-27T17:44:40Z"
+      end
+    end
+  end
+
 
   describe ".renew_domain" do
     test "returns the renewed domain in a Dnsimple.Response" do

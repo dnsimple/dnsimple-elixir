@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+- NEW: Added `Dnsimple.Registrar.get_domain_registration/5` to retrieve a domain registration. (dnsimple/dnsimple-elixir#216)
+- NEW: Added `Dnsimple.Registrar.get_domain_renewal/5` to retrieve a domain renewal. (dnsimple/dnsimple-elixir#216)
+
 ### Release 3.2.1
 
 - CHANGED: Expose all information available in error responses (dnsimple/dnsimple-elixir#197)

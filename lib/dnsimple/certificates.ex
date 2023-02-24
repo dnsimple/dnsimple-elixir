@@ -122,6 +122,10 @@ defmodule Dnsimple.Certificates do
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
       {:ok, response} = Dnsimple.Certificates.purchase_letsencrypt_certificate(client, account_id = "1010", domain_id = "example.com", auto_renew: true)
 
+      # Signature Algorithm
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Certificates.purchase_letsencrypt_certificate(client, account_id = "1010", domain_id = "example.com", signature_algorithm: "RSA")
+
   """
   @spec purchase_letsencrypt_certificate(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
   def purchase_letsencrypt_certificate(client, account_id, domain_id, attributes \\ %{}, options \\ []) do
@@ -174,6 +178,10 @@ defmodule Dnsimple.Certificates do
       # Enable auto-renew on purchase
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
       {:ok, response} = Dnsimple.Certificates.purchase_letsencrypt_certificate_renewal(client, account_id = "1010", domain_id = "example.com", certificate_id = 100, auto_renew: true)
+
+      # Signature Algorithm
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Certificates.purchase_letsencrypt_certificate_renewal(client, account_id = "1010", domain_id = "example.com", certificate_id = 100, signature_algorithm: "RSA")
 
   """
   @spec purchase_letsencrypt_certificate_renewal(Client.t, String.t | integer, String.t | integer, integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}

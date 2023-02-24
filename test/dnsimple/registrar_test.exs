@@ -165,6 +165,28 @@ defmodule Dnsimple.RegistrarTest do
       end
     end
   end
+  
+  describe ".get_domain_renewal" do
+    test "returns the domain renewal in a Dnsimple.Response" do
+      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/renewals/1"
+      method      = "get"
+      fixture     = "getDomainRenewal/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.get_domain_renewal(@client, @account_id, "example.com", 1)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.DomainRenewal
+        assert data.id == 1
+        assert data.domain_id == 999
+        assert data.period == 1
+        assert data.state == "renewed"
+        assert data.created_at == "2016-12-09T19:46:45Z"
+        assert data.updated_at == "2016-12-12T19:46:45Z"
+      end
+    end
+  end
 
 
   describe ".transfer_domain" do

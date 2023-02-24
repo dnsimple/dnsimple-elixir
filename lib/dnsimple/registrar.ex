@@ -155,6 +155,26 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(%{"data" => %DomainRenewal{}})
   end
 
+  @doc """
+  Retrieve the details of an existing domain renewal.
+
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#getDomainRenewal
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.get_domain_renewal(client, account_id = 1010, domain_id = "example.com", renewal_id = 1)
+
+  """
+  @spec get_domain_renewal(Client.t, String.t | integer, String.t, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  def get_domain_renewal(client, account_id, domain_name, renewal_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/renewals/#{renewal_id}")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %DomainRenewal{}})
+  end
+
 
   @doc """
   Starts the transfer of a domain to DNSimple.

@@ -113,6 +113,26 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(%{"data" => %DomainRegistration{}})
   end
 
+  @doc """
+  Retrieve the details of an existing domain registration.
+
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#getDomainRegistration
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.get_domain_registration(client, account_id = 1010, domain_id = "example.com", registration_id = 1)
+
+  """
+  @spec get_domain_registration(Client.t, String.t | integer, String.t, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  def get_domain_registration(client, account_id, domain_name, registration_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registrations/#{registration_id}")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %DomainRegistration{}})
+  end
+
 
   @doc """
   Renews a domain.
@@ -132,6 +152,26 @@ defmodule Dnsimple.Registrar do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/renewals")
 
     Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %DomainRenewal{}})
+  end
+
+  @doc """
+  Retrieve the details of an existing domain renewal.
+
+  See:
+  - https://developer.dnsimple.com/v2/registrar/#getDomainRenewal
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.get_domain_renewal(client, account_id = 1010, domain_id = "example.com", renewal_id = 1)
+
+  """
+  @spec get_domain_renewal(Client.t, String.t | integer, String.t, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  def get_domain_renewal(client, account_id, domain_name, renewal_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/renewals/#{renewal_id}")
+
+    Client.get(client, url, options)
     |> Response.parse(%{"data" => %DomainRenewal{}})
   end
 

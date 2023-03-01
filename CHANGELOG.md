@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+## Release 3.3.0
+
 - NEW: Added `Dnsimple.Registrar.get_domain_registration/5` to retrieve a domain registration. (dnsimple/dnsimple-elixir#216)
 - NEW: Added `Dnsimple.Registrar.get_domain_renewal/5` to retrieve a domain renewal. (dnsimple/dnsimple-elixir#216)
+- NEW: Added documentation for the new `signature_algorithm` parameter for the Let's Encrypt Purchase endpoint (dnsimple/dnsimple-elixir#215)
 
 ### Release 3.2.1
 

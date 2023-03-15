@@ -150,6 +150,7 @@ defmodule Dnsimple do
         "Accept"        => "application/json",
         "User-Agent"    => format_user_agent(client.user_agent),
         "Authorization" => "Bearer #{client.access_token}",
+        "Content-Type"  => "application/json",
       }
 
       {headers, options} = Keyword.pop(all_options, :headers)

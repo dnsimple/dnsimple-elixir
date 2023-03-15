@@ -13,6 +13,7 @@ defmodule Dnsimple.Zones do
   alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Zone
+  alias Dnsimple.ZoneFile
   alias Dnsimple.ZoneDistribution
   alias Dnsimple.ZoneRecord
 
@@ -80,7 +81,7 @@ defmodule Dnsimple.Zones do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/file")
 
     Client.get(client, url, options)
-    |> Response.parse(%{"data" => %Zone.File{}})
+    |> Response.parse(%{"data" => %ZoneFile{}})
   end
 
 

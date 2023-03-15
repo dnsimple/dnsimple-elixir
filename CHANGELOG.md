@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+## 3.4.0 (Unreleased)
+
+ENHANCEMENTS:
+
+- Added `Dnsimple.Client.new_from_env` to initialize a client from the Application environment. (dnsimple/dnsimple-elixir#219)
+
 ## Release 3.3.0
 
 - NEW: Added `Dnsimple.Registrar.get_domain_registration/5` to retrieve a domain registration. (dnsimple/dnsimple-elixir#216)

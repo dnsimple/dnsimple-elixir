@@ -19,6 +19,7 @@ defmodule Dnsimple.Zone do
   defstruct ~w(id account_id name reverse created_at updated_at)a
 
   defmodule File do
+    @deprecated "Use Dnsimple.ZoneFile instead"
     @moduledoc """
     Represents a zone file.
 

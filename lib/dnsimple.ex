@@ -78,6 +78,21 @@ defmodule Dnsimple do
     @type headers :: [{binary, binary}] | %{binary => binary}
     @type body :: binary | {:form, [{atom, any}]} | {:file, binary}
 
+    @doc """
+    Initializes a new client from the application environment.
+
+    ## Examples
+
+        client = Dnsimple.Client.new_from_env()
+    """
+    @spec new_from_env :: t
+    def new_from_env do
+      %__MODULE__{
+        access_token: Application.get_env(:dnsimple, :access_token),
+        base_url: Application.get_env(:dnsimple, :base_url),
+        user_agent: Application.get_env(:dnsimple, :user_agent)
+      }
+    end
 
     @doc """
     Prepends the correct API version to path.
@@ -150,6 +165,7 @@ defmodule Dnsimple do
         "Accept"        => "application/json",
         "User-Agent"    => format_user_agent(client.user_agent),
         "Authorization" => "Bearer #{client.access_token}",
+        "Content-Type"  => "application/json",
       }
 
       {headers, options} = Keyword.pop(all_options, :headers)

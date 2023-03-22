@@ -9,6 +9,23 @@ defmodule Dnsimple.ClientTest do
     assert client.base_url == "https://api.dnsimple.com"
   end
 
+  describe "when configuration is set" do
+    setup do
+      Application.put_env(:dnsimple, :access_token, "s3cr35")
+      Application.put_env(:dnsimple, :base_url, "https://api.local.dnsimple.test")
+
+      on_exit fn ->
+        Application.delete_env(:dnsimple, :access_token)
+        Application.delete_env(:dnsimple, :base_url)
+      end
+    end
+
+    test "initialize with configuration" do
+      client = Dnsimple.Client.new_from_env()
+      assert client.access_token == "s3cr35"
+      assert client.base_url == "https://api.local.dnsimple.test"
+    end
+  end
 
   describe ".versioned" do
     test "joins path with current api version" do

@@ -92,9 +92,11 @@ You can configure DNSimple inside of your app's `config.exs`. For example, if yo
 
 ```elixir
 config :dnsimple, base_url: "https://api.sandbox.dnsimple.com"
+config :dnsimple, access_token: "secret"
+config :dnsimple, user_agent: "my-app"
 ```
 
-Now you can simply call `client = %Dnsimple.Client{access_token: "TOKEN"}`.
+Now you can simply call `client = Dnsimple.Client.new_from_env()`.
 
 ### Logging
 
@@ -173,4 +175,4 @@ client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_t
 
 ## License
 
-Copyright (c) 2015-2022 DNSimple Corporation. This is Free Software distributed under the MIT license.
+Copyright (c) 2015-2023 DNSimple Corporation. This is Free Software distributed under the MIT license.

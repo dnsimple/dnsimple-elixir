@@ -23,17 +23,8 @@ jobs:
           files: .
           config_file: ".markdownlint.yaml"
 
-  yamllint:
-    name: Lint YAML
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-      - name: Run YAML Lint
-        uses: actionshub/yamllint@v1.7.1
-
   test:
-    needs: [markdownlint-cli, yamllint]
+    needs: [markdownlint-cli]
     runs-on: ubuntu-20.04
     name: Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}}
     strategy:

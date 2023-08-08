@@ -21,7 +21,7 @@ You will have to add the `:dnsimple` app to your `mix.exs` file as a dependency:
 ```elixir
 def deps do
   [
-    {:dnsimple, "~> 1.0.0"}, #...
+    {:dnsimple, "~> 3.4.0"}, #...
   ]
 end
 ```

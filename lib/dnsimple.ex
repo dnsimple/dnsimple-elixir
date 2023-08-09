@@ -134,7 +134,7 @@ defmodule Dnsimple do
     @doc """
     Issues a PUT request to the given url.
     """
-    @spec put(Client.t, binary, body, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
+    @spec put(Client.t, binary, nil | body, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
     def put(client, url, body, options \\ []), do: execute(client, :put, url, body, options)
 
     @doc """

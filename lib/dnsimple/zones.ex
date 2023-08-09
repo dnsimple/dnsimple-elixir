@@ -244,4 +244,43 @@ defmodule Dnsimple.Zones do
     |> Response.parse(nil)
   end
 
+  @doc """
+  Activate DNS resolution for the zone in the account.
+
+  See:
+  - https://developer.dnsimple.com/v2/zones/#activateZoneService
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Zones.activate_dns(client, account_id = 1010, zone_id = "example.com")
+
+  """
+  @spec activate_dns(Client.t, integer | String.t, integer | String.t, Keyword.t) :: {:ok|:error, Response.t}
+  def activate_dns(client, account_id, zone_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_id}/activation")
+
+    Client.put(client, url, Client.empty_body(), options)
+    |> Response.parse(%{"data" => %Zone{}})
+  end
+
+  @doc """
+  Deactivate DNS resolution for the zone in the account.
+
+  See:
+  - https://developer.dnsimple.com/v2/zones/#deactivateZoneService
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Zones.deactivate_dns(client, account_id = 1010, zone_id = "example.com")
+
+  """
+  @spec deactivate_dns(Client.t, integer | String.t, integer | String.t, Keyword.t) :: {:ok|:error, Response.t}
+  def deactivate_dns(client, account_id, zone_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_id}/activation")
+
+    Client.delete(client, url, options)
+    |> Response.parse(%{"data" => %Zone{}})
+  end
 end

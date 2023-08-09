@@ -320,8 +320,8 @@ defmodule Dnsimple.Domains do
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
       {:ok, response} = Dnsimple.Domains.create_email_forward(client, account_id = 1010, domain_id = "example.com", %{
-        from: "jacegu@example.com",
-        to: "me@provider.com",
+        alias_name: "jacegu@example.com",
+        destination_email: "me@provider.com",
       })
 
   """

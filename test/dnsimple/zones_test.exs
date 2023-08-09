@@ -317,5 +317,47 @@ defmodule Dnsimple.ZonesTest do
     end
   end
 
+  describe ".activate_dns" do
+    test "activates DNS for the zone and returns the zone in a Dnsimple.Response" do
+      url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/activation"
+      method    = "put"
+      fixture   = "activateZoneService/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.activate_dns(@client, @account_id, @zone_id)
+
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data.__struct__ == Dnsimple.Zone
+        assert response.data.id == 1
+        assert response.data.account_id == @account_id
+        assert response.data.name == "example.com"
+        assert response.data.reverse == false
+        assert response.data.created_at == "2022-09-28T04:45:24Z"
+        assert response.data.updated_at == "2023-07-06T11:19:48Z"
+      end
+    end
+  end
+
+  describe ".deactivate_dns" do
+    test "deactivates DNS for the zone and returns the zone in a Dnsimple.Response" do
+      url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/activation"
+      method    = "delete"
+      fixture   = "deactivateZoneService/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.deactivate_dns(@client, @account_id, @zone_id)
+
+        assert response.__struct__ == Dnsimple.Response
+        assert response.data.__struct__ == Dnsimple.Zone
+        assert response.data.id == 1
+        assert response.data.account_id == @account_id
+        assert response.data.name == "example.com"
+        assert response.data.reverse == false
+        assert response.data.created_at == "2022-09-28T04:45:24Z"
+        assert response.data.updated_at == "2023-08-08T04:19:52Z"
+      end
+    end
+  end
+
 
 end

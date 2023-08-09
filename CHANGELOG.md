@@ -14,6 +14,10 @@ FEATURES:
 - NEW: Added `Dnsimple.Zone.activate_dns/4` to activate DNS services (resolution) for a zone. (dnsimple/dnsimple-elixir#231)
 - NEW: Added `Dnsimple.Zone.deactivate_dns/4` to deactivate DNS services (resolution) for a zone. (dnsimple/dnsimple-elixir#231)
 
+NOTES:
+
+- Elixir 1.15 has been added to the CI Test Matrix
+- Elixir 1.10 has been dropped from the CI Test Matrix, while we still support it at the present time, we will no longer test against it and cannot guarantee it will continue to work. We support the last 5 Elixir releases only.
 
 ## 3.4.0
 

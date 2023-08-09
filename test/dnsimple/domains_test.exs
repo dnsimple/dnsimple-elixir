@@ -313,7 +313,7 @@ defmodule Dnsimple.DomainsTest do
       url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/email_forwards"
       method     = "post"
       fixture    = "createEmailForward/created.http"
-      attributes = %{from: "jim@a-domain.com", to: "jim@another.com"}
+      attributes = %{alias_name: "jim@a-domain.com", destination_email: "jim@another.com"}
       body       = Poison.encode!(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do

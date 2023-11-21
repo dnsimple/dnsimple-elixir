@@ -23,6 +23,7 @@ defmodule Dnsimple.Mixfile do
 
   defp deps do
     [
+      {:decimal, "~> 2.0"},
       {:httpoison, "~> 2.1"},
       {:poison, ">= 2.0.0"},
       {:exvcr, "~> 0.14.2", only: :test},

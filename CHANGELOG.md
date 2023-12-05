@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+
+FEATURES:
+
+- NEW: Added `Dnsimple.Registrar.check_registrant_change` to retrieves the requirements of a registrant change. (dnsimple/dnsimple-elixir#241)
+- NEW: Added `Dnsimple.Registrar.get_registrant_change` to retrieves the details of an existing registrant change. (dnsimple/dnsimple-elixir#241)
+- NEW: Added `Dnsimple.Registrar.create_registrant_change` to start registrant change. (dnsimple/dnsimple-elixir#241)
+- NEW: Added `Dnsimple.Registrar.list_registrant_changes` to lists the registrant changes for a domain. (dnsimple/dnsimple-elixir#241)
+- NEW: Added `Dnsimple.Registrar.delete_registrant_change` to cancel an ongoing registrant change from the account. (dnsimple/dnsimple-elixir#241)
+
 ## 3.5.0
 
 FEATURES:

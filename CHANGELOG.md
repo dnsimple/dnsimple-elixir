@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
-
 FEATURES:
 
 - NEW: Added `Dnsimple.Registrar.check_registrant_change` to retrieves the requirements of a registrant change. (dnsimple/dnsimple-elixir#241)

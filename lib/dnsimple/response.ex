@@ -36,7 +36,7 @@ defmodule Dnsimple.Response do
 
   defp decode(%HTTPoison.Response{body: ""}, _format),  do: nil
   defp decode(%HTTPoison.Response{body: body}, nil),    do: Poison.decode!(body)
-  defp decode(%HTTPoison.Response{body: body}, format), do: Poison.decode!(body, as: format)
+  defp decode(%HTTPoison.Response{body: body}, format), do: Poison.decode!(body, %{as: format})
 
   defp extract_data(%{"data" => data}), do: data
   defp extract_data(data),              do: data

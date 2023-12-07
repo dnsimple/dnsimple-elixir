@@ -76,7 +76,7 @@ defmodule Dnsimple do
     @type t :: %__MODULE__{access_token: String.t, base_url: String.t, user_agent: String.t}
 
     @type headers :: [{binary, binary}] | %{binary => binary}
-    @type body :: binary | {:form, [{atom, any}]} | {:file, binary}
+    @type body :: binary | {:form, [{atom, any}]} | {:file, binary} | Keyword.t
 
     @doc """
     Initializes a new client from the application environment.

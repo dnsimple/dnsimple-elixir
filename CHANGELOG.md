@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+## 3.6.0
+
 FEATURES:
 
+- NEW: Added `Dnsimple.Billing.list_charges` to list charges for the account. (dnsimple/dnsimple-elixer#239)
 - NEW: Added `Dnsimple.Registrar.check_registrant_change` to retrieves the requirements of a registrant change. (dnsimple/dnsimple-elixir#241)
 - NEW: Added `Dnsimple.Registrar.get_registrant_change` to retrieves the details of an existing registrant change. (dnsimple/dnsimple-elixir#241)
 - NEW: Added `Dnsimple.Registrar.create_registrant_change` to start registrant change. (dnsimple/dnsimple-elixir#241)

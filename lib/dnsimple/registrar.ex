@@ -22,6 +22,8 @@ defmodule Dnsimple.Registrar do
   alias Dnsimple.WhoisPrivacy
   alias Dnsimple.WhoisPrivacyRenewal
   alias Dnsimple.VanityNameServer
+  alias Dnsimple.RegistrantChangeCheck
+  alias Dnsimple.RegistrantChange
 
   @doc """
   Checks if a domain name is available to be registered and whether premium
@@ -482,6 +484,107 @@ defmodule Dnsimple.Registrar do
 
     Client.delete(client, url, options)
     |> Response.parse(nil)
+  end
+
+  @doc """
+  Retrieves the requirements of a registrant change
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+    {:ok, response} = Dnsimple.Registrar.check_registrant_change(client, account_id = 1010, %{
+      contact_id: 1,
+      domain_id: "example.com",
+    })
+
+  """
+  @spec check_registrant_change(Client.t, integer | String.t, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
+  def check_registrant_change(client, account_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/registrant_changes/check")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %RegistrantChangeCheck{}})
+  end
+
+  @doc """
+  Retrieves the details of an existing registrant change.
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+    {:ok, response} = Dnsimple.Registrar.get_registrant_change(client, account_id = 1010, registrant_change_id = 1)
+
+  """
+  @spec get_registrant_change(Client.t, integer | String.t, integer, Keyword.t) :: {:ok|:error, Response.t}
+  def get_registrant_change(client, account_id, registrant_change_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/registrant_changes/#{registrant_change_id}")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %RegistrantChange{}})
+  end
+
+  @doc """
+  Start registrant change.
+
+  ## Examples:
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+    {:ok, response} = Dnsimple.Registrar.create_registrant_change(client, account_id = 1010, %{
+      contact_id: 1,
+      domain_id: "example.com",
+      extended_attributes: %{
+        "x-fake-attribute" => "value",
+      }
+    })
+
+  """
+  @spec create_registrant_change(Client.t, integer | String.t, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
+  def create_registrant_change(client, account_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/registrant_changes")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(%{"data" => %RegistrantChange{}})
+  end
+
+  @doc """
+  List registrant changes in the account.
+
+  ## Examples
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+    {:ok, response} = Dnsimple.Registrar.list_registrant_changes(client, account_id = 1010)
+
+  """
+  @spec list_registrant_changes(Client.t, integer | String.t, Keyword.t) :: {:ok|:error, Response.t}
+  def list_registrant_changes(client, account_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/registrant_changes")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => [%RegistrantChange{}]})
+  end
+
+  @doc """
+  Cancel an ongoing registrant change from the account.
+
+  ## Examples
+
+    client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+    {:ok, response} = Dnsimple.Registrar.delete_registrant_change(client, account_id = 1010, registrant_change_id = 1)
+
+  """
+  @spec delete_registrant_change(Client.t, integer | String.t, integer, Keyword.t) :: {:ok|:error, Response.t}
+  def delete_registrant_change(client, account_id, registrant_change_id, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/registrant_changes/#{registrant_change_id}")
+
+    {state, response } = Client.delete(client, url, options)
+    cond do
+      response.status_code == 204 ->
+        {state, response} |> Response.parse(nil)
+      response.status_code == 202 ->
+        {state, response} |> Response.parse(%{"data" => %RegistrantChange{}})
+      true ->
+        {state, response} |> Response.parse(nil)
+    end
   end
 
 end

@@ -165,7 +165,7 @@ defmodule Dnsimple.RegistrarTest do
       end
     end
   end
-  
+
   describe ".get_domain_renewal" do
     test "returns the domain renewal in a Dnsimple.Response" do
       url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/renewals/1"
@@ -484,4 +484,151 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
+  describe ".check_registrant_change" do
+    test "returns the registrant change check in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/check"
+      method  = "post"
+      fixture = "checkRegistrantChange/success.http"
+      attributes  = %{domain_id: @domain_id, contact_id: 101}
+      {:ok, body} = Poison.encode(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.check_registrant_change(@client, @account_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.RegistrantChangeCheck
+        assert data.contact_id == 101
+        assert data.domain_id == 101
+        assert data.extended_attributes == []
+        assert data.registry_owner_change == true
+      end
+    end
+  end
+
+  describe ".get_registrant_change" do
+    test "returns the registrant change in a Dnsimple.Response" do
+      registrant_change_id = 1
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}"
+      method  = "get"
+      fixture = "getRegistrantChange/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.get_registrant_change(@client, @account_id, registrant_change_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.RegistrantChange
+        assert data.id == 101
+        assert data.account_id == 101
+        assert data.domain_id == 101
+        assert data.contact_id == 101
+        assert data.state == "new"
+        assert data.extended_attributes == %{}
+        assert data.registry_owner_change == true
+        assert data.irt_lock_lifted_by == nil
+        assert data.created_at == "2017-02-03T17:43:22Z"
+        assert data.updated_at == "2017-02-03T17:43:22Z"
+      end
+    end
+  end
+
+  describe ".create_registrant_change" do
+    test "returns the registrant change in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes"
+      method  = "post"
+      fixture = "createRegistrantChange/success.http"
+      attributes  = %{domain_id: @domain_id, contact_id: 101}
+      {:ok, body} = Poison.encode(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.create_registrant_change(@client, @account_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.RegistrantChange
+        assert data.id == 101
+        assert data.account_id == 101
+        assert data.domain_id == 101
+        assert data.contact_id == 101
+        assert data.state == "new"
+        assert data.extended_attributes == %{}
+        assert data.registry_owner_change == true
+        assert data.irt_lock_lifted_by == nil
+        assert data.created_at == "2017-02-03T17:43:22Z"
+        assert data.updated_at == "2017-02-03T17:43:22Z"
+      end
+    end
+  end
+
+  describe ".list_registrant_changes" do
+    test "returns the registrant changes in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes"
+      method  = "get"
+      fixture = "listRegistrantChanges/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.list_registrant_changes(@client, @account_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert is_list(data)
+        assert length(data) == 1
+
+        [first | _] = data
+        assert first.__struct__ == Dnsimple.RegistrantChange
+        assert first.id == 101
+        assert first.account_id == 101
+        assert first.domain_id == 101
+        assert first.contact_id == 101
+        assert first.state == "new"
+        assert first.extended_attributes == %{}
+        assert first.registry_owner_change == true
+        assert first.irt_lock_lifted_by == nil
+        assert first.created_at == "2017-02-03T17:43:22Z"
+        assert first.updated_at == "2017-02-03T17:43:22Z"
+      end
+    end
+  end
+
+  describe ".delete_registrant_change" do
+    test "returns nil for successful sync cancallation response wrapped in a Dnsimple.Response" do
+      registrant_change_id = 1
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}"
+      method  = "delete"
+      fixture = "deleteRegistrantChange/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.delete_registrant_change(@client, @account_id, registrant_change_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        assert is_nil(response.data)
+      end
+    end
+
+    test "returns registrant change object for async cancellation in a Dnsimple.Response" do
+      registrant_change_id = 1
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}"
+      method  = "delete"
+      fixture = "deleteRegistrantChange/success_async.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+        {:ok, response} = @module.delete_registrant_change(@client, @account_id, registrant_change_id)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.RegistrantChange
+        assert data.id == 101
+        assert data.account_id == 101
+        assert data.domain_id == 101
+        assert data.contact_id == 101
+        assert data.state == "cancelling"
+        assert data.extended_attributes == %{}
+        assert data.registry_owner_change == true
+        assert data.irt_lock_lifted_by == nil
+        assert data.created_at == "2017-02-03T17:43:22Z"
+        assert data.updated_at == "2017-02-03T17:43:22Z"
+      end
+    end
+  end
 end

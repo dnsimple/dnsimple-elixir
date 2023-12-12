@@ -58,6 +58,9 @@ defmodule Dnsimple.ZonesTest do
         assert data.account_id == @account_id
         assert data.name == "example-alpha.com"
         assert data.reverse == false
+        assert data.secondary == false
+        assert data.last_transferred_at == nil
+        assert data.active == true
         assert data.created_at == "2015-04-23T07:40:03Z"
         assert data.updated_at == "2015-04-23T07:40:03Z"
       end

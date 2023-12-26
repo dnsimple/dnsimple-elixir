@@ -13,7 +13,6 @@ FEATURES:
 - NEW: Added `Dnsimple.Registrar.disable_domain_transfer_lock` to disable the domain transfer lock for a domain. (#244)
 - NEW: Added `Dnsimple.Registrar.get_domain_transfer_lock` to get the domain transfer lock status for a domain. (#244)
 
-
 ## 3.7.0
 
 ENHANCEMENTS:

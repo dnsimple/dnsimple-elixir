@@ -310,6 +310,58 @@ defmodule Dnsimple.RegistrarTest do
   end
 
 
+  describe ".enable_domain_transfer_lock" do
+    test "enables the transfer lock for the domain and returns an empty Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer_lock"
+      method  = "post"
+      fixture = "enableDomainTransferLock/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.enable_domain_transfer_lock(@client, @account_id, "example.com")
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.TransferLock
+        assert data.enabled == true
+      end
+    end
+  end
+
+  describe ".disable_domain_transfer_lock" do
+    test "disables the transfer lock for the domain and returns an empty Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer_lock"
+      method  = "delete"
+      fixture = "disableDomainTransferLock/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.disable_domain_transfer_lock(@client, @account_id, "example.com")
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.TransferLock
+        assert data.enabled == false
+      end
+    end
+  end
+
+  describe ".get_domain_transfer_lock" do
+    test "returns the transfer lock for the domain in a Dnsimple.Response" do
+      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer_lock"
+      method  = "get"
+      fixture = "getDomainTransferLock/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} = @module.get_domain_transfer_lock(@client, @account_id, "example.com")
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.TransferLock
+        assert data.enabled == true
+      end
+    end
+  end
+
+
   describe ".get_whois_privacy" do
     test "returns the whois privacy in a Dnsimple.Response" do
       url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/whois_privacy"

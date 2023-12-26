@@ -12,18 +12,19 @@ defmodule Dnsimple.Registrar do
   @moduledoc section: :api
 
   alias Dnsimple.Client
-  alias Dnsimple.Response
   alias Dnsimple.DomainCheck
   alias Dnsimple.DomainPremiumPrice
   alias Dnsimple.DomainPrice
   alias Dnsimple.DomainRegistration
   alias Dnsimple.DomainRenewal
   alias Dnsimple.DomainTransfer
+  alias Dnsimple.RegistrantChange
+  alias Dnsimple.RegistrantChangeCheck
+  alias Dnsimple.Response
+  alias Dnsimple.TransferLock
+  alias Dnsimple.VanityNameServer
   alias Dnsimple.WhoisPrivacy
   alias Dnsimple.WhoisPrivacyRenewal
-  alias Dnsimple.VanityNameServer
-  alias Dnsimple.RegistrantChangeCheck
-  alias Dnsimple.RegistrantChange
 
   @doc """
   Checks if a domain name is available to be registered and whether premium
@@ -306,6 +307,62 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(nil)
   end
 
+  @doc """
+  Enables transfer lock for the domain.
+
+  See:
+  - https://developer.dnsimple.com/v2/registrar/transfer_lock/#enableDomainTransferLock
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.enable_domain_transfer_lock(client, account_id = 1010, domain_id = "example.com")
+  """
+  @spec enable_domain_transfer_lock(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
+  def enable_domain_transfer_lock(client, account_id, domain_name, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer_lock")
+
+    Client.post(client, url, Client.empty_body(), options)
+    |> Response.parse(%{"data" => %TransferLock{}})
+  end
+
+  @doc """
+  Disables transfer lock for the domain.
+
+  See:
+  - https://developer.dnsimple.com/v2/registrar/transfer_lock/#disableDomainTransferLock
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.disable_domain_transfer_lock(client, account_id = 1010, domain_id = "example.com")
+  """
+  @spec disable_domain_transfer_lock(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
+  def disable_domain_transfer_lock(client, account_id, domain_name, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer_lock")
+
+    Client.delete(client, url, options)
+    |> Response.parse(%{"data" => %TransferLock{}})
+  end
+
+  @doc """
+  Retrieves the transfer lock status for the domain.
+
+  See:
+  - https://developer.dnsimple.com/v2/registrar/transfer_lock/#getDomainTransferLock
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Registrar.get_domain_transfer_lock(client, account_id = 1010, domain_id = "example.com")
+  """
+  @spec get_domain_transfer_lock(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
+  def get_domain_transfer_lock(client, account_id, domain_name, options \\ []) do
+    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfer_lock")
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %TransferLock{}})
+  end
 
   @doc """
   Returns the whois privacy of the domain.

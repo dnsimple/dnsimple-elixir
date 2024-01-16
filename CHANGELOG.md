@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+## 3.8.0
+
 FEATURES:
 
 - NEW: Added `Dnsimple.Registrar.enable_domain_transfer_lock` to enable the domain transfer lock for a domain. (#244)

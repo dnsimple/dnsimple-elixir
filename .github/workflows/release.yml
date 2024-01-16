@@ -21,7 +21,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
       - name: Publish to Hex
-        uses: wesleimp/action-publish-hex@v1
+        uses: HypeRate/action-publish-hex@v2
         env:
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
           DEBUG: 1

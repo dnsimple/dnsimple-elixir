@@ -542,7 +542,7 @@ defmodule Dnsimple.RegistrarTest do
       method  = "post"
       fixture = "checkRegistrantChange/success.http"
       attributes  = %{domain_id: @domain_id, contact_id: 101}
-      {:ok, body} = Poison.encode(attributes)
+      {:ok, _body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
         {:ok, response} = @module.check_registrant_change(@client, @account_id, attributes)
@@ -591,7 +591,7 @@ defmodule Dnsimple.RegistrarTest do
       method  = "post"
       fixture = "createRegistrantChange/success.http"
       attributes  = %{domain_id: @domain_id, contact_id: 101}
-      {:ok, body} = Poison.encode(attributes)
+      {:ok, _body} = Poison.encode(attributes)
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
         {:ok, response} = @module.create_registrant_change(@client, @account_id, attributes)

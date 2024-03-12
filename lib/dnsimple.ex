@@ -67,7 +67,7 @@ defmodule Dnsimple do
   end
 
   defmodule Client do
-    @default_base_url Application.get_env(:dnsimple, :base_url, "https://api.dnsimple.com")
+    @default_base_url Application.compile_env(:dnsimple, :base_url, "https://api.dnsimple.com")
     @default_user_agent "dnsimple-elixir/#{Dnsimple.Mixfile.project[:version]}"
 
     @api_version "v2"

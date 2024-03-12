@@ -30,7 +30,7 @@ defmodule Dnsimple.BillingTest do
         assert is_list(charge.items)
 
         charge_item = List.first(charge.items)
-        charge_item.__struct__ == Dnsimple.Charge.ChargeItem
+        assert charge_item.__struct__ == Dnsimple.Charge.ChargeItem
         assert charge_item.amount == Decimal.new("14.50")
         assert charge_item.product_type == "domain-registration"
       end

@@ -7,7 +7,7 @@ defmodule Dnsimple.Mixfile do
   def project do
     [app: :dnsimple,
      version: @version,
-     elixir: "~> 1.8",
+     elixir: "~> 1.12",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      package: package(),

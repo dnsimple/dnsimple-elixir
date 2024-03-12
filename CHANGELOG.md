@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+- CHANGED: Requires Elixir >= 2.12 and OTP >= 22
+- NEW: Added support for Elixir 2.16
+
 ## 3.8.0
 
 FEATURES:

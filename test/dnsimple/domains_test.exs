@@ -285,7 +285,7 @@ defmodule Dnsimple.DomainsTest do
 
         data = response.data
         assert is_list(data)
-        assert length(data) == 2
+        assert length(data) == 1
         assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.EmailForward end)
       end
     end

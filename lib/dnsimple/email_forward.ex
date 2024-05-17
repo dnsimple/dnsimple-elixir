@@ -12,10 +12,12 @@ defmodule Dnsimple.EmailForward do
     domain_id: integer,
     from: String.t,
     to: String.t,
+    alias_email: String.t,
+    destination_email: String.t,
     created_at: String.t,
     updated_at: String.t,
   }
 
-  defstruct ~w(id domain_id from to created_at updated_at)a
+  defstruct ~w(id domain_id from to alias_email destination_email created_at updated_at)a
 
 end

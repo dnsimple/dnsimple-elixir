@@ -285,7 +285,7 @@ defmodule Dnsimple.DomainsTest do
 
         data = response.data
         assert is_list(data)
-        assert length(data) == 2
+        assert length(data) == 1
         assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.EmailForward end)
       end
     end
@@ -343,6 +343,8 @@ defmodule Dnsimple.DomainsTest do
         assert data.domain_id == 235146
         assert data.from == "example@dnsimple.xyz"
         assert data.to == "example@example.com"
+        assert data.alias_email == "example@dnsimple.xyz"
+        assert data.destination_email == "example@example.com"
         assert data.created_at == "2021-01-25T13:54:40Z"
         assert data.updated_at == "2021-01-25T13:54:40Z"
       end

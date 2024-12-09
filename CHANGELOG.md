@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## main
 
 - NEW: Added `alias_email` and `destination_email` to `Dnsimple.EmailForward`
+- NEW: Added support for Elixir 2.17
+- CHANGED: Requires Elixir >= 2.13 and OTP >= 23
 
 ## 4.0.0
 

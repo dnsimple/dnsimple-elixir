@@ -480,6 +480,7 @@ defmodule Dnsimple.Domains do
 
   """
   @spec list_collaborators(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @deprecated "Domain collaborators have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature."
   def list_collaborators(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/collaborators")
 
@@ -503,6 +504,7 @@ defmodule Dnsimple.Domains do
 
   """
   @spec add_collaborator(Client.t, String.t | integer, String.t | integer, map(), keyword()) :: {:ok|:error, Response.t}
+  @deprecated "Domain collaborators have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature."
   def add_collaborator(client, account_id, domain_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/collaborators")
 
@@ -524,6 +526,7 @@ defmodule Dnsimple.Domains do
 
   """
   @spec remove_collaborator(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  @deprecated "Domain collaborators have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature."
   def remove_collaborator(client, account_id, domain_id, collaborator_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/collaborators/#{collaborator_id}")
 

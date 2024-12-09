@@ -11,8 +11,8 @@ An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 ## Requirements
 
-* Elixir: 1.12+
-* OTP: 22.0+
+* Elixir: 1.13+
+* OTP: 23.0+
 
 ## Installation
 
@@ -175,4 +175,4 @@ client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_t
 
 ## License
 
-Copyright (c) 2015-2023 DNSimple Corporation. This is Free Software distributed under the MIT license.
+Copyright (c) 2015-2024 DNSimple Corporation. This is Free Software distributed under the MIT license.

@@ -27,3 +27,5 @@ dnsimple-*.tar
 
 # Misc.
 .iex.exs
+
+.tool-versions

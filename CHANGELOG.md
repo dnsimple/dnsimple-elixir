@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - NEW: Added `alias_email` and `destination_email` to `Dnsimple.EmailForward`
 - NEW: Added support for Elixir 2.17
 - CHANGED: Requires Elixir >= 2.13 and OTP >= 23
+- CHANGED: `DomainCollaborators` have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature.
 
 ## 4.0.0
 

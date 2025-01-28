@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+## 5.0.1
+
+- Test build
+
 ## 5.0.0
 
 - NEW: Added `alias_email` and `destination_email` to `Dnsimple.EmailForward`

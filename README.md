@@ -175,4 +175,4 @@ client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_t
 
 ## License
 
-Copyright (c) 2015-2024 DNSimple Corporation. This is Free Software distributed under the MIT license.
+Copyright (c) 2015-2025 DNSimple Corporation. This is Free Software distributed under the MIT license.

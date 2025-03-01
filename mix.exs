@@ -26,7 +26,7 @@ defmodule Dnsimple.Mixfile do
       {:decimal, "~> 2.0"},
       {:httpoison, "~> 2.1"},
       {:poison, ">= 2.0.0"},
-      {:exvcr, "~> 0.15.0", only: :test},
+      {:exvcr, "~> 0.16.0", only: :test},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
     ]

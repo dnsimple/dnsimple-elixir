@@ -25,7 +25,7 @@ jobs:
 
   test:
     needs: [markdownlint-cli]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     name: Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}}
     strategy:
       matrix:

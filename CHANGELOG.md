@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+- NEW: Added support for Elixir 1.18
+- CHANGED: Requires Elixir >= 1.14 and OTP >= 25
+- FIXED: Fixed Elixir versions explicited in CHANGELOG.md and README.md 
+
 ## 5.0.1
 
 - Test build

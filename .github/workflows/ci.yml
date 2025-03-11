@@ -25,35 +25,23 @@ jobs:
 
   test:
     needs: [markdownlint-cli]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     name: Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}}
     strategy:
       matrix:
         # Only support last 5 minor versions (https://hexdocs.pm/elixir/compatibility-and-deprecations.html)
-        elixir: ['1.13', '1.14', '1.15', '1.16', '1.17']
-        otp: ['23.0', '24.0', '25.0', '26.0', '27.0']
+        elixir: ['1.14', '1.15', '1.16', '1.17', '1.18']
+        otp: ['25.0', '26.0', '27.0']
         # As per https://hexdocs.pm/elixir/compatibility-and-deprecations.html#compatibility-between-elixir-and-erlang-otp
         exclude:
-          - elixir: '1.13'
-            otp: '26.0'
-          - elixir: '1.13'
-            otp: '27.0'
           - elixir: '1.14'
             otp: '26.0'
           - elixir: '1.14'
             otp: '27.0'
           - elixir: '1.15'
-            otp: '23.0'
-          - elixir: '1.15'
             otp: '27.0'
           - elixir: '1.16'
-            otp: '23.0'
-          - elixir: '1.16'
             otp: '27.0'
-          - elixir: '1.17'
-            otp: '23.0'
-          - elixir: '1.17'
-            otp: '24.0'
     steps:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1

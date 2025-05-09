@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+## 6.0.1
+
 - HOUSEKEEPING: Bump httpoison from 2.2.1 to 2.2.3 (#271)
 - HOUSEKEEPING: Bump exvcr from 0.15.1 to 0.17.0  (#270)
 - HOUSEKEEPING: Bump ex_doc from 0.34.1 to 0.37.3  (#269)

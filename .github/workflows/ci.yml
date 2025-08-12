@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Run markdownlint-cli
         uses: nosborn/github-action-markdown-cli@v3.5.0
         with:
@@ -43,7 +43,7 @@ jobs:
           - elixir: '1.16'
             otp: '27.0'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp}}

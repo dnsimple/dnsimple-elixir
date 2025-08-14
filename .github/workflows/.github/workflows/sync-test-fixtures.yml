@@ -1,5 +1,5 @@
 ---
-name: Sync test fixtures
+name: Sync test fixtures (test)
 
 on:
   push:

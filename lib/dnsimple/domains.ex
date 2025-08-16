@@ -13,7 +13,6 @@ defmodule Dnsimple.Domains do
   alias Dnsimple.DelegationSignerRecord
   alias Dnsimple.EmailForward
   alias Dnsimple.Push
-  alias Dnsimple.Collaborator
 
   @doc """
   Lists the domains in an account.
@@ -466,72 +465,5 @@ defmodule Dnsimple.Domains do
     |> Response.parse(nil)
   end
 
-
-  @doc """
-  Lists the collaborators of the domain.
-
-  See:
-  - https://developer.dnsimple.com/v2/domains/collaborators/#list
-
-  ## Examples:
-
-      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Domains.list_collaborators(client, account_id = 1010, domain_id = "example.com")
-
-  """
-  @spec list_collaborators(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
-  @deprecated "Domain collaborators have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature."
-  def list_collaborators(client, account_id, domain_id, options \\ []) do
-    url = Client.versioned("/#{account_id}/domains/#{domain_id}/collaborators")
-
-    Listing.get(client, url, options)
-    |> Response.parse(%{"data" => [%Collaborator{}], "pagination" => %Response.Pagination{}})
-  end
-
-
-  @doc """
-  Adds a collaborator to the domain.
-
-  See:
-  - https://developer.dnsimple.com/v2/domains/collaborators/#add
-
-  ## Examples:
-
-      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Domains.add_collaborator(client, account_id = 1010, domain_id = "example.com", %{
-        email: "existing-user@example.com"
-      })
-
-  """
-  @spec add_collaborator(Client.t, String.t | integer, String.t | integer, map(), keyword()) :: {:ok|:error, Response.t}
-  @deprecated "Domain collaborators have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature."
-  def add_collaborator(client, account_id, domain_id, attributes, options \\ []) do
-    url = Client.versioned("/#{account_id}/domains/#{domain_id}/collaborators")
-
-    Client.post(client, url, attributes, options)
-    |> Response.parse(%{"data" => %Collaborator{}})
-  end
-
-
-  @doc """
-  Removes a collaborator from the domain.
-
-  See:
-  - https://developer.dnsimple.com/v2/domains/collaborators/#remove
-
-  ## Examples:
-
-      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Domains.remove_collaborator(client, account_id = 1010, domain_id = "example.com", collaborator_id = 100)
-
-  """
-  @spec remove_collaborator(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
-  @deprecated "Domain collaborators have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature."
-  def remove_collaborator(client, account_id, domain_id, collaborator_id, options \\ []) do
-    url = Client.versioned("/#{account_id}/domains/#{domain_id}/collaborators/#{collaborator_id}")
-
-    Client.delete(client, url, options)
-    |> Response.parse(nil)
-  end
 
 end

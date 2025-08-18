@@ -322,6 +322,7 @@ defmodule Dnsimple.DomainsTest do
 
         data = response.data
         assert data.__struct__ == Dnsimple.EmailForward
+        assert data.active == true
       end
     end
   end
@@ -345,6 +346,7 @@ defmodule Dnsimple.DomainsTest do
         assert data.to == "example@example.com"
         assert data.alias_email == "example@dnsimple.xyz"
         assert data.destination_email == "example@example.com"
+        assert data.active == true
         assert data.created_at == "2021-01-25T13:54:40Z"
         assert data.updated_at == "2021-01-25T13:54:40Z"
       end

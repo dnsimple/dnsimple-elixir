@@ -2,7 +2,7 @@ defmodule Dnsimple.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/dnsimple/dnsimple-elixir"
-  @version "6.0.1"
+  @version "7.0.0"
 
   def project do
     [app: :dnsimple,

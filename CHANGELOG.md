@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+## 7.0.0
+
+- HOUSEKEEPING: Bump dialyxir from 1.4.5 to 1.4.6 (#283)
+- HOUSEKEEPING: Bump exvcr from 0.17.0 to 0.17.1 (#274)
+- HOUSEKEEPING: Bump ex_doc from 0.37.3 to 0.38.2 (#273)
+- CHANGED: Remove from and to from EmailForward model (#288)
+- NEW: Add active attribute to EmailForward model (#286)
+- CHANGED: CHANGED: Remove domain collaborator endpoints (#285)
+
 ## 6.0.1
 
 - HOUSEKEEPING: Bump httpoison from 2.2.1 to 2.2.3 (#271)

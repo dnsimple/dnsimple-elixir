@@ -10,8 +10,6 @@ defmodule Dnsimple.EmailForward do
   @type t :: %__MODULE__{
     id: integer,
     domain_id: integer,
-    from: String.t,
-    to: String.t,
     alias_email: String.t,
     destination_email: String.t,
     active: boolean,

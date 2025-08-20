@@ -342,8 +342,6 @@ defmodule Dnsimple.DomainsTest do
         assert data.__struct__ == Dnsimple.EmailForward
         assert data.id == 41872
         assert data.domain_id == 235146
-        assert data.from == "example@dnsimple.xyz"
-        assert data.to == "example@example.com"
         assert data.alias_email == "example@dnsimple.xyz"
         assert data.destination_email == "example@example.com"
         assert data.active == true

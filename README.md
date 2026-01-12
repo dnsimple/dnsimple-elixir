@@ -126,7 +126,7 @@ The value you provide will be appended to the default `User-Agent` the client us
 
 The client logs the requests made to the DNSimple API:
 
-```
+```elixir
 iex(2)> Dnsimple.Identity.whoami(client)
 
 09:45:08.229 [debug] [dnsimple] GET https://api.sandbox.dnsimple.com/v2/whoami

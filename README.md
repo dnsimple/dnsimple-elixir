@@ -13,15 +13,14 @@ An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 * Elixir: 1.14+
 * OTP: 25.0+
-
 ## Installation
 
-You will have to add the `:dnsimple` app to your `mix.exs` file as a dependency:
+You will have to add the `dnsimple` app to your `mix.exs` file as a dependency:
 
 ```elixir
 def deps do
   [
-    {:dnsimple, "~> 3.4.0"}, #...
+    {:dnsimple, "~> 7.0.0"}, #...
   ]
 end
 ```
@@ -36,9 +35,9 @@ def application do
 end
 ```
 
-### Usage
+## Usage
 
-#### From iex
+### From iex
 
 ```elixir
 # Create a client passing the proper settings
@@ -52,7 +51,7 @@ iex> response.data
 # =>   "updated_at" => "2015-04-01T10:07:47.559Z"}, "user" => nil}
 ```
 
-#### From an .exs file
+### From an .exs file
 
 ```elixir
 # Start Dnsimple app
@@ -65,16 +64,35 @@ client = %Dnsimple.Client{access_token: "TOKEN", base_url: "https://api.sandbox.
 Dnsimple.Identity.whoami(client)
 ```
 
-## Documentation
+#### Creating a domain
 
-### Useful links
+You will need:
 
-* [`dnsimple-elixir` hex.pm docs](https://hexdocs.pm/dnsimple/readme.html).
-* [DNSimple API documentation](https://developer.dnsimple.com).
-* [DNSimple API examples repository](https://github.com/dnsimple/dnsimple-api-examples).
-* [DNSimple support documentation](https://support.dnsimple.com).
+- The `account_id` of the account you want to create the domain for.
+- The `registrant_id` which is the ID of a contact of the corresponding account.
 
-### Sandbox Environment
+```elixir
+client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
+{:ok, response} = Dnsimple.Domains.create_domain(client, account_id = 1010, %{name: "example.com", registrant: registrant_id = 123})
+```
+
+#### Creating a record
+
+You will need:
+
+- The `account_id` of the account you want to create the domain for.
+- The `zone_id` (can be the numeric ID or the name eg. "example.com").
+
+```elixir
+client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
+{:ok, response} = Dnsimple.Zones.create_zone_record(client, account_id = 1010, zone_id = "example.com", %{
+  type: "CNAME",
+  name: "provider",
+  content: "dnsimple.com"
+})
+```
+
+## Sandbox
 
 We highly recommend testing against our [sandbox environment](https://developer.dnsimple.com/sandbox/) before using our production environment. This will allow you to avoid real purchases, live charges on your credit card, and reduce the chance of your running up against rate limits.
 
@@ -86,7 +104,7 @@ client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_t
 
 You will need to ensure that you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
 
-### Configuration
+## Configuration
 
 You can configure DNSimple inside of your app's `config.exs`. For example, if you have a development config, inside `dev.exs`:
 
@@ -96,13 +114,23 @@ config :dnsimple, access_token: "secret"
 config :dnsimple, user_agent: "my-app"
 ```
 
-Now you can simply call `client = Dnsimple.Client.new_from_env()`.
+Now you can simply call `client = %Dnsimple.Client.new_from_env()`.
 
-### Logging
+### Setting a custom `User-Agent` header
+
+You customize the `User-Agent` header for the calls made to the DNSimple API:
+
+```elixir
+client = %Dnsimple.Client{user_agent: "my-app", access_token: "a1b2c3"}
+```
+
+The value you provide will be appended to the default `User-Agent` the client uses. For example, if you use `my-app`, the final header value will be `dnsimple-elixir/1.0 my-app` (note that it will vary depending on the client version).
+
+## Logging
 
 The client logs the requests made to the DNSimple API:
 
-```elixir
+```
 iex(2)> Dnsimple.Identity.whoami(client)
 
 09:45:08.229 [debug] [dnsimple] GET https://api.sandbox.dnsimple.com/v2/whoami
@@ -120,59 +148,14 @@ The log level used for this is `debug`. If you want to disable it you will have 
 config :logger, level: :info
 ```
 
-### Examples
+## Contributing
 
-#### Authentication
+Contributions are welcome! Please feel free to submit issues and pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-```elixir
-client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
-{:ok, response } = Dnsimple.Identity.whoami(client)
-```
+## Changelog
 
-You can get your `account_id` from the response, if you don't know it.
-
-```elixir
-account_id = response.data.account.id
-```
-
-#### Setting a custom `User-Agent` header
-
-You customize the `User-Agent` header for the calls made to the DNSimple API:
-
-```elixir
-client = %Dnsimple.Client{user_agent: "my-app", access_token: "a1b2c3"}
-```
-
-The value you provide will be appended to the default `User-Agent` the client uses. For example, if you use `my-app`, the final header value will be `dnsimple-elixir/1.0 my-app` (note that it will vary depending on the client version).
-
-#### Creating a domain
-
-You will need:
-
-* The `account_id` of the account you want to create the domain for.
-* The `registrant_id` which is the ID of a contact of the corresponding account.
-
-```elixir
-client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
-{:ok, response} = Dnsimple.Domains.create_domain(client, account_id = 1010, %{name: "example.com", registrant: registrant_id = 123})
-```
-
-#### Creating a record
-
-You will need:
-
-* The `account_id` of the account you want to create the domain for.
-* The `zone_id` (can be the numeric ID or the name eg. "example.com").
-
-```elixir
-client = %Dnsimple.Client{base_url: "https://api.sandbox.dnsimple.com", access_token: "a1b2c3"}
-{:ok, response} = Dnsimple.Zones.create_zone_record(client, account_id = 1010, zone_id = "example.com", %{
-  type: "CNAME",
-  name: "provider",
-  content: "dnsimple.com"
-})
-```
+See [CHANGELOG.md](CHANGELOG.md) for details.
 
 ## License
 
-Copyright (c) 2015-2025 DNSimple Corporation. This is Free Software distributed under the MIT license.
+Copyright (c) 2015-2026 DNSimple Corporation. This is Free Software distributed under the [MIT License](LICENSE.txt).

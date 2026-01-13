@@ -45,15 +45,15 @@ defmodule Dnsimple.Response do
   defp extract_pagination(_), do: nil
 
   defp build_response(http_response, data, pagination) do
-    headers = Enum.into(http_response.headers, %{})
+    headers = Map.new(http_response.headers, fn {k, v} -> {String.downcase(k), v} end)
 
     %__MODULE__{
       http_response: http_response,
       data: data,
       pagination: pagination,
-      rate_limit: String.to_integer(headers["X-RateLimit-Limit"]),
-      rate_limit_remaining: String.to_integer(headers["X-RateLimit-Remaining"]),
-      rate_limit_reset: String.to_integer(headers["X-RateLimit-Reset"]),
+      rate_limit: String.to_integer(headers["x-ratelimit-limit"]),
+      rate_limit_remaining: String.to_integer(headers["x-ratelimit-remaining"]),
+      rate_limit_reset: String.to_integer(headers["x-ratelimit-reset"]),
     }
   end
 

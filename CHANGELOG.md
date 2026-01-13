@@ -7,11 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+### Changed
+
+- Handle HTTP response headers case-insensitively to support Rack 3.0 lowercase headers
+- Minimum OTP version is now 26
+- Minimum Elixir version is now 1.16
+- Added support for Elixir 1.19
+- Added support for OTP 28
+
 ### Removed
 
 - Removed deprecated `get_domain_premium_price`. Use `get_domain_prices` instead.
 - Removed deprecated `get_whois_privacy` (dnsimple/dnsimple-developer#919)
 - Removed deprecated `renew_whois_privacy` (dnsimple/dnsimple-developer#919)
+- Dropped support for OTP 25 (EOL)
+- Dropped support for Elixir 1.14 and 1.15 (EOL)
 
 ## 7.0.0
 

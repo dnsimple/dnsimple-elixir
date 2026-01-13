@@ -45,7 +45,7 @@ defmodule Dnsimple do
 
     defp is_json_response?(http_response) do
       Enum.any?(http_response.headers, fn({header, content}) ->
-        header == "Content-Type" && String.starts_with?(content, "application/json")
+        String.downcase(header) == "content-type" && String.starts_with?(content, "application/json")
       end)
     end
   end

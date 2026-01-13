@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 
+### Removed
+
+- Removed deprecated `get_domain_premium_price`. Use `get_domain_prices` instead.
+
 ## 7.0.0
 
 ### Added

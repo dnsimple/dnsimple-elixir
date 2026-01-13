@@ -13,7 +13,6 @@ defmodule Dnsimple.Registrar do
 
   alias Dnsimple.Client
   alias Dnsimple.DomainCheck
-  alias Dnsimple.DomainPremiumPrice
   alias Dnsimple.DomainPrice
   alias Dnsimple.DomainRegistration
   alias Dnsimple.DomainRenewal
@@ -47,31 +46,6 @@ defmodule Dnsimple.Registrar do
     |> Response.parse(%{"data" => %DomainCheck{}})
   end
 
-
-  @doc """
-  Gets the premium price for a domain.
-
-  See:
-  - https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice
-
-  ## Examples:
-
-      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com")
-      {:ok, response} = Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "registration"})
-      {:ok, response} = Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "renewal"})
-      {:ok, response} = Dnsimple.Registrar.get_domain_premium_price(client, account_id = "1010", domain_id = "example.com", %{action: "transfer"})
-
-  """
-  @spec get_domain_premium_price(Client.t, String.t, String.t, map(), keyword()) :: {:ok|:error, Response.t}
-  @deprecated "Use get_domain_prices/4 instead"
-  def get_domain_premium_price(client, account_id, domain_name, params \\ %{}, options \\ []) do
-    url     = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/premium_price")
-    options = Keyword.put(options, :action, Map.get(params, :action))
-
-    Client.get(client, url, options)
-    |> Response.parse(%{"data" => %DomainPremiumPrice{}})
-  end
 
   @doc """
   Get prices for a domain.

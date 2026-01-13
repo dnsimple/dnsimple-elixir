@@ -11,7 +11,8 @@ An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 ## Requirements
 
-- Elixir 1.15+
+- OTP 26+
+- Elixir 1.16+
 - An activated DNSimple account
 
 ## Installation

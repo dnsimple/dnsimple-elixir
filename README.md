@@ -6,7 +6,7 @@ An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 [![Module Version](https://img.shields.io/hexpm/v/dnsimple.svg)](https://hex.pm/packages/dnsimple)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/dnsimple/)
 [![Total Download](https://img.shields.io/hexpm/dt/dnsimple.svg)](https://hex.pm/packages/dnsimple)
-[![License](https://img.shields.io/hexpm/l/dnsimple.svg)](https://github.com/dnsimple/dnsimple-elixir/blob/main/LICENSE.md)
+[![License](https://img.shields.io/hexpm/l/dnsimple.svg)](https://github.com/dnsimple/dnsimple-elixir/blob/main/LICENSE.txt)
 [![Last Updated](https://img.shields.io/github/last-commit/dnsimple/dnsimple-elixir.svg)](https://github.com/dnsimple/dnsimple-elixir/commits/main)
 
 ## Requirements

@@ -50,7 +50,7 @@ defmodule Dnsimple.Mixfile do
       extras: [
         "CHANGELOG.md": [],
         "CONTRIBUTING.md": [title: "Contributing"],
-        "LICENSE.md": [title: "License"],
+        "LICENSE.txt": [title: "License"],
         "README.md": [title: "Overview"],
       ],
       groups_for_modules: [

@@ -23,7 +23,6 @@ defmodule Dnsimple.Registrar do
   alias Dnsimple.TransferLock
   alias Dnsimple.VanityNameServer
   alias Dnsimple.WhoisPrivacy
-  alias Dnsimple.WhoisPrivacyRenewal
 
   @doc """
   Checks if a domain name is available to be registered and whether premium
@@ -339,27 +338,6 @@ defmodule Dnsimple.Registrar do
   end
 
   @doc """
-  Returns the whois privacy of the domain.
-
-  See:
-  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#getWhoisPrivacy
-
-  ## Examples:
-
-      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.get_whois_privacy(client, account_id = 1010, domain_id = "example.com")
-
-  """
-  @spec get_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
-  def get_whois_privacy(client, account_id, domain_name, options \\ []) do
-    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy")
-
-    Client.get(client, url, options)
-    |> Response.parse(%{"data" => %WhoisPrivacy{}})
-  end
-
-
-  @doc """
   Enables whois privacy for the domain.
 
   See:
@@ -398,27 +376,6 @@ defmodule Dnsimple.Registrar do
 
     Client.delete(client, url, options)
     |> Response.parse(%{"data" => %WhoisPrivacy{}})
-  end
-
-
-  @doc """
-  Renews whois privacy for the domain.
-
-  See:
-  - https://developer.dnsimple.com/v2/registrar/whois-privacy/#renewWhoisPrivacy
-
-  ## Examples:
-
-      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.renew_whois_privacy(client, account_id = 1010, domain_id = "example.com")
-
-  """
-  @spec renew_whois_privacy(Client.t, integer | String.t, String.t, Keyword.t) :: {:ok|:error, Response.t}
-  def renew_whois_privacy(client, account_id, domain_name, options \\ []) do
-    url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/whois_privacy/renewals")
-
-    Client.post(client, url, options)
-    |> Response.parse(%{"data" => %WhoisPrivacyRenewal{}})
   end
 
 

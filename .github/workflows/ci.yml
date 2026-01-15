@@ -35,17 +35,17 @@ jobs:
       matrix:
         # Only support non EOL Elixir versions (https://hexdocs.pm/elixir/compatibility-and-deprecations.html)
         elixir: ['1.16', '1.17', '1.18', '1.19']
-        otp: ['26.0', '27.0', '28.0']
+        otp: ['26', '27', '28']
         # As per https://hexdocs.pm/elixir/compatibility-and-deprecations.html#compatibility-between-elixir-and-erlang-otp
         exclude:
           - elixir: '1.16'
-            otp: '27.0'
+            otp: '27'
           - elixir: '1.16'
-            otp: '28.0'
+            otp: '28'
           - elixir: '1.17'
-            otp: '28.0'
+            otp: '28'
           - elixir: '1.18'
-            otp: '28.0'
+            otp: '28'
     steps:
       - uses: actions/checkout@v6
       - uses: erlef/setup-beam@v1

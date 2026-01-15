@@ -27,37 +27,6 @@ defmodule Dnsimple.RegistrarTest do
   end
 
 
-  describe ".get_domain_premium_price" do
-    setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/premium.com/premium_price"
-      {:ok, method: "get", url: url}
-    end
-
-    test "returns the result in a Dnsimple.Response for a premium domain", %{method: method, url: url} do
-      fixture = "getDomainPremiumPrice/success.http"
-
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.get_domain_premium_price(@client, @account_id, "premium.com", %{action: "registration"})
-        assert response.__struct__ == Dnsimple.Response
-
-        data = response.data
-        assert data.__struct__ == Dnsimple.DomainPremiumPrice
-        assert data.premium_price == "109.00"
-        assert data.action == "registration"
-      end
-    end
-
-    test "returns the result in a Dnsimple.Response for a domain that is not premium", %{method: method, url: url} do
-      fixture = "getDomainPremiumPrice/failure.http"
-
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:error, response} = @module.get_domain_premium_price(@client, @account_id, "premium.com")
-        assert response.__struct__ == Dnsimple.RequestError
-        assert response.message == "HTTP 400: `example.com` is not a premium domain for registration"
-      end
-    end
-  end
-
   describe ".get_domain_prices" do
     test "returns the result in a Dnsimple.Response for the domain" do
       url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/bingo.pizza/prices"
@@ -362,29 +331,6 @@ defmodule Dnsimple.RegistrarTest do
   end
 
 
-  describe ".get_whois_privacy" do
-    test "returns the whois privacy in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/whois_privacy"
-      method  = "get"
-      fixture = "getWhoisPrivacy/success.http"
-
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.get_whois_privacy(@client, @account_id, "example.com")
-        assert response.__struct__ == Dnsimple.Response
-
-        data = response.data
-        assert data.__struct__ == Dnsimple.WhoisPrivacy
-        assert data.id == 1
-        assert data.domain_id == 2
-        assert data.enabled == true
-        assert data.expires_on == "2017-02-13"
-        assert data.created_at == "2016-02-13T14:34:50Z"
-        assert data.updated_at == "2016-02-13T14:34:52Z"
-      end
-    end
-  end
-
-
   describe ".enable_whois_privacy" do
     test "enables the whois privacy and returns it in a Dnsimple.Response" do
       url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/whois_privacy"
@@ -426,31 +372,6 @@ defmodule Dnsimple.RegistrarTest do
         assert data.expires_on == "2017-02-13"
         assert data.created_at == "2016-02-13T14:34:50Z"
         assert data.updated_at == "2016-02-13T14:36:38Z"
-      end
-    end
-  end
-
-
-  describe ".renew_whois_privacy" do
-    test "renews the whois privacy and returns it in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/whois_privacy/renewals"
-      method  = "post"
-      fixture = "renewWhoisPrivacy/success.http"
-
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.renew_whois_privacy(@client, @account_id, "example.com")
-        assert response.__struct__ == Dnsimple.Response
-
-        data = response.data
-        assert data.__struct__ == Dnsimple.WhoisPrivacyRenewal
-        assert data.id == 1
-        assert data.domain_id == 100
-        assert data.whois_privacy_id == 999
-        assert data.state == "new"
-        assert data.enabled == true
-        assert data.expires_on == "2020-01-10"
-        assert data.created_at == "2019-01-10T12:12:48Z"
-        assert data.updated_at == "2019-01-10T12:12:48Z"
       end
     end
   end

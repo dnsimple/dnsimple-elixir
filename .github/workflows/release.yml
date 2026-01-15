@@ -53,8 +53,17 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-tags: true
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.19'
+          otp-version: '28'
+      - name: Install Dependencies
+        run: mix deps.get
       - name: Publish to Hex
-        uses: HypeRate/action-publish-hex@v2
         env:
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
-          DEBUG: 1
+        run: mix hex.publish --yes

@@ -70,13 +70,13 @@ defmodule Dnsimple.ClientTest do
 
     test "returns a ResponseError when the response has a 4XX status code (other than 404)", %{client: client} do
       domain_id  = "example.com"
-      url        = "#{client.base_url}/v2/1010/registrar/domains/#{domain_id}/whois_privacy/renewals"
-      fixture    = ExvcrUtils.response_fixture("renewWhoisPrivacy/whois-privacy-duplicated-order.http", method: "post", url: url)
+      url        = "#{client.base_url}/v2/1010/registrar/domains/#{domain_id}/renewals"
+      fixture    = ExvcrUtils.response_fixture("renewDomain/error-tooearly.http", method: "post", url: url)
       use_cassette :stub, fixture  do
-        {:error, response} = Dnsimple.Registrar.renew_whois_privacy(client, "1010", domain_id)
+        {:error, response} = Dnsimple.Registrar.renew_domain(client, "1010", domain_id)
         assert response.__struct__ == Dnsimple.RequestError
-        assert response.message == "HTTP 400: The whois privacy for example.com has just been renewed, a new renewal cannot be started at this time"
-        assert response.attribute_errors == nil
+        assert response.message == "HTTP 400: example.com may not be renewed at this time"
+        assert response.attribute_errors == %{}
       end
     end
 

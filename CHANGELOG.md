@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Handle HTTP response headers case-insensitively to support Rack 3.0 lowercase headers
 - Minimum OTP version is now 26
 - Minimum Elixir version is now 1.16
 - Added support for Elixir 1.19
@@ -22,6 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed deprecated `renew_whois_privacy` (dnsimple/dnsimple-developer#919)
 - Dropped support for OTP 25 (EOL)
 - Dropped support for Elixir 1.14 and 1.15 (EOL)
+
+## 7.0.1
+
+### Changed
+
+- Handle HTTP response headers case-insensitively to support Rack 3.0 lowercase headers
 
 ## 7.0.0
 

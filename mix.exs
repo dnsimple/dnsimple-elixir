@@ -2,7 +2,7 @@ defmodule Dnsimple.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/dnsimple/dnsimple-elixir"
-  @version "7.0.0"
+  @version "7.0.1"
 
   def project do
     [app: :dnsimple,
@@ -35,7 +35,7 @@ defmodule Dnsimple.Mixfile do
   defp package do
     [
       description: "Elixir client for the DNSimple API v2.",
-      files: ["lib", "mix.exs", "*.md"],
+      files: ["lib", "mix.exs", "*.md", "LICENSE.txt"],
       maintainers: ["Simone Carletti", "Javier Acero", "Anthony Eden"],
       licenses: ["MIT"],
       links: %{

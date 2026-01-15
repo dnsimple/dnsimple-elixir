@@ -53,6 +53,9 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-tags: true
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:

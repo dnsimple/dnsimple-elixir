@@ -5,21 +5,21 @@ defmodule ExvcrUtilsTest do
     fixture = ExvcrUtils.read_fixture("checkDomain/success.http")
 
     assert fixture == """
-    HTTP/1.1 200 OK\r
-    Server: nginx\r
-    Date: Fri, 26 Feb 2016 16:04:05 GMT\r
-    Content-Type: application/json; charset=utf-8\r
-    Connection: keep-alive\r
-    Status: 200 OK\r
-    X-RateLimit-Limit: 4000\r
-    X-RateLimit-Remaining: 3999\r
-    X-RateLimit-Reset: 1456506245\r
-    ETag: W/"f3cf8499e935e48401aae26842f712c4"\r
-    Cache-Control: max-age=0, private, must-revalidate\r
-    X-Request-Id: e3c6fac1-a36d-42c3-8a04-d68f127add18\r
-    X-Runtime: 0.605907\r
-    Strict-Transport-Security: max-age=31536000\r
-    \r
+    HTTP/1.1 200 OK
+    server: nginx
+    date: Fri, 26 Feb 2016 16:04:05 GMT
+    content-type: application/json; charset=utf-8
+    connection: keep-alive
+    status: 200 OK
+    x-ratelimit-limit: 4000
+    x-ratelimit-remaining: 3999
+    x-ratelimit-reset: 1456506245
+    etag: W/"f3cf8499e935e48401aae26842f712c4"
+    cache-control: max-age=0, private, must-revalidate
+    x-request-id: e3c6fac1-a36d-42c3-8a04-d68f127add18
+    x-runtime: 0.605907
+    strict-transport-security: max-age=31536000
+
     {"data":{"domain":"ruby.codes","available":true,"premium":true}}\
     """
   end

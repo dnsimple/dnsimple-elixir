@@ -467,5 +467,4 @@ defmodule Dnsimple.DomainsTest do
     end
   end
 
-
 end

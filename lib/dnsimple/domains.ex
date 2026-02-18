@@ -9,6 +9,7 @@ defmodule Dnsimple.Domains do
   alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Domain
+  alias Dnsimple.DomainResearchStatus
   alias Dnsimple.Dnssec
   alias Dnsimple.DelegationSignerRecord
   alias Dnsimple.EmailForward
@@ -463,6 +464,30 @@ defmodule Dnsimple.Domains do
 
     Client.delete(client, url, options)
     |> Response.parse(nil)
+  end
+
+
+  @doc """
+  Research a domain name for availability and registration status information.
+
+  This endpoint provides information about a domain's availability status.
+
+  See:
+  - https://developer.dnsimple.com/v2/domains/research/#getDomainsResearchStatus
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Domains.domain_research_status(client, account_id = 1010, "example.com")
+
+  """
+  @spec domain_research_status(Client.t, String.t | integer, String.t, Keyword.t) :: {:ok|:error, Response.t}
+  def domain_research_status(client, account_id, domain_name, options \\ []) do
+    url = Client.versioned("/#{account_id}/domains/research/status")
+    options = Keyword.put(options, :params, [domain: domain_name])
+
+    Client.get(client, url, options)
+    |> Response.parse(%{"data" => %DomainResearchStatus{}})
   end
 
 

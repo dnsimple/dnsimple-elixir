@@ -478,11 +478,11 @@ defmodule Dnsimple.Domains do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Domains.domain_research_status(client, account_id = 1010, "example.com")
+      {:ok, response} = Dnsimple.Domains.get_domain_research_status(client, account_id = 1010, "example.com")
 
   """
-  @spec domain_research_status(Client.t, String.t | integer, String.t, Keyword.t) :: {:ok|:error, Response.t}
-  def domain_research_status(client, account_id, domain_name, options \\ []) do
+  @spec get_domain_research_status(Client.t, String.t | integer, String.t, Keyword.t) :: {:ok|:error, Response.t}
+  def get_domain_research_status(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/research/status")
     options = Keyword.put(options, :params, [domain: domain_name])
 

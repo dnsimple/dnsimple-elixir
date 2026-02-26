@@ -447,14 +447,14 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
-  describe ".domain_research_status" do
+  describe ".get_domain_research_status" do
     test "builds the correct request" do
       url     = "#{@client.base_url}/v2/#{@account_id}/domains/research/status?domain=taken.com"
       method  = "get"
       fixture = "getDomainsResearchStatus/success-unavailable.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.domain_research_status(@client, @account_id, "taken.com")
+        {:ok, response} = @module.get_domain_research_status(@client, @account_id, "taken.com")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data

@@ -20,7 +20,7 @@ defmodule ExvcrUtilsTest do
     x-runtime: 0.605907
     strict-transport-security: max-age=31536000
 
-    {"data":{"domain":"ruby.codes","available":true,"premium":true}}\
+    {"data":{"domain":"ruby.codes","available":true,"premium":true}}
     """
   end
 

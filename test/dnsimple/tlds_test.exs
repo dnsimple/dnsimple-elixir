@@ -57,6 +57,8 @@ defmodule Dnsimple.TldsTest do
         assert data.tld_type == 1
         assert data.idn == true
         assert data.whois_privacy == true
+        assert data.trustee_service_enabled == false
+        assert data.trustee_service_required == false
         assert data.auto_renew_only == false
         assert data.minimum_registration == 1
         assert data.registration_enabled == true

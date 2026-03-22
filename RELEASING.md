@@ -7,7 +7,6 @@ This document describes the steps to release a new version of DNSimple/Elixir.
 - You have commit access to the repository
 - You have push access to the repository
 - You have a GPG key configured for signing tags
-- You have permission to publish to Hex
 
 ## Release process
 
@@ -70,12 +69,6 @@ This document describes the steps to release a new version of DNSimple/Elixir.
    git tag -a v$VERSION -s -m "Release $VERSION"
    git push origin --tags
    ```
-
-10. **Publish to Hex**
-
-    ```shell
-    mix hex.publish
-    ```
 
 ## Post-release
 

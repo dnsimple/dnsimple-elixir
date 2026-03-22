@@ -12,6 +12,8 @@ defmodule Dnsimple.Tld do
     tld_type: integer,
     idn: boolean,
     whois_privacy: boolean,
+    trustee_service_enabled: boolean,
+    trustee_service_required: boolean,
     auto_renew_only: boolean,
     minimum_registration: integer,
     registration_enabled: boolean,
@@ -20,8 +22,8 @@ defmodule Dnsimple.Tld do
     dnssec_interface_type: String.t,
   }
 
-  defstruct ~w(tld tld_type idn whois_privacy auto_renew_only
-               minimum_registration registration_enabled
-               renewal_enabled transfer_enabled dnssec_interface_type)a
+  defstruct ~w(tld tld_type idn whois_privacy trustee_service_enabled trustee_service_required auto_renew_only
+               minimum_registration registration_enabled renewal_enabled transfer_enabled
+               dnssec_interface_type)a
 
 end

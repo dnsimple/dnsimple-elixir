@@ -12,9 +12,10 @@ defmodule Dnsimple.DomainPrice do
     premium: boolean,
     registration_price: float,
     renewal_price: float,
-    transfer_price: float
+    transfer_price: float,
+    trustee_service_price: float
   }
 
-  defstruct ~w(domain premium registration_price renewal_price transfer_price)a
+  defstruct ~w(domain premium registration_price renewal_price transfer_price trustee_service_price)a
 
 end

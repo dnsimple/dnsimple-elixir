@@ -43,6 +43,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.registration_price == 20.0
         assert data.renewal_price == 20.0
         assert data.transfer_price == 20.0
+        assert data.trustee_service_price == 20.0
       end
     end
 
@@ -79,6 +80,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "new"
         assert data.auto_renew == false
         assert data.whois_privacy == false
+        assert data.trustee_service == false
         assert data.created_at == "2016-12-09T19:35:31Z"
         assert data.updated_at == "2016-12-09T19:35:31Z"
       end
@@ -104,6 +106,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "registering"
         assert data.auto_renew == false
         assert data.whois_privacy == false
+        assert data.trustee_service == false
         assert data.created_at == "2023-01-27T17:44:32Z"
         assert data.updated_at == "2023-01-27T17:44:40Z"
       end

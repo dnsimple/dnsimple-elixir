@@ -191,7 +191,7 @@ defmodule Dnsimple.Zones do
       })
 
   """
-  @spec create_zone_record(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
+  @spec create_zone_record(Client.t, String.t | integer, String.t | integer, map(), Keyword.t) :: {:ok|:error, Response.t}
   def create_zone_record(client, account_id, zone_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records")
 
@@ -212,7 +212,7 @@ defmodule Dnsimple.Zones do
       })
 
   """
-  @spec update_zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
+  @spec update_zone_record(Client.t, String.t | integer, String.t | integer, integer, map(), Keyword.t) :: {:ok|:error, Response.t}
   def update_zone_record(client, account_id, zone_id, record_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records/#{record_id}")
 

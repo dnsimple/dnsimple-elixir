@@ -413,6 +413,27 @@ defmodule Dnsimple.DomainsTest do
   end
 
 
+  describe ".initiate_push with domain push identifier" do
+    test "initiates the push using new_domain_push_identifier" do
+      url        = "#{@client.base_url}/v2/#{@account_id}/domains/#{@domain_id}/pushes"
+      method     = "post"
+      fixture    = "initiatePush/success.http"
+      attributes = %{new_domain_push_identifier: "abc123"}
+      body       = Poison.encode!(attributes)
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+        {:ok, response} = @module.initiate_push(@client, @account_id, @domain_id, attributes)
+        assert response.__struct__ == Dnsimple.Response
+
+        data = response.data
+        assert data.__struct__ == Dnsimple.Push
+        assert data.id == 1
+        assert data.account_id == 2020
+      end
+    end
+  end
+
+
   @push_id 6789
 
 

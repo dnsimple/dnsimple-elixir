@@ -409,10 +409,10 @@ defmodule Dnsimple.Domains do
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
       {:ok, response} = Dnsimple.Domains.initiate_push(client, account_id = 1010, domain_id = "example.com", %{
-        new_domain_push_identifier: "abc123",
+        new_account_identifier: "abc123",
       })
 
-  Note: `new_account_email` is deprecated in favor of `new_domain_push_identifier`.
+  Note: `new_account_email` is deprecated in favor of `new_account_identifier`.
 
   """
   @spec initiate_push(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: {:ok|:error, Response.t}

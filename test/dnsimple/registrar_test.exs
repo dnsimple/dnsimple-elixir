@@ -181,6 +181,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "transferring"
         assert data.auto_renew == false
         assert data.whois_privacy == false
+        assert data.trustee_service == false
         assert data.created_at == "2016-12-09T19:43:41Z"
         assert data.updated_at == "2016-12-09T19:43:43Z"
       end
@@ -205,6 +206,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "cancelled"
         assert data.auto_renew == false
         assert data.whois_privacy == false
+        assert data.trustee_service == false
         assert data.status_description == "Canceled by customer"
         assert data.created_at == "2020-06-05T18:08:00Z"
         assert data.updated_at == "2020-06-05T18:10:01Z"
@@ -230,6 +232,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "transferring"
         assert data.auto_renew == false
         assert data.whois_privacy == false
+        assert data.trustee_service == false
         assert data.status_description == nil
         assert data.created_at == "2020-06-05T18:08:00Z"
         assert data.updated_at == "2020-06-05T18:08:04Z"

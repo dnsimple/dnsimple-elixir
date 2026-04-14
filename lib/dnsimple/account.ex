@@ -10,9 +10,10 @@ defmodule Dnsimple.Account do
   @type t :: %__MODULE__{
     id: integer,
     email: String.t,
+    name: String.t,
     plan_identifier: String.t,
   }
 
-  defstruct ~w(id email plan_identifier)a
+  defstruct ~w(id email name plan_identifier)a
 
 end

@@ -17,6 +17,6 @@ defmodule Dnsimple.EmailForward do
     updated_at: String.t,
   }
 
-  defstruct ~w(id domain_id from to alias_email destination_email active created_at updated_at)a
+  defstruct ~w(id domain_id alias_email destination_email active created_at updated_at)a
 
 end

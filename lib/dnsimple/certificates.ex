@@ -150,9 +150,9 @@ defmodule Dnsimple.Certificates do
   """
   @spec purchase_letsencrypt_certificate(
           Client.t(),
-          String.t() | integer,
-          String.t() | integer,
-          Keyword.t(),
+          String.t() | integer(),
+          String.t() | integer(),
+          map() | Keyword.t(),
           Keyword.t()
         ) :: {:ok | :error, Response.t()}
   def purchase_letsencrypt_certificate(
@@ -226,10 +226,10 @@ defmodule Dnsimple.Certificates do
   """
   @spec purchase_letsencrypt_certificate_renewal(
           Client.t(),
-          String.t() | integer,
-          String.t() | integer,
-          integer,
-          Keyword.t(),
+          String.t() | integer(),
+          String.t() | integer(),
+          integer(),
+          map() | Keyword.t(),
           Keyword.t()
         ) :: {:ok | :error, Response.t()}
   def purchase_letsencrypt_certificate_renewal(

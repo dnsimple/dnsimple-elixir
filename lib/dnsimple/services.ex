@@ -101,11 +101,11 @@ defmodule Dnsimple.Services do
   """
   @spec apply_service(
           Client.t(),
-          String.t() | integer,
-          String.t() | integer,
-          String.t() | integer,
-          map(),
-          keyword()
+          String.t() | integer(),
+          String.t() | integer(),
+          String.t() | integer(),
+          map() | Keyword.t(),
+          Keyword.t()
         ) :: {:ok | :error, Response.t()}
   def apply_service(client, account_id, domain_id, service_id, settings \\ %{}, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/services/#{service_id}")

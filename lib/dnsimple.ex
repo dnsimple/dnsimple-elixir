@@ -90,7 +90,20 @@ defmodule Dnsimple do
     @type t :: %__MODULE__{access_token: String.t(), base_url: String.t(), user_agent: String.t()}
 
     @type headers :: [{binary, binary}] | %{binary => binary}
-    @type body :: binary | {:form, [{atom, any}]} | {:file, binary} | Keyword.t()
+
+    @typedoc """
+    Request body accepted by `post/4`, `patch/4`, and `put/4`.
+
+    Includes `nil` for empty bodies (see `empty_body/0`) and `map/0` for JSON
+    payloads encoded via `Poison.encode!/1`.
+    """
+    @type body ::
+            nil
+            | binary()
+            | map()
+            | {:form, [{atom, any}]}
+            | {:file, binary()}
+            | Keyword.t()
 
     @doc """
     Initializes a new client from the application environment.
@@ -143,21 +156,21 @@ defmodule Dnsimple do
     @doc """
     Issues a POST request to the given url.
     """
-    @spec post(Client.t(), binary, body, Keyword.t()) ::
+    @spec post(Client.t(), binary(), body(), Keyword.t()) ::
             {:ok | :error, HTTPoison.Response.t() | HTTPoison.AsyncResponse.t()}
     def post(client, url, body, options \\ []), do: execute(client, :post, url, body, options)
 
     @doc """
     Issues a PUT request to the given url.
     """
-    @spec put(Client.t(), binary, nil | body, Keyword.t()) ::
+    @spec put(Client.t(), binary(), body(), Keyword.t()) ::
             {:ok | :error, HTTPoison.Response.t() | HTTPoison.AsyncResponse.t()}
     def put(client, url, body, options \\ []), do: execute(client, :put, url, body, options)
 
     @doc """
     Issues a PATCH request to the given url.
     """
-    @spec patch(Client.t(), binary, body, Keyword.t()) ::
+    @spec patch(Client.t(), binary(), body(), Keyword.t()) ::
             {:ok | :error, HTTPoison.Response.t() | HTTPoison.AsyncResponse.t()}
     def patch(client, url, body, options \\ []), do: execute(client, :patch, url, body, options)
 

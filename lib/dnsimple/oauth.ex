@@ -30,12 +30,15 @@ defmodule Dnsimple.Oauth do
     host = String.replace(client.base_url, "https://api.", "")
     query = Keyword.merge([response_type: "code", client_id: client_id], query)
 
-    URI.to_string(%URI{
-      scheme: "https",
-      host: host,
-      path: "/oauth/authorize",
-      query: URI.encode_query(query)
-    })
+    uri =
+      struct(URI,
+        scheme: "https",
+        host: host,
+        path: "/oauth/authorize",
+        query: URI.encode_query(query)
+      )
+
+    URI.to_string(uri)
   end
 
   @doc """
@@ -55,8 +58,8 @@ defmodule Dnsimple.Oauth do
       })
 
   """
-  @spec exchange_authorization_for_token(Client.t(), map(), keyword()) ::
-          {:ok | :error, String.t()}
+  @spec exchange_authorization_for_token(Client.t(), map(), Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def exchange_authorization_for_token(client, attributes, options \\ []) do
     url = Client.versioned("/oauth/access_token")
     attributes = Map.merge(attributes, %{grant_type: "authorization_code"})

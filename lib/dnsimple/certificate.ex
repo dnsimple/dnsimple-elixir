@@ -18,7 +18,7 @@ defmodule Dnsimple.Certificate do
           id: integer,
           domain_id: integer,
           common_name: String.t(),
-          alternate_names: List.t(),
+          alternate_names: [String.t()],
           years: integer,
           csr: String.t(),
           state: String.t(),

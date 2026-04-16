@@ -8,17 +8,16 @@ defmodule Dnsimple.DelegationSignerRecord do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    id: integer,
-    domain_id: integer,
-    algorithm: String.t,
-    digest: String.t,
-    digest_type: String.t,
-    keytag: String.t,
-    public_key: String.t,
-    created_at: String.t,
-    updated_at: String.t,
-  }
+          id: integer,
+          domain_id: integer,
+          algorithm: String.t(),
+          digest: String.t(),
+          digest_type: String.t(),
+          keytag: String.t(),
+          public_key: String.t(),
+          created_at: String.t(),
+          updated_at: String.t()
+        }
 
   defstruct ~w(id domain_id algorithm digest digest_type keytag public_key created_at updated_at)a
-
 end

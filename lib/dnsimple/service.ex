@@ -17,33 +17,31 @@ defmodule Dnsimple.Service do
     @moduledoc section: :data_types
 
     @type t :: %__MODULE__{
-      name: String.t,
-      label: String.t,
-      append: String.t,
-      description: String.t,
-      example: String.t,
-      password: boolean,
-    }
+            name: String.t(),
+            label: String.t(),
+            append: String.t(),
+            description: String.t(),
+            example: String.t(),
+            password: boolean
+          }
 
     defstruct ~w(name label append description example password)a
   end
 
-
   @type t :: %__MODULE__{
-    id: integer,
-    sid: String.t,
-    name: String.t,
-    description: String.t,
-    setup_description: String.t,
-    default_subdomain: String.t,
-    requires_setup: boolean,
-    settings: list,
-    created_at: String.t,
-    updated_at: String.t,
-  }
+          id: integer,
+          sid: String.t(),
+          name: String.t(),
+          description: String.t(),
+          setup_description: String.t(),
+          default_subdomain: String.t(),
+          requires_setup: boolean,
+          settings: list,
+          created_at: String.t(),
+          updated_at: String.t()
+        }
 
   defstruct ~w(id sid name description setup_description
                default_subdomain requires_setup settings
                created_at updated_at)a
-
 end

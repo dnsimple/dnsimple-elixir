@@ -8,12 +8,11 @@ defmodule Dnsimple.Dnssec do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    id: integer,
-    enabled: boolean(),
-    created_at: String.t,
-    updated_at: String.t,
-  }
+          id: integer,
+          enabled: boolean(),
+          created_at: String.t(),
+          updated_at: String.t()
+        }
 
   defstruct ~w(id enabled created_at updated_at)a
-
 end

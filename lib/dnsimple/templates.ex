@@ -29,14 +29,14 @@ defmodule Dnsimple.Templates do
       {:ok, response} = Dnsimple.Templates.list_templates(client, account_id = 1010, sort: "name:asc")
 
   """
-  @spec list_templates(Client.t, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec list_templates(Client.t(), String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def list_templates(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/templates")
 
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Template{}], "pagination" => %Response.Pagination{}})
   end
-
 
   @doc """
   Returns a template.
@@ -50,14 +50,14 @@ defmodule Dnsimple.Templates do
       {:ok, response} = Dnsimple.Templates.get_template(client, account_id = 1010, template_id = "alpha")
 
   """
-  @spec get_template(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_template(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def get_template(client, account_id, template_id, options \\ []) do
     url = Client.versioned("/#{account_id}/templates/#{template_id}")
 
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => %Template{}})
   end
-
 
   @doc """
   Creates a new template.
@@ -75,14 +75,14 @@ defmodule Dnsimple.Templates do
       })
 
   """
-  @spec create_template(Client.t, String.t | integer, map, Keyword.t) :: {:ok|:error, Response.t}
+  @spec create_template(Client.t(), String.t() | integer, map, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def create_template(client, account_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/templates")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %Template{}})
   end
-
 
   @doc """
   Updates an existing template.
@@ -100,14 +100,14 @@ defmodule Dnsimple.Templates do
       })
 
   """
-  @spec update_template(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: {:ok|:error, Response.t}
+  @spec update_template(Client.t(), String.t() | integer, String.t() | integer, map, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def update_template(client, account_id, template_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/templates/#{template_id}")
 
     Client.patch(client, url, attributes, options)
     |> Response.parse(%{"data" => %Template{}})
   end
-
 
   @doc """
   Deletes a template.
@@ -123,14 +123,14 @@ defmodule Dnsimple.Templates do
       {:ok, response} = Dnsimple.Templates.delete_template(client, account_id = 1010, template_id = "alpha")
 
   """
-  @spec delete_template(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec delete_template(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def delete_template(client, account_id, template_id, options \\ []) do
     url = Client.versioned("/#{account_id}/templates/#{template_id}")
 
     Client.delete(client, url, options)
     |> Response.parse(nil)
   end
-
 
   @doc """
   Returns the list of records in the template.
@@ -145,14 +145,14 @@ defmodule Dnsimple.Templates do
       Dnsimple.Templates.list_template_records(client, account_id = 1010, template_id = 1, sort: "type:asc")
 
   """
-  @spec list_template_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec list_template_records(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def list_template_records(client, account_id, template_id, options \\ []) do
     url = Client.versioned("/#{account_id}/templates/#{template_id}/records")
 
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%TemplateRecord{}], "pagination" => %Response.Pagination{}})
   end
-
 
   @doc """
   Returns a record of the template.
@@ -166,14 +166,19 @@ defmodule Dnsimple.Templates do
       {:ok, response} = Dnsimple.Templates.get_template_record(client, account_id = 1010, template_id = "alpha", record_id = 123)
 
   """
-  @spec get_template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_template_record(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          integer,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def get_template_record(client, account_id, template_id, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/templates/#{template_id}/records/#{record_id}")
 
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => %TemplateRecord{}})
   end
-
 
   @doc """
   Creates a new record in the template.
@@ -193,14 +198,19 @@ defmodule Dnsimple.Templates do
       })
 
   """
-  @spec create_template_record(Client.t, String.t | integer, String.t | integer, map,  Keyword.t) :: {:ok|:error, Response.t}
+  @spec create_template_record(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          map,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def create_template_record(client, account_id, template_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/templates/#{template_id}/records")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %TemplateRecord{}})
   end
-
 
   @doc """
   Deletes a record from a template.
@@ -216,14 +226,19 @@ defmodule Dnsimple.Templates do
       {:ok, response} = Dnsimple.Templates.delete_template_record(client, account_id = 1010, template_id = "alpha", record_id = 1)
 
   """
-  @spec delete_template_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec delete_template_record(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          integer,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def delete_template_record(client, account_id, template_id, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/templates/#{template_id}/records/#{record_id}")
 
     Client.delete(client, url, options)
     |> Response.parse(nil)
   end
-
 
   @doc """
   Applies a template to a domain.
@@ -237,12 +252,17 @@ defmodule Dnsimple.Templates do
       {:ok, response} = Dnsimple.Templates.apply_template(client, account_id = 1010, domain_id = "example.com", template_id = "alpha")
 
   """
-  @spec apply_template(Client.t, String.t | integer, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec apply_template(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          String.t() | integer,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def apply_template(client, account_id, domain_id, template_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/templates/#{template_id}")
 
     Client.post(client, url, Client.empty_body(), options)
     |> Response.parse(nil)
   end
-
 end

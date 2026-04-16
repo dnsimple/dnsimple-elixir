@@ -17,22 +17,20 @@ defmodule Dnsimple.TldExtendedAttribute do
     @moduledoc section: :data_types
 
     @type t :: %__MODULE__{
-      title: String.t,
-      value: String.t,
-      description: String.t,
-    }
+            title: String.t(),
+            value: String.t(),
+            description: String.t()
+          }
 
     defstruct ~w(title value description)a
   end
 
-
   @type t :: %__MODULE__{
-    name: String.t,
-    description: String.t,
-    required: boolean,
-    options: [Option.t],
-  }
+          name: String.t(),
+          description: String.t(),
+          required: boolean,
+          options: [Option.t()]
+        }
 
   defstruct ~w(name description required options)a
-
 end

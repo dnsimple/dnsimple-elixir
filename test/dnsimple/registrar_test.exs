@@ -9,8 +9,8 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".check_domain" do
     test "returns the domain check in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/ruby.codes/check"
-      method  = "get"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/ruby.codes/check"
+      method = "get"
       fixture = "checkDomain/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -25,7 +25,6 @@ defmodule Dnsimple.RegistrarTest do
       end
     end
   end
-
 
   describe ".get_domain_prices" do
     test "returns the result in a Dnsimple.Response for the domain" do
@@ -61,13 +60,18 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".register_domain" do
     test "returns the registered domain in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registrations"
-      method      = "post"
-      fixture     = "registerDomain/success.http"
-      attributes  = %{registrant_id: 2, auto_renew: false, whois_privacy: false}
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registrations"
+      method = "post"
+      fixture = "registerDomain/success.http"
+      attributes = %{registrant_id: 2, auto_renew: false, whois_privacy: false}
       {:ok, body} = Poison.encode(attributes)
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture(fixture,
+                     method: method,
+                     url: url,
+                     request_body: body
+                   ) do
         {:ok, response} = @module.register_domain(@client, @account_id, "example.com", attributes)
         assert response.__struct__ == Dnsimple.Response
 
@@ -89,9 +93,9 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".get_domain_registration" do
     test "returns the domain registration in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registrations/1"
-      method      = "get"
-      fixture     = "getDomainRegistration/success.http"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/registrations/1"
+      method = "get"
+      fixture = "getDomainRegistration/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_domain_registration(@client, @account_id, "example.com", 1)
@@ -100,7 +104,7 @@ defmodule Dnsimple.RegistrarTest do
         data = response.data
         assert data.__struct__ == Dnsimple.DomainRegistration
         assert data.id == 361
-        assert data.domain_id == 104040
+        assert data.domain_id == 104_040
         assert data.registrant_id == 2715
         assert data.period == 1
         assert data.state == "registering"
@@ -113,16 +117,20 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
-
   describe ".renew_domain" do
     test "returns the renewed domain in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/renewals"
-      method      = "post"
-      fixture     = "renewDomain/success.http"
-      attributes  = %{period: 3}
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/renewals"
+      method = "post"
+      fixture = "renewDomain/success.http"
+      attributes = %{period: 3}
       {:ok, body} = Poison.encode(attributes)
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture(fixture,
+                     method: method,
+                     url: url,
+                     request_body: body
+                   ) do
         {:ok, response} = @module.renew_domain(@client, @account_id, "example.com", attributes)
         assert response.__struct__ == Dnsimple.Response
 
@@ -140,9 +148,9 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".get_domain_renewal" do
     test "returns the domain renewal in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/renewals/1"
-      method      = "get"
-      fixture     = "getDomainRenewal/success.http"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/renewals/1"
+      method = "get"
+      fixture = "getDomainRenewal/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_domain_renewal(@client, @account_id, "example.com", 1)
@@ -160,16 +168,27 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
-
   describe ".transfer_domain" do
     test "returns the domain to be transferred in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers"
-      method      = "post"
-      fixture     = "transferDomain/success.http"
-      attributes  = %{registrant_id: 10, auth_code: "x1y2z3", auto_renew: false, whois_privacy: false}
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers"
+      method = "post"
+      fixture = "transferDomain/success.http"
+
+      attributes = %{
+        registrant_id: 10,
+        auth_code: "x1y2z3",
+        auto_renew: false,
+        whois_privacy: false
+      }
+
       {:ok, body} = Poison.encode(attributes)
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture(fixture,
+                     method: method,
+                     url: url,
+                     request_body: body
+                   ) do
         {:ok, response} = @module.transfer_domain(@client, @account_id, "example.com", attributes)
         assert response.__struct__ == Dnsimple.Response
 
@@ -190,9 +209,9 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".get_domain_transfer" do
     test "returns the domain transfer in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers/361"
-      method      = "get"
-      fixture     = "getDomainTransfer/success.http"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers/361"
+      method = "get"
+      fixture = "getDomainTransfer/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_domain_transfer(@client, @account_id, "example.com", 361)
@@ -201,7 +220,7 @@ defmodule Dnsimple.RegistrarTest do
         data = response.data
         assert data.__struct__ == Dnsimple.DomainTransfer
         assert data.id == 361
-        assert data.domain_id == 182245
+        assert data.domain_id == 182_245
         assert data.registrant_id == 2715
         assert data.state == "cancelled"
         assert data.auto_renew == false
@@ -216,9 +235,9 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".cancel_domain_transfer" do
     test "returns the domain transfer in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers/361"
-      method      = "delete"
-      fixture     = "cancelDomainTransfer/success.http"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfers/361"
+      method = "delete"
+      fixture = "cancelDomainTransfer/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.cancel_domain_transfer(@client, @account_id, "example.com", 361)
@@ -227,7 +246,7 @@ defmodule Dnsimple.RegistrarTest do
         data = response.data
         assert data.__struct__ == Dnsimple.DomainTransfer
         assert data.id == 361
-        assert data.domain_id == 182245
+        assert data.domain_id == 182_245
         assert data.registrant_id == 2715
         assert data.state == "transferring"
         assert data.auto_renew == false
@@ -242,9 +261,11 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".transfer_domain_out" do
     test "requests the transfer out and returns an empty Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/authorize_transfer_out"
-      method      = "post"
-      fixture     = "authorizeDomainTransferOut/success.http"
+      url =
+        "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/authorize_transfer_out"
+
+      method = "post"
+      fixture = "authorizeDomainTransferOut/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.transfer_domain_out(@client, @account_id, "example.com")
@@ -254,11 +275,10 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
-
   describe ".enable_domain_auto_renewal" do
     test "enables auto renewal for the domain and returns an empty Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/auto_renewal"
-      method  = "put"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/auto_renewal"
+      method = "put"
       fixture = "enableDomainAutoRenewal/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -269,11 +289,10 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
-
   describe ".disable_domain_auto_renewal" do
     test "disables auto renewal for the domain and returns an empty Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/auto_renewal"
-      method  = "delete"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/auto_renewal"
+      method = "delete"
       fixture = "disableDomainAutoRenewal/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -284,11 +303,10 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
-
   describe ".enable_domain_transfer_lock" do
     test "enables the transfer lock for the domain and returns an empty Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer_lock"
-      method  = "post"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer_lock"
+      method = "post"
       fixture = "enableDomainTransferLock/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -304,12 +322,14 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".disable_domain_transfer_lock" do
     test "disables the transfer lock for the domain and returns an empty Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer_lock"
-      method  = "delete"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer_lock"
+      method = "delete"
       fixture = "disableDomainTransferLock/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.disable_domain_transfer_lock(@client, @account_id, "example.com")
+        {:ok, response} =
+          @module.disable_domain_transfer_lock(@client, @account_id, "example.com")
+
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -321,8 +341,8 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".get_domain_transfer_lock" do
     test "returns the transfer lock for the domain in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer_lock"
-      method  = "get"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/transfer_lock"
+      method = "get"
       fixture = "getDomainTransferLock/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -336,14 +356,18 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
-
   describe ".enable_whois_privacy" do
     test "enables the whois privacy and returns it in a Dnsimple.Response" do
-      url         = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/whois_privacy"
-      method      = "put"
-      fixture     = "enableWhoisPrivacy/created.http"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/whois_privacy"
+      method = "put"
+      fixture = "enableWhoisPrivacy/created.http"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: nil) do
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture(fixture,
+                     method: method,
+                     url: url,
+                     request_body: nil
+                   ) do
         {:ok, response} = @module.enable_whois_privacy(@client, @account_id, "example.com")
         assert response.__struct__ == Dnsimple.Response
 
@@ -359,11 +383,10 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
-
   describe ".disable_whois_privacy" do
     test "disables the whois privacy and returns it in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/whois_privacy"
-      method  = "delete"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/example.com/whois_privacy"
+      method = "delete"
       fixture = "disableWhoisPrivacy/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -382,14 +405,13 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
-
   describe ".get_domain_delegation" do
     test "returns the name servers in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation"
-      method  = "get"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation"
+      method = "get"
       fixture = "getDomainDelegation/success.http"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_domain_delegation(@client, @account_id, @domain_id)
         assert response.__struct__ == Dnsimple.Response
 
@@ -400,17 +422,30 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
-
   describe ".change_domain_delegation" do
     test "changes the name servers and returns them Dnsimple.Response" do
-      url          = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation"
-      method       = "put"
-      fixture      = "changeDomainDelegation/success.http"
-      name_servers = ["ns1.dnsimple.com", "ns2.dnsimple.com", "ns3.dnsimple.com", "ns4.dnsimple.com"]
-      body         = Poison.encode!(name_servers)
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation"
+      method = "put"
+      fixture = "changeDomainDelegation/success.http"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
-        {:ok, response} = @module.change_domain_delegation(@client, @account_id, @domain_id, name_servers)
+      name_servers = [
+        "ns1.dnsimple.com",
+        "ns2.dnsimple.com",
+        "ns3.dnsimple.com",
+        "ns4.dnsimple.com"
+      ]
+
+      body = Poison.encode!(name_servers)
+
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture(fixture,
+                     method: method,
+                     url: url,
+                     request_body: body
+                   ) do
+        {:ok, response} =
+          @module.change_domain_delegation(@client, @account_id, @domain_id, name_servers)
+
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -420,22 +455,35 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
-
   describe ".change_domain_delegation_to_vanity" do
     test "changes the delegation to vanity name servers and returns them Dnsimple.Response" do
-      url          = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation/vanity"
-      method       = "put"
-      fixture      = "changeDomainDelegationToVanity/success.http"
-      name_servers = ["ns1.example.com", "ns2.example.com", "ns3.example.com", "ns4.example.com"]
-      body         = Poison.encode!(name_servers)
+      url =
+        "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation/vanity"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
-        {:ok, response} = @module.change_domain_delegation_to_vanity(@client, @account_id, @domain_id, name_servers)
+      method = "put"
+      fixture = "changeDomainDelegationToVanity/success.http"
+      name_servers = ["ns1.example.com", "ns2.example.com", "ns3.example.com", "ns4.example.com"]
+      body = Poison.encode!(name_servers)
+
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture(fixture,
+                     method: method,
+                     url: url,
+                     request_body: body
+                   ) do
+        {:ok, response} =
+          @module.change_domain_delegation_to_vanity(
+            @client,
+            @account_id,
+            @domain_id,
+            name_servers
+          )
+
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert is_list(data)
-        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.VanityNameServer end)
+        assert Enum.all?(data, fn single -> single.__struct__ == Dnsimple.VanityNameServer end)
 
         [first | _] = data
         assert first.id == 1
@@ -448,15 +496,18 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
-
   describe ".change_domain_delegation_from_vanity" do
     test "changes the delegation from vanity name servers and returns an empty Dnsimple.Response" do
-      url          = "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation/vanity"
-      method       = "delete"
-      fixture      = "changeDomainDelegationFromVanity/success.http"
+      url =
+        "#{@client.base_url}/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation/vanity"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.change_domain_delegation_from_vanity(@client, @account_id, @domain_id)
+      method = "delete"
+      fixture = "changeDomainDelegationFromVanity/success.http"
+
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} =
+          @module.change_domain_delegation_from_vanity(@client, @account_id, @domain_id)
+
         assert response.__struct__ == Dnsimple.Response
         assert response.data == nil
       end
@@ -465,13 +516,13 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".check_registrant_change" do
     test "returns the registrant change check in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/check"
-      method  = "post"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/check"
+      method = "post"
       fixture = "checkRegistrantChange/success.http"
-      attributes  = %{domain_id: @domain_id, contact_id: 101}
+      attributes = %{domain_id: @domain_id, contact_id: 101}
       {:ok, _body} = Poison.encode(attributes)
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.check_registrant_change(@client, @account_id, attributes)
         assert response.__struct__ == Dnsimple.Response
 
@@ -488,12 +539,17 @@ defmodule Dnsimple.RegistrarTest do
   describe ".get_registrant_change" do
     test "returns the registrant change in a Dnsimple.Response" do
       registrant_change_id = 1
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}"
-      method  = "get"
+
+      url =
+        "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}"
+
+      method = "get"
       fixture = "getRegistrantChange/success.http"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.get_registrant_change(@client, @account_id, registrant_change_id)
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} =
+          @module.get_registrant_change(@client, @account_id, registrant_change_id)
+
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -514,13 +570,13 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".create_registrant_change" do
     test "returns the registrant change in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes"
-      method  = "post"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes"
+      method = "post"
       fixture = "createRegistrantChange/success.http"
-      attributes  = %{domain_id: @domain_id, contact_id: 101}
+      attributes = %{domain_id: @domain_id, contact_id: 101}
       {:ok, _body} = Poison.encode(attributes)
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.create_registrant_change(@client, @account_id, attributes)
         assert response.__struct__ == Dnsimple.Response
 
@@ -542,11 +598,11 @@ defmodule Dnsimple.RegistrarTest do
 
   describe ".list_registrant_changes" do
     test "returns the registrant changes in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes"
-      method  = "get"
+      url = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes"
+      method = "get"
       fixture = "listRegistrantChanges/success.http"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.list_registrant_changes(@client, @account_id)
         assert response.__struct__ == Dnsimple.Response
 
@@ -573,12 +629,17 @@ defmodule Dnsimple.RegistrarTest do
   describe ".delete_registrant_change" do
     test "returns nil for successful sync cancallation response wrapped in a Dnsimple.Response" do
       registrant_change_id = 1
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}"
-      method  = "delete"
+
+      url =
+        "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}"
+
+      method = "delete"
       fixture = "deleteRegistrantChange/success.http"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.delete_registrant_change(@client, @account_id, registrant_change_id)
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} =
+          @module.delete_registrant_change(@client, @account_id, registrant_change_id)
+
         assert response.__struct__ == Dnsimple.Response
 
         assert is_nil(response.data)
@@ -587,12 +648,17 @@ defmodule Dnsimple.RegistrarTest do
 
     test "returns registrant change object for async cancellation in a Dnsimple.Response" do
       registrant_change_id = 1
-      url     = "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}"
-      method  = "delete"
+
+      url =
+        "#{@client.base_url}/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}"
+
+      method = "delete"
       fixture = "deleteRegistrantChange/success_async.http"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
-        {:ok, response} = @module.delete_registrant_change(@client, @account_id, registrant_change_id)
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
+        {:ok, response} =
+          @module.delete_registrant_change(@client, @account_id, registrant_change_id)
+
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data

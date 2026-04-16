@@ -9,12 +9,11 @@ defmodule Dnsimple.OauthToken do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    access_token: String.t,
-    token_type: String.t,
-    scope: String.t,
-    account_id: integer,
-  }
+          access_token: String.t(),
+          token_type: String.t(),
+          scope: String.t(),
+          account_id: integer
+        }
 
   defstruct ~w(access_token token_type scope account_id)a
-
 end

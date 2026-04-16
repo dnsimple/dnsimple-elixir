@@ -18,7 +18,7 @@ defmodule Dnsimple.ZonesTest do
         {:ok, response} = @module.list_zones(@client, @account_id)
         assert response.__struct__ == Dnsimple.Response
         assert Enum.count(response.data) == 2
-        assert Enum.all?(response.data, fn(item) -> item.__struct__ == Dnsimple.Zone end)
+        assert Enum.all?(response.data, fn item -> item.__struct__ == Dnsimple.Zone end)
       end
     end
 
@@ -35,17 +35,16 @@ defmodule Dnsimple.ZonesTest do
       url = "#{@client.base_url}/v2/#{@account_id}/zones?name_like=example"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} =@module.list_zones(@client, @account_id, filter: [name_like: "example"])
+        {:ok, response} = @module.list_zones(@client, @account_id, filter: [name_like: "example"])
         assert response.__struct__ == Dnsimple.Response
       end
     end
   end
 
-
   describe ".get_zone" do
     test "returns the zone in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/zones/example.com"
-      method  = "get"
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/example.com"
+      method = "get"
       fixture = "getZone/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -67,14 +66,12 @@ defmodule Dnsimple.ZonesTest do
     end
   end
 
-
   @zone_id "example.com"
-
 
   describe ".get_zone_file" do
     test "returns the zone file in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/file"
-      method  = "get"
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/file"
+      method = "get"
       fixture = "getZoneFile/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -82,11 +79,12 @@ defmodule Dnsimple.ZonesTest do
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
-        assert data.zone == "$ORIGIN example.com.\n$TTL 1h\nexample.com. 3600 IN SOA ns1.dnsimple.com. admin.dnsimple.com. 1453132552 86400 7200 604800 300\nexample.com. 3600 IN NS ns1.dnsimple.com.\nexample.com. 3600 IN NS ns2.dnsimple.com.\nexample.com. 3600 IN NS ns3.dnsimple.com.\nexample.com. 3600 IN NS ns4.dnsimple.com.\n"
+
+        assert data.zone ==
+                 "$ORIGIN example.com.\n$TTL 1h\nexample.com. 3600 IN SOA ns1.dnsimple.com. admin.dnsimple.com. 1453132552 86400 7200 604800 300\nexample.com. 3600 IN NS ns1.dnsimple.com.\nexample.com. 3600 IN NS ns2.dnsimple.com.\nexample.com. 3600 IN NS ns3.dnsimple.com.\nexample.com. 3600 IN NS ns4.dnsimple.com.\n"
       end
     end
   end
-
 
   describe ".check_zone_distribution" do
     setup do
@@ -94,7 +92,10 @@ defmodule Dnsimple.ZonesTest do
       {:ok, method: "get", url: url}
     end
 
-    test "returns the zone's distribution status in a Dnsimple.Response", %{method: method, url: url} do
+    test "returns the zone's distribution status in a Dnsimple.Response", %{
+      method: method,
+      url: url
+    } do
       fixture = "checkZoneDistribution/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -107,7 +108,10 @@ defmodule Dnsimple.ZonesTest do
       end
     end
 
-    test "returns the zone's distribution failing status in a Dnsimple.Response", %{method: method, url: url} do
+    test "returns the zone's distribution failing status in a Dnsimple.Response", %{
+      method: method,
+      url: url
+    } do
       fixture = "checkZoneDistribution/failure.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -120,7 +124,10 @@ defmodule Dnsimple.ZonesTest do
       end
     end
 
-    test "returns an error if the zone distribution status couldn't be retrieved", %{method: method, url: url} do
+    test "returns an error if the zone distribution status couldn't be retrieved", %{
+      method: method,
+      url: url
+    } do
       fixture = "checkZoneDistribution/error.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -131,18 +138,24 @@ defmodule Dnsimple.ZonesTest do
     end
   end
 
-
   describe ".check_zone_record_distribution" do
     setup do
-      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/#{@record_id}/distribution"
+      url =
+        "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/#{@record_id}/distribution"
+
       {:ok, method: "get", url: url}
     end
 
-    test "returns the zone record's distribution status in a Dnsimple.Response", %{method: method, url: url} do
+    test "returns the zone record's distribution status in a Dnsimple.Response", %{
+      method: method,
+      url: url
+    } do
       fixture = "checkZoneRecordDistribution/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.check_zone_record_distribution(@client, @account_id, @zone_id, @record_id)
+        {:ok, response} =
+          @module.check_zone_record_distribution(@client, @account_id, @zone_id, @record_id)
+
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -151,11 +164,16 @@ defmodule Dnsimple.ZonesTest do
       end
     end
 
-    test "returns the zone record's distribution failing status in a Dnsimple.Response", %{method: method, url: url} do
+    test "returns the zone record's distribution failing status in a Dnsimple.Response", %{
+      method: method,
+      url: url
+    } do
       fixture = "checkZoneRecordDistribution/failure.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.check_zone_record_distribution(@client, @account_id, @zone_id, @record_id)
+        {:ok, response} =
+          @module.check_zone_record_distribution(@client, @account_id, @zone_id, @record_id)
+
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -164,17 +182,21 @@ defmodule Dnsimple.ZonesTest do
       end
     end
 
-    test "returns an error if the zone record distribution status couldn't be retrieved", %{method: method, url: url} do
+    test "returns an error if the zone record distribution status couldn't be retrieved", %{
+      method: method,
+      url: url
+    } do
       fixture = "checkZoneRecordDistribution/error.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:error, response} = @module.check_zone_record_distribution(@client, @account_id, @zone_id, @record_id)
+        {:error, response} =
+          @module.check_zone_record_distribution(@client, @account_id, @zone_id, @record_id)
+
         assert response.__struct__ == Dnsimple.RequestError
         assert response.message == "HTTP 504: Could not query zone, connection timed out"
       end
     end
   end
-
 
   describe ".list_zone_records" do
     setup do
@@ -182,7 +204,11 @@ defmodule Dnsimple.ZonesTest do
       {:ok, fixture: "listZoneRecords/success.http", method: "get", url: url}
     end
 
-    test "returns the zone's records in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
+    test "returns the zone's records in a Dnsimple.Response", %{
+      fixture: fixture,
+      method: method,
+      url: url
+    } do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.list_zone_records(@client, @account_id, @zone_id)
         assert response.__struct__ == Dnsimple.Response
@@ -190,15 +216,18 @@ defmodule Dnsimple.ZonesTest do
         data = response.data
         assert is_list(data)
         assert Enum.count(data) == 5
-        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.ZoneRecord end)
+        assert Enum.all?(data, fn single -> single.__struct__ == Dnsimple.ZoneRecord end)
       end
     end
 
     test "supports sorting", %{fixture: fixture, method: method} do
-      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records?sort=name%3Aasc%2Ctype%3Adesc"
+      url =
+        "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records?sort=name%3Aasc%2Ctype%3Adesc"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.list_zone_records(@client, @account_id, @zone_id, sort: "name:asc,type:desc")
+        {:ok, response} =
+          @module.list_zone_records(@client, @account_id, @zone_id, sort: "name:asc,type:desc")
+
         assert response.__struct__ == Dnsimple.Response
       end
     end
@@ -207,17 +236,18 @@ defmodule Dnsimple.ZonesTest do
       url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records?type=A"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.list_zone_records(@client, @account_id, @zone_id, filter: [type: "A"])
+        {:ok, response} =
+          @module.list_zone_records(@client, @account_id, @zone_id, filter: [type: "A"])
+
         assert response.__struct__ == Dnsimple.Response
       end
     end
   end
 
-
   describe ".get_zone_record" do
     test "returns the record in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/5"
-      method  = "get"
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/5"
+      method = "get"
       fixture = "getZoneRecord/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -242,16 +272,20 @@ defmodule Dnsimple.ZonesTest do
     end
   end
 
-
   describe ".create_zone_record" do
     test "creates the record and returns it in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records"
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records"
       fixture = "createZoneRecord/created.http"
-      method  = "post"
-      attributes  = %{type: "A", name: "www", content: "127.0.0.1", ttl: 600}
+      method = "post"
+      attributes = %{type: "A", name: "www", content: "127.0.0.1", ttl: 600}
       {:ok, body} = Poison.encode(attributes)
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture(fixture,
+                     method: method,
+                     url: url,
+                     request_body: body
+                   ) do
         {:ok, response} = @module.create_zone_record(@client, @account_id, @zone_id, attributes)
         assert response.__struct__ == Dnsimple.Response
 
@@ -273,17 +307,23 @@ defmodule Dnsimple.ZonesTest do
     end
   end
 
-
   describe ".update_zone_record" do
     test "updates the record and returns it in a Dnsimple.Response" do
-      url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/5"
-      method   = "patch"
-      fixture   = "updateZoneRecord/success.http"
-      attributes  = %{content: "mxb.example.com", ttl: 3600, priority: 20, regions: ["global"]}
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/5"
+      method = "patch"
+      fixture = "updateZoneRecord/success.http"
+      attributes = %{content: "mxb.example.com", ttl: 3600, priority: 20, regions: ["global"]}
       {:ok, body} = Poison.encode(attributes)
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body) do
-        {:ok, response} = @module.update_zone_record(@client, @account_id, @zone_id, record_id = 5, attributes)
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture(fixture,
+                     method: method,
+                     url: url,
+                     request_body: body
+                   ) do
+        {:ok, response} =
+          @module.update_zone_record(@client, @account_id, @zone_id, record_id = 5, attributes)
+
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
@@ -304,15 +344,15 @@ defmodule Dnsimple.ZonesTest do
     end
   end
 
-
   describe ".delete_zone_record" do
     test "deletes the record and returns an empty Dnsimple.Response" do
-      url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/5"
-      method    = "delete"
-      fixture   = "deleteZoneRecord/success.http"
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/records/5"
+      method = "delete"
+      fixture = "deleteZoneRecord/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
-        {:ok, response} = @module.delete_zone_record(@client, @account_id, @zone_id, _record_id = 5)
+        {:ok, response} =
+          @module.delete_zone_record(@client, @account_id, @zone_id, _record_id = 5)
 
         assert response.__struct__ == Dnsimple.Response
         assert response.data == nil
@@ -322,9 +362,9 @@ defmodule Dnsimple.ZonesTest do
 
   describe ".activate_dns" do
     test "activates DNS for the zone and returns the zone in a Dnsimple.Response" do
-      url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/activation"
-      method    = "put"
-      fixture   = "activateZoneService/success.http"
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/activation"
+      method = "put"
+      fixture = "activateZoneService/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.activate_dns(@client, @account_id, @zone_id)
@@ -343,9 +383,9 @@ defmodule Dnsimple.ZonesTest do
 
   describe ".deactivate_dns" do
     test "deactivates DNS for the zone and returns the zone in a Dnsimple.Response" do
-      url       = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/activation"
-      method    = "delete"
-      fixture   = "deactivateZoneService/success.http"
+      url = "#{@client.base_url}/v2/#{@account_id}/zones/#{@zone_id}/activation"
+      method = "delete"
+      fixture = "deactivateZoneService/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.deactivate_dns(@client, @account_id, @zone_id)
@@ -361,6 +401,4 @@ defmodule Dnsimple.ZonesTest do
       end
     end
   end
-
-
 end

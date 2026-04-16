@@ -8,14 +8,13 @@ defmodule Dnsimple.DomainPrice do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    domain: String.t,
-    premium: boolean,
-    registration_price: float,
-    renewal_price: float,
-    transfer_price: float,
-    trustee_service_price: float
-  }
+          domain: String.t(),
+          premium: boolean,
+          registration_price: float,
+          renewal_price: float,
+          transfer_price: float,
+          trustee_service_price: float
+        }
 
   defstruct ~w(domain premium registration_price renewal_price transfer_price trustee_service_price)a
-
 end

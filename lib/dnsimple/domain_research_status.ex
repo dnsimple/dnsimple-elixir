@@ -8,11 +8,11 @@ defmodule Dnsimple.DomainResearchStatus do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    request_id: String.t,
-    domain: String.t,
-    availability: String.t,
-    errors: [String.t],
-  }
+          request_id: String.t(),
+          domain: String.t(),
+          availability: String.t(),
+          errors: [String.t()]
+        }
 
   defstruct ~w(request_id domain availability errors)a
 end

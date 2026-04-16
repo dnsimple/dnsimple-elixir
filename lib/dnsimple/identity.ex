@@ -26,12 +26,11 @@ defmodule Dnsimple.Identity do
       {:ok, response} = Dnsimple.Identity.whoami(client)
 
   """
-  @spec whoami(Client.t, Keyword.t) :: {:ok|:error, Response.t}
+  @spec whoami(Client.t(), Keyword.t()) :: {:ok | :error, Response.t()}
   def whoami(client, options \\ []) do
     url = Client.versioned("/whoami")
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Whoami{account: %Account{}, user: %User{}}})
   end
-
 end

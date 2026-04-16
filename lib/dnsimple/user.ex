@@ -8,10 +8,9 @@ defmodule Dnsimple.User do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    id: integer,
-    email: String.t,
-  }
+          id: integer,
+          email: String.t()
+        }
 
   defstruct ~w(id email)a
-
 end

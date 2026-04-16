@@ -8,9 +8,8 @@ defmodule Dnsimple.TransferLock do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    enabled: boolean(),
-  }
+          enabled: boolean()
+        }
 
   defstruct ~w(enabled)a
-
 end

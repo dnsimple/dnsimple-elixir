@@ -8,10 +8,9 @@ defmodule Dnsimple.Webhook do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    id: integer,
-    url: String.t,
-  }
+          id: integer,
+          url: String.t()
+        }
 
   defstruct ~w(id url)a
-
 end

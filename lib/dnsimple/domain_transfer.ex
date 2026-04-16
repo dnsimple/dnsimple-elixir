@@ -8,20 +8,19 @@ defmodule Dnsimple.DomainTransfer do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    id: integer,
-    domain_id: integer,
-    registrant_id: integer,
-    state: String.t,
-    auto_renew: boolean,
-    whois_privacy: boolean,
-    trustee_service: boolean,
-    status_description: String.t,
-    created_at: String.t,
-    updated_at: String.t,
-  }
+          id: integer,
+          domain_id: integer,
+          registrant_id: integer,
+          state: String.t(),
+          auto_renew: boolean,
+          whois_privacy: boolean,
+          trustee_service: boolean,
+          status_description: String.t(),
+          created_at: String.t(),
+          updated_at: String.t()
+        }
 
   defstruct ~w(id domain_id registrant_id
                state auto_renew whois_privacy trustee_service status_description
                created_at updated_at)a
-
 end

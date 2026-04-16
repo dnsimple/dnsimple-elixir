@@ -9,20 +9,20 @@ defmodule Dnsimple.Domain do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    id: integer,
-    account_id: integer,
-    registrant_id: integer,
-    name: String.t,
-    unicode_name: String.t,
-    token: String.t,
-    state: String.t,
-    auto_renew: boolean,
-    private_whois: boolean,
-    trustee_service: boolean,
-    expires_at: String.t,
-    created_at: String.t,
-    updated_at: String.t,
-  }
+          id: integer,
+          account_id: integer,
+          registrant_id: integer,
+          name: String.t(),
+          unicode_name: String.t(),
+          token: String.t(),
+          state: String.t(),
+          auto_renew: boolean,
+          private_whois: boolean,
+          trustee_service: boolean,
+          expires_at: String.t(),
+          created_at: String.t(),
+          updated_at: String.t()
+        }
 
   defstruct ~w(id account_id registrant_id name unicode_name token state
                auto_renew private_whois trustee_service expires_at created_at updated_at)a

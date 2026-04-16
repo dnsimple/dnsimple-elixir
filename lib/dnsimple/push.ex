@@ -8,16 +8,15 @@ defmodule Dnsimple.Push do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    id: integer,
-    domain_id: integer,
-    contact_id: integer,
-    account_id: integer,
-    accepted_at: String.t,
-    created_at: String.t,
-    updated_at: String.t,
-  }
+          id: integer,
+          domain_id: integer,
+          contact_id: integer,
+          account_id: integer,
+          accepted_at: String.t(),
+          created_at: String.t(),
+          updated_at: String.t()
+        }
 
   defstruct ~w(id domain_id contact_id account_id
                accepted_at created_at updated_at)a
-
 end

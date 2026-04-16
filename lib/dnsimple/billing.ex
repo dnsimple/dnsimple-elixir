@@ -25,7 +25,8 @@ defmodule Dnsimple.Billing do
       {:ok, response} = Dnsimple.Billing.list_charges(client, account_id = "1010", sort: "invoiced:asc")
 
   """
-  @spec list_charges(Client.t, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec list_charges(Client.t(), String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def list_charges(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/billing/charges")
 

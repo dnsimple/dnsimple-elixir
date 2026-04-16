@@ -1,5 +1,6 @@
 defmodule Dnsimple.Charge do
   require Decimal
+
   @moduledoc """
   Represents a billing charge.
 
@@ -9,13 +10,13 @@ defmodule Dnsimple.Charge do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    invoiced_at: DateTime.t,
-    total_amount: Decimal.t,
-    balance_amount: Decimal.t,
-    reference: String.t,
-    state: String.t,
-    items: [ChargeItem.t],
-  }
+          invoiced_at: DateTime.t(),
+          total_amount: Decimal.t(),
+          balance_amount: Decimal.t(),
+          reference: String.t(),
+          state: String.t(),
+          items: [ChargeItem.t()]
+        }
 
   defstruct ~w(invoiced_at total_amount balance_amount reference state items)a
 
@@ -44,17 +45,17 @@ defmodule Dnsimple.Charge do
     @moduledoc section: :data_types
 
     @type t :: %__MODULE__{
-      description: String.t,
-      amount: Decimal.t,
-      product_id: integer | nil,
-      product_type: String.t,
-      product_reference: String.t | nil,
-    }
+            description: String.t(),
+            amount: Decimal.t(),
+            product_id: integer | nil,
+            product_type: String.t(),
+            product_reference: String.t() | nil
+          }
 
     defstruct ~w(description amount product_id product_type product_reference)a
 
     def new(attrs) do
-      attrs = Map.new(attrs, fn({k, v}) -> {String.to_atom(k), v} end)
+      attrs = Map.new(attrs, fn {k, v} -> {String.to_atom(k), v} end)
       attrs = Map.put(attrs, :amount, Decimal.new(attrs.amount))
       struct(__MODULE__, attrs)
     end

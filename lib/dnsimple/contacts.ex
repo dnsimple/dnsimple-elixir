@@ -23,14 +23,13 @@ defmodule Dnsimple.Contacts do
       {:ok, response} = Dnsimple.Contacts.list_contacts(client, account_id = "1010", sort: "email:desc")
 
   """
-  @spec list_contacts(Client.t, String.t | integer) :: {:ok|:error, Response.t}
+  @spec list_contacts(Client.t(), String.t() | integer) :: {:ok | :error, Response.t()}
   def list_contacts(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts")
 
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Contact{}], "pagination" => %Response.Pagination{}})
   end
-
 
   @doc """
   Gets a contact in an account.
@@ -44,14 +43,14 @@ defmodule Dnsimple.Contacts do
       {:ok, response} = Dnsimple.Contacts.get_contact(client, account_id = "1010", contact_id = "123")
 
   """
-  @spec get_contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_contact(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def get_contact(client, account_id, contact_id, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Contact{}})
   end
-
 
   @doc """
   Creates a contact in an account.
@@ -76,14 +75,14 @@ defmodule Dnsimple.Contacts do
       })
 
   """
-  @spec create_contact(Client.t, String.t | integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
+  @spec create_contact(Client.t(), String.t() | integer, Keyword.t(), Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def create_contact(client, account_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %Contact{}})
   end
-
 
   @doc """
   Updates a contact in an account.
@@ -99,14 +98,19 @@ defmodule Dnsimple.Contacts do
       })
 
   """
-  @spec update_contact(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
+  @spec update_contact(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          Keyword.t(),
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def update_contact(client, account_id, contact_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
 
     Client.patch(client, url, attributes, options)
     |> Response.parse(%{"data" => %Contact{}})
   end
-
 
   @doc """
   Deletes a contact from an account.
@@ -122,12 +126,12 @@ defmodule Dnsimple.Contacts do
       {:ok, response} = Dnsimple.Contacts.delete_contact(client, account_id = "1010", contact_id = "123")
 
   """
-  @spec delete_contact(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec delete_contact(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def delete_contact(client, account_id, contact_id, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts/#{contact_id}")
 
     Client.delete(client, url, options)
     |> Response.parse(nil)
   end
-
 end

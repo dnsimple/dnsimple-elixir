@@ -8,12 +8,11 @@ defmodule Dnsimple.Account do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    id: integer,
-    email: String.t,
-    name: String.t,
-    plan_identifier: String.t,
-  }
+          id: integer,
+          email: String.t(),
+          name: String.t(),
+          plan_identifier: String.t()
+        }
 
   defstruct ~w(id email name plan_identifier)a
-
 end

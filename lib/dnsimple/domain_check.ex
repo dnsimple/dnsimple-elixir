@@ -8,11 +8,10 @@ defmodule Dnsimple.DomainCheck do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    domain: String.t,
-    available: boolean,
-    premium: boolean,
-  }
+          domain: String.t(),
+          available: boolean,
+          premium: boolean
+        }
 
   defstruct ~w(domain available premium)a
-
 end

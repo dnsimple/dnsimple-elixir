@@ -9,9 +9,8 @@ defmodule Dnsimple.ZoneDistribution do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    distributed: boolean,
-  }
+          distributed: boolean
+        }
 
   defstruct ~w(distributed)a
-
 end

@@ -62,7 +62,6 @@ defmodule Dnsimple.CertificatesTest do
         assert data.__struct__ == Dnsimple.Certificate
         assert data.id == 101967
         assert data.domain_id == 289333
-        assert data.contact_id == 2511
         assert data.common_name == "www.bingo.pizza"
         assert data.alternate_names == []
         assert data.auto_renew == false

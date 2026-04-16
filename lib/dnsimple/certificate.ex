@@ -17,7 +17,6 @@ defmodule Dnsimple.Certificate do
   @type t :: %__MODULE__{
     id: integer,
     domain_id: integer,
-    contact_id: integer,
     common_name: String.t,
     alternate_names: List.t,
     years: integer,
@@ -35,7 +34,7 @@ defmodule Dnsimple.Certificate do
     chain: String.t,
   }
 
-  defstruct ~w(id domain_id contact_id
+  defstruct ~w(id domain_id
                common_name alternate_names years csr state authority_identifier auto_renew
                created_at updated_at expires_at
                server root chain private_key)a

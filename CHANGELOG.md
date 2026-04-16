@@ -2,6 +2,12 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## main
+
+### Removed
+
+- **BREAKING**: Removed the deprecated `from` and `to` fields from the `EmailForward` defstruct. Use `alias_email` and `destination_email` instead.
+
 ## 8.3.0 - 2026-04-15
 
 ### Added

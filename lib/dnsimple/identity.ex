@@ -8,11 +8,11 @@ defmodule Dnsimple.Identity do
   """
   @moduledoc section: :api
 
+  alias Dnsimple.Account
   alias Dnsimple.Client
   alias Dnsimple.Response
-  alias Dnsimple.Whoami
-  alias Dnsimple.Account
   alias Dnsimple.User
+  alias Dnsimple.Whoami
 
   @doc """
   Returns information about the currently authenticated user and/or account.

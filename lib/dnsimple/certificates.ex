@@ -5,12 +5,12 @@ defmodule Dnsimple.Certificates do
   """
   @moduledoc section: :api
 
-  alias Dnsimple.Client
-  alias Dnsimple.Listing
-  alias Dnsimple.Response
   alias Dnsimple.Certificate
   alias Dnsimple.CertificatePurchase
   alias Dnsimple.CertificateRenewal
+  alias Dnsimple.Client
+  alias Dnsimple.Listing
+  alias Dnsimple.Response
 
   @doc """
   List certificates for a domain in the account.

@@ -6,9 +6,9 @@ defmodule Dnsimple.Contacts do
   @moduledoc section: :api
 
   alias Dnsimple.Client
+  alias Dnsimple.Contact
   alias Dnsimple.Listing
   alias Dnsimple.Response
-  alias Dnsimple.Contact
 
   @doc """
   Lists the contacts in an account.

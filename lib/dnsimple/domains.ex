@@ -6,14 +6,14 @@ defmodule Dnsimple.Domains do
   @moduledoc section: :api
 
   alias Dnsimple.Client
-  alias Dnsimple.Listing
-  alias Dnsimple.Response
+  alias Dnsimple.DelegationSignerRecord
+  alias Dnsimple.Dnssec
   alias Dnsimple.Domain
   alias Dnsimple.DomainResearchStatus
-  alias Dnsimple.Dnssec
-  alias Dnsimple.DelegationSignerRecord
   alias Dnsimple.EmailForward
+  alias Dnsimple.Listing
   alias Dnsimple.Push
+  alias Dnsimple.Response
 
   @doc """
   Lists the domains in an account.

@@ -1,4 +1,11 @@
 defmodule Dnsimple do
+  @moduledoc """
+  DNSimple API client for Elixir.
+
+  This module defines the top-level `Dnsimple` namespace, HTTP client helpers,
+  listing utilities, and common error types used across `Dnsimple.*` API modules.
+  """
+
   require Logger
 
   def start, do: Application.ensure_all_started(:dnsimple)
@@ -28,7 +35,7 @@ defmodule Dnsimple do
     end
 
     defp extract_message(http_response) do
-      if is_json_response?(http_response) do
+      if json_response?(http_response) do
         message = Error.decode(http_response.body) |> Map.get("message")
         "HTTP #{http_response.status_code}: #{message}"
       else
@@ -37,12 +44,12 @@ defmodule Dnsimple do
     end
 
     defp extract_attribute_errors(http_response) do
-      if is_json_response?(http_response) do
+      if json_response?(http_response) do
         Error.decode(http_response.body) |> Map.get("errors")
       end
     end
 
-    defp is_json_response?(http_response) do
+    defp json_response?(http_response) do
       Enum.any?(http_response.headers, fn {header, content} ->
         String.downcase(header) == "content-type" &&
           String.starts_with?(content, "application/json")
@@ -67,6 +74,13 @@ defmodule Dnsimple do
   end
 
   defmodule Client do
+    @moduledoc """
+    HTTP client configuration and request helpers for the DNSimple API.
+
+    Build a struct with `new_from_env/0` or `%Dnsimple.Client{}`, then pass it
+    to functions in `Dnsimple.*` modules that perform API calls.
+    """
+
     @default_base_url Application.compile_env(:dnsimple, :base_url, "https://api.dnsimple.com")
     @default_user_agent "dnsimple-elixir/#{Dnsimple.Mixfile.project()[:version]}"
 
@@ -158,7 +172,7 @@ defmodule Dnsimple do
     def execute(client, method, url, body \\ "", all_options \\ []) do
       {headers, options} = split_headers_options(client, all_options)
       {headers, body} = process_request_body(headers, body)
-      base_options = [recv_timeout: 30000]
+      base_options = [recv_timeout: 30_000]
 
       Logger.debug("[dnsimple] #{format_http_method(method)} #{url(client, url)}")
 
@@ -320,7 +334,7 @@ defmodule Dnsimple do
       )
     end
 
-    defp get_pages(_module, _function, _params, all, _page, _pages_left = 0), do: {:ok, all}
+    defp get_pages(_module, _function, _params, all, _page, 0), do: {:ok, all}
 
     defp get_pages(module, function, params, all, page, _pages_left) do
       case apply(module, function, add_page_param(params, page)) do

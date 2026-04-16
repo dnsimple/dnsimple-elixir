@@ -221,7 +221,7 @@ defmodule Dnsimple.CertificatesTest do
 
         data = response.data
         assert data.__struct__ == Dnsimple.CertificateRenewal
-        assert data.id == 65082
+        assert data.id == 65_082
         assert data.old_certificate_id == 101_967
         assert data.new_certificate_id == 101_972
       end

@@ -1,6 +1,4 @@
 defmodule Dnsimple.Charge do
-  require Decimal
-
   @moduledoc """
   Represents a billing charge.
 
@@ -8,6 +6,8 @@ defmodule Dnsimple.Charge do
   - https://developer.dnsimple.com/v2/billing/
   """
   @moduledoc section: :data_types
+
+  alias Dnsimple.Charge.ChargeItem
 
   @type t :: %__MODULE__{
           invoiced_at: DateTime.t(),
@@ -23,7 +23,7 @@ defmodule Dnsimple.Charge do
   def new(attrs) do
     attrs = Map.put(attrs, :total_amount, Decimal.new(attrs.total_amount))
     attrs = Map.put(attrs, :balance_amount, Decimal.new(attrs.balance_amount))
-    attrs = Map.put(attrs, :items, Enum.map(attrs.items, &Dnsimple.Charge.ChargeItem.new/1))
+    attrs = Map.put(attrs, :items, Enum.map(attrs.items, &ChargeItem.new/1))
     struct(__MODULE__, attrs)
   end
 

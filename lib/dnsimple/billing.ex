@@ -5,9 +5,9 @@ defmodule Dnsimple.Billing do
   """
   @moduledoc section: :api
 
+  alias Dnsimple.Charge
   alias Dnsimple.Client
   alias Dnsimple.Listing
-  alias Dnsimple.Charge
   alias Dnsimple.Response
 
   @doc """

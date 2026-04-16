@@ -13,8 +13,8 @@ defmodule Dnsimple.Zones do
   alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Zone
-  alias Dnsimple.ZoneFile
   alias Dnsimple.ZoneDistribution
+  alias Dnsimple.ZoneFile
   alias Dnsimple.ZoneRecord
 
   @doc """

@@ -5,8 +5,8 @@ defmodule Dnsimple.Accounts do
   """
   @moduledoc section: :api
 
-  alias Dnsimple.Client
   alias Dnsimple.Account
+  alias Dnsimple.Client
   alias Dnsimple.Response
 
   @doc """

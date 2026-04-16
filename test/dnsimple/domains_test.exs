@@ -415,13 +415,13 @@ defmodule Dnsimple.DomainsTest do
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} =
-          @module.get_email_forward(@client, @account_id, @domain_id, _email_forward_id = 41872)
+          @module.get_email_forward(@client, @account_id, @domain_id, _email_forward_id = 41_872)
 
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert data.__struct__ == Dnsimple.EmailForward
-        assert data.id == 41872
+        assert data.id == 41_872
         assert data.domain_id == 235_146
         assert data.alias_email == "example@dnsimple.xyz"
         assert data.destination_email == "example@example.com"

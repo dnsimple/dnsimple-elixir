@@ -10,8 +10,8 @@ defmodule Dnsimple.Oauth do
   @moduledoc section: :api
 
   alias Dnsimple.Client
-  alias Dnsimple.Response
   alias Dnsimple.OauthToken
+  alias Dnsimple.Response
 
   @doc """
   Returns the URL to start the OAuth dance.

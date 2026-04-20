@@ -8,10 +8,9 @@ defmodule Dnsimple.Whoami do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    user: Dnsimple.User.t,
-    account: Dnsimple.Account.t
-  }
+          user: Dnsimple.User.t(),
+          account: Dnsimple.Account.t()
+        }
 
   defstruct ~w(user account)a
-
 end

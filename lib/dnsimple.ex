@@ -1,8 +1,14 @@
 defmodule Dnsimple do
+  @moduledoc """
+  DNSimple API client for Elixir.
+
+  This module defines the top-level `Dnsimple` namespace, HTTP client helpers,
+  listing utilities, and common error types used across `Dnsimple.*` API modules.
+  """
+
   require Logger
 
   def start, do: Application.ensure_all_started(:dnsimple)
-
 
   defmodule Error do
     @moduledoc false
@@ -29,7 +35,7 @@ defmodule Dnsimple do
     end
 
     defp extract_message(http_response) do
-      if is_json_response?(http_response) do
+      if json_response?(http_response) do
         message = Error.decode(http_response.body) |> Map.get("message")
         "HTTP #{http_response.status_code}: #{message}"
       else
@@ -38,14 +44,15 @@ defmodule Dnsimple do
     end
 
     defp extract_attribute_errors(http_response) do
-      if is_json_response?(http_response) do
+      if json_response?(http_response) do
         Error.decode(http_response.body) |> Map.get("errors")
       end
     end
 
-    defp is_json_response?(http_response) do
-      Enum.any?(http_response.headers, fn({header, content}) ->
-        String.downcase(header) == "content-type" && String.starts_with?(content, "application/json")
+    defp json_response?(http_response) do
+      Enum.any?(http_response.headers, fn {header, content} ->
+        String.downcase(header) == "content-type" &&
+          String.starts_with?(content, "application/json")
       end)
     end
   end
@@ -67,16 +74,36 @@ defmodule Dnsimple do
   end
 
   defmodule Client do
+    @moduledoc """
+    HTTP client configuration and request helpers for the DNSimple API.
+
+    Build a struct with `new_from_env/0` or `%Dnsimple.Client{}`, then pass it
+    to functions in `Dnsimple.*` modules that perform API calls.
+    """
+
     @default_base_url Application.compile_env(:dnsimple, :base_url, "https://api.dnsimple.com")
-    @default_user_agent "dnsimple-elixir/#{Dnsimple.Mixfile.project[:version]}"
+    @default_user_agent "dnsimple-elixir/#{Dnsimple.Mixfile.project()[:version]}"
 
     @api_version "v2"
 
     defstruct access_token: nil, base_url: @default_base_url, user_agent: nil
-    @type t :: %__MODULE__{access_token: String.t, base_url: String.t, user_agent: String.t}
+    @type t :: %__MODULE__{access_token: String.t(), base_url: String.t(), user_agent: String.t()}
 
     @type headers :: [{binary, binary}] | %{binary => binary}
-    @type body :: binary | {:form, [{atom, any}]} | {:file, binary} | Keyword.t
+
+    @typedoc """
+    Request body accepted by `post/4`, `patch/4`, and `put/4`.
+
+    Includes `nil` for empty bodies (see `empty_body/0`) and `map/0` for JSON
+    payloads encoded via `Poison.encode!/1`.
+    """
+    @type body ::
+            nil
+            | binary()
+            | map()
+            | {:form, [{atom, any}]}
+            | {:file, binary()}
+            | Keyword.t()
 
     @doc """
     Initializes a new client from the application environment.
@@ -103,12 +130,12 @@ defmodule Dnsimple do
         "/v2/whoami"
 
     """
-    @spec versioned(String.t) :: String.t
+    @spec versioned(String.t()) :: String.t()
     def versioned(path) do
       "/" <> @api_version <> path
     end
 
-    @doc"""
+    @doc """
     Returns the representation of an empty body in a request.
 
     ## Examples
@@ -122,56 +149,68 @@ defmodule Dnsimple do
     @doc """
     Issues a GET request to the given url.
     """
-    @spec get(Client.t, binary, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
+    @spec get(Client.t(), binary, Keyword.t()) ::
+            {:ok | :error, HTTPoison.Response.t() | HTTPoison.AsyncResponse.t()}
     def get(client, url, options \\ []), do: execute(client, :get, url, empty_body(), options)
 
     @doc """
     Issues a POST request to the given url.
     """
-    @spec post(Client.t, binary, body, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
+    @spec post(Client.t(), binary(), body(), Keyword.t()) ::
+            {:ok | :error, HTTPoison.Response.t() | HTTPoison.AsyncResponse.t()}
     def post(client, url, body, options \\ []), do: execute(client, :post, url, body, options)
 
     @doc """
     Issues a PUT request to the given url.
     """
-    @spec put(Client.t, binary, nil | body, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
+    @spec put(Client.t(), binary(), body(), Keyword.t()) ::
+            {:ok | :error, HTTPoison.Response.t() | HTTPoison.AsyncResponse.t()}
     def put(client, url, body, options \\ []), do: execute(client, :put, url, body, options)
 
     @doc """
     Issues a PATCH request to the given url.
     """
-    @spec patch(Client.t, binary, body, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
+    @spec patch(Client.t(), binary(), body(), Keyword.t()) ::
+            {:ok | :error, HTTPoison.Response.t() | HTTPoison.AsyncResponse.t()}
     def patch(client, url, body, options \\ []), do: execute(client, :patch, url, body, options)
 
     @doc """
     Issues a DELETE request to the given url.
     """
-    @spec delete(Client.t, binary, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
-    def delete(client, url, options \\ []), do: execute(client, :delete, url, empty_body(), options)
+    @spec delete(Client.t(), binary, Keyword.t()) ::
+            {:ok | :error, HTTPoison.Response.t() | HTTPoison.AsyncResponse.t()}
+    def delete(client, url, options \\ []),
+      do: execute(client, :delete, url, empty_body(), options)
 
     def execute(client, method, url, body \\ "", all_options \\ []) do
       {headers, options} = split_headers_options(client, all_options)
-      {headers, body}    = process_request_body(headers, body)
-      base_options       = [recv_timeout: 30000]
+      {headers, body} = process_request_body(headers, body)
+      base_options = [recv_timeout: 30_000]
 
       Logger.debug("[dnsimple] #{format_http_method(method)} #{url(client, url)}")
 
-      HTTPoison.request!(method, url(client, url), body, headers, Keyword.merge(base_options, options))
+      HTTPoison.request!(
+        method,
+        url(client, url),
+        body,
+        headers,
+        Keyword.merge(base_options, options)
+      )
       |> check_response
     end
 
     defp split_headers_options(client, all_options) do
       default_headers = %{
-        "Accept"        => "application/json",
-        "User-Agent"    => format_user_agent(client.user_agent),
+        "Accept" => "application/json",
+        "User-Agent" => format_user_agent(client.user_agent),
         "Authorization" => "Bearer #{client.access_token}",
-        "Content-Type"  => "application/json",
+        "Content-Type" => "application/json"
       }
 
       {headers, options} = Keyword.pop(all_options, :headers)
 
       case headers do
-        nil     -> {default_headers, options}
+        nil -> {default_headers, options}
         headers -> {Enum.into(headers, default_headers), options}
       end
     end
@@ -188,21 +227,26 @@ defmodule Dnsimple do
     #     dnsimple-elixir/1.0 customAgentFlag
     #
     defp format_user_agent(nil), do: @default_user_agent
+
     defp format_user_agent(custom_agent) do
       "#{custom_agent} #{@default_user_agent}"
     end
 
     # Extracts a specific {"Name", "Value"} header tuple.
     defp get_header(headers, name) do
-      Enum.find(headers, fn({key, _}) -> key == name end)
+      Enum.find(headers, fn {key, _} -> key == name end)
     end
 
     defp process_request_body(headers, nil), do: {headers, []}
     defp process_request_body(headers, body) when is_binary(body), do: {headers, body}
+
     defp process_request_body(headers, body) do
       case get_header(headers, "Accept") do
-        {_, "application/json"} -> {Map.put(headers, "Content-Type", "application/json"), Poison.encode!(body)}
-        _                       -> {headers, body}
+        {_, "application/json"} ->
+          {Map.put(headers, "Content-Type", "application/json"), Poison.encode!(body)}
+
+        _ ->
+          {headers, body}
       end
     end
 
@@ -211,17 +255,18 @@ defmodule Dnsimple do
     end
 
     defp check_response(http_response) do
-      case http_response.status_code  do
+      case http_response.status_code do
         i when i in 200..299 -> {:ok, http_response}
         404 -> {:error, NotFoundError.new(http_response)}
-        _   -> {:error, RequestError.new(http_response)}
+        _ -> {:error, RequestError.new(http_response)}
       end
     end
 
-    defp format_http_method(method) when is_atom(method), do: format_http_method(Atom.to_string(method))
+    defp format_http_method(method) when is_atom(method),
+      do: format_http_method(Atom.to_string(method))
+
     defp format_http_method(method) when is_binary(method), do: String.upcase(method)
   end
-
 
   defmodule Listing do
     @moduledoc section: :util
@@ -229,9 +274,9 @@ defmodule Dnsimple do
     @doc """
     Issues a GET request to the given url processing the listing options first.
     """
-    @spec get(Client.t, binary, Keyword.t) :: {:ok|:error, HTTPoison.Response.t | HTTPoison.AsyncResponse.t}
+    @spec get(Client.t(), binary, Keyword.t()) ::
+            {:ok | :error, HTTPoison.Response.t() | HTTPoison.AsyncResponse.t()}
     def get(client, url, options \\ []), do: Client.get(client, url, format(options))
-
 
     @known_params ~w(filter sort page per_page)a
 
@@ -243,7 +288,7 @@ defmodule Dnsimple do
 
       case params do
         [] -> options
-        _  -> Keyword.put(options, :params, params)
+        _ -> Keyword.put(options, :params, params)
       end
     end
 
@@ -251,21 +296,23 @@ defmodule Dnsimple do
       case Keyword.get_and_update(options, option, fn _ -> :pop end) do
         {nil, _} ->
           {params, options}
+
         {value, updated_options} ->
           updated_params = Keyword.merge(params, value)
           {updated_params, updated_options}
       end
     end
+
     defp extract_param(option, {params, options}) do
       case Keyword.get_and_update(options, option, fn _ -> :pop end) do
         {nil, _} ->
           {params, options}
+
         {value, updated_options} ->
           updated_params = Keyword.put(params, option, value)
           {updated_params, updated_options}
       end
     end
-
 
     @first_page 1
     @unkown_pages_left nil
@@ -290,26 +337,35 @@ defmodule Dnsimple do
 
     """
     def get_all(module, function, params) do
-      get_pages(module, function, params, _all = [], _page = @first_page, _pages_left = @unkown_pages_left)
+      get_pages(
+        module,
+        function,
+        params,
+        _all = [],
+        _page = @first_page,
+        _pages_left = @unkown_pages_left
+      )
     end
 
-    defp get_pages(_module, _function, _params, all, _page, _pages_left = 0), do: {:ok, all}
+    defp get_pages(_module, _function, _params, all, _page, 0), do: {:ok, all}
+
     defp get_pages(module, function, params, all, page, _pages_left) do
       case apply(module, function, add_page_param(params, page)) do
         {:ok, response} ->
-          all       = all ++ response.data
-          next      = page + 1
+          all = all ++ response.data
+          next = page + 1
           remaining = response.pagination.total_pages - page
           get_pages(module, function, params, all, next, remaining)
-        {:error, response} -> {:error, response}
+
+        {:error, response} ->
+          {:error, response}
       end
     end
 
     defp add_page_param(params, page) do
-      arity   = Enum.count(params)
+      arity = Enum.count(params)
       options = List.last(params) ++ [page: page]
       List.replace_at(params, arity - 1, options)
     end
-
   end
 end

@@ -13,8 +13,8 @@ defmodule Dnsimple.Zones do
   alias Dnsimple.Listing
   alias Dnsimple.Response
   alias Dnsimple.Zone
-  alias Dnsimple.ZoneFile
   alias Dnsimple.ZoneDistribution
+  alias Dnsimple.ZoneFile
   alias Dnsimple.ZoneRecord
 
   @doc """
@@ -32,14 +32,13 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.list_zones(client, account_id = 1010, filter: [name_like: ".es"])
 
   """
-  @spec list_zones(Client.t, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec list_zones(Client.t(), String.t() | integer, Keyword.t()) :: {:ok | :error, Response.t()}
   def list_zones(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones")
 
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Zone{}], "pagination" => %Response.Pagination{}})
   end
-
 
   @doc """
   Returns a zone.
@@ -54,14 +53,14 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.get_zone(client, account_id = 1010, zone_id = "example.com")
 
   """
-  @spec get_zone(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_zone(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def get_zone(client, account_id, zone_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}")
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Zone{}})
   end
-
 
   @doc """
   Returns the zone file of the zone.
@@ -76,14 +75,14 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.get_zone_file(client, account_id = 1010, zone_id = "example.com")
 
   """
-  @spec get_zone_file(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_zone_file(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def get_zone_file(client, account_id, zone_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/file")
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %ZoneFile{}})
   end
-
 
   @doc """
   Returns the distribution status of a zone.
@@ -98,7 +97,12 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.check_zone_distribution(client, account_id = 1010, zone_id = "example.com")
 
   """
-  @spec check_zone_distribution(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec check_zone_distribution(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def check_zone_distribution(client, account_id, zone_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/distribution")
 
@@ -119,14 +123,19 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.check_zone_record_distribution(client, account_id = 1010, zone_id = "example.com", record_id = 999)
 
   """
-  @spec check_zone_record_distribution(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec check_zone_record_distribution(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          integer,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def check_zone_record_distribution(client, account_id, zone_id, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records/#{record_id}/distribution")
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %ZoneDistribution{}})
   end
-
 
   @doc """
   Returns the records in the zone.
@@ -143,14 +152,14 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.list_zone_records(client, account_id = 1010, zone_id = 12, filter: [type: "A", name: ""])
 
   """
-  @spec list_zone_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec list_zone_records(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def list_zone_records(client, account_id, zone_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records")
 
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%ZoneRecord{}], "pagination" => %Response.Pagination{}})
   end
-
 
   @doc """
   Returns a zone record.
@@ -165,14 +174,19 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.get_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 123)
 
   """
-  @spec get_zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_zone_record(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          integer,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def get_zone_record(client, account_id, zone_id, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records/#{record_id}")
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %ZoneRecord{}})
   end
-
 
   @doc """
   Creates a record in the zone.
@@ -191,14 +205,19 @@ defmodule Dnsimple.Zones do
       })
 
   """
-  @spec create_zone_record(Client.t, String.t | integer, String.t | integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
+  @spec create_zone_record(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          Keyword.t(),
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def create_zone_record(client, account_id, zone_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %ZoneRecord{}})
   end
-
 
   @doc """
   Updates a zone record.
@@ -212,14 +231,20 @@ defmodule Dnsimple.Zones do
       })
 
   """
-  @spec update_zone_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t, Keyword.t) :: {:ok|:error, Response.t}
+  @spec update_zone_record(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          integer,
+          Keyword.t(),
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def update_zone_record(client, account_id, zone_id, record_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records/#{record_id}")
 
     Client.patch(client, url, attributes, options)
     |> Response.parse(%{"data" => %ZoneRecord{}})
   end
-
 
   @doc """
   Deletes a record from the zone.
@@ -236,7 +261,8 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.delete_zone_record(client, account_id = 1010, zone_id = "example.com", record_id = 1)
 
   """
-  @spec delete_zone_record(Client.t, String.t, String.t, integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec delete_zone_record(Client.t(), String.t(), String.t(), integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def delete_zone_record(client, account_id, zone_id, record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/records/#{record_id}")
 
@@ -256,7 +282,8 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.activate_dns(client, account_id = 1010, zone_id = "example.com")
 
   """
-  @spec activate_dns(Client.t, integer | String.t, integer | String.t, Keyword.t) :: {:ok|:error, Response.t}
+  @spec activate_dns(Client.t(), integer | String.t(), integer | String.t(), Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def activate_dns(client, account_id, zone_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/activation")
 
@@ -276,7 +303,8 @@ defmodule Dnsimple.Zones do
       {:ok, response} = Dnsimple.Zones.deactivate_dns(client, account_id = 1010, zone_id = "example.com")
 
   """
-  @spec deactivate_dns(Client.t, integer | String.t, integer | String.t, Keyword.t) :: {:ok|:error, Response.t}
+  @spec deactivate_dns(Client.t(), integer | String.t(), integer | String.t(), Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def deactivate_dns(client, account_id, zone_id, options \\ []) do
     url = Client.versioned("/#{account_id}/zones/#{zone_id}/activation")
 

@@ -23,6 +23,12 @@ We follow the [Common Changelog](https://common-changelog.org/) format for chang
 
 ## Testing
 
+Run static analysis, which includes format checks, linter, type checking, and docs:
+
+```shell
+mix static_analysis
+```
+
 Run the test suite:
 
 ```shell

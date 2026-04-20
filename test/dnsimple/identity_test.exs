@@ -5,14 +5,17 @@ defmodule Dnsimple.IdentityTest do
   @module Dnsimple.Identity
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
-
   describe ".whoami" do
     setup do
       {:ok, method: "get", url: "#{@client.base_url}/v2/whoami"}
     end
 
     test "returns the user in a DNSimple response", %{method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture("whoami/success-user.http", method: method, url: url) do
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture("whoami/success-user.http",
+                     method: method,
+                     url: url
+                   ) do
         {:ok, response} = @module.whoami(@client)
         assert response.__struct__ == Dnsimple.Response
 
@@ -29,7 +32,11 @@ defmodule Dnsimple.IdentityTest do
     end
 
     test "returns the account in a DNSimple response", %{method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture("whoami/success-account.http", method: method, url: url) do
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture("whoami/success-account.http",
+                     method: method,
+                     url: url
+                   ) do
         {:ok, response} = @module.whoami(@client)
         assert response.__struct__ == Dnsimple.Response
 
@@ -46,5 +53,4 @@ defmodule Dnsimple.IdentityTest do
       end
     end
   end
-
 end

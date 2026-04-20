@@ -6,14 +6,14 @@ defmodule Dnsimple.Domains do
   @moduledoc section: :api
 
   alias Dnsimple.Client
-  alias Dnsimple.Listing
-  alias Dnsimple.Response
+  alias Dnsimple.DelegationSignerRecord
+  alias Dnsimple.Dnssec
   alias Dnsimple.Domain
   alias Dnsimple.DomainResearchStatus
-  alias Dnsimple.Dnssec
-  alias Dnsimple.DelegationSignerRecord
   alias Dnsimple.EmailForward
+  alias Dnsimple.Listing
   alias Dnsimple.Push
+  alias Dnsimple.Response
 
   @doc """
   Lists the domains in an account.
@@ -30,14 +30,13 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.list_domains(client, account_id = 1010, filter: [name_like: ".com"])
 
   """
-  @spec list_domains(Client.t, String.t | integer) :: {:ok|:error, Response.t}
+  @spec list_domains(Client.t(), String.t() | integer) :: {:ok | :error, Response.t()}
   def list_domains(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains")
 
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Domain{}], "pagination" => %Response.Pagination{}})
   end
-
 
   @doc """
   List all domains in an account automatically paginating if necessary.
@@ -53,11 +52,10 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.all_domains(client, account_id = 1010, filter: [name_like: ".com"])
 
   """
-  @spec all_domains(Client.t, String.t | integer, Keyword.t) :: {:ok|:error, [Domain.t]}
+  @spec all_domains(Client.t(), String.t() | integer, Keyword.t()) :: {:ok | :error, [Domain.t()]}
   def all_domains(client, account_id, options \\ []) do
     Listing.get_all(__MODULE__, :list_domains, [client, account_id, options])
   end
-
 
   @doc """
   Returns a domain.
@@ -72,14 +70,14 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.get_domain(client, account_id = 1010, domain_id = "example.com")
 
   """
-  @spec get_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_domain(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def get_domain(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}")
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Domain{}})
   end
-
 
   @doc """
   Creates a new domain in the account.
@@ -96,14 +94,14 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.create_domain(client, account_id = 1010, %{name: "example.io"})
 
   """
-  @spec create_domain(Client.t, String.t | integer, map, Keyword.t) :: {:ok|:error, Response.t}
+  @spec create_domain(Client.t(), String.t() | integer, map, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def create_domain(client, account_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/domains")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %Domain{}})
   end
-
 
   @doc """
   Deletes a domain from an account.
@@ -120,14 +118,14 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.delete_domain(client, account_id = 1010, domain_id = "example.io")
 
   """
-  @spec delete_domain(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec delete_domain(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def delete_domain(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}")
 
     Client.delete(client, url, options)
     |> Response.parse(nil)
   end
-
 
   @doc """
   Enable DNSSEC for the domain in the account.
@@ -142,14 +140,14 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.enable_dnssec(client, account_id = 1000, domain_id = "example.io")
 
   """
-  @spec enable_dnssec(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec enable_dnssec(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def enable_dnssec(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/dnssec")
 
     Client.post(client, url, Client.empty_body(), options)
     |> Response.parse(%{"data" => %Dnssec{}})
   end
-
 
   @doc """
   Disable DNSSEC for the domain in the account.
@@ -164,14 +162,14 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.disable_dnssec(client, account_id = 1000, domain_id = "example.io")
 
   """
-  @spec disable_dnssec(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec disable_dnssec(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def disable_dnssec(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/dnssec")
 
     Client.delete(client, url, options)
     |> Response.parse(nil)
   end
-
 
   @doc """
   Get the DNSSEC status for the domain in the account.
@@ -186,14 +184,14 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.get_dnssec(client, account_id = 1000, domain_id = "example.io")
 
   """
-  @spec get_dnssec(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_dnssec(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def get_dnssec(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/dnssec")
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Dnssec{}})
   end
-
 
   @doc """
   Lists the delegation signer records for the domain.
@@ -208,12 +206,20 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.list_delegation_signer_records(client, account_id = 1000, domain_id = "example.io")
 
   """
-  @spec list_delegation_signer_records(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec list_delegation_signer_records(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def list_delegation_signer_records(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records")
 
     Listing.get(client, url, options)
-    |> Response.parse(%{"data" => [%DelegationSignerRecord{}], "pagination" => %Response.Pagination{}})
+    |> Response.parse(%{
+      "data" => [%DelegationSignerRecord{}],
+      "pagination" => %Response.Pagination{}
+    })
   end
 
   @doc """
@@ -234,7 +240,13 @@ defmodule Dnsimple.Domains do
       })
 
   """
-  @spec create_delegation_signer_record(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: {:ok|:error, Response.t}
+  @spec create_delegation_signer_record(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          map,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def create_delegation_signer_record(client, account_id, domain_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records")
 
@@ -254,14 +266,19 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.get_delegation_signer_record(client, account_id = 1010, domain_id = "example.com", ds_record_id = 123)
 
   """
-  @spec get_delegation_signer_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_delegation_signer_record(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          integer,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def get_delegation_signer_record(client, account_id, domain_id, ds_record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records/#{ds_record_id}")
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %DelegationSignerRecord{}})
   end
-
 
   @doc """
   Deletes an delegation signer record from a domain.
@@ -277,14 +294,19 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.delete_delegation_signer_record(client, account_id = 1010, domain_id = "example.com", ds_record_id = 123)
 
   """
-  @spec delete_delegation_signer_record(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec delete_delegation_signer_record(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          integer,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def delete_delegation_signer_record(client, account_id, domain_id, ds_record_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/ds_records/#{ds_record_id}")
 
     Client.delete(client, url, options)
     |> Response.parse(nil)
   end
-
 
   @doc """
   Lists the email forwards of a domain.
@@ -301,14 +323,14 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.list_email_forwards(client, account_id = 1010, domain_id = "example.com", per_page: 5, page: 1)
 
   """
-  @spec list_email_forwards(Client.t, String.t | integer, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec list_email_forwards(Client.t(), String.t() | integer, String.t() | integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def list_email_forwards(client, account_id, domain_id, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards")
 
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%EmailForward{}], "pagination" => %Response.Pagination{}})
   end
-
 
   @doc """
   Creates an email forward for a domain.
@@ -325,14 +347,19 @@ defmodule Dnsimple.Domains do
       })
 
   """
-  @spec create_email_forward(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: {:ok|:error, Response.t}
+  @spec create_email_forward(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          map,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def create_email_forward(client, account_id, domain_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %EmailForward{}})
   end
-
 
   @doc """
   Returns an email forward of a domain.
@@ -346,14 +373,20 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.get_email_forward(client, account_id = 1010, domain_id = "example.com", email_forward_id = 123)
 
   """
-  @spec get_email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_email_forward(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          integer,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def get_email_forward(client, account_id, domain_id, email_forward_id, options \\ []) do
-    url = Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards/#{email_forward_id}")
+    url =
+      Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards/#{email_forward_id}")
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %EmailForward{}})
   end
-
 
   @doc """
   Deletes an email forward of a domain.
@@ -369,14 +402,20 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.delete_email_forward(client, account_id = 1010, domain_id = "example.com", email_forward_id = 123)
 
   """
-  @spec delete_email_forward(Client.t, String.t | integer, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec delete_email_forward(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          integer,
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def delete_email_forward(client, account_id, domain_id, email_forward_id, options \\ []) do
-    url = Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards/#{email_forward_id}")
+    url =
+      Client.versioned("/#{account_id}/domains/#{domain_id}/email_forwards/#{email_forward_id}")
 
     Client.delete(client, url, options)
     |> Response.parse(nil)
   end
-
 
   @doc """
   Returns the pending pushes in the account.
@@ -390,14 +429,13 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.list_pushes(client, account_id = 1010)
 
   """
-  @spec list_pushes(Client.t, String.t | integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec list_pushes(Client.t(), String.t() | integer, Keyword.t()) :: {:ok | :error, Response.t()}
   def list_pushes(client, account_id, options \\ []) do
     url = Client.versioned("/#{account_id}/pushes")
 
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Push{}]})
   end
-
 
   @doc """
   Initiates the push of a domain to a different account.
@@ -415,14 +453,14 @@ defmodule Dnsimple.Domains do
   Note: `new_account_email` is deprecated in favor of `new_account_identifier`.
 
   """
-  @spec initiate_push(Client.t, String.t | integer, String.t | integer, map, Keyword.t) :: {:ok|:error, Response.t}
+  @spec initiate_push(Client.t(), String.t() | integer, String.t() | integer, map, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def initiate_push(client, account_id, domain_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/#{domain_id}/pushes")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(%{"data" => %Push{}})
   end
-
 
   @doc """
   Accepts a pending push. Requires a `contact_id` to be provided that
@@ -439,14 +477,14 @@ defmodule Dnsimple.Domains do
       })
 
   """
-  @spec accept_push(Client.t, String.t | integer, integer, map, Keyword.t) :: {:ok|:error, Response.t}
+  @spec accept_push(Client.t(), String.t() | integer, integer, map, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def accept_push(client, account_id, push_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/pushes/#{push_id}")
 
     Client.post(client, url, attributes, options)
     |> Response.parse(nil)
   end
-
 
   @doc """
   Rejects a pending push.
@@ -460,14 +498,14 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.reject_push(client, account_id = 1010, push_id = 6789)
 
   """
-  @spec reject_push(Client.t, String.t | integer, integer, Keyword.t) :: {:ok|:error, Response.t}
+  @spec reject_push(Client.t(), String.t() | integer, integer, Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def reject_push(client, account_id, push_id, options \\ []) do
     url = Client.versioned("/#{account_id}/pushes/#{push_id}")
 
     Client.delete(client, url, options)
     |> Response.parse(nil)
   end
-
 
   @doc """
   Research a domain name for availability and registration status information.
@@ -483,14 +521,13 @@ defmodule Dnsimple.Domains do
       {:ok, response} = Dnsimple.Domains.get_domain_research_status(client, account_id = 1010, "example.com")
 
   """
-  @spec get_domain_research_status(Client.t, String.t | integer, String.t, Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_domain_research_status(Client.t(), String.t() | integer, String.t(), Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def get_domain_research_status(client, account_id, domain_name, options \\ []) do
     url = Client.versioned("/#{account_id}/domains/research/status")
-    options = Keyword.put(options, :params, [domain: domain_name])
+    options = Keyword.put(options, :params, domain: domain_name)
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %DomainResearchStatus{}})
   end
-
-
 end

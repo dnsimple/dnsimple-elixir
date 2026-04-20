@@ -8,7 +8,7 @@ defmodule Dnsimple.ResponseTest do
   describe ".parse" do
     test "extracts the response body into structs WITH a data attribute" do
       use_cassette :stub, ExvcrUtils.response_fixture("getDomain/success.http", method: "get") do
-        http_response   = Dnsimple.Client.execute(@client, "get", "/v2/1010/domains/1")
+        http_response = Dnsimple.Client.execute(@client, "get", "/v2/1010/domains/1")
         {:ok, response} = Dnsimple.Response.parse(http_response, %{"data" => %Dnsimple.Domain{}})
 
         assert response.data.__struct__ == Dnsimple.Domain
@@ -16,9 +16,19 @@ defmodule Dnsimple.ResponseTest do
     end
 
     test "extracts the response body into NESTED structs WITH a data attribute" do
-      use_cassette :stub, ExvcrUtils.response_fixture("getTldExtendedAttributes/success.http", method: "get") do
-        http_response   = Dnsimple.Client.execute(@client, "get", "/v2/tlds/com/extended_attributes")
-        {:ok, response} = Dnsimple.Response.parse(http_response, %{"data" => [%Dnsimple.TldExtendedAttribute{options: [%Dnsimple.TldExtendedAttribute.Option{}]}]})
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture("getTldExtendedAttributes/success.http",
+                     method: "get"
+                   ) do
+        http_response =
+          Dnsimple.Client.execute(@client, "get", "/v2/tlds/com/extended_attributes")
+
+        {:ok, response} =
+          Dnsimple.Response.parse(http_response, %{
+            "data" => [
+              %Dnsimple.TldExtendedAttribute{options: [%Dnsimple.TldExtendedAttribute.Option{}]}
+            ]
+          })
 
         [attribute | _] = response.data
         assert attribute.__struct__ == Dnsimple.TldExtendedAttribute
@@ -29,8 +39,9 @@ defmodule Dnsimple.ResponseTest do
     end
 
     test "extracts the response body into structs WITHOUT a data attribute" do
-      use_cassette :stub, ExvcrUtils.response_fixture("oauthAccessToken/success.http", method: "post") do
-        http_response   = Dnsimple.Client.execute(@client, "post", "/oauth/access_token")
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture("oauthAccessToken/success.http", method: "post") do
+        http_response = Dnsimple.Client.execute(@client, "post", "/oauth/access_token")
         {:ok, response} = Dnsimple.Response.parse(http_response, %Dnsimple.OauthToken{})
 
         assert response.data.__struct__ == Dnsimple.OauthToken
@@ -38,7 +49,8 @@ defmodule Dnsimple.ResponseTest do
     end
 
     test "parses a response without extracting data" do
-      use_cassette :stub, ExvcrUtils.response_fixture("deleteDomain/success.http", method: "delete") do
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture("deleteDomain/success.http", method: "delete") do
         http_response = {:ok, http} = Dnsimple.Client.execute(@client, "delete", "/path")
         {:ok, response} = Dnsimple.Response.parse(http_response, nil)
 
@@ -54,14 +66,19 @@ defmodule Dnsimple.ResponseTest do
 
         assert response.rate_limit == 4000
         assert response.rate_limit_remaining == 3991
-        assert response.rate_limit_reset == 1450451976
+        assert response.rate_limit_reset == 1_450_451_976
       end
     end
 
     test "parses pagination" do
       use_cassette :stub, ExvcrUtils.response_fixture("pages-1of3.http", method: "get") do
         http_response = Dnsimple.Client.execute(@client, "get", "/path")
-        {:ok, response} = Dnsimple.Response.parse(http_response, %{"data" => [%Dnsimple.Domain{}], "pagination" => %Dnsimple.Response.Pagination{}})
+
+        {:ok, response} =
+          Dnsimple.Response.parse(http_response, %{
+            "data" => [%Dnsimple.Domain{}],
+            "pagination" => %Dnsimple.Response.Pagination{}
+          })
 
         assert response.data != nil
 
@@ -73,5 +90,4 @@ defmodule Dnsimple.ResponseTest do
       end
     end
   end
-
 end

@@ -5,7 +5,6 @@ defmodule Dnsimple.AccountsTest do
   @module Dnsimple.Accounts
   @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
 
-
   describe ".list_accounts" do
     setup do
       {:ok, method: "get", url: "#{@client.base_url}/v2/accounts"}
@@ -28,11 +27,11 @@ defmodule Dnsimple.AccountsTest do
 
         data = response.data
         assert length(data) == 1
-        assert Enum.all?(data, fn(element) -> element.__struct__ == Dnsimple.Account end)
-        assert Enum.all?(data, fn(element) -> is_integer(element.id) end)
-        assert Enum.all?(data, fn(element) -> is_binary(element.email) end)
-        assert Enum.all?(data, fn(element) -> is_binary(element.name) end)
-        assert Enum.all?(data, fn(element) -> is_binary(element.plan_identifier) end)
+        assert Enum.all?(data, fn element -> element.__struct__ == Dnsimple.Account end)
+        assert Enum.all?(data, fn element -> is_integer(element.id) end)
+        assert Enum.all?(data, fn element -> is_binary(element.email) end)
+        assert Enum.all?(data, fn element -> is_binary(element.name) end)
+        assert Enum.all?(data, fn element -> is_binary(element.plan_identifier) end)
       end
     end
 
@@ -44,12 +43,11 @@ defmodule Dnsimple.AccountsTest do
 
         data = response.data
         assert length(data) == 2
-        assert Enum.all?(data, fn(element) -> element.__struct__ == Dnsimple.Account end)
-        assert Enum.all?(data, fn(element) -> is_integer(element.id) end)
-        assert Enum.all?(data, fn(element) -> is_binary(element.email) end)
-        assert Enum.all?(data, fn(element) -> is_binary(element.plan_identifier) end)
+        assert Enum.all?(data, fn element -> element.__struct__ == Dnsimple.Account end)
+        assert Enum.all?(data, fn element -> is_integer(element.id) end)
+        assert Enum.all?(data, fn element -> is_binary(element.email) end)
+        assert Enum.all?(data, fn element -> is_binary(element.plan_identifier) end)
       end
     end
   end
-
 end

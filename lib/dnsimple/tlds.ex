@@ -28,14 +28,13 @@ defmodule Dnsimple.Tlds do
       {:ok, response} = Dnsimple.Tlds.list_tlds(client, sort: "tlds:desc")
 
   """
-  @spec list_tlds(Client.t, Keyword.t) :: {:ok|:error, Response.t}
+  @spec list_tlds(Client.t(), Keyword.t()) :: {:ok | :error, Response.t()}
   def list_tlds(client, options \\ []) do
     url = Client.versioned("/tlds")
 
     Listing.get(client, url, options)
     |> Response.parse(%{"data" => [%Tld{}], "pagination" => %Response.Pagination{}})
   end
-
 
   @doc """
   Returns a TLD.
@@ -49,14 +48,13 @@ defmodule Dnsimple.Tlds do
       {:ok, response} = Dnsimple.Tlds.get_tld(client, "com")
 
   """
-  @spec get_tld(Client.t, String.t,  Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_tld(Client.t(), String.t(), Keyword.t()) :: {:ok | :error, Response.t()}
   def get_tld(client, tld, options \\ []) do
     url = Client.versioned("/tlds/#{tld}")
 
     Client.get(client, url, options)
     |> Response.parse(%{"data" => %Tld{}})
   end
-
 
   @doc """
   Returns the extended attributes for a TLD.
@@ -70,12 +68,14 @@ defmodule Dnsimple.Tlds do
       {:ok, response} = Dnsimple.Tlds.get_tld_extended_attributes(client, "com")
 
   """
-  @spec get_tld_extended_attributes(Client.t, String.t,  Keyword.t) :: {:ok|:error, Response.t}
+  @spec get_tld_extended_attributes(Client.t(), String.t(), Keyword.t()) ::
+          {:ok | :error, Response.t()}
   def get_tld_extended_attributes(client, tld, options \\ []) do
     url = Client.versioned("/tlds/#{tld}/extended_attributes")
 
     Client.get(client, url, options)
-    |> Response.parse(%{"data" => [%TldExtendedAttribute{options: [%TldExtendedAttribute.Option{}]}]})
+    |> Response.parse(%{
+      "data" => [%TldExtendedAttribute{options: [%TldExtendedAttribute.Option{}]}]
+    })
   end
-
 end

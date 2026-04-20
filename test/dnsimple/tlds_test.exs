@@ -12,14 +12,14 @@ defmodule Dnsimple.TldsTest do
     end
 
     test "returns the TLDs in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.list_tlds(@client)
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert is_list(data)
         assert length(data) == 2
-        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.Tld end)
+        assert Enum.all?(data, fn single -> single.__struct__ == Dnsimple.Tld end)
       end
     end
 
@@ -40,11 +40,10 @@ defmodule Dnsimple.TldsTest do
     end
   end
 
-
   describe ".get_tld" do
     test "returns the TLD in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/tlds/com"
-      method  = "get"
+      url = "#{@client.base_url}/v2/tlds/com"
+      method = "get"
       fixture = "getTld/success.http"
 
       use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
@@ -69,27 +68,30 @@ defmodule Dnsimple.TldsTest do
     end
   end
 
-
   describe ".get_tld_extended_attributes" do
     test "returns the extended attributes in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/tlds/com/extended_attributes"
-      method  = "get"
+      url = "#{@client.base_url}/v2/tlds/com/extended_attributes"
+      method = "get"
       fixture = "getTldExtendedAttributes/success.http"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_tld_extended_attributes(@client, "com")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert is_list(data)
         assert length(data) == 4
-        assert Enum.all?(data, fn(single) -> single.__struct__ == Dnsimple.TldExtendedAttribute end)
+
+        assert Enum.all?(data, fn single -> single.__struct__ == Dnsimple.TldExtendedAttribute end)
 
         [attribute | _] = data
         assert attribute.name == "uk_legal_type"
         assert attribute.description == "Legal type of registrant contact"
         assert attribute.required == false
-        assert Enum.all?(attribute.options, fn(single) -> single.__struct__ == Dnsimple.TldExtendedAttribute.Option end)
+
+        assert Enum.all?(attribute.options, fn single ->
+                 single.__struct__ == Dnsimple.TldExtendedAttribute.Option
+               end)
 
         [option | _] = attribute.options
         assert option.title == "UK Individual"
@@ -98,5 +100,4 @@ defmodule Dnsimple.TldsTest do
       end
     end
   end
-
 end

@@ -9,9 +9,8 @@ defmodule Dnsimple.ZoneFile do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    zone: String.t,
-  }
+          zone: String.t()
+        }
 
   defstruct ~w(zone)a
-
 end

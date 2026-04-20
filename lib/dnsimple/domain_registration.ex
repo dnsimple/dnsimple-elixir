@@ -8,20 +8,19 @@ defmodule Dnsimple.DomainRegistration do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    id: integer,
-    domain_id: integer,
-    registrant_id: integer,
-    period: integer,
-    state: String.t,
-    auto_renew: boolean,
-    whois_privacy: boolean,
-    trustee_service: boolean,
-    created_at: String.t,
-    updated_at: String.t,
-  }
+          id: integer,
+          domain_id: integer,
+          registrant_id: integer,
+          period: integer,
+          state: String.t(),
+          auto_renew: boolean,
+          whois_privacy: boolean,
+          trustee_service: boolean,
+          created_at: String.t(),
+          updated_at: String.t()
+        }
 
   defstruct ~w(id domain_id registrant_id
                period state auto_renew whois_privacy trustee_service
                expires_on created_at updated_at)a
-
 end

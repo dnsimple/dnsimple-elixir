@@ -8,16 +8,16 @@ defmodule Dnsimple.Zone do
   @moduledoc section: :data_types
 
   @type t :: %__MODULE__{
-    id: integer,
-    account_id: integer,
-    name: String.t,
-    reverse: boolean,
-    secondary: boolean,
-    last_transferred_at: String.t | nil,
-    active: boolean,
-    created_at: String.t,
-    updated_at: String.t
-  }
+          id: integer,
+          account_id: integer,
+          name: String.t(),
+          reverse: boolean,
+          secondary: boolean,
+          last_transferred_at: String.t() | nil,
+          active: boolean,
+          created_at: String.t(),
+          updated_at: String.t()
+        }
 
   defstruct ~w(id account_id name reverse secondary last_transferred_at active created_at updated_at)a
 
@@ -33,10 +33,9 @@ defmodule Dnsimple.Zone do
     @moduledoc section: :data_types
 
     @type t :: %__MODULE__{
-      zone: String.t,
-    }
+            zone: String.t()
+          }
 
     defstruct ~w(zone)a
-
   end
 end

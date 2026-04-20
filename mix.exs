@@ -5,15 +5,16 @@ defmodule Dnsimple.Mixfile do
   @version "8.3.0"
 
   def project do
-    [app: :dnsimple,
-     version: @version,
-     elixir: "~> 1.13",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     package: package(),
-     deps: deps(),
-     docs: docs(),
-     dialyzer: [plt_add_deps: :transitive]
+    [
+      app: :dnsimple,
+      version: @version,
+      elixir: "~> 1.13",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      package: package(),
+      aliases: aliases(),
+      deps: deps(),
+      docs: docs()
     ]
   end
 
@@ -27,8 +28,23 @@ defmodule Dnsimple.Mixfile do
       {:httpoison, "~> 2.1"},
       {:poison, ">= 2.0.0"},
       {:exvcr, "~> 0.17.0", only: :test},
+      ## static analysis
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.0", only: :dev, runtime: false},
+      {:dialyxir, "~> 1.4", only: :dev, runtime: false}
+    ]
+  end
+
+  defp aliases() do
+    [
+      static_analysis: [
+        "hex.audit",
+        "compile --warnings-as-errors",
+        "format --check-formatted",
+        "credo --strict",
+        "dialyzer",
+        "docs"
+      ]
     ]
   end
 
@@ -51,12 +67,12 @@ defmodule Dnsimple.Mixfile do
         "CHANGELOG.md": [],
         "CONTRIBUTING.md": [title: "Contributing"],
         "LICENSE.txt": [title: "License"],
-        "README.md": [title: "Overview"],
+        "README.md": [title: "Overview"]
       ],
       groups_for_modules: [
-        "API": & &1[:section] == :api,
-        "Data Types": & &1[:section] == :data_types,
-        "Util": & &1[:section] == :util
+        API: &(&1[:section] == :api),
+        "Data Types": &(&1[:section] == :data_types),
+        Util: &(&1[:section] == :util)
       ],
       main: "readme",
       source_url: @source_url,

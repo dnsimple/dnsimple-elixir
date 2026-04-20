@@ -11,22 +11,28 @@ defmodule Dnsimple.ContactsTest do
       {:ok, fixture: "listContacts/success.http", method: "get", url: url}
     end
 
-    test "returns the contacts in a Dnsimple.Response", %{fixture: fixture, method: method, url: url} do
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+    test "returns the contacts in a Dnsimple.Response", %{
+      fixture: fixture,
+      method: method,
+      url: url
+    } do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.list_contacts(@client, "1010")
         assert response.__struct__ == Dnsimple.Response
 
         data = response.data
         assert is_list(data)
         assert length(data) == 2
-        assert Enum.all?(data, fn(contact) -> contact.__struct__ == Dnsimple.Contact end)
-        assert Enum.all?(data, fn(contact) -> is_integer(contact.id) end)
+        assert Enum.all?(data, fn contact -> contact.__struct__ == Dnsimple.Contact end)
+        assert Enum.all?(data, fn contact -> is_integer(contact.id) end)
       end
     end
 
     test "supports custom headers", %{fixture: fixture_file, method: method, url: url} do
       use_cassette :stub, ExvcrUtils.response_fixture(fixture_file, method: method, url: url) do
-        {:ok, response} = @module.list_contacts(@client, "1010", headers: %{"X-Header" => "X-Value"})
+        {:ok, response} =
+          @module.list_contacts(@client, "1010", headers: %{"X-Header" => "X-Value"})
+
         assert response.__struct__ == Dnsimple.Response
       end
     end
@@ -43,11 +49,11 @@ defmodule Dnsimple.ContactsTest do
 
   describe ".contact" do
     test "returns the contact in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/1010/contacts/1"
+      url = "#{@client.base_url}/v2/1010/contacts/1"
       fixture = "getContact/success.http"
-      method  = "get"
+      method = "get"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.get_contact(@client, 1010, 1)
         assert response.__struct__ == Dnsimple.Response
 
@@ -77,9 +83,10 @@ defmodule Dnsimple.ContactsTest do
 
   describe ".create_contact" do
     test "creates the contact and returns it in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/1010/contacts"
-      method  = "post"
+      url = "#{@client.base_url}/v2/1010/contacts"
+      method = "post"
       fixture = "createContact/created.http"
+
       attributes = %{
         label: "Default",
         first_name: "First",
@@ -95,9 +102,15 @@ defmodule Dnsimple.ContactsTest do
         postal_code: "00100",
         country: "IT"
       }
+
       {:ok, body} = Poison.encode(attributes)
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture(fixture,
+                     method: method,
+                     url: url,
+                     request_body: body
+                   ) do
         {:ok, response} = @module.create_contact(@client, 1010, attributes)
         assert response.__struct__ == Dnsimple.Response
 
@@ -109,13 +122,18 @@ defmodule Dnsimple.ContactsTest do
 
   describe ".update_contact" do
     test "updates the contact and returns it in a Dnsimple.Response" do
-      url     = "#{@client.base_url}/v2/1010/contacts/1"
-      method  = "patch"
+      url = "#{@client.base_url}/v2/1010/contacts/1"
+      method = "patch"
       fixture = "updateContact/success.http"
       attributes = %{label: "Default"}
       {:ok, body} = Poison.encode(attributes)
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url, request_body: body)  do
+      use_cassette :stub,
+                   ExvcrUtils.response_fixture(fixture,
+                     method: method,
+                     url: url,
+                     request_body: body
+                   ) do
         {:ok, response} = @module.update_contact(@client, 1010, 1, attributes)
         assert response.__struct__ == Dnsimple.Response
 
@@ -128,16 +146,15 @@ defmodule Dnsimple.ContactsTest do
 
   describe ".delete_contact" do
     test "deletes the contact" do
-      url     = "#{@client.base_url}/v2/1010/contacts/1"
-      method  = "delete"
+      url = "#{@client.base_url}/v2/1010/contacts/1"
+      method = "delete"
       fixture = "deleteContact/success.http"
 
-      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url)  do
+      use_cassette :stub, ExvcrUtils.response_fixture(fixture, method: method, url: url) do
         {:ok, response} = @module.delete_contact(@client, 1010, 1)
         assert response.__struct__ == Dnsimple.Response
         assert response.data == nil
       end
     end
   end
-
 end

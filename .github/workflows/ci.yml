@@ -28,9 +28,8 @@ jobs:
           config_file: ".markdownlint.yaml"
 
   test:
-    needs: [markdownlint-cli]
-    runs-on: ubuntu-latest
     name: Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         # Only support non EOL Elixir versions (https://hexdocs.pm/elixir/compatibility-and-deprecations.html)
@@ -54,3 +53,35 @@ jobs:
           elixir-version: ${{matrix.elixir}}
       - run: mix deps.get
       - run: mix test
+
+  analyse:
+    name: Static analysis
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        elixir: ['1.19']
+        otp: ['28']
+    steps:
+      - uses: actions/checkout@v6
+      - uses: erlef/setup-beam@v1.24.0
+        id: setup-beam
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - uses: actions/cache@v5
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-elixir-${{ steps.setup-beam.outputs.elixir-version }}-otp-${{ steps.setup-beam.outputs.otp-version }}-hash-${{ hashFiles('mix.lock') }}
+      - uses: actions/cache@v5
+        id: plt-cache
+        with:
+          path: priv/plts
+          key: plt-${{ runner.os }}-${{ steps.setup-beam.outputs.otp-version }}-${{ steps.setup-beam.outputs.elixir-version }}-${{ hashFiles('mix.lock', '.plt-cache-version') }}
+          restore-keys: |
+            plt-${{ runner.os }}-${{ steps.setup-beam.outputs.otp-version }}-${{ steps.setup-beam.outputs.elixir-version }}-
+      - run: mix deps.get
+      # Build PLT when cache missed (or mix.lock / .plt-cache-version changed); dialyxir skips if hash matches
+      - run: mkdir -p priv/plts && mix dialyzer --plt
+      - run: mix static_analysis

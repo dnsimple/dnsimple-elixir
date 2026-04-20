@@ -22,7 +22,7 @@ defmodule Dnsimple.BillingTest do
 
         data = response.data
         assert is_list(data)
-        assert length(data) == 3
+        assert length(data) == 4
         assert Enum.all?(data, fn charge -> charge.__struct__ == Dnsimple.Charge end)
 
         charge = List.first(data)
@@ -33,6 +33,13 @@ defmodule Dnsimple.BillingTest do
         assert charge_item.__struct__ == Dnsimple.Charge.ChargeItem
         assert charge_item.amount == Decimal.new("14.50")
         assert charge_item.product_type == "domain-registration"
+
+        cert_charge = List.last(data)
+        assert cert_charge.reference == "5-2"
+        cert_item = List.first(cert_charge.items)
+        assert cert_item.product_type == "certificate-purchase"
+        assert cert_item.product_reference == "42"
+        assert is_binary(cert_item.product_reference)
       end
     end
 

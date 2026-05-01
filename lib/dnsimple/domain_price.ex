@@ -13,8 +13,8 @@ defmodule Dnsimple.DomainPrice do
           registration_price: float,
           renewal_price: float,
           transfer_price: float,
-          trustee_service_price: float
+          trustee_price: float | nil
         }
 
-  defstruct ~w(domain premium registration_price renewal_price transfer_price trustee_service_price)a
+  defstruct ~w(domain premium registration_price renewal_price transfer_price trustee_price)a
 end

@@ -42,7 +42,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.registration_price == 20.0
         assert data.renewal_price == 20.0
         assert data.transfer_price == 20.0
-        assert data.trustee_service_price == 20.0
+        assert data.trustee_price == 20.0
       end
     end
 
@@ -84,7 +84,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "new"
         assert data.auto_renew == false
         assert data.whois_privacy == false
-        assert data.trustee_service == false
+        assert data.trustee == false
         assert data.created_at == "2016-12-09T19:35:31Z"
         assert data.updated_at == "2016-12-09T19:35:31Z"
       end
@@ -110,7 +110,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "registering"
         assert data.auto_renew == false
         assert data.whois_privacy == false
-        assert data.trustee_service == false
+        assert data.trustee == false
         assert data.created_at == "2023-01-27T17:44:32Z"
         assert data.updated_at == "2023-01-27T17:44:40Z"
       end
@@ -200,7 +200,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "transferring"
         assert data.auto_renew == false
         assert data.whois_privacy == false
-        assert data.trustee_service == false
+        assert data.trustee == false
         assert data.created_at == "2016-12-09T19:43:41Z"
         assert data.updated_at == "2016-12-09T19:43:43Z"
       end
@@ -225,7 +225,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "cancelled"
         assert data.auto_renew == false
         assert data.whois_privacy == false
-        assert data.trustee_service == false
+        assert data.trustee == false
         assert data.status_description == "Canceled by customer"
         assert data.created_at == "2020-06-05T18:08:00Z"
         assert data.updated_at == "2020-06-05T18:10:01Z"
@@ -251,7 +251,7 @@ defmodule Dnsimple.RegistrarTest do
         assert data.state == "transferring"
         assert data.auto_renew == false
         assert data.whois_privacy == false
-        assert data.trustee_service == false
+        assert data.trustee == false
         assert data.status_description == nil
         assert data.created_at == "2020-06-05T18:08:00Z"
         assert data.updated_at == "2020-06-05T18:08:04Z"

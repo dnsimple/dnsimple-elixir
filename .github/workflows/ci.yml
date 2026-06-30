@@ -68,13 +68,13 @@ jobs:
         with:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
-      - uses: actions/cache@v5
+      - uses: actions/cache@v5.0.5
         with:
           path: |
             deps
             _build
           key: ${{ runner.os }}-elixir-${{ steps.setup-beam.outputs.elixir-version }}-otp-${{ steps.setup-beam.outputs.otp-version }}-hash-${{ hashFiles('mix.lock') }}
-      - uses: actions/cache@v5
+      - uses: actions/cache@v5.0.5
         id: plt-cache
         with:
           path: priv/plts

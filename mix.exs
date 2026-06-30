@@ -38,7 +38,6 @@ defmodule Dnsimple.Mixfile do
   defp aliases() do
     [
       static_analysis: [
-        "hex.audit",
         "compile --warnings-as-errors",
         "format --check-formatted",
         "credo --strict",

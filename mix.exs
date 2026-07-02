@@ -30,13 +30,15 @@ defmodule Dnsimple.Mixfile do
       ## static analysis
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.4", only: :dev, runtime: false}
+      {:dialyxir, "~> 1.4", only: :dev, runtime: false},
+      {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false}
     ]
   end
 
   defp aliases() do
     [
       static_analysis: [
+        "deps.audit",
         "compile --warnings-as-errors",
         "format --check-formatted",
         "credo --strict",

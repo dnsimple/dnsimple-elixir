@@ -1,6 +1,5 @@
 defmodule Dnsimple.ClientTest do
   use TestCase, async: false
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
   doctest Dnsimple.Client
 
   test "initialize with defaults" do
@@ -35,110 +34,118 @@ defmodule Dnsimple.ClientTest do
 
   describe ".execute" do
     setup do
+      bypass = Bypass.open()
+
       client = %Dnsimple.Client{
         access_token: "i-am-a-token",
-        base_url: "https://api.dnsimple.test"
+        base_url: "http://localhost:#{bypass.port}"
       }
 
-      {:ok, client: client}
+      {:ok, bypass: bypass, client: client}
     end
 
-    test "handles headers defines as a map", %{client: client} do
-      url = "#{client.base_url}/v2/1010/domains"
-      fixture = ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url)
+    test "handles headers defines as a map", %{bypass: bypass, client: client} do
+      Bypass.expect_once(bypass, "GET", "/v2/1010/domains", fn conn ->
+        ExvcrUtils.respond_with_fixture(conn, "listDomains/success.http")
+      end)
 
-      use_cassette :stub, fixture do
-        {:ok, response} = Dnsimple.Domains.list_domains(client, "1010", headers: %{page: 2})
-        assert response.__struct__ == Dnsimple.Response
-      end
+      {:ok, response} = Dnsimple.Domains.list_domains(client, "1010", headers: %{page: 2})
+      assert response.__struct__ == Dnsimple.Response
     end
 
-    test "handles headers defines as a list", %{client: client} do
-      url = "#{client.base_url}/v2/1010/domains"
-      fixture = ExvcrUtils.response_fixture("listDomains/success.http", method: "get", url: url)
+    test "handles headers defines as a list", %{bypass: bypass, client: client} do
+      Bypass.expect_once(bypass, "GET", "/v2/1010/domains", fn conn ->
+        ExvcrUtils.respond_with_fixture(conn, "listDomains/success.http")
+      end)
 
-      use_cassette :stub, fixture do
-        {:ok, response} =
-          Dnsimple.Domains.list_domains(client, "1010", headers: [{"X-Header", "X-Value"}])
+      {:ok, response} =
+        Dnsimple.Domains.list_domains(client, "1010", headers: [{"X-Header", "X-Value"}])
 
-        assert response.__struct__ == Dnsimple.Response
-      end
+      assert response.__struct__ == Dnsimple.Response
     end
 
-    test "returns a NotFoundError when the response has a 404 status code", %{client: client} do
+    test "returns a NotFoundError when the response has a 404 status code", %{
+      bypass: bypass,
+      client: client
+    } do
       domain_id = 0
-      url = "#{client.base_url}/v2/1010/domains/#{domain_id}"
-      fixture = ExvcrUtils.response_fixture("notfound-domain.http", method: "get", url: url)
 
-      use_cassette :stub, fixture do
-        {:error, response} = Dnsimple.Domains.get_domain(client, "1010", domain_id)
-        assert response.__struct__ == Dnsimple.NotFoundError
-        assert response.message == "Domain `0` not found"
-      end
+      Bypass.expect_once(bypass, "GET", "/v2/1010/domains/#{domain_id}", fn conn ->
+        ExvcrUtils.respond_with_fixture(conn, "notfound-domain.http")
+      end)
+
+      {:error, response} = Dnsimple.Domains.get_domain(client, "1010", domain_id)
+      assert response.__struct__ == Dnsimple.NotFoundError
+      assert response.message == "Domain `0` not found"
     end
 
     test "returns a ResponseError when the response has a 4XX status code (other than 404)", %{
+      bypass: bypass,
       client: client
     } do
       domain_id = "example.com"
-      url = "#{client.base_url}/v2/1010/registrar/domains/#{domain_id}/renewals"
 
-      fixture =
-        ExvcrUtils.response_fixture("renewDomain/error-tooearly.http", method: "post", url: url)
+      Bypass.expect_once(
+        bypass,
+        "POST",
+        "/v2/1010/registrar/domains/#{domain_id}/renewals",
+        fn conn ->
+          ExvcrUtils.respond_with_fixture(conn, "renewDomain/error-tooearly.http")
+        end
+      )
 
-      use_cassette :stub, fixture do
-        {:error, response} = Dnsimple.Registrar.renew_domain(client, "1010", domain_id)
-        assert response.__struct__ == Dnsimple.RequestError
-        assert response.message == "HTTP 400: example.com may not be renewed at this time"
-        assert response.attribute_errors == %{}
-      end
+      {:error, response} = Dnsimple.Registrar.renew_domain(client, "1010", domain_id)
+      assert response.__struct__ == Dnsimple.RequestError
+      assert response.message == "HTTP 400: example.com may not be renewed at this time"
+      assert response.attribute_errors == %{}
     end
 
     test "returns a ResponseError when the response has a 4XX status code (other than 404) with attribute-specific errors",
-         %{client: client} do
+         %{bypass: bypass, client: client} do
       attributes = %{}
-      url = "#{client.base_url}/v2/1010/contacts"
-      fixture = ExvcrUtils.response_fixture("validation-error.http", method: "post", url: url)
 
-      use_cassette :stub, fixture do
-        {:error, response} = Dnsimple.Contacts.create_contact(client, "1010", attributes)
-        assert response.__struct__ == Dnsimple.RequestError
-        assert response.message == "HTTP 400: Validation failed"
+      Bypass.expect_once(bypass, "POST", "/v2/1010/contacts", fn conn ->
+        ExvcrUtils.respond_with_fixture(conn, "validation-error.http")
+      end)
 
-        assert response.attribute_errors == %{
-                 "address1" => ["can't be blank"],
-                 "city" => ["can't be blank"],
-                 "country" => ["can't be blank"],
-                 "email" => ["can't be blank", "is an invalid email address"],
-                 "first_name" => ["can't be blank"],
-                 "last_name" => ["can't be blank"],
-                 "phone" => ["can't be blank", "is probably not a phone number"],
-                 "postal_code" => ["can't be blank"],
-                 "state_province" => ["can't be blank"]
-               }
-      end
+      {:error, response} = Dnsimple.Contacts.create_contact(client, "1010", attributes)
+      assert response.__struct__ == Dnsimple.RequestError
+      assert response.message == "HTTP 400: Validation failed"
+
+      assert response.attribute_errors == %{
+               "address1" => ["can't be blank"],
+               "city" => ["can't be blank"],
+               "country" => ["can't be blank"],
+               "email" => ["can't be blank", "is an invalid email address"],
+               "first_name" => ["can't be blank"],
+               "last_name" => ["can't be blank"],
+               "phone" => ["can't be blank", "is probably not a phone number"],
+               "postal_code" => ["can't be blank"],
+               "state_province" => ["can't be blank"]
+             }
     end
 
-    test "returns a ResponseError when the response has a 5XX status code", %{client: client} do
-      url = "#{client.base_url}/v2/1010/domains"
-      fixture = ExvcrUtils.response_fixture("badgateway.http", method: "get", url: url)
+    test "returns a ResponseError when the response has a 5XX status code", %{
+      bypass: bypass,
+      client: client
+    } do
+      Bypass.expect_once(bypass, "GET", "/v2/1010/domains", fn conn ->
+        ExvcrUtils.respond_with_fixture(conn, "badgateway.http")
+      end)
 
-      use_cassette :stub, fixture do
-        {:error, response} = Dnsimple.Domains.list_domains(client, "1010")
-        assert response.__struct__ == Dnsimple.RequestError
+      {:error, response} = Dnsimple.Domains.list_domains(client, "1010")
+      assert response.__struct__ == Dnsimple.RequestError
 
-        assert response.message ==
-                 "HTTP 502: <html>\n<head><title>502 Bad Gateway</title></head>\n<body bgcolor=\"white\">\n<center><h1>502 Bad Gateway</h1></center>\n<hr><center>nginx</center>\n</body>\n</html>\n"
+      assert response.message ==
+               "HTTP 502: <html>\n<head><title>502 Bad Gateway</title></head>\n<body bgcolor=\"white\">\n<center><h1>502 Bad Gateway</h1></center>\n<hr><center>nginx</center>\n</body>\n</html>\n"
 
-        assert response.attribute_errors == nil
-      end
+      assert response.attribute_errors == nil
     end
   end
 end
 
 defmodule Dnsimple.ListingTest do
   use TestCase, async: false
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
   alias Dnsimple.Listing
 
@@ -185,42 +192,74 @@ defmodule Dnsimple.ListingTest do
 
   describe ".get_all" do
     setup do
-      ExVCR.Config.cassette_library_dir(
-        "test/fixtures/vcr_cassettes",
-        "test/fixtures/custom_cassettes"
-      )
+      bypass = Bypass.open()
 
       client = %Dnsimple.Client{
         access_token: "i-am-a-token",
-        base_url: "https://api.dnsimple.test"
+        base_url: "http://localhost:#{bypass.port}"
       }
 
-      {:ok, client: client, account_id: 1010}
+      {:ok, bypass: bypass, client: client, account_id: 1010}
     end
 
-    test "returns the resources of all pages", %{client: client, account_id: account_id} do
-      use_cassette "list_domains_paginated", custom: true do
-        {:ok, domains} =
-          Listing.get_all(Dnsimple.Domains, :list_domains, [client, account_id, []])
-
-        assert is_list(domains)
-        assert length(domains) == 2
-        assert Enum.all?(domains, fn single -> single.__struct__ == Dnsimple.Domain end)
-      end
-    end
-
-    test "returns the resources of all pages respecting options", %{
+    test "returns the resources of all pages", %{
+      bypass: bypass,
       client: client,
       account_id: account_id
     } do
-      use_cassette "list_domains_paginated_sorted", custom: true do
-        {:ok, domains} =
-          Listing.get_all(Dnsimple.Domains, :list_domains, [client, account_id, [sort: "id:asc"]])
+      page1 =
+        ~s({"data":[{"id":1,"account_id":1010,"registrant_id":null,"name":"example-alpha.com","unicode_name":"example-alpha.com","token":"domain-token","state":"hosted","auto_renew":false,"private_whois":false,"expires_on":null,"created_at":"2014-12-06T15:56:55.573Z","updated_at":"2015-12-09T00:20:56.056Z"}],"pagination":{"current_page":1,"per_page":1,"total_entries":2,"total_pages":2}})
 
-        assert is_list(domains)
-        assert length(domains) == 2
-        assert Enum.all?(domains, fn single -> single.__struct__ == Dnsimple.Domain end)
-      end
+      page2 =
+        ~s({"data":[{"id":2,"account_id":1010,"registrant_id":21,"name":"example-beta.com","unicode_name":"example-beta.com","token":"domain-token","state":"registered","auto_renew":false,"private_whois":false,"expires_on":"2015-12-06","created_at":"2014-12-06T15:46:52.411Z","updated_at":"2015-12-09T00:20:53.572Z"}],"pagination":{"current_page":2,"per_page":1,"total_entries":2,"total_pages":2}})
+
+      Bypass.expect(bypass, "GET", "/v2/#{account_id}/domains", fn conn ->
+        conn = Plug.Conn.fetch_query_params(conn)
+        body = if conn.query_params["page"] == "2", do: page2, else: page1
+
+        conn
+        |> Plug.Conn.put_resp_header("x-ratelimit-limit", "1000")
+        |> Plug.Conn.put_resp_header("x-ratelimit-remaining", "999")
+        |> Plug.Conn.put_resp_header("x-ratelimit-reset", "1450272970")
+        |> Plug.Conn.resp(200, body)
+      end)
+
+      {:ok, domains} =
+        Listing.get_all(Dnsimple.Domains, :list_domains, [client, account_id, []])
+
+      assert is_list(domains)
+      assert length(domains) == 2
+      assert Enum.all?(domains, fn single -> single.__struct__ == Dnsimple.Domain end)
+    end
+
+    test "returns the resources of all pages respecting options", %{
+      bypass: bypass,
+      client: client,
+      account_id: account_id
+    } do
+      page1 =
+        ~s({"data":[{"id":1,"account_id":1010,"registrant_id":null,"name":"example-alpha.com","unicode_name":"example-alpha.com","token":"domain-token","state":"hosted","auto_renew":false,"private_whois":false,"expires_on":null,"created_at":"2014-12-06T15:56:55.573Z","updated_at":"2015-12-09T00:20:56.056Z"}],"pagination":{"current_page":1,"per_page":1,"total_entries":2,"total_pages":2}})
+
+      page2 =
+        ~s({"data":[{"id":2,"account_id":1010,"registrant_id":21,"name":"example-beta.com","unicode_name":"example-beta.com","token":"domain-token","state":"registered","auto_renew":false,"private_whois":false,"expires_on":"2015-12-06","created_at":"2014-12-06T15:46:52.411Z","updated_at":"2015-12-09T00:20:53.572Z"}],"pagination":{"current_page":2,"per_page":1,"total_entries":2,"total_pages":2}})
+
+      Bypass.expect(bypass, "GET", "/v2/#{account_id}/domains", fn conn ->
+        conn = Plug.Conn.fetch_query_params(conn)
+        body = if conn.query_params["page"] == "2", do: page2, else: page1
+
+        conn
+        |> Plug.Conn.put_resp_header("x-ratelimit-limit", "1000")
+        |> Plug.Conn.put_resp_header("x-ratelimit-remaining", "999")
+        |> Plug.Conn.put_resp_header("x-ratelimit-reset", "1450272970")
+        |> Plug.Conn.resp(200, body)
+      end)
+
+      {:ok, domains} =
+        Listing.get_all(Dnsimple.Domains, :list_domains, [client, account_id, [sort: "id:asc"]])
+
+      assert is_list(domains)
+      assert length(domains) == 2
+      assert Enum.all?(domains, fn single -> single.__struct__ == Dnsimple.Domain end)
     end
   end
 end

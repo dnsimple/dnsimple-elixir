@@ -1,30 +1,45 @@
 defmodule Dnsimple.OauthTest do
   use TestCase, async: false
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
   @module Dnsimple.Oauth
-  @client %Dnsimple.Client{access_token: "i-am-a-token", base_url: "https://api.dnsimple.test"}
+
+  setup do
+    bypass = Bypass.open()
+
+    client = %Dnsimple.Client{
+      access_token: "i-am-a-token",
+      base_url: "http://localhost:#{bypass.port}"
+    }
+
+    {:ok, bypass: bypass, client: client}
+  end
 
   test "generating the authorize URL with client_id" do
+    url_client = %Dnsimple.Client{
+      access_token: "i-am-a-token",
+      base_url: "https://api.dnsimple.test"
+    }
+
     client_id = "a1b2c3d4"
 
-    assert @module.authorize_url(@client, client_id) ==
+    assert @module.authorize_url(url_client, client_id) ==
              "https://dnsimple.test/oauth/authorize?response_type=code&client_id=a1b2c3d4"
   end
 
   test "generating the authorize URL with client_id and extra options" do
+    url_client = %Dnsimple.Client{
+      access_token: "i-am-a-token",
+      base_url: "https://api.dnsimple.test"
+    }
+
     client_id = "a1b2c3d4"
     state = "12345678"
 
-    assert @module.authorize_url(@client, client_id, state: state, foo: "bar") ==
+    assert @module.authorize_url(url_client, client_id, state: state, foo: "bar") ==
              "https://dnsimple.test/oauth/authorize?response_type=code&client_id=a1b2c3d4&state=12345678&foo=bar"
   end
 
-  test "exchanging the authorization token" do
-    fixture = "oauthAccessToken/success.http"
-    method = "post"
-    url = "#{@client.base_url}/v2/oauth/access_token"
-
+  test "exchanging the authorization token", %{bypass: bypass, client: client} do
     attributes = %{
       code: "w0x1y2z3",
       client_id: "a1b2c3d4",
@@ -34,23 +49,20 @@ defmodule Dnsimple.OauthTest do
       grant_type: "authorization_code"
     }
 
-    {:ok, body} = Poison.encode(attributes)
+    Bypass.expect_once(bypass, "POST", "/v2/oauth/access_token", fn conn ->
+      {:ok, body, conn} = Plug.Conn.read_body(conn)
+      assert body == Poison.encode!(attributes)
+      ExvcrUtils.respond_with_fixture(conn, "oauthAccessToken/success.http")
+    end)
 
-    use_cassette :stub,
-                 ExvcrUtils.response_fixture(fixture,
-                   method: method,
-                   url: url,
-                   request_body: body
-                 ) do
-      {:ok, response} = @module.exchange_authorization_for_token(@client, attributes)
+    {:ok, response} = @module.exchange_authorization_for_token(client, attributes)
 
-      assert response.__struct__ == Dnsimple.Response
-      token = response.data
-      assert token.__struct__ == Dnsimple.OauthToken
-      assert token.access_token == "zKQ7OLqF5N1gylcJweA9WodA000BUNJD"
-      assert token.token_type == "Bearer"
-      assert token.scope == nil
-      assert token.account_id == 1
-    end
+    assert response.__struct__ == Dnsimple.Response
+    token = response.data
+    assert token.__struct__ == Dnsimple.OauthToken
+    assert token.access_token == "zKQ7OLqF5N1gylcJweA9WodA000BUNJD"
+    assert token.token_type == "Bearer"
+    assert token.scope == nil
+    assert token.account_id == 1
   end
 end

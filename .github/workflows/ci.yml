@@ -34,11 +34,9 @@ jobs:
       matrix:
         # Only support the current version and the previous version
         elixir: ['1.19', '1.20']
-        otp: ['28', '29']
-        # As per https://hexdocs.pm/elixir/compatibility-and-deprecations.html#compatibility-between-elixir-and-erlang-otp
-        exclude:
-          - elixir: '1.19'
-            otp: '29'
+        otp: ['28']
+        # OTP 29 will be added once exvcr is removed (see #345): meck 1.0.0
+        # ships from exvcr and doesn't compile on OTP 29 (deprecated `catch`).
     steps:
       - uses: actions/checkout@v7.0.0
       - uses: erlef/setup-beam@v1

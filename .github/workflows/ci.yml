@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Follow the team's current-version-1 support policy
+        # Only support the current version and the previous version
         elixir: ['1.19', '1.20']
         otp: ['28', '29']
         # As per https://hexdocs.pm/elixir/compatibility-and-deprecations.html#compatibility-between-elixir-and-erlang-otp

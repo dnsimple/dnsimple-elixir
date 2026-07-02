@@ -79,6 +79,3 @@ jobs:
       # Build PLT when cache missed (or mix.lock / .plt-cache-version changed); dialyxir skips if hash matches
       - run: mkdir -p priv/plts && mix dialyzer --plt
       - run: mix static_analysis
-      - name: Dependency audit (informational)
-        run: mix hex.audit
-        continue-on-error: true

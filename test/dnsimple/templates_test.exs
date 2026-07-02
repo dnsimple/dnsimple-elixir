@@ -80,7 +80,7 @@ defmodule Dnsimple.TemplatesTest do
 
       Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/templates", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
-        assert body == Poison.encode!(attributes)
+        assert body == JSON.encode!(attributes)
         ExvcrUtils.respond_with_fixture(conn, "createTemplate/created.http")
       end)
 
@@ -101,7 +101,7 @@ defmodule Dnsimple.TemplatesTest do
 
       Bypass.expect_once(bypass, "PATCH", "/v2/#{@account_id}/templates/beta", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
-        assert body == Poison.encode!(attributes)
+        assert body == JSON.encode!(attributes)
         ExvcrUtils.respond_with_fixture(conn, "updateTemplate/success.http")
       end)
 
@@ -206,7 +206,7 @@ defmodule Dnsimple.TemplatesTest do
 
       Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/templates/268/records", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
-        assert body == Poison.encode!(attributes)
+        assert body == JSON.encode!(attributes)
         ExvcrUtils.respond_with_fixture(conn, "createTemplateRecord/created.http")
       end)
 

@@ -36,8 +36,38 @@ defmodule Dnsimple.Response do
   end
 
   defp decode(%HTTPoison.Response{body: ""}, _format), do: nil
-  defp decode(%HTTPoison.Response{body: body}, nil), do: Poison.decode!(body)
-  defp decode(%HTTPoison.Response{body: body}, format), do: Poison.decode!(body, %{as: format})
+  defp decode(%HTTPoison.Response{body: body}, nil), do: JSON.decode!(body)
+  defp decode(%HTTPoison.Response{body: body}, format), do: JSON.decode!(body) |> shape(format)
+
+  # Shapes a decoded JSON value against a struct/list/map template.
+  # Replaces Poison's `%{as: format}` recursive struct decoding.
+  defp shape(value, nil), do: value
+  defp shape(list, [template]) when is_list(list), do: Enum.map(list, &shape(&1, template))
+
+  # Charge needs its own constructor to convert amount strings to Decimal.
+  defp shape(map, %Dnsimple.Charge{}) when is_map(map) do
+    map
+    |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+    |> Dnsimple.Charge.new()
+  end
+
+  defp shape(map, %module{} = template) when is_map(map) do
+    attrs =
+      for {k, v} <- map, into: %{} do
+        atom_key = String.to_atom(k)
+        {atom_key, shape(v, Map.get(template, atom_key))}
+      end
+
+    struct(module, attrs)
+  end
+
+  defp shape(map, template) when is_map(map) and is_map(template) do
+    for {k, sub_template} <- template, into: %{} do
+      {k, shape(Map.get(map, k), sub_template)}
+    end
+  end
+
+  defp shape(value, _template), do: value
 
   defp extract_data(%{"data" => data}), do: data
   defp extract_data(data), do: data

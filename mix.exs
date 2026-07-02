@@ -24,9 +24,8 @@ defmodule Dnsimple.Mixfile do
 
   defp deps do
     [
-      {:decimal, "~> 2.0"},
-      {:httpoison, "~> 2.1"},
-      {:poison, ">= 2.0.0"},
+      {:decimal, "~> 3.0"},
+      {:httpoison, "~> 3.0"},
       {:bypass, "~> 2.1", only: :test},
       ## static analysis
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},

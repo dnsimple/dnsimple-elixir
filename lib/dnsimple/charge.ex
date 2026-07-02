@@ -27,14 +27,6 @@ defmodule Dnsimple.Charge do
     struct(__MODULE__, attrs)
   end
 
-  defimpl Poison.Decoder, for: __MODULE__ do
-    @spec decode(Dnsimple.Charge.t(), any()) :: struct()
-    def decode(value, _opts) do
-      Map.from_struct(value)
-      |> Dnsimple.Charge.new()
-    end
-  end
-
   defmodule ChargeItem do
     @moduledoc """
     Represents a billing charge item.

@@ -156,7 +156,7 @@ defmodule Dnsimple.CertificatesTest do
         "/v2/#{@account_id}/domains/bingo.pizza/certificates/letsencrypt",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(attributes)
+          assert body == JSON.encode!(attributes)
           ExvcrUtils.respond_with_fixture(conn, "purchaseLetsencryptCertificate/success.http")
         end
       )
@@ -214,7 +214,7 @@ defmodule Dnsimple.CertificatesTest do
         "/v2/#{@account_id}/domains/bingo.pizza/certificates/letsencrypt/101967/renewals",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(attributes)
+          assert body == JSON.encode!(attributes)
 
           ExvcrUtils.respond_with_fixture(
             conn,

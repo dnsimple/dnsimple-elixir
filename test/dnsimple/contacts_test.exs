@@ -106,7 +106,7 @@ defmodule Dnsimple.ContactsTest do
 
       Bypass.expect_once(bypass, "POST", "/v2/1010/contacts", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
-        assert body == Poison.encode!(attributes)
+        assert body == JSON.encode!(attributes)
         ExvcrUtils.respond_with_fixture(conn, "createContact/created.http")
       end)
 
@@ -127,7 +127,7 @@ defmodule Dnsimple.ContactsTest do
 
       Bypass.expect_once(bypass, "PATCH", "/v2/1010/contacts/1", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
-        assert body == Poison.encode!(attributes)
+        assert body == JSON.encode!(attributes)
         ExvcrUtils.respond_with_fixture(conn, "updateContact/success.http")
       end)
 

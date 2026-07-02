@@ -319,7 +319,7 @@ defmodule Dnsimple.ZonesTest do
         "/v2/#{@account_id}/zones/#{@zone_id}/records",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(attributes)
+          assert body == JSON.encode!(attributes)
           ExvcrUtils.respond_with_fixture(conn, "createZoneRecord/created.http")
         end
       )
@@ -357,7 +357,7 @@ defmodule Dnsimple.ZonesTest do
         "/v2/#{@account_id}/zones/#{@zone_id}/records/5",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(attributes)
+          assert body == JSON.encode!(attributes)
           ExvcrUtils.respond_with_fixture(conn, "updateZoneRecord/success.http")
         end
       )

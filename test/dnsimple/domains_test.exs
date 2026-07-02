@@ -129,7 +129,7 @@ defmodule Dnsimple.DomainsTest do
 
       Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/domains", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
-        assert body == Poison.encode!(attributes)
+        assert body == JSON.encode!(attributes)
         ExvcrUtils.respond_with_fixture(conn, "createDomain/created.http")
       end)
 
@@ -291,7 +291,7 @@ defmodule Dnsimple.DomainsTest do
         "/v2/#{@account_id}/domains/#{@domain_id}/ds_records",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(attributes)
+          assert body == JSON.encode!(attributes)
           ExvcrUtils.respond_with_fixture(conn, "createDelegationSignerRecord/created.http")
         end
       )
@@ -441,7 +441,7 @@ defmodule Dnsimple.DomainsTest do
         "/v2/#{@account_id}/domains/#{@domain_id}/email_forwards",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(attributes)
+          assert body == JSON.encode!(attributes)
           ExvcrUtils.respond_with_fixture(conn, "createEmailForward/created.http")
         end
       )
@@ -544,7 +544,7 @@ defmodule Dnsimple.DomainsTest do
         "/v2/#{@account_id}/domains/#{@domain_id}/pushes",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(attributes)
+          assert body == JSON.encode!(attributes)
           ExvcrUtils.respond_with_fixture(conn, "initiatePush/success.http")
         end
       )
@@ -574,7 +574,7 @@ defmodule Dnsimple.DomainsTest do
         "/v2/#{@account_id}/domains/#{@domain_id}/pushes",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(attributes)
+          assert body == JSON.encode!(attributes)
           ExvcrUtils.respond_with_fixture(conn, "initiatePush/success.http")
         end
       )
@@ -598,7 +598,7 @@ defmodule Dnsimple.DomainsTest do
 
       Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/pushes/#{@push_id}", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
-        assert body == Poison.encode!(attributes)
+        assert body == JSON.encode!(attributes)
         ExvcrUtils.respond_with_fixture(conn, "acceptPush/success.http")
       end)
 

@@ -97,7 +97,7 @@ defmodule Dnsimple.RegistrarTest do
         "/v2/#{@account_id}/registrar/domains/example.com/registrations",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(attributes)
+          assert body == JSON.encode!(attributes)
           ExvcrUtils.respond_with_fixture(conn, "registerDomain/success.http")
         end
       )
@@ -162,7 +162,7 @@ defmodule Dnsimple.RegistrarTest do
         "/v2/#{@account_id}/registrar/domains/example.com/renewals",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(attributes)
+          assert body == JSON.encode!(attributes)
           ExvcrUtils.respond_with_fixture(conn, "renewDomain/success.http")
         end
       )
@@ -224,7 +224,7 @@ defmodule Dnsimple.RegistrarTest do
         "/v2/#{@account_id}/registrar/domains/example.com/transfers",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(attributes)
+          assert body == JSON.encode!(attributes)
           ExvcrUtils.respond_with_fixture(conn, "transferDomain/success.http")
         end
       )
@@ -535,7 +535,7 @@ defmodule Dnsimple.RegistrarTest do
         "/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(name_servers)
+          assert body == JSON.encode!(name_servers)
           ExvcrUtils.respond_with_fixture(conn, "changeDomainDelegation/success.http")
         end
       )
@@ -564,7 +564,7 @@ defmodule Dnsimple.RegistrarTest do
         "/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation/vanity",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(name_servers)
+          assert body == JSON.encode!(name_servers)
           ExvcrUtils.respond_with_fixture(conn, "changeDomainDelegationToVanity/success.http")
         end
       )

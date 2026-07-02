@@ -58,9 +58,7 @@ defmodule Dnsimple.CertificatesTest do
         ExvcrUtils.respond_with_fixture(conn, "listCertificates/success.http")
       end)
 
-      @module.list_certificates(client, "1010", "dnsimple.us",
-        filter: [common_name_like: "www"]
-      )
+      @module.list_certificates(client, "1010", "dnsimple.us", filter: [common_name_like: "www"])
     end
   end
 

@@ -626,7 +626,10 @@ defmodule Dnsimple.DomainsTest do
   describe ".get_domain_research_status" do
     test "builds the correct request", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/domains/research/status", fn conn ->
-        FixtureUtils.respond_with_fixture(conn, "getDomainsResearchStatus/success-unavailable.http")
+        FixtureUtils.respond_with_fixture(
+          conn,
+          "getDomainsResearchStatus/success-unavailable.http"
+        )
       end)
 
       {:ok, response} = @module.get_domain_research_status(client, @account_id, "taken.com")

@@ -249,7 +249,10 @@ defmodule Dnsimple.CertificatesTest do
         "POST",
         "/v2/#{@account_id}/domains/bingo.pizza/certificates/letsencrypt/101967/renewals/101972/issue",
         fn conn ->
-          FixtureUtils.respond_with_fixture(conn, "issueRenewalLetsencryptCertificate/success.http")
+          FixtureUtils.respond_with_fixture(
+            conn,
+            "issueRenewalLetsencryptCertificate/success.http"
+          )
         end
       )
 

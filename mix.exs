@@ -8,7 +8,7 @@ defmodule Dnsimple.Mixfile do
     [
       app: :dnsimple,
       version: @version,
-      elixir: "~> 1.13",
+      elixir: "~> 1.19",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       package: package(),
@@ -27,7 +27,7 @@ defmodule Dnsimple.Mixfile do
       {:decimal, "~> 2.0"},
       {:httpoison, "~> 2.1"},
       {:poison, ">= 2.0.0"},
-      {:exvcr, "~> 0.17.0", only: :test},
+      {:bypass, "~> 2.1", only: :test},
       ## static analysis
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},

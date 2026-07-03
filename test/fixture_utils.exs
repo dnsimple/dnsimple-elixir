@@ -1,4 +1,4 @@
-defmodule ExvcrUtils do
+defmodule FixtureUtils do
   def fixture(name) do
     Path.join([__DIR__, "fixtures.http", name])
   end
@@ -8,9 +8,17 @@ defmodule ExvcrUtils do
     |> File.read!()
   end
 
-  def response_fixture(name, options \\ []) do
+  @doc """
+  Reads an .http fixture and writes it as a response on the given `Plug.Conn`.
+  Used from Bypass expectations to serve the pre-recorded response.
+  """
+  def respond_with_fixture(conn, name) do
     [status_code, headers, body] = parse_fixture(read_fixture(name))
-    options ++ [body: body, headers: headers, status_code: status_code]
+
+    conn =
+      Enum.reduce(headers, conn, fn {k, v}, c -> Plug.Conn.put_resp_header(c, k, v) end)
+
+    Plug.Conn.resp(conn, status_code, body)
   end
 
   def parse_fixture(content) do

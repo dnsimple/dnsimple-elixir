@@ -64,6 +64,14 @@ defmodule Dnsimple.Response do
     struct(module, attrs)
   end
 
+  defp shape(map, template) when is_map(map) and is_map(template) do
+    for {k, sub_template} <- template, into: %{} do
+      {k, shape(Map.get(map, k), sub_template)}
+    end
+  end
+
+  defp shape(value, _template), do: value
+
   # Only convert JSON keys that already exist as atoms (i.e., match a struct
   # field defined in this library). Unknown keys are ignored — same effective
   # behavior as `struct/2` today, but without adding new atoms to the VM's
@@ -73,14 +81,6 @@ defmodule Dnsimple.Response do
   rescue
     ArgumentError -> nil
   end
-
-  defp shape(map, template) when is_map(map) and is_map(template) do
-    for {k, sub_template} <- template, into: %{} do
-      {k, shape(Map.get(map, k), sub_template)}
-    end
-  end
-
-  defp shape(value, _template), do: value
 
   defp extract_data(%{"data" => data}), do: data
   defp extract_data(data), do: data

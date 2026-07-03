@@ -165,7 +165,7 @@ defmodule Dnsimple.ServicesTest do
         "/v2/#{@account_id}/domains/#{@domain_id}/services/1",
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
-          assert body == Poison.encode!(settings)
+          assert body == JSON.encode!(settings)
           FixtureUtils.respond_with_fixture(conn, "applyService/success.http")
         end
       )

@@ -14,7 +14,7 @@ defmodule Dnsimple do
     @moduledoc false
 
     def decode(body) do
-      Poison.decode!(body)
+      JSON.decode!(body)
     end
   end
 
@@ -95,7 +95,7 @@ defmodule Dnsimple do
     Request body accepted by `post/4`, `patch/4`, and `put/4`.
 
     Includes `nil` for empty bodies (see `empty_body/0`) and `map/0` for JSON
-    payloads encoded via `Poison.encode!/1`.
+    payloads encoded via `JSON.encode!/1`.
     """
     @type body ::
             nil
@@ -243,7 +243,7 @@ defmodule Dnsimple do
     defp process_request_body(headers, body) do
       case get_header(headers, "Accept") do
         {_, "application/json"} ->
-          {Map.put(headers, "Content-Type", "application/json"), Poison.encode!(body)}
+          {Map.put(headers, "Content-Type", "application/json"), JSON.encode!(body)}
 
         _ ->
           {headers, body}

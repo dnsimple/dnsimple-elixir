@@ -47,18 +47,31 @@ defmodule Dnsimple.Response do
   # Charge needs its own constructor to convert amount strings to Decimal.
   defp shape(map, %Dnsimple.Charge{}) when is_map(map) do
     map
-    |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
+    |> Map.new(fn {k, v} -> {safe_atom(k), v} end)
+    |> Map.reject(fn {k, _} -> is_nil(k) end)
     |> Dnsimple.Charge.new()
   end
 
   defp shape(map, %module{} = template) when is_map(map) do
     attrs =
-      for {k, v} <- map, into: %{} do
-        atom_key = String.to_atom(k)
+      for {k, v} <- map,
+          atom_key = safe_atom(k),
+          not is_nil(atom_key),
+          into: %{} do
         {atom_key, shape(v, Map.get(template, atom_key))}
       end
 
     struct(module, attrs)
+  end
+
+  # Only convert JSON keys that already exist as atoms (i.e., match a struct
+  # field defined in this library). Unknown keys are ignored — same effective
+  # behavior as `struct/2` today, but without adding new atoms to the VM's
+  # global atom table.
+  defp safe_atom(k) do
+    String.to_existing_atom(k)
+  rescue
+    ArgumentError -> nil
   end
 
   defp shape(map, template) when is_map(map) and is_map(template) do

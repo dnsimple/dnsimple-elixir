@@ -2,6 +2,24 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 10.0.0 - 2026-07-02
+
+### Removed
+
+- **BREAKING**: Support for Elixir 1.16, 1.17, and 1.18. Minimum Elixir version is now 1.19.
+- **BREAKING**: Support for OTP 26 and 27. Minimum OTP version is now 28.
+- **BREAKING**: `poison` dependency removed. The library now uses Elixir's built-in `JSON` module (stdlib since 1.18).
+
+### Changed
+
+- **BREAKING**: Bumped `httpoison` requirement to `~> 3.0` (previously `~> 2.1`). Brings hackney 4.x transitively.
+- **BREAKING**: Bumped `decimal` requirement to `~> 3.0` (previously `~> 2.0`).
+
+### Security
+
+- Cleared hackney CVEs `EEF-CVE-2026-47069`, `EEF-CVE-2026-47071`, `EEF-CVE-2026-47075`, `EEF-CVE-2026-47076` (via the httpoison 3 / hackney 4 bump).
+- Cleared decimal advisory `EEF-CVE-2026-32686` (via the decimal 3 bump).
+
 ## 9.0.0 - 2026-05-05
 
 ### Changed

@@ -11,8 +11,8 @@ An Elixir client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 ## Requirements
 
-- OTP 26+
-- Elixir 1.16+
+- OTP 28+
+- Elixir 1.19+
 - An activated DNSimple account
 
 ## Installation
@@ -22,7 +22,7 @@ You will have to add the `dnsimple` app to your `mix.exs` file as a dependency:
 ```elixir
 def deps do
   [
-    {:dnsimple, "~> 7.0.0"}, #...
+    {:dnsimple, "~> 10.0.0"}, #...
   ]
 end
 ```

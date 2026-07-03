@@ -52,7 +52,7 @@ defmodule Dnsimple.OauthTest do
     Bypass.expect_once(bypass, "POST", "/v2/oauth/access_token", fn conn ->
       {:ok, body, conn} = Plug.Conn.read_body(conn)
       assert body == Poison.encode!(attributes)
-      ExvcrUtils.respond_with_fixture(conn, "oauthAccessToken/success.http")
+      FixtureUtils.respond_with_fixture(conn, "oauthAccessToken/success.http")
     end)
 
     {:ok, response} = @module.exchange_authorization_for_token(client, attributes)

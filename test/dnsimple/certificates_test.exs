@@ -22,7 +22,7 @@ defmodule Dnsimple.CertificatesTest do
         "GET",
         "/v2/#{@account_id}/domains/dnsimple.us/certificates",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "listCertificates/success.http")
+          FixtureUtils.respond_with_fixture(conn, "listCertificates/success.http")
         end
       )
 
@@ -37,7 +37,7 @@ defmodule Dnsimple.CertificatesTest do
 
     test "sends custom headers", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/1010/domains/dnsimple.us/certificates", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listCertificates/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listCertificates/success.http")
       end)
 
       @module.list_certificates(client, "1010", "dnsimple.us",
@@ -47,7 +47,7 @@ defmodule Dnsimple.CertificatesTest do
 
     test "supports sorting", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/1010/domains/dnsimple.us/certificates", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listCertificates/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listCertificates/success.http")
       end)
 
       @module.list_certificates(client, "1010", "dnsimple.us", sort: "id:desc")
@@ -55,7 +55,7 @@ defmodule Dnsimple.CertificatesTest do
 
     test "supports filtering", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/1010/domains/dnsimple.us/certificates", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listCertificates/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listCertificates/success.http")
       end)
 
       @module.list_certificates(client, "1010", "dnsimple.us", filter: [common_name_like: "www"])
@@ -69,7 +69,7 @@ defmodule Dnsimple.CertificatesTest do
         "GET",
         "/v2/#{@account_id}/domains/bingo.pizza/certificates/101967",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getCertificate/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getCertificate/success.http")
         end
       )
 
@@ -96,7 +96,7 @@ defmodule Dnsimple.CertificatesTest do
         "GET",
         "/v2/1010/domains/example.com/certificates/22289/download",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "downloadCertificate/success.http")
+          FixtureUtils.respond_with_fixture(conn, "downloadCertificate/success.http")
         end
       )
 
@@ -124,7 +124,7 @@ defmodule Dnsimple.CertificatesTest do
         "GET",
         "/v2/#{@account_id}/domains/example.com/certificates/22289/private_key",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getCertificatePrivateKey/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getCertificatePrivateKey/success.http")
         end
       )
 
@@ -157,7 +157,7 @@ defmodule Dnsimple.CertificatesTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(attributes)
-          ExvcrUtils.respond_with_fixture(conn, "purchaseLetsencryptCertificate/success.http")
+          FixtureUtils.respond_with_fixture(conn, "purchaseLetsencryptCertificate/success.http")
         end
       )
 
@@ -181,7 +181,7 @@ defmodule Dnsimple.CertificatesTest do
         "POST",
         "/v2/#{@account_id}/domains/bingo.pizza/certificates/letsencrypt/101967/issue",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "issueLetsencryptCertificate/success.http")
+          FixtureUtils.respond_with_fixture(conn, "issueLetsencryptCertificate/success.http")
         end
       )
 
@@ -216,7 +216,7 @@ defmodule Dnsimple.CertificatesTest do
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(attributes)
 
-          ExvcrUtils.respond_with_fixture(
+          FixtureUtils.respond_with_fixture(
             conn,
             "purchaseRenewalLetsencryptCertificate/success.http"
           )
@@ -249,7 +249,7 @@ defmodule Dnsimple.CertificatesTest do
         "POST",
         "/v2/#{@account_id}/domains/bingo.pizza/certificates/letsencrypt/101967/renewals/101972/issue",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "issueRenewalLetsencryptCertificate/success.http")
+          FixtureUtils.respond_with_fixture(conn, "issueRenewalLetsencryptCertificate/success.http")
         end
       )
 

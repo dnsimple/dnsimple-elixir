@@ -19,7 +19,7 @@ defmodule Dnsimple.ServicesTest do
   describe ".list_services" do
     test "returns the services in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/services", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listServices/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listServices/success.http")
       end)
 
       {:ok, response} = @module.list_services(client)
@@ -33,7 +33,7 @@ defmodule Dnsimple.ServicesTest do
 
     test "correctly parses the service's Settings", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/services", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listServices/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listServices/success.http")
       end)
 
       {:ok, response} = @module.list_services(client)
@@ -46,7 +46,7 @@ defmodule Dnsimple.ServicesTest do
 
     test "sends custom headers", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/services", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listServices/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listServices/success.http")
       end)
 
       {:ok, response} = @module.list_services(client)
@@ -55,7 +55,7 @@ defmodule Dnsimple.ServicesTest do
 
     test "supports sorting", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/services", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listServices/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listServices/success.http")
       end)
 
       {:ok, response} = @module.list_services(client, sort: "short_name:desc")
@@ -66,7 +66,7 @@ defmodule Dnsimple.ServicesTest do
   describe ".get_service" do
     test "returns the service in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/services/1", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "getService/success.http")
+        FixtureUtils.respond_with_fixture(conn, "getService/success.http")
       end)
 
       {:ok, response} = @module.get_service(client, _service_id = 1)
@@ -106,7 +106,7 @@ defmodule Dnsimple.ServicesTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/services",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "appliedServices/success.http")
+          FixtureUtils.respond_with_fixture(conn, "appliedServices/success.http")
         end
       )
 
@@ -125,7 +125,7 @@ defmodule Dnsimple.ServicesTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/services",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "appliedServices/success.http")
+          FixtureUtils.respond_with_fixture(conn, "appliedServices/success.http")
         end
       )
 
@@ -143,7 +143,7 @@ defmodule Dnsimple.ServicesTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/services",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "appliedServices/success.http")
+          FixtureUtils.respond_with_fixture(conn, "appliedServices/success.http")
         end
       )
 
@@ -166,7 +166,7 @@ defmodule Dnsimple.ServicesTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(settings)
-          ExvcrUtils.respond_with_fixture(conn, "applyService/success.http")
+          FixtureUtils.respond_with_fixture(conn, "applyService/success.http")
         end
       )
 
@@ -188,7 +188,7 @@ defmodule Dnsimple.ServicesTest do
         "DELETE",
         "/v2/#{@account_id}/domains/#{@domain_id}/services/1",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "applyService/success.http")
+          FixtureUtils.respond_with_fixture(conn, "applyService/success.http")
         end
       )
 

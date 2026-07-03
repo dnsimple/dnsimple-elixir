@@ -23,7 +23,7 @@ defmodule Dnsimple.RegistrarTest do
         "GET",
         "/v2/#{@account_id}/registrar/domains/ruby.codes/check",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "checkDomain/success.http")
+          FixtureUtils.respond_with_fixture(conn, "checkDomain/success.http")
         end
       )
 
@@ -48,7 +48,7 @@ defmodule Dnsimple.RegistrarTest do
         "GET",
         "/v2/#{@account_id}/registrar/domains/bingo.pizza/prices",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getDomainPrices/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getDomainPrices/success.http")
         end
       )
 
@@ -74,7 +74,7 @@ defmodule Dnsimple.RegistrarTest do
         "GET",
         "/v2/#{@account_id}/registrar/domains/bingo.pineapple/prices",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getDomainPrices/failure.http")
+          FixtureUtils.respond_with_fixture(conn, "getDomainPrices/failure.http")
         end
       )
 
@@ -98,7 +98,7 @@ defmodule Dnsimple.RegistrarTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(attributes)
-          ExvcrUtils.respond_with_fixture(conn, "registerDomain/success.http")
+          FixtureUtils.respond_with_fixture(conn, "registerDomain/success.http")
         end
       )
 
@@ -130,7 +130,7 @@ defmodule Dnsimple.RegistrarTest do
         "GET",
         "/v2/#{@account_id}/registrar/domains/example.com/registrations/1",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getDomainRegistration/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getDomainRegistration/success.http")
         end
       )
 
@@ -163,7 +163,7 @@ defmodule Dnsimple.RegistrarTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(attributes)
-          ExvcrUtils.respond_with_fixture(conn, "renewDomain/success.http")
+          FixtureUtils.respond_with_fixture(conn, "renewDomain/success.http")
         end
       )
 
@@ -188,7 +188,7 @@ defmodule Dnsimple.RegistrarTest do
         "GET",
         "/v2/#{@account_id}/registrar/domains/example.com/renewals/1",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getDomainRenewal/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getDomainRenewal/success.http")
         end
       )
 
@@ -225,7 +225,7 @@ defmodule Dnsimple.RegistrarTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(attributes)
-          ExvcrUtils.respond_with_fixture(conn, "transferDomain/success.http")
+          FixtureUtils.respond_with_fixture(conn, "transferDomain/success.http")
         end
       )
 
@@ -256,7 +256,7 @@ defmodule Dnsimple.RegistrarTest do
         "GET",
         "/v2/#{@account_id}/registrar/domains/example.com/transfers/361",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getDomainTransfer/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getDomainTransfer/success.http")
         end
       )
 
@@ -288,7 +288,7 @@ defmodule Dnsimple.RegistrarTest do
         "DELETE",
         "/v2/#{@account_id}/registrar/domains/example.com/transfers/361",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "cancelDomainTransfer/success.http")
+          FixtureUtils.respond_with_fixture(conn, "cancelDomainTransfer/success.http")
         end
       )
 
@@ -320,7 +320,7 @@ defmodule Dnsimple.RegistrarTest do
         "POST",
         "/v2/#{@account_id}/registrar/domains/example.com/authorize_transfer_out",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "authorizeDomainTransferOut/success.http")
+          FixtureUtils.respond_with_fixture(conn, "authorizeDomainTransferOut/success.http")
         end
       )
 
@@ -340,7 +340,7 @@ defmodule Dnsimple.RegistrarTest do
         "PUT",
         "/v2/#{@account_id}/registrar/domains/example.com/auto_renewal",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "enableDomainAutoRenewal/success.http")
+          FixtureUtils.respond_with_fixture(conn, "enableDomainAutoRenewal/success.http")
         end
       )
 
@@ -360,7 +360,7 @@ defmodule Dnsimple.RegistrarTest do
         "DELETE",
         "/v2/#{@account_id}/registrar/domains/example.com/auto_renewal",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "disableDomainAutoRenewal/success.http")
+          FixtureUtils.respond_with_fixture(conn, "disableDomainAutoRenewal/success.http")
         end
       )
 
@@ -380,7 +380,7 @@ defmodule Dnsimple.RegistrarTest do
         "POST",
         "/v2/#{@account_id}/registrar/domains/example.com/transfer_lock",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "enableDomainTransferLock/success.http")
+          FixtureUtils.respond_with_fixture(conn, "enableDomainTransferLock/success.http")
         end
       )
 
@@ -403,7 +403,7 @@ defmodule Dnsimple.RegistrarTest do
         "DELETE",
         "/v2/#{@account_id}/registrar/domains/example.com/transfer_lock",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "disableDomainTransferLock/success.http")
+          FixtureUtils.respond_with_fixture(conn, "disableDomainTransferLock/success.http")
         end
       )
 
@@ -428,7 +428,7 @@ defmodule Dnsimple.RegistrarTest do
         "GET",
         "/v2/#{@account_id}/registrar/domains/example.com/transfer_lock",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getDomainTransferLock/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getDomainTransferLock/success.http")
         end
       )
 
@@ -451,7 +451,7 @@ defmodule Dnsimple.RegistrarTest do
         "PUT",
         "/v2/#{@account_id}/registrar/domains/example.com/whois_privacy",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "enableWhoisPrivacy/created.http")
+          FixtureUtils.respond_with_fixture(conn, "enableWhoisPrivacy/created.http")
         end
       )
 
@@ -479,7 +479,7 @@ defmodule Dnsimple.RegistrarTest do
         "DELETE",
         "/v2/#{@account_id}/registrar/domains/example.com/whois_privacy",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "disableWhoisPrivacy/success.http")
+          FixtureUtils.respond_with_fixture(conn, "disableWhoisPrivacy/success.http")
         end
       )
 
@@ -504,7 +504,7 @@ defmodule Dnsimple.RegistrarTest do
         "GET",
         "/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getDomainDelegation/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getDomainDelegation/success.http")
         end
       )
 
@@ -536,7 +536,7 @@ defmodule Dnsimple.RegistrarTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(name_servers)
-          ExvcrUtils.respond_with_fixture(conn, "changeDomainDelegation/success.http")
+          FixtureUtils.respond_with_fixture(conn, "changeDomainDelegation/success.http")
         end
       )
 
@@ -565,7 +565,7 @@ defmodule Dnsimple.RegistrarTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(name_servers)
-          ExvcrUtils.respond_with_fixture(conn, "changeDomainDelegationToVanity/success.http")
+          FixtureUtils.respond_with_fixture(conn, "changeDomainDelegationToVanity/success.http")
         end
       )
 
@@ -601,7 +601,7 @@ defmodule Dnsimple.RegistrarTest do
         "DELETE",
         "/v2/#{@account_id}/registrar/domains/#{@domain_id}/delegation/vanity",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "changeDomainDelegationFromVanity/success.http")
+          FixtureUtils.respond_with_fixture(conn, "changeDomainDelegationFromVanity/success.http")
         end
       )
 
@@ -625,7 +625,7 @@ defmodule Dnsimple.RegistrarTest do
         "POST",
         "/v2/#{@account_id}/registrar/registrant_changes/check",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "checkRegistrantChange/success.http")
+          FixtureUtils.respond_with_fixture(conn, "checkRegistrantChange/success.http")
         end
       )
 
@@ -653,7 +653,7 @@ defmodule Dnsimple.RegistrarTest do
         "GET",
         "/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getRegistrantChange/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getRegistrantChange/success.http")
         end
       )
 
@@ -689,7 +689,7 @@ defmodule Dnsimple.RegistrarTest do
         "POST",
         "/v2/#{@account_id}/registrar/registrant_changes",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "createRegistrantChange/success.http")
+          FixtureUtils.respond_with_fixture(conn, "createRegistrantChange/success.http")
         end
       )
 
@@ -721,7 +721,7 @@ defmodule Dnsimple.RegistrarTest do
         "GET",
         "/v2/#{@account_id}/registrar/registrant_changes",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "listRegistrantChanges/success.http")
+          FixtureUtils.respond_with_fixture(conn, "listRegistrantChanges/success.http")
         end
       )
 
@@ -757,7 +757,7 @@ defmodule Dnsimple.RegistrarTest do
         "DELETE",
         "/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "deleteRegistrantChange/success.http")
+          FixtureUtils.respond_with_fixture(conn, "deleteRegistrantChange/success.http")
         end
       )
 
@@ -780,7 +780,7 @@ defmodule Dnsimple.RegistrarTest do
         "DELETE",
         "/v2/#{@account_id}/registrar/registrant_changes/#{registrant_change_id}",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "deleteRegistrantChange/success_async.http")
+          FixtureUtils.respond_with_fixture(conn, "deleteRegistrantChange/success_async.http")
         end
       )
 

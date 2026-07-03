@@ -46,7 +46,7 @@ defmodule Dnsimple.ClientTest do
 
     test "handles headers defines as a map", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/1010/domains", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listDomains/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listDomains/success.http")
       end)
 
       {:ok, response} = Dnsimple.Domains.list_domains(client, "1010", headers: %{page: 2})
@@ -55,7 +55,7 @@ defmodule Dnsimple.ClientTest do
 
     test "handles headers defines as a list", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/1010/domains", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listDomains/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listDomains/success.http")
       end)
 
       {:ok, response} =
@@ -71,7 +71,7 @@ defmodule Dnsimple.ClientTest do
       domain_id = 0
 
       Bypass.expect_once(bypass, "GET", "/v2/1010/domains/#{domain_id}", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "notfound-domain.http")
+        FixtureUtils.respond_with_fixture(conn, "notfound-domain.http")
       end)
 
       {:error, response} = Dnsimple.Domains.get_domain(client, "1010", domain_id)
@@ -90,7 +90,7 @@ defmodule Dnsimple.ClientTest do
         "POST",
         "/v2/1010/registrar/domains/#{domain_id}/renewals",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "renewDomain/error-tooearly.http")
+          FixtureUtils.respond_with_fixture(conn, "renewDomain/error-tooearly.http")
         end
       )
 
@@ -105,7 +105,7 @@ defmodule Dnsimple.ClientTest do
       attributes = %{}
 
       Bypass.expect_once(bypass, "POST", "/v2/1010/contacts", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "validation-error.http")
+        FixtureUtils.respond_with_fixture(conn, "validation-error.http")
       end)
 
       {:error, response} = Dnsimple.Contacts.create_contact(client, "1010", attributes)
@@ -130,7 +130,7 @@ defmodule Dnsimple.ClientTest do
       client: client
     } do
       Bypass.expect_once(bypass, "GET", "/v2/1010/domains", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "badgateway.http")
+        FixtureUtils.respond_with_fixture(conn, "badgateway.http")
       end)
 
       {:error, response} = Dnsimple.Domains.list_domains(client, "1010")

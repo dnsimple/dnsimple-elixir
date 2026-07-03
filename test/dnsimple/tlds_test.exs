@@ -17,7 +17,7 @@ defmodule Dnsimple.TldsTest do
   describe ".list_tlds" do
     test "returns the TLDs in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/tlds", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listTlds/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listTlds/success.http")
       end)
 
       {:ok, response} = @module.list_tlds(client)
@@ -31,7 +31,7 @@ defmodule Dnsimple.TldsTest do
 
     test "supports custom headers", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/tlds", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listTlds/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listTlds/success.http")
       end)
 
       {:ok, response} = @module.list_tlds(client, headers: %{"X-Header" => "X-Value"})
@@ -40,7 +40,7 @@ defmodule Dnsimple.TldsTest do
 
     test "supports sorting", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/tlds", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listTlds/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listTlds/success.http")
       end)
 
       {:ok, response} = @module.list_tlds(client, sort: "tld:desc")
@@ -51,7 +51,7 @@ defmodule Dnsimple.TldsTest do
   describe ".get_tld" do
     test "returns the TLD in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/tlds/com", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "getTld/success.http")
+        FixtureUtils.respond_with_fixture(conn, "getTld/success.http")
       end)
 
       {:ok, response} = @module.get_tld(client, "com")
@@ -80,7 +80,7 @@ defmodule Dnsimple.TldsTest do
       client: client
     } do
       Bypass.expect_once(bypass, "GET", "/v2/tlds/com/extended_attributes", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "getTldExtendedAttributes/success.http")
+        FixtureUtils.respond_with_fixture(conn, "getTldExtendedAttributes/success.http")
       end)
 
       {:ok, response} = @module.get_tld_extended_attributes(client, "com")

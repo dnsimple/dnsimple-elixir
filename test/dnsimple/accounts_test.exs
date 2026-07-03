@@ -17,7 +17,7 @@ defmodule Dnsimple.AccountsTest do
   describe ".list_accounts" do
     test "returns the accounts in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/accounts", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listAccounts/success-account.http")
+        FixtureUtils.respond_with_fixture(conn, "listAccounts/success-account.http")
       end)
 
       {:ok, response} = @module.list_accounts(client)
@@ -26,7 +26,7 @@ defmodule Dnsimple.AccountsTest do
 
     test "returns the account when using an account token", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/accounts", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listAccounts/success-account.http")
+        FixtureUtils.respond_with_fixture(conn, "listAccounts/success-account.http")
       end)
 
       {:ok, response} = @module.list_accounts(client)
@@ -42,7 +42,7 @@ defmodule Dnsimple.AccountsTest do
 
     test "returns all user accounts when using a user token", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/accounts", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listAccounts/success-user.http")
+        FixtureUtils.respond_with_fixture(conn, "listAccounts/success-user.http")
       end)
 
       {:ok, response} = @module.list_accounts(client)

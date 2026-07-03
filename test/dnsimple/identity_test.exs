@@ -17,7 +17,7 @@ defmodule Dnsimple.IdentityTest do
   describe ".whoami" do
     test "returns the user in a DNSimple response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/whoami", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "whoami/success-user.http")
+        FixtureUtils.respond_with_fixture(conn, "whoami/success-user.http")
       end)
 
       {:ok, response} = @module.whoami(client)
@@ -36,7 +36,7 @@ defmodule Dnsimple.IdentityTest do
 
     test "returns the account in a DNSimple response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/whoami", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "whoami/success-account.http")
+        FixtureUtils.respond_with_fixture(conn, "whoami/success-account.http")
       end)
 
       {:ok, response} = @module.whoami(client)

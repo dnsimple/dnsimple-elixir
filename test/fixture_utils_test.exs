@@ -1,8 +1,8 @@
-defmodule ExvcrUtilsTest do
+defmodule FixtureUtilsTest do
   use TestCase, async: false
 
   test ".read_fixture reads the fixture from file" do
-    fixture = ExvcrUtils.read_fixture("checkDomain/success.http")
+    fixture = FixtureUtils.read_fixture("checkDomain/success.http")
 
     assert fixture == """
            HTTP/1.1 200 OK
@@ -33,7 +33,7 @@ defmodule ExvcrUtilsTest do
     {"data":{"domain":"example.com","available":true,"premium":false}}
     """
 
-    [status, headers, body] = ExvcrUtils.break_into_parts(fixture)
+    [status, headers, body] = FixtureUtils.break_into_parts(fixture)
 
     assert body ==
              "{\"data\":{\"domain\":\"example.com\",\"available\":true,\"premium\":false}}\n"
@@ -45,7 +45,7 @@ defmodule ExvcrUtilsTest do
   test "extract_code extracts the code from the status" do
     status = "HTTP/1.1 200 OK"
 
-    assert ExvcrUtils.extract_code(status) == 200
+    assert FixtureUtils.extract_code(status) == 200
   end
 
   test "extract_headers extracts keys and values from headers" do
@@ -58,6 +58,6 @@ defmodule ExvcrUtilsTest do
       "Content-Type" => "application/json; charset=utf-8"
     }
 
-    assert ExvcrUtils.extract_headers(headers) == key_values
+    assert FixtureUtils.extract_headers(headers) == key_values
   end
 end

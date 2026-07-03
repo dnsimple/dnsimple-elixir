@@ -18,7 +18,7 @@ defmodule Dnsimple.WebhooksTest do
   describe ".list_webhooks" do
     test "returns the list of webhooks in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/webhooks", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listWebhooks/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listWebhooks/success.http")
       end)
 
       {:ok, response} = @module.list_webhooks(client, @account_id)
@@ -32,7 +32,7 @@ defmodule Dnsimple.WebhooksTest do
 
     test "can send custom headers", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/webhooks", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listWebhooks/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listWebhooks/success.http")
       end)
 
       {:ok, response} =
@@ -45,7 +45,7 @@ defmodule Dnsimple.WebhooksTest do
   describe ".get_webhook" do
     test "returns the webhook in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/webhooks/1", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "getWebhook/success.http")
+        FixtureUtils.respond_with_fixture(conn, "getWebhook/success.http")
       end)
 
       {:ok, response} = @module.get_webhook(client, @account_id, _webhook_id = 1)
@@ -68,7 +68,7 @@ defmodule Dnsimple.WebhooksTest do
       Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/webhooks", fn conn ->
         {:ok, request_body, conn} = Plug.Conn.read_body(conn)
         assert request_body == body
-        ExvcrUtils.respond_with_fixture(conn, "createWebhook/created.http")
+        FixtureUtils.respond_with_fixture(conn, "createWebhook/created.http")
       end)
 
       {:ok, response} =
@@ -90,7 +90,7 @@ defmodule Dnsimple.WebhooksTest do
       client: client
     } do
       Bypass.expect_once(bypass, "DELETE", "/v2/#{@account_id}/webhooks/1", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "deleteWebhook/success.http")
+        FixtureUtils.respond_with_fixture(conn, "deleteWebhook/success.http")
       end)
 
       {:ok, response} = @module.delete_webhook(client, @account_id, _webhook_id = 1)

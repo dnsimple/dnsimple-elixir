@@ -20,7 +20,7 @@ defmodule Dnsimple.DomainsTest do
   describe ".list_domains" do
     test "returns the domains in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/domains", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listDomains/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listDomains/success.http")
       end)
 
       {:ok, response} = @module.list_domains(client, @account_id)
@@ -34,7 +34,7 @@ defmodule Dnsimple.DomainsTest do
 
     test "sends custom headers", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/domains", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listDomains/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listDomains/success.http")
       end)
 
       {:ok, response} =
@@ -45,7 +45,7 @@ defmodule Dnsimple.DomainsTest do
 
     test "supports sorting", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/domains", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listDomains/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listDomains/success.http")
       end)
 
       {:ok, response} = @module.list_domains(client, @account_id, sort: "id:desc")
@@ -54,7 +54,7 @@ defmodule Dnsimple.DomainsTest do
 
     test "supports filtering", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/domains", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listDomains/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listDomains/success.http")
       end)
 
       {:ok, response} =
@@ -95,7 +95,7 @@ defmodule Dnsimple.DomainsTest do
         "GET",
         "/v2/#{@account_id}/domains/example-alpha.com",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getDomain/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getDomain/success.http")
         end
       )
 
@@ -130,7 +130,7 @@ defmodule Dnsimple.DomainsTest do
       Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/domains", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
         assert body == Poison.encode!(attributes)
-        ExvcrUtils.respond_with_fixture(conn, "createDomain/created.http")
+        FixtureUtils.respond_with_fixture(conn, "createDomain/created.http")
       end)
 
       {:ok, response} = @module.create_domain(client, @account_id, attributes)
@@ -147,7 +147,7 @@ defmodule Dnsimple.DomainsTest do
       client: client
     } do
       Bypass.expect_once(bypass, "DELETE", "/v2/#{@account_id}/domains/example.org", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "deleteDomain/success.http")
+        FixtureUtils.respond_with_fixture(conn, "deleteDomain/success.http")
       end)
 
       {:ok, response} = @module.delete_domain(client, @account_id, _domain_id = "example.org")
@@ -163,7 +163,7 @@ defmodule Dnsimple.DomainsTest do
         "POST",
         "/v2/#{@account_id}/domains/#{@domain_id}/dnssec",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "enableDnssec/success.http")
+          FixtureUtils.respond_with_fixture(conn, "enableDnssec/success.http")
         end
       )
 
@@ -181,7 +181,7 @@ defmodule Dnsimple.DomainsTest do
         "DELETE",
         "/v2/#{@account_id}/domains/#{@domain_id}/dnssec",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "disableDnssec/success.http")
+          FixtureUtils.respond_with_fixture(conn, "disableDnssec/success.http")
         end
       )
 
@@ -201,7 +201,7 @@ defmodule Dnsimple.DomainsTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/dnssec",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getDnssec/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getDnssec/success.http")
         end
       )
 
@@ -222,7 +222,7 @@ defmodule Dnsimple.DomainsTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/ds_records",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "listDelegationSignerRecords/success.http")
+          FixtureUtils.respond_with_fixture(conn, "listDelegationSignerRecords/success.http")
         end
       )
 
@@ -244,7 +244,7 @@ defmodule Dnsimple.DomainsTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/ds_records",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "listDelegationSignerRecords/success.http")
+          FixtureUtils.respond_with_fixture(conn, "listDelegationSignerRecords/success.http")
         end
       )
 
@@ -262,7 +262,7 @@ defmodule Dnsimple.DomainsTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/ds_records",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "listDelegationSignerRecords/success.http")
+          FixtureUtils.respond_with_fixture(conn, "listDelegationSignerRecords/success.http")
         end
       )
 
@@ -292,7 +292,7 @@ defmodule Dnsimple.DomainsTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(attributes)
-          ExvcrUtils.respond_with_fixture(conn, "createDelegationSignerRecord/created.http")
+          FixtureUtils.respond_with_fixture(conn, "createDelegationSignerRecord/created.http")
         end
       )
 
@@ -316,7 +316,7 @@ defmodule Dnsimple.DomainsTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/ds_records/24",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getDelegationSignerRecord/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getDelegationSignerRecord/success.http")
         end
       )
 
@@ -353,7 +353,7 @@ defmodule Dnsimple.DomainsTest do
         "DELETE",
         "/v2/#{@account_id}/domains/example.org/ds_records/1",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "deleteDelegationSignerRecord/success.http")
+          FixtureUtils.respond_with_fixture(conn, "deleteDelegationSignerRecord/success.http")
         end
       )
 
@@ -380,7 +380,7 @@ defmodule Dnsimple.DomainsTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/email_forwards",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "listEmailForwards/success.http")
+          FixtureUtils.respond_with_fixture(conn, "listEmailForwards/success.http")
         end
       )
 
@@ -399,7 +399,7 @@ defmodule Dnsimple.DomainsTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/email_forwards",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "listEmailForwards/success.http")
+          FixtureUtils.respond_with_fixture(conn, "listEmailForwards/success.http")
         end
       )
 
@@ -417,7 +417,7 @@ defmodule Dnsimple.DomainsTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/email_forwards",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "listEmailForwards/success.http")
+          FixtureUtils.respond_with_fixture(conn, "listEmailForwards/success.http")
         end
       )
 
@@ -442,7 +442,7 @@ defmodule Dnsimple.DomainsTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(attributes)
-          ExvcrUtils.respond_with_fixture(conn, "createEmailForward/created.http")
+          FixtureUtils.respond_with_fixture(conn, "createEmailForward/created.http")
         end
       )
 
@@ -464,7 +464,7 @@ defmodule Dnsimple.DomainsTest do
         "GET",
         "/v2/#{@account_id}/domains/#{@domain_id}/email_forwards/41872",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getEmailForward/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getEmailForward/success.http")
         end
       )
 
@@ -495,7 +495,7 @@ defmodule Dnsimple.DomainsTest do
         "DELETE",
         "/v2/#{@account_id}/domains/example.org/email_forwards/1",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "deleteEmailForward/success.http")
+          FixtureUtils.respond_with_fixture(conn, "deleteEmailForward/success.http")
         end
       )
 
@@ -518,7 +518,7 @@ defmodule Dnsimple.DomainsTest do
       client: client
     } do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/pushes", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listPushes/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listPushes/success.http")
       end)
 
       {:ok, response} = @module.list_pushes(client, @account_id)
@@ -545,7 +545,7 @@ defmodule Dnsimple.DomainsTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(attributes)
-          ExvcrUtils.respond_with_fixture(conn, "initiatePush/success.http")
+          FixtureUtils.respond_with_fixture(conn, "initiatePush/success.http")
         end
       )
 
@@ -575,7 +575,7 @@ defmodule Dnsimple.DomainsTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(attributes)
-          ExvcrUtils.respond_with_fixture(conn, "initiatePush/success.http")
+          FixtureUtils.respond_with_fixture(conn, "initiatePush/success.http")
         end
       )
 
@@ -599,7 +599,7 @@ defmodule Dnsimple.DomainsTest do
       Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/pushes/#{@push_id}", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
         assert body == Poison.encode!(attributes)
-        ExvcrUtils.respond_with_fixture(conn, "acceptPush/success.http")
+        FixtureUtils.respond_with_fixture(conn, "acceptPush/success.http")
       end)
 
       {:ok, response} = @module.accept_push(client, @account_id, @push_id, attributes)
@@ -614,7 +614,7 @@ defmodule Dnsimple.DomainsTest do
       client: client
     } do
       Bypass.expect_once(bypass, "DELETE", "/v2/#{@account_id}/pushes/#{@push_id}", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "rejectPush/success.http")
+        FixtureUtils.respond_with_fixture(conn, "rejectPush/success.http")
       end)
 
       {:ok, response} = @module.reject_push(client, @account_id, @push_id)
@@ -626,7 +626,7 @@ defmodule Dnsimple.DomainsTest do
   describe ".get_domain_research_status" do
     test "builds the correct request", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/domains/research/status", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "getDomainsResearchStatus/success-unavailable.http")
+        FixtureUtils.respond_with_fixture(conn, "getDomainsResearchStatus/success-unavailable.http")
       end)
 
       {:ok, response} = @module.get_domain_research_status(client, @account_id, "taken.com")

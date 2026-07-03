@@ -19,7 +19,7 @@ defmodule Dnsimple.BillingTest do
   describe ".list_charges" do
     test "returns the charges in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/billing/charges", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listCharges/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listCharges/success.http")
       end)
 
       {:ok, response} = @module.list_charges(client, @account_id)
@@ -49,7 +49,7 @@ defmodule Dnsimple.BillingTest do
 
     test "sends custom headers", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/billing/charges", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listCharges/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listCharges/success.http")
       end)
 
       @module.list_charges(client, @account_id, headers: %{"X-Header" => "X-Value"})
@@ -57,7 +57,7 @@ defmodule Dnsimple.BillingTest do
 
     test "supports filtering", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/billing/charges", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listCharges/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listCharges/success.http")
       end)
 
       @module.list_charges(client, @account_id, filter: [start_date: "2023-01-01"])
@@ -65,7 +65,7 @@ defmodule Dnsimple.BillingTest do
 
     test "supports sorting", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/billing/charges", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listCharges/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listCharges/success.http")
       end)
 
       @module.list_charges(client, @account_id, sort: "invoiced:desc")
@@ -73,7 +73,7 @@ defmodule Dnsimple.BillingTest do
 
     test "returns an error if the provided filter is bad", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/billing/charges", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listCharges/fail-400-bad-filter.http")
+        FixtureUtils.respond_with_fixture(conn, "listCharges/fail-400-bad-filter.http")
       end)
 
       {:error, response} = @module.list_charges(client, @account_id)

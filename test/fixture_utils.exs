@@ -1,4 +1,4 @@
-defmodule ExvcrUtils do
+defmodule FixtureUtils do
   def fixture(name) do
     Path.join([__DIR__, "fixtures.http", name])
   end
@@ -6,11 +6,6 @@ defmodule ExvcrUtils do
   def read_fixture(name) do
     fixture(name)
     |> File.read!()
-  end
-
-  def response_fixture(name, options \\ []) do
-    [status_code, headers, body] = parse_fixture(read_fixture(name))
-    options ++ [body: body, headers: headers, status_code: status_code]
   end
 
   @doc """

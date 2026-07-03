@@ -22,7 +22,7 @@ defmodule Dnsimple.VanityNameServersTest do
       client: client
     } do
       Bypass.expect_once(bypass, "PUT", "/v2/#{@account_id}/vanity/#{@domain_id}", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "enableVanityNameServers/success.http")
+        FixtureUtils.respond_with_fixture(conn, "enableVanityNameServers/success.http")
       end)
 
       {:ok, response} = @module.enable_vanity_name_servers(client, @account_id, @domain_id)
@@ -40,7 +40,7 @@ defmodule Dnsimple.VanityNameServersTest do
       client: client
     } do
       Bypass.expect_once(bypass, "DELETE", "/v2/#{@account_id}/vanity/#{@domain_id}", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "disableVanityNameServers/success.http")
+        FixtureUtils.respond_with_fixture(conn, "disableVanityNameServers/success.http")
       end)
 
       {:ok, response} = @module.disable_vanity_name_servers(client, @account_id, @domain_id)

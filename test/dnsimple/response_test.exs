@@ -19,7 +19,7 @@ defmodule Dnsimple.ResponseTest do
       client: client
     } do
       Bypass.expect_once(bypass, "GET", "/v2/1010/domains/1", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "getDomain/success.http")
+        FixtureUtils.respond_with_fixture(conn, "getDomain/success.http")
       end)
 
       http_response = Dnsimple.Client.execute(client, "get", "/v2/1010/domains/1")
@@ -33,7 +33,7 @@ defmodule Dnsimple.ResponseTest do
       client: client
     } do
       Bypass.expect_once(bypass, "GET", "/v2/tlds/com/extended_attributes", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "getTldExtendedAttributes/success.http")
+        FixtureUtils.respond_with_fixture(conn, "getTldExtendedAttributes/success.http")
       end)
 
       http_response =
@@ -58,7 +58,7 @@ defmodule Dnsimple.ResponseTest do
       client: client
     } do
       Bypass.expect_once(bypass, "POST", "/oauth/access_token", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "oauthAccessToken/success.http")
+        FixtureUtils.respond_with_fixture(conn, "oauthAccessToken/success.http")
       end)
 
       http_response = Dnsimple.Client.execute(client, "post", "/oauth/access_token")
@@ -69,7 +69,7 @@ defmodule Dnsimple.ResponseTest do
 
     test "parses a response without extracting data", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "DELETE", "/path", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "deleteDomain/success.http")
+        FixtureUtils.respond_with_fixture(conn, "deleteDomain/success.http")
       end)
 
       http_response = {:ok, http} = Dnsimple.Client.execute(client, "delete", "/path")
@@ -81,7 +81,7 @@ defmodule Dnsimple.ResponseTest do
 
     test "parses the rate-limit", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/path", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "whoami/success.http")
+        FixtureUtils.respond_with_fixture(conn, "whoami/success.http")
       end)
 
       http_response = Dnsimple.Client.execute(client, "get", "/path")
@@ -94,7 +94,7 @@ defmodule Dnsimple.ResponseTest do
 
     test "parses pagination", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/path", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "pages-1of3.http")
+        FixtureUtils.respond_with_fixture(conn, "pages-1of3.http")
       end)
 
       http_response = Dnsimple.Client.execute(client, "get", "/path")

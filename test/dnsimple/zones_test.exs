@@ -20,7 +20,7 @@ defmodule Dnsimple.ZonesTest do
   describe ".list_zones" do
     test "returns the zones in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/zones", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listZones/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listZones/success.http")
       end)
 
       {:ok, response} = @module.list_zones(client, @account_id)
@@ -31,7 +31,7 @@ defmodule Dnsimple.ZonesTest do
 
     test "supports sorting", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/zones", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listZones/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listZones/success.http")
       end)
 
       {:ok, response} = @module.list_zones(client, @account_id, sort: "name:desc")
@@ -40,7 +40,7 @@ defmodule Dnsimple.ZonesTest do
 
     test "supports filtering", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/zones", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listZones/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listZones/success.http")
       end)
 
       {:ok, response} = @module.list_zones(client, @account_id, filter: [name_like: "example"])
@@ -51,7 +51,7 @@ defmodule Dnsimple.ZonesTest do
   describe ".get_zone" do
     test "returns the zone in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/zones/example.com", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "getZone/success.http")
+        FixtureUtils.respond_with_fixture(conn, "getZone/success.http")
       end)
 
       {:ok, response} = @module.get_zone(client, @account_id, _zone_id = "example.com")
@@ -78,7 +78,7 @@ defmodule Dnsimple.ZonesTest do
         "GET",
         "/v2/#{@account_id}/zones/#{@zone_id}/file",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getZoneFile/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getZoneFile/success.http")
         end
       )
 
@@ -102,7 +102,7 @@ defmodule Dnsimple.ZonesTest do
         "GET",
         "/v2/#{@account_id}/zones/#{@zone_id}/distribution",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "checkZoneDistribution/success.http")
+          FixtureUtils.respond_with_fixture(conn, "checkZoneDistribution/success.http")
         end
       )
 
@@ -123,7 +123,7 @@ defmodule Dnsimple.ZonesTest do
         "GET",
         "/v2/#{@account_id}/zones/#{@zone_id}/distribution",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "checkZoneDistribution/failure.http")
+          FixtureUtils.respond_with_fixture(conn, "checkZoneDistribution/failure.http")
         end
       )
 
@@ -144,7 +144,7 @@ defmodule Dnsimple.ZonesTest do
         "GET",
         "/v2/#{@account_id}/zones/#{@zone_id}/distribution",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "checkZoneDistribution/error.http")
+          FixtureUtils.respond_with_fixture(conn, "checkZoneDistribution/error.http")
         end
       )
 
@@ -164,7 +164,7 @@ defmodule Dnsimple.ZonesTest do
         "GET",
         "/v2/#{@account_id}/zones/#{@zone_id}/records/#{@record_id}/distribution",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "checkZoneRecordDistribution/success.http")
+          FixtureUtils.respond_with_fixture(conn, "checkZoneRecordDistribution/success.http")
         end
       )
 
@@ -187,7 +187,7 @@ defmodule Dnsimple.ZonesTest do
         "GET",
         "/v2/#{@account_id}/zones/#{@zone_id}/records/#{@record_id}/distribution",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "checkZoneRecordDistribution/failure.http")
+          FixtureUtils.respond_with_fixture(conn, "checkZoneRecordDistribution/failure.http")
         end
       )
 
@@ -210,7 +210,7 @@ defmodule Dnsimple.ZonesTest do
         "GET",
         "/v2/#{@account_id}/zones/#{@zone_id}/records/#{@record_id}/distribution",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "checkZoneRecordDistribution/error.http")
+          FixtureUtils.respond_with_fixture(conn, "checkZoneRecordDistribution/error.http")
         end
       )
 
@@ -229,7 +229,7 @@ defmodule Dnsimple.ZonesTest do
         "GET",
         "/v2/#{@account_id}/zones/#{@zone_id}/records",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "listZoneRecords/success.http")
+          FixtureUtils.respond_with_fixture(conn, "listZoneRecords/success.http")
         end
       )
 
@@ -248,7 +248,7 @@ defmodule Dnsimple.ZonesTest do
         "GET",
         "/v2/#{@account_id}/zones/#{@zone_id}/records",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "listZoneRecords/success.http")
+          FixtureUtils.respond_with_fixture(conn, "listZoneRecords/success.http")
         end
       )
 
@@ -264,7 +264,7 @@ defmodule Dnsimple.ZonesTest do
         "GET",
         "/v2/#{@account_id}/zones/#{@zone_id}/records",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "listZoneRecords/success.http")
+          FixtureUtils.respond_with_fixture(conn, "listZoneRecords/success.http")
         end
       )
 
@@ -282,7 +282,7 @@ defmodule Dnsimple.ZonesTest do
         "GET",
         "/v2/#{@account_id}/zones/#{@zone_id}/records/5",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "getZoneRecord/success.http")
+          FixtureUtils.respond_with_fixture(conn, "getZoneRecord/success.http")
         end
       )
 
@@ -320,7 +320,7 @@ defmodule Dnsimple.ZonesTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(attributes)
-          ExvcrUtils.respond_with_fixture(conn, "createZoneRecord/created.http")
+          FixtureUtils.respond_with_fixture(conn, "createZoneRecord/created.http")
         end
       )
 
@@ -358,7 +358,7 @@ defmodule Dnsimple.ZonesTest do
         fn conn ->
           {:ok, body, conn} = Plug.Conn.read_body(conn)
           assert body == Poison.encode!(attributes)
-          ExvcrUtils.respond_with_fixture(conn, "updateZoneRecord/success.http")
+          FixtureUtils.respond_with_fixture(conn, "updateZoneRecord/success.http")
         end
       )
 
@@ -394,7 +394,7 @@ defmodule Dnsimple.ZonesTest do
         "DELETE",
         "/v2/#{@account_id}/zones/#{@zone_id}/records/5",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "deleteZoneRecord/success.http")
+          FixtureUtils.respond_with_fixture(conn, "deleteZoneRecord/success.http")
         end
       )
 
@@ -416,7 +416,7 @@ defmodule Dnsimple.ZonesTest do
         "PUT",
         "/v2/#{@account_id}/zones/#{@zone_id}/activation",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "activateZoneService/success.http")
+          FixtureUtils.respond_with_fixture(conn, "activateZoneService/success.http")
         end
       )
 
@@ -443,7 +443,7 @@ defmodule Dnsimple.ZonesTest do
         "DELETE",
         "/v2/#{@account_id}/zones/#{@zone_id}/activation",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "deactivateZoneService/success.http")
+          FixtureUtils.respond_with_fixture(conn, "deactivateZoneService/success.http")
         end
       )
 

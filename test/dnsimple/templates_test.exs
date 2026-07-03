@@ -18,7 +18,7 @@ defmodule Dnsimple.TemplatesTest do
   describe ".list_templates" do
     test "returns the templates in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/templates", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listTemplates/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listTemplates/success.http")
       end)
 
       {:ok, response} = @module.list_templates(client, @account_id)
@@ -31,7 +31,7 @@ defmodule Dnsimple.TemplatesTest do
 
     test "supports custom headers", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/templates", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listTemplates/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listTemplates/success.http")
       end)
 
       {:ok, response} =
@@ -42,7 +42,7 @@ defmodule Dnsimple.TemplatesTest do
 
     test "supports sorting", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/templates", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listTemplates/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listTemplates/success.http")
       end)
 
       {:ok, response} = @module.list_templates(client, @account_id, sort: "name:desc")
@@ -53,7 +53,7 @@ defmodule Dnsimple.TemplatesTest do
   describe ".get_template" do
     test "returns the template in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/templates/1", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "getTemplate/success.http")
+        FixtureUtils.respond_with_fixture(conn, "getTemplate/success.http")
       end)
 
       {:ok, response} = @module.get_template(client, @account_id, _template_id = 1)
@@ -81,7 +81,7 @@ defmodule Dnsimple.TemplatesTest do
       Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/templates", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
         assert body == Poison.encode!(attributes)
-        ExvcrUtils.respond_with_fixture(conn, "createTemplate/created.http")
+        FixtureUtils.respond_with_fixture(conn, "createTemplate/created.http")
       end)
 
       {:ok, response} = @module.create_template(client, @account_id, attributes)
@@ -102,7 +102,7 @@ defmodule Dnsimple.TemplatesTest do
       Bypass.expect_once(bypass, "PATCH", "/v2/#{@account_id}/templates/beta", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
         assert body == Poison.encode!(attributes)
-        ExvcrUtils.respond_with_fixture(conn, "updateTemplate/success.http")
+        FixtureUtils.respond_with_fixture(conn, "updateTemplate/success.http")
       end)
 
       {:ok, response} =
@@ -124,7 +124,7 @@ defmodule Dnsimple.TemplatesTest do
       client: client
     } do
       Bypass.expect_once(bypass, "DELETE", "/v2/#{@account_id}/templates/1", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "deleteTemplate/success.http")
+        FixtureUtils.respond_with_fixture(conn, "deleteTemplate/success.http")
       end)
 
       {:ok, response} = @module.delete_template(client, @account_id, _template_id = 1)
@@ -136,7 +136,7 @@ defmodule Dnsimple.TemplatesTest do
   describe ".list_template_records" do
     test "returns the records in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/templates/1/records", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listTemplateRecords/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listTemplateRecords/success.http")
       end)
 
       {:ok, response} = @module.list_template_records(client, @account_id, _template_id = 1)
@@ -149,7 +149,7 @@ defmodule Dnsimple.TemplatesTest do
 
     test "supports custom headers", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/templates/1/records", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listTemplateRecords/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listTemplateRecords/success.http")
       end)
 
       {:ok, response} =
@@ -162,7 +162,7 @@ defmodule Dnsimple.TemplatesTest do
 
     test "supports sorting", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/templates/1/records", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listTemplateRecords/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listTemplateRecords/success.http")
       end)
 
       {:ok, response} =
@@ -175,7 +175,7 @@ defmodule Dnsimple.TemplatesTest do
   describe ".get_template_record" do
     test "returns the record in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/templates/268/records/301", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "getTemplateRecord/success.http")
+        FixtureUtils.respond_with_fixture(conn, "getTemplateRecord/success.http")
       end)
 
       {:ok, response} =
@@ -207,7 +207,7 @@ defmodule Dnsimple.TemplatesTest do
       Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/templates/268/records", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
         assert body == Poison.encode!(attributes)
-        ExvcrUtils.respond_with_fixture(conn, "createTemplateRecord/created.http")
+        FixtureUtils.respond_with_fixture(conn, "createTemplateRecord/created.http")
       end)
 
       {:ok, response} =
@@ -230,7 +230,7 @@ defmodule Dnsimple.TemplatesTest do
         "DELETE",
         "/v2/#{@account_id}/templates/268/records/301",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "deleteTemplateRecord/success.http")
+          FixtureUtils.respond_with_fixture(conn, "deleteTemplateRecord/success.http")
         end
       )
 
@@ -257,7 +257,7 @@ defmodule Dnsimple.TemplatesTest do
         "POST",
         "/v2/#{@account_id}/domains/example.com/templates/1",
         fn conn ->
-          ExvcrUtils.respond_with_fixture(conn, "applyTemplate/success.http")
+          FixtureUtils.respond_with_fixture(conn, "applyTemplate/success.http")
         end
       )
 

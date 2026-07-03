@@ -17,7 +17,7 @@ defmodule Dnsimple.ContactsTest do
   describe ".list_contacts" do
     test "returns the contacts in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/1010/contacts", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listContacts/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listContacts/success.http")
       end)
 
       {:ok, response} = @module.list_contacts(client, "1010")
@@ -32,7 +32,7 @@ defmodule Dnsimple.ContactsTest do
 
     test "supports custom headers", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/1010/contacts", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listContacts/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listContacts/success.http")
       end)
 
       {:ok, response} =
@@ -43,7 +43,7 @@ defmodule Dnsimple.ContactsTest do
 
     test "supports sorting", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/1010/contacts", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "listContacts/success.http")
+        FixtureUtils.respond_with_fixture(conn, "listContacts/success.http")
       end)
 
       {:ok, response} = @module.list_contacts(client, "1010", sort: "label:asc")
@@ -54,7 +54,7 @@ defmodule Dnsimple.ContactsTest do
   describe ".contact" do
     test "returns the contact in a Dnsimple.Response", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "GET", "/v2/1010/contacts/1", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "getContact/success.http")
+        FixtureUtils.respond_with_fixture(conn, "getContact/success.http")
       end)
 
       {:ok, response} = @module.get_contact(client, 1010, 1)
@@ -107,7 +107,7 @@ defmodule Dnsimple.ContactsTest do
       Bypass.expect_once(bypass, "POST", "/v2/1010/contacts", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
         assert body == Poison.encode!(attributes)
-        ExvcrUtils.respond_with_fixture(conn, "createContact/created.http")
+        FixtureUtils.respond_with_fixture(conn, "createContact/created.http")
       end)
 
       {:ok, response} = @module.create_contact(client, 1010, attributes)
@@ -128,7 +128,7 @@ defmodule Dnsimple.ContactsTest do
       Bypass.expect_once(bypass, "PATCH", "/v2/1010/contacts/1", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
         assert body == Poison.encode!(attributes)
-        ExvcrUtils.respond_with_fixture(conn, "updateContact/success.http")
+        FixtureUtils.respond_with_fixture(conn, "updateContact/success.http")
       end)
 
       {:ok, response} = @module.update_contact(client, 1010, 1, attributes)
@@ -143,7 +143,7 @@ defmodule Dnsimple.ContactsTest do
   describe ".delete_contact" do
     test "deletes the contact", %{bypass: bypass, client: client} do
       Bypass.expect_once(bypass, "DELETE", "/v2/1010/contacts/1", fn conn ->
-        ExvcrUtils.respond_with_fixture(conn, "deleteContact/success.http")
+        FixtureUtils.respond_with_fixture(conn, "deleteContact/success.http")
       end)
 
       {:ok, response} = @module.delete_contact(client, 1010, 1)

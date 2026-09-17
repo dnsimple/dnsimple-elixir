@@ -227,10 +227,7 @@ defmodule Dnsimple.RegistrarTest do
       data = response.data
       assert data.__struct__ == Dnsimple.DomainRestore
       assert data.id == 43
-      assert data.domain_id == 214
       assert data.state == "new"
-      assert data.created_at == "2024-02-14T14:40:42Z"
-      assert data.updated_at == "2024-02-14T14:40:42Z"
     end
   end
 

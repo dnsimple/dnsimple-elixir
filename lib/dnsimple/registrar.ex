@@ -183,8 +183,13 @@ defmodule Dnsimple.Registrar do
       {:ok, response} = Dnsimple.Registrar.restore_domain(client, account_id = 1010, domain_id = "example.com", %{premium_price: "109.00"})
 
   """
-  @spec restore_domain(Client.t(), String.t(), String.t(), Keyword.t(), Keyword.t()) ::
-          {:ok | :error, Response.t()}
+  @spec restore_domain(
+          Client.t(),
+          String.t() | integer,
+          String.t(),
+          Keyword.t(),
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
   def restore_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/restores")
 

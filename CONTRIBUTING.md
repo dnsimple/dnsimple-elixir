@@ -21,6 +21,8 @@ Compile the project and [run the test suite](#testing) to check everything works
 
 We follow the [Common Changelog](https://common-changelog.org/) format for changelog entries.
 
+Add new entries to the `## Unreleased` section at the top of `CHANGELOG.md`. When a change requires a major version, append `(requires major version)` to its entry, for example `- Drop support for Elixir or OTP < X.Y (requires major version)`. The release process uses this tag to select the next version.
+
 ## Testing
 
 Run static analysis, which includes format checks, linter, type checking, and docs:

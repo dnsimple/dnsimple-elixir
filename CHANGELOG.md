@@ -6,8 +6,8 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ### Added
 
-- Added `Dnsimple.Registrar.restore_domain/5` to restore a domain.
-- Added `Dnsimple.Registrar.get_domain_restore/5` to retrieve a domain restore.
+- Added `Dnsimple.Registrar.restore_domain/5` to restore a domain. (#356)
+- Added `Dnsimple.Registrar.get_domain_restore/5` to retrieve a domain restore. (#356)
 
 ## 10.1.0 - 2026-09-17
 

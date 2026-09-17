@@ -206,6 +206,58 @@ defmodule Dnsimple.RegistrarTest do
     end
   end
 
+  describe ".restore_domain" do
+    test "returns the restored domain in a Dnsimple.Response", %{bypass: bypass, client: client} do
+      attributes = %{premium_price: "109.00"}
+
+      Bypass.expect_once(
+        bypass,
+        "POST",
+        "/v2/#{@account_id}/registrar/domains/example.com/restores",
+        fn conn ->
+          {:ok, body, conn} = Plug.Conn.read_body(conn)
+          assert body == JSON.encode!(attributes)
+          FixtureUtils.respond_with_fixture(conn, "restoreDomain/success.http")
+        end
+      )
+
+      {:ok, response} = @module.restore_domain(client, @account_id, "example.com", attributes)
+      assert response.__struct__ == Dnsimple.Response
+
+      data = response.data
+      assert data.__struct__ == Dnsimple.DomainRestore
+      assert data.id == 43
+      assert data.domain_id == 214
+      assert data.state == "new"
+      assert data.created_at == "2024-02-14T14:40:42Z"
+      assert data.updated_at == "2024-02-14T14:40:42Z"
+    end
+  end
+
+  describe ".get_domain_restore" do
+    test "returns the domain restore in a Dnsimple.Response", %{bypass: bypass, client: client} do
+      Bypass.expect_once(
+        bypass,
+        "GET",
+        "/v2/#{@account_id}/registrar/domains/bingo.pizza/restores/1",
+        fn conn ->
+          FixtureUtils.respond_with_fixture(conn, "getDomainRestore/success.http")
+        end
+      )
+
+      {:ok, response} = @module.get_domain_restore(client, @account_id, "bingo.pizza", 1)
+      assert response.__struct__ == Dnsimple.Response
+
+      data = response.data
+      assert data.__struct__ == Dnsimple.DomainRestore
+      assert data.id == 43
+      assert data.domain_id == 214
+      assert data.state == "new"
+      assert data.created_at == "2024-02-14T14:40:42Z"
+      assert data.updated_at == "2024-02-14T14:40:42Z"
+    end
+  end
+
   describe ".transfer_domain" do
     test "returns the domain to be transferred in a Dnsimple.Response", %{
       bypass: bypass,

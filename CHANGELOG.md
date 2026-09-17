@@ -2,6 +2,13 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Unreleased
+
+### Added
+
+- Added `Dnsimple.Registrar.restore_domain/5` to restore a domain.
+- Added `Dnsimple.Registrar.get_domain_restore/5` to retrieve a domain restore.
+
 ## 10.1.0 - 2026-09-17
 
 ### Deprecated

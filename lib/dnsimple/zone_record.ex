@@ -5,6 +5,8 @@ defmodule Dnsimple.ZoneRecord do
   See:
   - https://developer.dnsimple.com/v2/zones/records
   - https://developer.dnsimple.com/v2/zones/records/#zone-record-regions
+
+  The `parent_id` field is deprecated. Its value is always `nil`, and the field will be removed in the next major version.
   """
   @moduledoc section: :data_types
 

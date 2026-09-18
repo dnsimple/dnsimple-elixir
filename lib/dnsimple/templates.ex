@@ -189,7 +189,7 @@ defmodule Dnsimple.Templates do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Templates.create_template_record(client, account_id = 1010, template_id = "alpha" %{
+      {:ok, response} = Dnsimple.Templates.create_template_record(client, account_id = 1010, template_id = "alpha", %{
         name: "",
         type: "mx",
         content: "mx.example.com",

@@ -94,8 +94,8 @@ defmodule Dnsimple do
     @typedoc """
     Request body accepted by `post/4`, `patch/4`, and `put/4`.
 
-    Includes `nil` for empty bodies (see `empty_body/0`) and `map/0` for JSON
-    payloads encoded via `JSON.encode!/1`.
+    Includes `nil` for empty bodies (see `empty_body/0`) and `map/0` or a list of strings for
+    JSON payloads encoded via `JSON.encode!/1`.
     """
     @type body ::
             nil
@@ -103,7 +103,7 @@ defmodule Dnsimple do
             | map()
             | {:form, [{atom, any}]}
             | {:file, binary()}
-            | Keyword.t()
+            | [String.t()]
 
     @doc """
     Initializes a new client from the application environment.

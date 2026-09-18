@@ -259,7 +259,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.get_domain_transfer(client, account_id = 1010, domain_name = "example.com", transfer_id = 42)
+      {:ok, response} = Dnsimple.Registrar.get_domain_transfer(client, account_id = 1010, domain_name = "example.com", domain_transfer_id = 42)
 
   """
   @spec get_domain_transfer(
@@ -288,7 +288,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.cancel_domain_transfer(client, account_id = 1010, domain_name = "example.com", transfer_id = 42)
+      {:ok, response} = Dnsimple.Registrar.cancel_domain_transfer(client, account_id = 1010, domain_name = "example.com", domain_transfer_id = 42)
 
   """
   @spec cancel_domain_transfer(

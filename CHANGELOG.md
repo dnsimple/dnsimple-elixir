@@ -9,6 +9,10 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 - Added `Dnsimple.Registrar.restore_domain/5` to restore a domain. (#356)
 - Added `Dnsimple.Registrar.get_domain_restore/5` to retrieve a domain restore. (#356)
 
+### Fixed
+
+- Fixed the typespec of the request body argument to `map()` in `Dnsimple.Contacts`, `Dnsimple.Zones`, `Dnsimple.Certificates`, and `Dnsimple.Services`. A keyword list with values cannot be encoded to JSON. (#359)
+
 ## 10.1.0 - 2026-09-17
 
 ### Deprecated

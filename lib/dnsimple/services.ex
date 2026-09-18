@@ -95,7 +95,7 @@ defmodule Dnsimple.Services do
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
       {:ok, response} = Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 12)
       {:ok, response} = Dnsimple.Services.apply_service(client, account_id = 1010, domain_id = "example.com", service_id = 27, %{
-        %{settings: %{setting_name: "setting value"}}
+        settings: %{setting_name: "setting value"}
       })
 
   """
@@ -104,7 +104,7 @@ defmodule Dnsimple.Services do
           String.t() | integer(),
           String.t() | integer(),
           String.t() | integer(),
-          map() | Keyword.t(),
+          map(),
           Keyword.t()
         ) :: {:ok | :error, Response.t()}
   def apply_service(client, account_id, domain_id, service_id, settings \\ %{}, options \\ []) do

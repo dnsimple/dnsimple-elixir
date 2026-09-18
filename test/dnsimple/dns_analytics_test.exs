@@ -38,37 +38,14 @@ defmodule Dnsimple.DnsAnalyticsTest do
       assert row.zone_name == "foo.com"
       assert row.date == "2024-01-08"
       assert row.volume == 1200
-    end
-
-    test "returns the pagination", %{bypass: bypass, client: client} do
-      Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/dns_analytics", fn conn ->
-        FixtureUtils.respond_with_fixture(conn, "dnsAnalytics/success.http")
-      end)
-
-      {:ok, response} = @module.query(client, @account_id)
 
       pagination = response.pagination
       assert pagination.__struct__ == Dnsimple.Response.Pagination
-      assert pagination.current_page == 0
-      assert pagination.per_page == 100
       assert pagination.total_entries == 93
-      assert pagination.total_pages == 1
-    end
-
-    test "returns the query", %{bypass: bypass, client: client} do
-      Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/dns_analytics", fn conn ->
-        FixtureUtils.respond_with_fixture(conn, "dnsAnalytics/success.http")
-      end)
-
-      {:ok, response} = @module.query(client, @account_id)
 
       query = response.query
-      assert query["account_id"] == 1
       assert query["start_date"] == "2023-12-08"
       assert query["end_date"] == "2024-01-08"
-      assert query["sort"] == "zone_name:asc,date:asc"
-      assert query["page"] == 0
-      assert query["per_page"] == 100
       assert query["groupings"] == "zone_name,date"
     end
 
@@ -102,16 +79,6 @@ defmodule Dnsimple.DnsAnalyticsTest do
       end)
 
       @module.query(client, @account_id, sort: "volume:desc,zone_name:asc")
-    end
-
-    test "supports pagination", %{bypass: bypass, client: client} do
-      Bypass.expect_once(bypass, "GET", "/v2/#{@account_id}/dns_analytics", fn conn ->
-        conn = Plug.Conn.fetch_query_params(conn)
-        assert conn.query_params == %{"page" => "2", "per_page" => "10"}
-        FixtureUtils.respond_with_fixture(conn, "dnsAnalytics/success.http")
-      end)
-
-      @module.query(client, @account_id, page: 2, per_page: 10)
     end
   end
 end

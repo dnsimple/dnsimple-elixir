@@ -168,6 +168,12 @@ defmodule Dnsimple.ListingTest do
       assert Listing.format(sort: "foo:asc") == [params: [sort: "foo:asc"]]
     end
 
+    test "includes groupings if present" do
+      assert Listing.format(groupings: "zone_name,date") == [
+               params: [groupings: "zone_name,date"]
+             ]
+    end
+
     test "includes page if it present" do
       assert Listing.format(page: 1) == [params: [page: 1]]
     end

@@ -9,6 +9,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 - Added `Dnsimple.Registrar.restore_domain/5` to restore a domain. (#356)
 - Added `Dnsimple.Registrar.get_domain_restore/5` to retrieve a domain restore. (#356)
 - Added `Dnsimple.Zones.batch_change_zone_records/5` to create, update, and delete records in a zone in one atomic operation. (#360)
+- Added `Dnsimple.DnsAnalytics.query/3` to query the DNS Analytics data of an account. The API is in Public Beta.
 
 ### Fixed
 

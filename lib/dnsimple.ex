@@ -278,7 +278,7 @@ defmodule Dnsimple do
             {:ok | :error, HTTPoison.Response.t() | HTTPoison.AsyncResponse.t()}
     def get(client, url, options \\ []), do: Client.get(client, url, format(options))
 
-    @known_params ~w(filter sort page per_page)a
+    @known_params ~w(filter sort groupings page per_page)a
 
     @doc """
     Format request options for list endpoints into HTTP params.

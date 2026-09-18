@@ -75,7 +75,7 @@ defmodule Dnsimple.Contacts do
       })
 
   """
-  @spec create_contact(Client.t(), String.t() | integer, Keyword.t(), Keyword.t()) ::
+  @spec create_contact(Client.t(), String.t() | integer, map(), Keyword.t()) ::
           {:ok | :error, Response.t()}
   def create_contact(client, account_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/contacts")
@@ -102,7 +102,7 @@ defmodule Dnsimple.Contacts do
           Client.t(),
           String.t() | integer,
           String.t() | integer,
-          Keyword.t(),
+          map(),
           Keyword.t()
         ) :: {:ok | :error, Response.t()}
   def update_contact(client, account_id, contact_id, attributes, options \\ []) do

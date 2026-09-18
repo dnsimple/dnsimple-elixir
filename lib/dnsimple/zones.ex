@@ -209,7 +209,7 @@ defmodule Dnsimple.Zones do
           Client.t(),
           String.t() | integer,
           String.t() | integer,
-          Keyword.t(),
+          map(),
           Keyword.t()
         ) :: {:ok | :error, Response.t()}
   def create_zone_record(client, account_id, zone_id, attributes, options \\ []) do
@@ -236,7 +236,7 @@ defmodule Dnsimple.Zones do
           String.t() | integer,
           String.t() | integer,
           integer,
-          Keyword.t(),
+          map(),
           Keyword.t()
         ) :: {:ok | :error, Response.t()}
   def update_zone_record(client, account_id, zone_id, record_id, attributes, options \\ []) do

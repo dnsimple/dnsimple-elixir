@@ -18,7 +18,7 @@ defmodule Dnsimple.Services do
   Returns the list of available one-click services.
 
   See:
-  - https://developer.dnsimple.com/v2/services/#list
+  - https://developer.dnsimple.com/v2/services/#listServices
 
   ## Examples:
 
@@ -42,7 +42,7 @@ defmodule Dnsimple.Services do
   Returns a one-click service.
 
   See:
-  - https://developer.dnsimple.com/v2/services/#get
+  - https://developer.dnsimple.com/v2/services/#getService
 
   ## Examples:
 
@@ -63,7 +63,7 @@ defmodule Dnsimple.Services do
   Lists the one-click services already applied to a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/services/domains/#applied
+  - https://developer.dnsimple.com/v2/services/domains/#listDomainAppliedServices
 
   ## Examples:
 
@@ -88,7 +88,7 @@ defmodule Dnsimple.Services do
   Apply a one-click service to a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/services/domains/#apply
+  - https://developer.dnsimple.com/v2/services/domains/#applyServiceToDomain
 
   ## Examples:
 
@@ -118,7 +118,7 @@ defmodule Dnsimple.Services do
   Remove a one-click service previously applied to a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/services/domains/#unapply
+  - https://developer.dnsimple.com/v2/services/domains/#unapplyServiceFromDomain
 
   ## Examples:
 

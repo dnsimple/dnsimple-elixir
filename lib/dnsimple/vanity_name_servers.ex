@@ -16,7 +16,7 @@ defmodule Dnsimple.VanityNameServers do
   Enables vanity name servers for the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/vanity/#enable
+  - https://developer.dnsimple.com/v2/vanity/#enableVanityNameServers
 
   ## Examples:
 
@@ -41,7 +41,7 @@ defmodule Dnsimple.VanityNameServers do
   Disables vanity name servers for the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/vanity/#disable
+  - https://developer.dnsimple.com/v2/vanity/#disableVanityNameServers
 
   ## Examples:
 

@@ -27,7 +27,7 @@ defmodule Dnsimple.Zone do
     Represents a zone file.
 
     See:
-    - https://developer.dnsimple.com/v2/zones/#file
+    - https://developer.dnsimple.com/v2/zones/#getZoneFile
     - https://support.dnsimple.com/articles/zone-files/#whats-a-zone-file
     """
     @moduledoc section: :data_types

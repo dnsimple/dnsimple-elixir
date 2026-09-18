@@ -3,7 +3,7 @@ defmodule Dnsimple.DomainTransfer do
   Represents a domain transfer.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/#transfer
+  - https://developer.dnsimple.com/v2/registrar/#transferDomain
   """
   @moduledoc section: :data_types
 

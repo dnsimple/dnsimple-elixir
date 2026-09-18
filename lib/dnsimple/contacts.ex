@@ -14,7 +14,7 @@ defmodule Dnsimple.Contacts do
   Lists the contacts in an account.
 
   See:
-  - https://developer.dnsimple.com/v2/contacts/#list
+  - https://developer.dnsimple.com/v2/contacts/#listContacts
 
   ## Examples:
 
@@ -35,7 +35,7 @@ defmodule Dnsimple.Contacts do
   Gets a contact in an account.
 
   See:
-  - https://developer.dnsimple.com/v2/contacts/#get
+  - https://developer.dnsimple.com/v2/contacts/#getContact
 
   ## Examples:
 
@@ -56,7 +56,7 @@ defmodule Dnsimple.Contacts do
   Creates a contact in an account.
 
   See:
-  - https://developer.dnsimple.com/v2/contacts/#create
+  - https://developer.dnsimple.com/v2/contacts/#createContact
 
   ## Examples:
 
@@ -88,7 +88,7 @@ defmodule Dnsimple.Contacts do
   Updates a contact in an account.
 
   See:
-  - https://developer.dnsimple.com/v2/contacts/#update
+  - https://developer.dnsimple.com/v2/contacts/#updateContact
 
   ## Examples:
 
@@ -118,7 +118,7 @@ defmodule Dnsimple.Contacts do
   **Warning**: this is a destructive operation.
 
   See:
-  - https://developer.dnsimple.com/v2/contacts/#delete
+  - https://developer.dnsimple.com/v2/contacts/#deleteContact
 
   ## Examples:
 

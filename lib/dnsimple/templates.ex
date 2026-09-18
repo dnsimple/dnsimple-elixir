@@ -20,7 +20,7 @@ defmodule Dnsimple.Templates do
   Returns the list of existing templates in the account.
 
   See:
-  - https://developer.dnsimple.com/v2/templates/#list
+  - https://developer.dnsimple.com/v2/templates/#listTemplates
 
   ## Examples:
 
@@ -42,7 +42,7 @@ defmodule Dnsimple.Templates do
   Returns a template.
 
   See:
-  - https://developer.dnsimple.com/v2/templates/#get
+  - https://developer.dnsimple.com/v2/templates/#getTemplate
 
   ## Examples:
 
@@ -63,7 +63,7 @@ defmodule Dnsimple.Templates do
   Creates a new template.
 
   See:
-  - https://developer.dnsimple.com/v2/templates/#create
+  - https://developer.dnsimple.com/v2/templates/#createTemplate
 
   ## Examples:
 
@@ -88,7 +88,7 @@ defmodule Dnsimple.Templates do
   Updates an existing template.
 
   See:
-  - https://developer.dnsimple.com/v2/templates/#update
+  - https://developer.dnsimple.com/v2/templates/#updateTemplate
 
   ## Examples:
 
@@ -115,7 +115,7 @@ defmodule Dnsimple.Templates do
   **Warning**: this is a destructive operation.
 
   See:
-  - https://developer.dnsimple.com/v2/templates/#delete
+  - https://developer.dnsimple.com/v2/templates/#deleteTemplate
 
   ## Examples:
 
@@ -136,7 +136,7 @@ defmodule Dnsimple.Templates do
   Returns the list of records in the template.
 
   See:
-  - https://developer.dnsimple.com/v2/templates/records/#list
+  - https://developer.dnsimple.com/v2/templates/records/#listTemplateRecords
 
   ## Examples:
 
@@ -158,7 +158,7 @@ defmodule Dnsimple.Templates do
   Returns a record of the template.
 
   See:
-  - https://developer.dnsimple.com/v2/templates/records/#get
+  - https://developer.dnsimple.com/v2/templates/records/#getTemplateRecord
 
   ## Examples:
 
@@ -184,7 +184,7 @@ defmodule Dnsimple.Templates do
   Creates a new record in the template.
 
   See:
-  - https://developer.dnsimple.com/v2/templates/records/#create
+  - https://developer.dnsimple.com/v2/templates/records/#createTemplateRecord
 
   ## Examples:
 
@@ -218,7 +218,7 @@ defmodule Dnsimple.Templates do
   **Warning**: this is a destructive operation.
 
   See:
-  - https://developer.dnsimple.com/v2/templates/records/#delete
+  - https://developer.dnsimple.com/v2/templates/records/#deleteTemplateRecord
 
   ## Examples:
 
@@ -244,7 +244,7 @@ defmodule Dnsimple.Templates do
   Applies a template to a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/templates/domains/#apply
+  - https://developer.dnsimple.com/v2/templates/domains/#applyTemplateToDomain
 
   ## Examples:
 

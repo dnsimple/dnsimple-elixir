@@ -21,7 +21,7 @@ defmodule Dnsimple.Zones do
   Returns the zones in the account.
 
   See:
-  - https://developer.dnsimple.com/v2/zones/#list
+  - https://developer.dnsimple.com/v2/zones/#listZones
 
   ## Examples:
 
@@ -44,7 +44,7 @@ defmodule Dnsimple.Zones do
   Returns a zone.
 
   See:
-  - https://developer.dnsimple.com/v2/zones/#get
+  - https://developer.dnsimple.com/v2/zones/#getZone
 
   ## Examples:
 
@@ -66,7 +66,7 @@ defmodule Dnsimple.Zones do
   Returns the zone file of the zone.
 
   See:
-  - https://developer.dnsimple.com/v2/zones/#file
+  - https://developer.dnsimple.com/v2/zones/#getZoneFile
 
   ## Examples:
 
@@ -114,7 +114,7 @@ defmodule Dnsimple.Zones do
   Returns the distribution status of a zone record.
 
   See:
-  - https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution
+  - https://developer.dnsimple.com/v2/zones/records/#checkZoneRecordDistribution
 
   ## Examples:
 

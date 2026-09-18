@@ -3,7 +3,7 @@ defmodule Dnsimple.TldExtendedAttribute do
   Represents an extended attribute of a TLD.
 
   See:
-  - https://developer.dnsimple.com/v2/tlds/#extended-attributes
+  - https://developer.dnsimple.com/v2/tlds/#getTldExtendedAttributes
   """
   @moduledoc section: :data_types
 
@@ -12,7 +12,7 @@ defmodule Dnsimple.TldExtendedAttribute do
     Represents one of the accepted values for an extended attribute of a TLD.
 
     See:
-    - https://developer.dnsimple.com/v2/tlds/#extended-attributes
+    - https://developer.dnsimple.com/v2/tlds/#getTldExtendedAttributes
     """
     @moduledoc section: :data_types
 

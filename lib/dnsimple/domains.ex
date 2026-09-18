@@ -19,7 +19,7 @@ defmodule Dnsimple.Domains do
   Lists the domains in an account.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/#list
+  - https://developer.dnsimple.com/v2/domains/#listDomains
 
   ## Examples:
 
@@ -61,7 +61,7 @@ defmodule Dnsimple.Domains do
   Returns a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/#get
+  - https://developer.dnsimple.com/v2/domains/#getDomain
 
   ## Examples:
 
@@ -86,7 +86,7 @@ defmodule Dnsimple.Domains do
   To register a domain please use `Dnsimple.Registrar.register_domain/5`.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/#create
+  - https://developer.dnsimple.com/v2/domains/#createDomain
 
   ## Examples:
 
@@ -109,7 +109,7 @@ defmodule Dnsimple.Domains do
   **Warning**: this is a destructive operation.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/#delete
+  - https://developer.dnsimple.com/v2/domains/#deleteDomain
 
   ## Examples:
 
@@ -131,7 +131,7 @@ defmodule Dnsimple.Domains do
   Enable DNSSEC for the domain in the account.
 
   See:
-  - https://developer.dnsimple.com/v2/dnssec/#enable
+  - https://developer.dnsimple.com/v2/domains/dnssec/#enableDomainDnssec
 
   ## Examples:
 
@@ -153,7 +153,7 @@ defmodule Dnsimple.Domains do
   Disable DNSSEC for the domain in the account.
 
   See:
-  - https://developer.dnsimple.com/v2/dnssec/#disable
+  - https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnssec
 
   ## Examples:
 
@@ -175,7 +175,7 @@ defmodule Dnsimple.Domains do
   Get the DNSSEC status for the domain in the account.
 
   See:
-  - https://developer.dnsimple.com/v2/dnssec/#get
+  - https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDnssec
 
   ## Examples:
 
@@ -197,7 +197,7 @@ defmodule Dnsimple.Domains do
   Lists the delegation signer records for the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list
+  - https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords
 
   ## Examples:
 
@@ -226,7 +226,7 @@ defmodule Dnsimple.Domains do
   Creates a delegation signer record for a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create
+  - https://developer.dnsimple.com/v2/domains/dnssec/#createDomainDelegationSignerRecord
 
   ## Examples:
 
@@ -258,7 +258,7 @@ defmodule Dnsimple.Domains do
   Returns a delegation signer record of a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get
+  - https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDelegationSignerRecord
 
   ## Examples:
 
@@ -286,7 +286,7 @@ defmodule Dnsimple.Domains do
   **Warning**: this is a destructive operation.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete
+  - https://developer.dnsimple.com/v2/domains/dnssec/#deleteDomainDelegationSignerRecord
 
   ## Examples:
 
@@ -312,7 +312,7 @@ defmodule Dnsimple.Domains do
   Lists the email forwards of a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/email-forwards/#list
+  - https://developer.dnsimple.com/v2/domains/email-forwards/#listEmailForwards
 
   ## Examples:
 
@@ -336,7 +336,7 @@ defmodule Dnsimple.Domains do
   Creates an email forward for a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/email-forwards/#create
+  - https://developer.dnsimple.com/v2/domains/email-forwards/#createEmailForward
 
   ## Examples:
 
@@ -365,7 +365,7 @@ defmodule Dnsimple.Domains do
   Returns an email forward of a domain.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/email-forwards/#get
+  - https://developer.dnsimple.com/v2/domains/email-forwards/#getEmailForward
 
   ## Examples:
 
@@ -394,7 +394,7 @@ defmodule Dnsimple.Domains do
   **Warning**: this is a destructive operation.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/email-forwards/#delete
+  - https://developer.dnsimple.com/v2/domains/email-forwards/#deleteEmailForward
 
   ## Examples:
 
@@ -421,7 +421,7 @@ defmodule Dnsimple.Domains do
   Returns the pending pushes in the account.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/pushes#list
+  - https://developer.dnsimple.com/v2/domains/pushes/#listPushes
 
   ## Examples:
 
@@ -441,7 +441,7 @@ defmodule Dnsimple.Domains do
   Initiates the push of a domain to a different account.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/pushes#initiate
+  - https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush
 
   ## Examples:
 
@@ -467,7 +467,7 @@ defmodule Dnsimple.Domains do
   will be used as the domain contact.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/pushes#accept
+  - https://developer.dnsimple.com/v2/domains/pushes/#acceptPush
 
   ## Examples:
 
@@ -490,7 +490,7 @@ defmodule Dnsimple.Domains do
   Rejects a pending push.
 
   See:
-  - https://developer.dnsimple.com/v2/domains/pushes#reject
+  - https://developer.dnsimple.com/v2/domains/pushes/#rejectPush
 
   ## Examples:
 

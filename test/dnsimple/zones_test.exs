@@ -467,37 +467,64 @@ defmodule Dnsimple.ZonesTest do
              ]
     end
 
-    for {operation, fixture, message} <- [
-          {"create", "error_400_create_validation_failed.http", "Validation failed"},
-          {"update", "error_400_update_validation_failed.http", "Record not found ID=99999999"},
-          {"delete", "error_400_delete_validation_failed.http", "Record not found ID=67622509"}
-        ] do
-      @fixture fixture
-      @operation operation
-      @operation_message message
-
-      test "returns an error if a #{operation} operation fails validation", %{
-        bypass: bypass,
-        client: client
-      } do
-        Bypass.expect_once(
-          bypass,
-          "POST",
-          "/v2/#{@account_id}/zones/#{@zone_id}/batch",
-          fn conn ->
-            FixtureUtils.respond_with_fixture(conn, "batchChangeZoneRecords/#{@fixture}")
-          end
+    test "returns an error if a create operation fails validation", %{
+      bypass: bypass,
+      client: client
+    } do
+      Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/zones/#{@zone_id}/batch", fn conn ->
+        FixtureUtils.respond_with_fixture(
+          conn,
+          "batchChangeZoneRecords/error_400_create_validation_failed.http"
         )
+      end)
 
-        {:error, response} =
-          @module.batch_change_zone_records(client, @account_id, @zone_id, %{})
+      {:error, response} = @module.batch_change_zone_records(client, @account_id, @zone_id, %{})
 
-        assert response.__struct__ == Dnsimple.RequestError
-        assert response.message == "HTTP 400: Validation failed"
+      assert response.__struct__ == Dnsimple.RequestError
+      assert response.message == "HTTP 400: Validation failed"
 
-        assert [%{"index" => 0, "message" => @operation_message}] =
-                 response.attribute_errors["#{@operation}s"]
-      end
+      assert [%{"index" => 0, "message" => "Validation failed"}] =
+               response.attribute_errors["creates"]
+    end
+
+    test "returns an error if an update operation fails validation", %{
+      bypass: bypass,
+      client: client
+    } do
+      Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/zones/#{@zone_id}/batch", fn conn ->
+        FixtureUtils.respond_with_fixture(
+          conn,
+          "batchChangeZoneRecords/error_400_update_validation_failed.http"
+        )
+      end)
+
+      {:error, response} = @module.batch_change_zone_records(client, @account_id, @zone_id, %{})
+
+      assert response.__struct__ == Dnsimple.RequestError
+      assert response.message == "HTTP 400: Validation failed"
+
+      assert [%{"index" => 0, "message" => "Record not found ID=99999999"}] =
+               response.attribute_errors["updates"]
+    end
+
+    test "returns an error if a delete operation fails validation", %{
+      bypass: bypass,
+      client: client
+    } do
+      Bypass.expect_once(bypass, "POST", "/v2/#{@account_id}/zones/#{@zone_id}/batch", fn conn ->
+        FixtureUtils.respond_with_fixture(
+          conn,
+          "batchChangeZoneRecords/error_400_delete_validation_failed.http"
+        )
+      end)
+
+      {:error, response} = @module.batch_change_zone_records(client, @account_id, @zone_id, %{})
+
+      assert response.__struct__ == Dnsimple.RequestError
+      assert response.message == "HTTP 400: Validation failed"
+
+      assert [%{"index" => 0, "message" => "Record not found ID=67622509"}] =
+               response.attribute_errors["deletes"]
     end
   end
 

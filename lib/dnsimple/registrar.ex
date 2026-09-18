@@ -35,7 +35,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.check_domain(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.check_domain(client, account_id = 1010, domain_name = "example.com")
 
   """
   @spec check_domain(Client.t(), String.t(), String.t(), keyword()) ::
@@ -56,7 +56,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.get_domain_prices(client, account_id = "1010", domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.get_domain_prices(client, account_id = "1010", domain_name = "example.com")
   """
   @spec get_domain_prices(Client.t(), String.t(), String.t(), keyword()) ::
           {:ok | :error, Response.t()}
@@ -76,16 +76,16 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.register_domain(client, account_id = 1010, domain_id = "example.com", %{
+      {:ok, response} = Dnsimple.Registrar.register_domain(client, account_id = 1010, domain_name = "example.com", %{
         registrant_id: 1,
         privacy: true,
         auto_renew: false,
       })
 
   """
-  @spec register_domain(Client.t(), String.t(), String.t(), Keyword.t(), Keyword.t()) ::
+  @spec register_domain(Client.t(), String.t(), String.t(), map(), Keyword.t()) ::
           {:ok | :error, Response.t()}
-  def register_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
+  def register_domain(client, account_id, domain_name, attributes \\ %{}, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/registrations")
 
     Client.post(client, url, attributes, options)
@@ -101,7 +101,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.get_domain_registration(client, account_id = 1010, domain_id = "example.com", registration_id = 1)
+      {:ok, response} = Dnsimple.Registrar.get_domain_registration(client, account_id = 1010, domain_name = "example.com", registration_id = 1)
 
   """
   @spec get_domain_registration(
@@ -130,13 +130,13 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.renew_domain(client, account_id = 1010, domain_id = "example.com")
-      {:ok, response} = Dnsimple.Registrar.renew_domain(client, account_id = 1010, domain_id = "example.com", %{period: 5})
+      {:ok, response} = Dnsimple.Registrar.renew_domain(client, account_id = 1010, domain_name = "example.com")
+      {:ok, response} = Dnsimple.Registrar.renew_domain(client, account_id = 1010, domain_name = "example.com", %{period: 5})
 
   """
-  @spec renew_domain(Client.t(), String.t(), String.t(), Keyword.t(), Keyword.t()) ::
+  @spec renew_domain(Client.t(), String.t(), String.t(), map(), Keyword.t()) ::
           {:ok | :error, Response.t()}
-  def renew_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
+  def renew_domain(client, account_id, domain_name, attributes \\ %{}, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/renewals")
 
     Client.post(client, url, attributes, options)
@@ -152,7 +152,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.get_domain_renewal(client, account_id = 1010, domain_id = "example.com", renewal_id = 1)
+      {:ok, response} = Dnsimple.Registrar.get_domain_renewal(client, account_id = 1010, domain_name = "example.com", renewal_id = 1)
 
   """
   @spec get_domain_renewal(
@@ -179,18 +179,18 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.restore_domain(client, account_id = 1010, domain_id = "example.com")
-      {:ok, response} = Dnsimple.Registrar.restore_domain(client, account_id = 1010, domain_id = "example.com", %{premium_price: "109.00"})
+      {:ok, response} = Dnsimple.Registrar.restore_domain(client, account_id = 1010, domain_name = "example.com")
+      {:ok, response} = Dnsimple.Registrar.restore_domain(client, account_id = 1010, domain_name = "example.com", %{premium_price: "109.00"})
 
   """
   @spec restore_domain(
           Client.t(),
           String.t() | integer,
           String.t(),
-          Keyword.t(),
+          map(),
           Keyword.t()
         ) :: {:ok | :error, Response.t()}
-  def restore_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
+  def restore_domain(client, account_id, domain_name, attributes \\ %{}, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/restores")
 
     Client.post(client, url, attributes, options)
@@ -206,7 +206,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.get_domain_restore(client, account_id = 1010, domain_id = "example.com", restore_id = 1)
+      {:ok, response} = Dnsimple.Registrar.get_domain_restore(client, account_id = 1010, domain_name = "example.com", restore_id = 1)
 
   """
   @spec get_domain_restore(
@@ -233,7 +233,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.transfer_domain(client, account_id = 1010, domain_id = "example.com", %{
+      {:ok, response} = Dnsimple.Registrar.transfer_domain(client, account_id = 1010, domain_name = "example.com", %{
         registrant_id: 1,
         auth_code: "XXXXXXXXX",
         privacy: true,
@@ -241,9 +241,9 @@ defmodule Dnsimple.Registrar do
       })
 
   """
-  @spec transfer_domain(Client.t(), String.t(), String.t(), Keyword.t(), Keyword.t()) ::
+  @spec transfer_domain(Client.t(), String.t(), String.t(), map(), Keyword.t()) ::
           {:ok | :error, Response.t()}
-  def transfer_domain(client, account_id, domain_name, attributes \\ [], options \\ []) do
+  def transfer_domain(client, account_id, domain_name, attributes \\ %{}, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/domains/#{domain_name}/transfers")
 
     Client.post(client, url, attributes, options)
@@ -317,7 +317,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.transfer_domain_out(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.transfer_domain_out(client, account_id = 1010, domain_name = "example.com")
 
   """
   @spec transfer_domain_out(Client.t(), String.t(), String.t(), Keyword.t()) ::
@@ -339,7 +339,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.enable_domain_auto_renewal(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.enable_domain_auto_renewal(client, account_id = 1010, domain_name = "example.com")
 
   """
   @spec enable_domain_auto_renewal(Client.t(), integer | String.t(), String.t(), Keyword.t()) ::
@@ -360,7 +360,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.disable_domain_auto_renewal(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.disable_domain_auto_renewal(client, account_id = 1010, domain_name = "example.com")
 
   """
   @spec disable_domain_auto_renewal(Client.t(), integer | String.t(), String.t(), Keyword.t()) ::
@@ -381,7 +381,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.enable_domain_transfer_lock(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.enable_domain_transfer_lock(client, account_id = 1010, domain_name = "example.com")
   """
   @spec enable_domain_transfer_lock(Client.t(), integer | String.t(), String.t(), Keyword.t()) ::
           {:ok | :error, Response.t()}
@@ -401,7 +401,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.disable_domain_transfer_lock(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.disable_domain_transfer_lock(client, account_id = 1010, domain_name = "example.com")
   """
   @spec disable_domain_transfer_lock(Client.t(), integer | String.t(), String.t(), Keyword.t()) ::
           {:ok | :error, Response.t()}
@@ -421,7 +421,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.get_domain_transfer_lock(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.get_domain_transfer_lock(client, account_id = 1010, domain_name = "example.com")
   """
   @spec get_domain_transfer_lock(Client.t(), integer | String.t(), String.t(), Keyword.t()) ::
           {:ok | :error, Response.t()}
@@ -441,7 +441,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.enable_whois_privacy(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.enable_whois_privacy(client, account_id = 1010, domain_name = "example.com")
 
   """
   @spec enable_whois_privacy(Client.t(), integer | String.t(), String.t(), Keyword.t()) ::
@@ -462,7 +462,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.disable_whois_privacy(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.disable_whois_privacy(client, account_id = 1010, domain_name = "example.com")
 
   """
   @spec disable_whois_privacy(Client.t(), integer | String.t(), String.t(), Keyword.t()) ::
@@ -483,7 +483,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.get_domain_delegation(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.get_domain_delegation(client, account_id = 1010, domain_name = "example.com")
 
   """
   @spec get_domain_delegation(Client.t(), integer | String.t(), String.t(), Keyword.t()) ::
@@ -504,7 +504,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.change_domain_delegation(client, account_id = 1010, domain_id = "example.com", [
+      {:ok, response} = Dnsimple.Registrar.change_domain_delegation(client, account_id = 1010, domain_name = "example.com", [
         "ns1.provider.com",
         "ns2.provider.com",
         "ns3.provider.com",
@@ -530,7 +530,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.change_domain_delegation_to_vanity(client, account_id = 1010, domain_id = "example.com", [
+      {:ok, response} = Dnsimple.Registrar.change_domain_delegation_to_vanity(client, account_id = 1010, domain_name = "example.com", [
         "ns1.example.com",
         "ns2.example.com",
         "ns3.example.com",
@@ -569,7 +569,7 @@ defmodule Dnsimple.Registrar do
   ## Examples:
 
       client = %Dnsimple.Client{access_token: "a1b2c3d4"}
-      {:ok, response} = Dnsimple.Registrar.change_domain_delegation_from_vanity(client, account_id = 1010, domain_id = "example.com")
+      {:ok, response} = Dnsimple.Registrar.change_domain_delegation_from_vanity(client, account_id = 1010, domain_name = "example.com")
 
   """
   @spec change_domain_delegation_from_vanity(
@@ -597,7 +597,7 @@ defmodule Dnsimple.Registrar do
     })
 
   """
-  @spec check_registrant_change(Client.t(), integer | String.t(), Keyword.t(), Keyword.t()) ::
+  @spec check_registrant_change(Client.t(), integer | String.t(), map(), Keyword.t()) ::
           {:ok | :error, Response.t()}
   def check_registrant_change(client, account_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/registrant_changes/check")
@@ -639,7 +639,7 @@ defmodule Dnsimple.Registrar do
     })
 
   """
-  @spec create_registrant_change(Client.t(), integer | String.t(), Keyword.t(), Keyword.t()) ::
+  @spec create_registrant_change(Client.t(), integer | String.t(), map(), Keyword.t()) ::
           {:ok | :error, Response.t()}
   def create_registrant_change(client, account_id, attributes, options \\ []) do
     url = Client.versioned("/#{account_id}/registrar/registrant_changes")

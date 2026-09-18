@@ -1,12 +1,13 @@
 defmodule Dnsimple.Response do
   @moduledoc section: :util
 
-  defstruct ~w(http_response data pagination rate_limit rate_limit_remaining rate_limit_reset)a
+  defstruct ~w(http_response data pagination query rate_limit rate_limit_remaining rate_limit_reset)a
 
   @type t :: %__MODULE__{
           http_response: HTTPoison.Response.t(),
           data: any,
           pagination: Dnsimple.Response.Pagination,
+          query: map | nil,
           rate_limit: integer,
           rate_limit_remaining: integer,
           rate_limit_reset: integer
@@ -31,8 +32,9 @@ defmodule Dnsimple.Response do
     body = decode(http_response, format)
     data = extract_data(body)
     pagination = extract_pagination(body)
+    query = extract_query(body)
 
-    {:ok, build_response(http_response, data, pagination)}
+    {:ok, build_response(http_response, data, pagination, query)}
   end
 
   defp decode(%HTTPoison.Response{body: ""}, _format), do: nil
@@ -88,13 +90,17 @@ defmodule Dnsimple.Response do
   defp extract_pagination(%{"pagination" => pagination}), do: pagination
   defp extract_pagination(_), do: nil
 
-  defp build_response(http_response, data, pagination) do
+  defp extract_query(%{"query" => query}), do: query
+  defp extract_query(_), do: nil
+
+  defp build_response(http_response, data, pagination, query) do
     headers = Map.new(http_response.headers, fn {k, v} -> {String.downcase(k), v} end)
 
     %__MODULE__{
       http_response: http_response,
       data: data,
       pagination: pagination,
+      query: query,
       rate_limit: String.to_integer(headers["x-ratelimit-limit"]),
       rate_limit_remaining: String.to_integer(headers["x-ratelimit-remaining"]),
       rate_limit_reset: String.to_integer(headers["x-ratelimit-reset"])

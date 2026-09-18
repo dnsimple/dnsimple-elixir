@@ -3,7 +3,7 @@ defmodule Dnsimple.DomainCheck do
   Represents a domain check.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/#check
+  - https://developer.dnsimple.com/v2/registrar/#checkDomain
   """
   @moduledoc section: :data_types
 

@@ -3,7 +3,7 @@ defmodule Dnsimple.DomainRenewal do
   Represents a domain renewal.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/#renew
+  - https://developer.dnsimple.com/v2/registrar/#renewDomain
   """
   @moduledoc section: :data_types
 

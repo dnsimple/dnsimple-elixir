@@ -17,7 +17,7 @@ defmodule Dnsimple.Webhooks do
   Lists the existing webhooks in the account.
 
   See:
-  - https://developer.dnsimple.com/v2/webhooks/#list
+  - https://developer.dnsimple.com/v2/webhooks/webhooks/#listWebhooks
 
   ## Examples:
 
@@ -37,7 +37,7 @@ defmodule Dnsimple.Webhooks do
   Returns a webhook.
 
   See:
-  - https://developer.dnsimple.com/v2/webhooks/#get
+  - https://developer.dnsimple.com/v2/webhooks/webhooks/#getWebhook
 
   ## Examples:
 
@@ -58,7 +58,7 @@ defmodule Dnsimple.Webhooks do
   Creates a new webhook.
 
   See:
-  - https://developer.dnsimple.com/v2/webhooks/#create
+  - https://developer.dnsimple.com/v2/webhooks/webhooks/#createWebhook
 
   ## Examples:
 
@@ -83,7 +83,7 @@ defmodule Dnsimple.Webhooks do
   **Warning**: this is a destructive operation.
 
   See:
-  - https://developer.dnsimple.com/v2/webhooks/#delete
+  - https://developer.dnsimple.com/v2/webhooks/webhooks/#deleteWebhook
 
   ## Examples:
 

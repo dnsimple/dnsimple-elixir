@@ -29,7 +29,7 @@ defmodule Dnsimple.Registrar do
   pricing applies to that domain name.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/#check
+  - https://developer.dnsimple.com/v2/registrar/#checkDomain
 
   ## Examples:
 
@@ -321,7 +321,7 @@ defmodule Dnsimple.Registrar do
   Enables transfer lock for the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/transfer_lock/#enableDomainTransferLock
+  - https://developer.dnsimple.com/v2/registrar/transfer-lock/#enableDomainTransferLock
 
   ## Examples:
 
@@ -341,7 +341,7 @@ defmodule Dnsimple.Registrar do
   Disables transfer lock for the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/transfer_lock/#disableDomainTransferLock
+  - https://developer.dnsimple.com/v2/registrar/transfer-lock/#disableDomainTransferLock
 
   ## Examples:
 
@@ -361,7 +361,7 @@ defmodule Dnsimple.Registrar do
   Retrieves the transfer lock status for the domain.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/transfer_lock/#getDomainTransferLock
+  - https://developer.dnsimple.com/v2/registrar/transfer-lock/#getDomainTransferLock
 
   ## Examples:
 

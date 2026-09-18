@@ -13,7 +13,7 @@ defmodule Dnsimple.Accounts do
   Lists the accounts the current authenticated entity has access to.
 
   See:
-  - https://developer.dnsimple.com/v2/accounts/#list
+  - https://developer.dnsimple.com/v2/accounts/#listAccounts
 
   Examples:
 

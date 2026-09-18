@@ -3,7 +3,7 @@ defmodule Dnsimple.DomainRegistration do
   Represents a domain registration.
 
   See:
-  - https://developer.dnsimple.com/v2/registrar/#register
+  - https://developer.dnsimple.com/v2/registrar/#registerDomain
   """
   @moduledoc section: :data_types
 

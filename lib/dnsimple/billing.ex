@@ -14,7 +14,7 @@ defmodule Dnsimple.Billing do
   Lists the billing charges the current authenticated entity has access to.
 
   See:
-  - https://developer.dnsimple.com/v2/billing/#listCharges
+  - https://developer.dnsimple.com/v2/billing-charges/#listCharges
 
   Examples:
 

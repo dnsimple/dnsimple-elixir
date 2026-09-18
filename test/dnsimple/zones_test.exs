@@ -406,6 +406,101 @@ defmodule Dnsimple.ZonesTest do
     end
   end
 
+  describe ".batch_change_zone_records" do
+    test "changes the records and returns the result in a Dnsimple.Response", %{
+      bypass: bypass,
+      client: client
+    } do
+      attributes = %{
+        creates: [
+          %{type: "A", name: "ab", content: "3.2.3.4"},
+          %{type: "A", name: "ab", content: "4.2.3.4"}
+        ],
+        updates: [
+          %{id: 67_622_534, content: "3.2.3.40"},
+          %{id: 67_622_537, content: "5.2.3.40"}
+        ],
+        deletes: [%{id: 67_622_509}, %{id: 67_622_527}]
+      }
+
+      Bypass.expect_once(
+        bypass,
+        "POST",
+        "/v2/#{@account_id}/zones/#{@zone_id}/batch",
+        fn conn ->
+          {:ok, body, conn} = Plug.Conn.read_body(conn)
+          assert body == JSON.encode!(attributes)
+          FixtureUtils.respond_with_fixture(conn, "batchChangeZoneRecords/success.http")
+        end
+      )
+
+      {:ok, response} =
+        @module.batch_change_zone_records(client, @account_id, @zone_id, attributes)
+
+      assert response.__struct__ == Dnsimple.Response
+
+      data = response.data
+      assert data.__struct__ == Dnsimple.ZoneRecordsBatchChange
+
+      assert Enum.count(data.creates) == 2
+      assert Enum.all?(data.creates, fn record -> record.__struct__ == Dnsimple.ZoneRecord end)
+      created = hd(data.creates)
+      assert created.id == 67_623_409
+      assert created.zone_id == "example.com"
+      assert created.type == "A"
+      assert created.name == "ab"
+      assert created.content == "3.2.3.4"
+      assert created.ttl == 3600
+      assert created.regions == ["global"]
+
+      assert Enum.count(data.updates) == 2
+      assert Enum.all?(data.updates, fn record -> record.__struct__ == Dnsimple.ZoneRecord end)
+      updated = hd(data.updates)
+      assert updated.id == 67_622_534
+      assert updated.name == "update1-1757049890"
+      assert updated.content == "3.2.3.40"
+      assert updated.updated_at == "2025-09-05T05:25:00Z"
+
+      assert data.deletes == [
+               %Dnsimple.ZoneRecordsBatchChange.Delete{id: 67_622_509},
+               %Dnsimple.ZoneRecordsBatchChange.Delete{id: 67_622_527}
+             ]
+    end
+
+    for {operation, fixture, message} <- [
+          {"create", "error_400_create_validation_failed.http", "Validation failed"},
+          {"update", "error_400_update_validation_failed.http", "Record not found ID=99999999"},
+          {"delete", "error_400_delete_validation_failed.http", "Record not found ID=67622509"}
+        ] do
+      @fixture fixture
+      @operation operation
+      @operation_message message
+
+      test "returns an error if a #{operation} operation fails validation", %{
+        bypass: bypass,
+        client: client
+      } do
+        Bypass.expect_once(
+          bypass,
+          "POST",
+          "/v2/#{@account_id}/zones/#{@zone_id}/batch",
+          fn conn ->
+            FixtureUtils.respond_with_fixture(conn, "batchChangeZoneRecords/#{@fixture}")
+          end
+        )
+
+        {:error, response} =
+          @module.batch_change_zone_records(client, @account_id, @zone_id, %{})
+
+        assert response.__struct__ == Dnsimple.RequestError
+        assert response.message == "HTTP 400: Validation failed"
+
+        assert [%{"index" => 0, "message" => @operation_message}] =
+                 response.attribute_errors["#{@operation}s"]
+      end
+    end
+  end
+
   describe ".activate_dns" do
     test "activates DNS for the zone and returns the zone in a Dnsimple.Response", %{
       bypass: bypass,

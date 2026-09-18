@@ -16,6 +16,7 @@ defmodule Dnsimple.Zones do
   alias Dnsimple.ZoneDistribution
   alias Dnsimple.ZoneFile
   alias Dnsimple.ZoneRecord
+  alias Dnsimple.ZoneRecordsBatchChange
 
   @doc """
   Returns the zones in the account.
@@ -268,6 +269,42 @@ defmodule Dnsimple.Zones do
 
     Client.delete(client, url, options)
     |> Response.parse(nil)
+  end
+
+  @doc """
+  Creates, updates, and deletes records in the zone in one atomic operation.
+
+  See:
+  - https://developer.dnsimple.com/v2/zones/records/#batchChangeZoneRecords
+
+  ## Examples:
+
+      client = %Dnsimple.Client{access_token: "a1b2c3d4"}
+      {:ok, response} = Dnsimple.Zones.batch_change_zone_records(client, account_id = 1010, zone_id = "example.com", %{
+        creates: [%{type: "A", name: "ab", content: "3.2.3.4"}],
+        updates: [%{id: 67622534, content: "3.2.3.40"}],
+        deletes: [%{id: 67622509}]
+      })
+
+  """
+  @spec batch_change_zone_records(
+          Client.t(),
+          String.t() | integer,
+          String.t() | integer,
+          map(),
+          Keyword.t()
+        ) :: {:ok | :error, Response.t()}
+  def batch_change_zone_records(client, account_id, zone_id, attributes, options \\ []) do
+    url = Client.versioned("/#{account_id}/zones/#{zone_id}/batch")
+
+    Client.post(client, url, attributes, options)
+    |> Response.parse(%{
+      "data" => %ZoneRecordsBatchChange{
+        creates: [%ZoneRecord{}],
+        updates: [%ZoneRecord{}],
+        deletes: [%ZoneRecordsBatchChange.Delete{}]
+      }
+    })
   end
 
   @doc """

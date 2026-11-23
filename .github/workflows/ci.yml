@@ -57,7 +57,7 @@ jobs:
         otp: ['28']
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: erlef/setup-beam@v1.24.0
+      - uses: erlef/setup-beam@v1
         id: setup-beam
         with:
           otp-version: ${{matrix.otp}}

@@ -41,7 +41,7 @@ jobs:
             otp: '29'
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: erlef/setup-beam@v1
+      - uses: erlef/setup-beam@v1.24.1
         with:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
@@ -53,11 +53,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        elixir: ['1.19']
-        otp: ['28']
+        elixir: ['1.20']
+        otp: ['29']
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: erlef/setup-beam@v1
+      - uses: erlef/setup-beam@v1.24.1
         id: setup-beam
         with:
           otp-version: ${{matrix.otp}}
